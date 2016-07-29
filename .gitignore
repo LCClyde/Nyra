@@ -32,3 +32,6 @@ CMakeFiles/
 CMakeCache.txt
 Makefile
 cmake_install.cmake
+
+external/build/
+external/install/
