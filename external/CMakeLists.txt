@@ -28,6 +28,9 @@ set(INCLUDE_DIR ${INSTALL_DIR}/include)
 set(LIB_DIR ${INSTALL_DIR}/lib)
 set(BUILD_DIR ${CMAKE_BINARY_DIR}/build)
 
+###############################################################################
+# Simple and Fast Multimedia Library
+###############################################################################
 ExternalProject_Add(
     SFML
     PREFIX ${BUILD_DIR}
@@ -35,6 +38,9 @@ ExternalProject_Add(
     GIT_TAG 2.3.2
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR})
 
+###############################################################################
+# Google Test
+###############################################################################
 ExternalProject_Add(
     GoogleTest
     PREFIX ${BUILD_DIR}
@@ -50,6 +56,49 @@ ExternalProject_Add(
         <BINARY_DIR>/${CMAKE_STATIC_LIBRARY_PREFIX}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${LIB_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
 
-#include_directories(${EXTERNAL_INCLUDE_DIR})
-#link_directories(${EXTERNAL_LIB_DIR})
+###############################################################################
+# Graphics Math Template Library
+###############################################################################
+ExternalProject_Add(
+    GMTL
+    PREFIX ${BUILD_DIR}
+    SVN_REPOSITORY http://svn.code.sf.net/p/ggt/code/tags/0.6.1
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory
+        <SOURCE_DIR>/gmtl/ ${INCLUDE_DIR}/gmtl)
+
+###############################################################################
+# Boost 1.61.0
+###############################################################################
+set(Boost_Bootstrap_Command)
+if (UNIX)
+    set(Boost_Bootstrap_Command ./bootstrap.sh)
+    set(Boost_b2_Command ./b2)
+else()
+    if (WIN32)
+        set(Boost_Bootstrap_Command bootstrap.bat)
+        set(Boost_b2_Command b2.exe)
+    endif()
+endif()
+
+ExternalProject_Add(
+    Boost
+    PREFIX ${BUILD_DIR}
+    GIT_REPOSITORY https://github.com/boostorg/boost.git
+    GIT_TAG boost-1.61.0
+    BUILD_IN_SOURCE 1
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    CONFIGURE_COMMAND ${Boost_Bootstrap_Command}
+    BUILD_COMMAND  ${Boost_b2_Command} install
+        --prefix=${INSTALL_DIR}
+        --link=shared
+        --variant=release
+    INSTALL_COMMAND ""
+    INSTALL_DIR ${INSTALL_DIR})
+
+###############################################################################
+# Boost 1.61.0
+###############################################################################
 

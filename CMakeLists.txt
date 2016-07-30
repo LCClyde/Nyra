@@ -23,4 +23,36 @@
 cmake_minimum_required(VERSION 3.0)
 project(Nyra)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -fPIC")
 
+#TODO: Only set this if the caller did not set it
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin)
+
+set(CPP_MODULES_DIR ${CMAKE_BINARY_DIR}/modules/c++)
+set(EXTERNAL_DIR ${CMAKE_BINARY_DIR}/external/install)
+
+file(GLOB MODULES_DIRS RELATIVE ${CPP_MODULES_DIR} ${CPP_MODULES_DIR}/*)
+message(${CPP_MODULES_DIR})
+foreach(DIR ${MODULES_DIRS})
+    message(${DIR})
+    if (IS_DIRECTORY ${CPP_MODULES_DIR}/${DIR})
+        list(APPEND MODULES ${CPP_MODULES_DIR}/${DIR})
+
+        # Check for a custom cmake
+        #if(EXISTS ${CPP_MODULES_DIR}/${dir}/CMakeLists.txt)
+        #    add_subdirectory(${CPP_MODULES_DIR}/${dir})
+        #endif()
+
+        # Build the file
+        #file(GLOB files ${CPP_MODULES_DIR}/${dir} ${PROJECTS_DIRECTORY}/${dir}/*.cpp)
+        #add_executable(${dir} ${files})
+        #target_link_libraries(${dir} nyra)
+    endif()
+endforeach()
+
+
+
+message(${MODULES})
