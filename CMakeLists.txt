@@ -30,16 +30,53 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin)
+set(CMAKE_INCLUDE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/include)
+set(CPP_MODULES_DIR ${CMAKE_BINARY_DIR}/modules/c++/)
 
-set(CPP_MODULES_DIR ${CMAKE_BINARY_DIR}/modules/c++)
-set(EXTERNAL_DIR ${CMAKE_BINARY_DIR}/external/install)
+find_library(GoogleTest NAMES gtest gtest_main PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY})
 
+find_package(Threads)
+
+# Get all the modules
 file(GLOB MODULES_DIRS RELATIVE ${CPP_MODULES_DIR} ${CPP_MODULES_DIR}/*)
-message(${CPP_MODULES_DIR})
-foreach(DIR ${MODULES_DIRS})
-    message(${DIR})
-    if (IS_DIRECTORY ${CPP_MODULES_DIR}/${DIR})
-        list(APPEND MODULES ${CPP_MODULES_DIR}/${DIR})
+
+# Loop through each module
+foreach (DIR ${MODULES_DIRS})
+    set(MODULE_DIR ${CPP_MODULES_DIR}/${DIR})
+    set(MODULE_NAME nyra-${DIR}-cpp)
+    set(MODULE_TEST_DIR ${MODULE_DIR}/tests)
+
+    # Make sure this is a directory and not a file
+    if (IS_DIRECTORY ${MODULE_DIR})
+
+        # Get all the source files
+        file(GLOB SOURCES ${MODULE_DIR}/source/*.cpp)
+        file(GLOB INCLUDES ${MODULE_DIR}/include/*.h ${MODULE_DIR}/include/*.hpp)
+
+        list(LENGTH SOURCES SOURCE_LENGTH)
+        if (SOURCE_LENGTH EQUAL 0)
+            add_library(${MODULE_NAME} INTERFACE)
+            target_sources(${MODULE_NAME} INTERFACE ${INCLUDES})
+        else()
+            add_library(${MODULE_NAME} ${SOURCES} ${INCLUDES})
+        endif()
+
+        # Copy the headers
+        add_custom_target(${MODULE_NAME}-inc
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${MODULE_DIR}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${DIR})
+        add_dependencies(${MODULE_NAME} ${MODULE_NAME}-inc)
+
+        # Build the unittests
+        if (IS_DIRECTORY ${MODULE_TEST_DIR})
+            file(GLOB TESTS ${MODULE_TEST_DIR}/*.cpp)
+            foreach (TEST ${TESTS})
+                get_filename_component(TEST_NAME ${TEST} NAME_WE)
+                add_executable(${TEST_NAME} ${TEST})
+                target_link_libraries(${TEST_NAME} ${MODULE_NAME} ${GoogleTest} ${CMAKE_THREAD_LIBS_INIT})
+            endforeach()
+        endif()
 
         # Check for a custom cmake
         #if(EXISTS ${CPP_MODULES_DIR}/${dir}/CMakeLists.txt)
@@ -53,6 +90,3 @@ foreach(DIR ${MODULES_DIRS})
     endif()
 endforeach()
 
-
-
-message(${MODULES})
