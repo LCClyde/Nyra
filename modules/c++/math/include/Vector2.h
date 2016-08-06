@@ -24,8 +24,11 @@
 
 #include <ostream>
 #include <cmath>
+#include <boost/serialization/access.hpp>
 
 namespace nyra
+{
+namespace math
 {
 /*
  *  \class Vector2Impl
@@ -434,6 +437,15 @@ public:
      *  \brief Represents the second element of the vector.
      */
     TypeT y;
+
+private:
+    friend class boost::serialization::access;
+    template<class ArchiveT>
+    void serialize(ArchiveT& archive, const unsigned int version)
+    {
+        archive & x;
+        archive & y;
+    }
 };
 
 /*
@@ -457,6 +469,7 @@ typedef Vector2Impl<int32_t> Vector2I;
 typedef Vector2Impl<uint32_t> Vector2U;
 typedef Vector2Impl<double> Vector2D;
 typedef Vector2Impl<float> Vector2;
+}
 }
 
 #endif

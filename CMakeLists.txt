@@ -31,9 +31,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin)
 set(CMAKE_INCLUDE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/include)
+set(CMAKE_TEST_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/tests)
 set(CPP_MODULES_DIR ${CMAKE_BINARY_DIR}/modules/c++/)
 
 find_library(GoogleTest NAMES gtest gtest_main PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
+find_package(Boost 1.61.0 REQUIRED COMPONENTS serialization)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY})
 
 find_package(Threads)
@@ -50,6 +53,14 @@ foreach (DIR ${MODULES_DIRS})
     # Make sure this is a directory and not a file
     if (IS_DIRECTORY ${MODULE_DIR})
 
+        # Clear out MOD and TEST DEPS
+        set(MOD_DEPS "")
+        set(TEST_DEPS "")
+
+        if(EXISTS ${MODULE_DIR}/CMakeLists.txt)
+            add_subdirectory(${MODULE_DIR})
+        endif()
+
         # Get all the source files
         file(GLOB SOURCES ${MODULE_DIR}/source/*.cpp)
         file(GLOB INCLUDES ${MODULE_DIR}/include/*.h ${MODULE_DIR}/include/*.hpp)
@@ -62,6 +73,11 @@ foreach (DIR ${MODULES_DIRS})
             add_library(${MODULE_NAME} ${SOURCES} ${INCLUDES})
         endif()
 
+        list(LENGTH MOD_DEPS MOD_LENGTH)
+        if (NOT MOD_LENGTH EQUAL 0)
+            add_dependencies(${MODULE_NAME} ${MOD_DEPS})
+        endif()
+
         # Copy the headers
         add_custom_target(${MODULE_NAME}-inc
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -69,24 +85,15 @@ foreach (DIR ${MODULES_DIRS})
         add_dependencies(${MODULE_NAME} ${MODULE_NAME}-inc)
 
         # Build the unittests
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR})
         if (IS_DIRECTORY ${MODULE_TEST_DIR})
             file(GLOB TESTS ${MODULE_TEST_DIR}/*.cpp)
             foreach (TEST ${TESTS})
                 get_filename_component(TEST_NAME ${TEST} NAME_WE)
                 add_executable(${TEST_NAME} ${TEST})
-                target_link_libraries(${TEST_NAME} ${MODULE_NAME} ${GoogleTest} ${CMAKE_THREAD_LIBS_INIT})
+                target_link_libraries(${TEST_NAME} ${MODULE_NAME} nyra-test-cpp ${GoogleTest} ${Boost_SERIALIZATION_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${TEST_DEPS} ${MOD_DEPS})
             endforeach()
         endif()
-
-        # Check for a custom cmake
-        #if(EXISTS ${CPP_MODULES_DIR}/${dir}/CMakeLists.txt)
-        #    add_subdirectory(${CPP_MODULES_DIR}/${dir})
-        #endif()
-
-        # Build the file
-        #file(GLOB files ${CPP_MODULES_DIR}/${dir} ${PROJECTS_DIRECTORY}/${dir}/*.cpp)
-        #add_executable(${dir} ${files})
-        #target_link_libraries(${dir} nyra)
     endif()
 endforeach()
 
