@@ -19,29 +19,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_WINDOW_H__
-#define __NYRA_WIN_WINDOW_H__
+#ifndef __NYRA_WIN_SFML_WINDOW_H__
+#define __NYRA_WIN_SFML_WINDOW_H__
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/split_member.hpp>
-#include <nyra/math/Vector2.h>
+#include <memory>
+#include <SFML/Graphics.hpp>
+#include <nyra/win/Window.h>
 
 namespace nyra
 {
 namespace win
 {
+namespace sfml
+{
 /*
  *  \class Window
  *  \brief An interface class used to represent an operating system window.
  */
-class Window
+class Window : public nyra::win::Window
 {
 public:
-    /*
-     *  \func Destructor
-     *  \brief Necessary for inheritance.
-     */
-    virtual ~Window();
+    Window();
+
+    Window(const std::string& name,
+           const math::Vector2U& size,
+           const math::Vector2I& position);
 
     /*
      *  \func load
@@ -53,18 +55,21 @@ public:
      *  \param position The position of the window in pixels from the top
      *         left corner of the primary monitor.
      */
-    virtual void load(const std::string& name,
-                      const math::Vector2U& size,
-                      const math::Vector2I& position) = 0;
+    void load(const std::string& name,
+              const math::Vector2U& size,
+              const math::Vector2I& position) override;
 
-    virtual void update() = 0;
+    void update() override;
 
     /*
      *  \func close
      *  \brief Closes a window. The window should be considered invalid after
      *         being closed.
      */
-    virtual void close() = 0;
+    void close() override
+    {
+        mWindow->close();
+    }
 
     /*
      *  \func isOpen
@@ -72,7 +77,10 @@ public:
      *
      *  \return True if the window is currently open.
      */
-    virtual bool isOpen() const = 0;
+    bool isOpen() const override
+    {
+        return mWindow->isOpen();
+    }
 
     /*
      *  \func getName
@@ -80,7 +88,10 @@ public:
      *
      *  \return The name
      */
-    virtual std::string getName() const = 0;
+    std::string getName() const override
+    {
+        return mName;
+    }
 
     /*
      *  \func getSize
@@ -89,25 +100,34 @@ public:
      *
      *  \return The client size
      */
-    virtual math::Vector2U getSize() const = 0;
+    math::Vector2U getSize() const override
+    {
+        return math::Vector2U(mWindow->getSize());
+    }
 
     /*
      *  \func getPosition
      *  \brief Gets the window position in pixels from the top left corner of
      *         the primary monitor.
+     *         NOTE: On Linux this does not take into account the decorators.
+     *         as a result you do not get the correct results if you call
+     *         setPosition and check it with this.
      *
      *  \return The position in pixels
      */
-    virtual math::Vector2I getPosition() const = 0;
+    math::Vector2I getPosition() const override
+    {
+        return math::Vector2I(mWindow->getPosition());
+    }
 
     /*
-     *  \func getID
+     *  \func getHandle
      *  \brief Gets the operating system native handle for the window. This
      *         is platform specific.
      *
      *  \return The OS specific window handle.
      */
-    virtual size_t getID() const = 0;
+    size_t getID() const override;
 
     /*
      *  \func getNative
@@ -116,9 +136,9 @@ public:
      *
      *  \return A library specific object.
      */
-    virtual const void* getNative() const
+    const void* getNative() const override
     {
-        return nullptr;
+        return mWindow.get();
     }
 
     /*
@@ -127,9 +147,9 @@ public:
      *
      *  \return A library specific object.
      */
-    virtual void* getNative()
+    void* getNative() override
     {
-        return nullptr;
+        return mWindow.get();
     }
 
     /*
@@ -138,7 +158,11 @@ public:
      *
      *  \param name The desired name.
      */
-    virtual void setName(const std::string& name) = 0;
+    void setName(const std::string& name) override
+    {
+        mWindow->setTitle(name);
+        mName = name;
+    }
 
     /*
      *  \func setSize
@@ -146,71 +170,32 @@ public:
      *
      *  \param size The desired size of the client area in pixels.
      */
-    virtual void setSize(const math::Vector2U& size) = 0;
+    void setSize(const math::Vector2U& size) override
+    {
+        mWindow->setSize(size.toThirdParty<sf::Vector2u>());
+    }
 
     /*
      *  \func setPosition
      *  \brief Sets the position of the window in pixels from the top left
      *         corner of the primary monitor.
+     *         NOTE: On Linux this takes the decorators into account and
+     *         the matching get function does not.
      *
      *  \param position The desired position.
      */
-    virtual void setPosition(const math::Vector2I& position) = 0;
+    void setPosition(const math::Vector2I& position) override
+    {
+        mWindow->setPosition(position.toThirdParty<sf::Vector2i>());
+    }
 
 private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive& archive, const unsigned int version)
-    {
-        boost::serialization::split_member(archive, *this, version);
-    }
-
-    template<class Archive>
-    void save(Archive& archive, const unsigned int version) const
-    {
-        const bool open = isOpen();
-        archive & open;
-        if (open)
-        {
-            archive & getName();
-            archive & getSize();
-            archive & getPosition();
-        }
-    }
-
-    template<class Archive>
-    void load(Archive& archive, const unsigned int version)
-    {
-        bool open;
-        archive & open;
-        if (open)
-        {
-            std::string name;
-            math::Vector2U size;
-            math::Vector2I position;
-            archive & name;
-            archive & size;
-            archive & position;
-            load(name, size, position);
-        }
-        else
-        {
-            // If for some reason we try to load from an open window it
-            // should close to match what we had.
-            close();
-        }
-    }
+    // Note: We use a unique_ptr here to allow this to be easily copyable and
+    // movable. sf::RenderWindow destroys the window in the destructor.
+    std::unique_ptr<sf::RenderWindow> mWindow;
+    std::string mName;
 };
-
-/*
- *  \fn Output Stream Operator
- *  \brief Prints a window.
- *
- *  \param os The output stream.
- *  \param window The window to print.
- *  \return The updated stream.
- */
-std::ostream& operator<<(std::ostream& os, const Window& window);
+}
 }
 }
 

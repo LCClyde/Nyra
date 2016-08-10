@@ -19,10 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-ExternalProject_Add(
-    SFML
-    PATCH_COMMAND patch <SOURCE_DIR>/src/SFML/Graphics/CMakeLists.txt < ${CMAKE_BINARY_DIR}/SFML/patch.diff
-    PREFIX ${BUILD_DIR}
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.3.2
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR})
+set(MOD_DEPS nyra-win-cpp ${SFMLSystem} ${SFMLWindow} ${SFMLGraphics} PARENT_SCOPE)

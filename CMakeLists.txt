@@ -25,6 +25,16 @@ project(Nyra)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -fPIC")
 
+# Add platform defines
+# TODO: Add more platforms as necessary
+if (WIN32)
+    add_definitions(-DNYRA_WIN32=${CMAKE_SYSTEM})
+elseif (APPLE)
+    add_definitions(-DNYRA_APPLE=${CMAKE_SYSTEM})
+else()
+    add_definitions(-DNYRA_POSIX=${CMAKE_SYSTEM})
+endif()
+
 #TODO: Only set this if the caller did not set it
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
@@ -34,10 +44,16 @@ set(CMAKE_INCLUDE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/include)
 set(CMAKE_TEST_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/tests)
 set(CPP_MODULES_DIR ${CMAKE_BINARY_DIR}/modules/c++/)
 
-find_library(GoogleTest NAMES gtest gtest_main PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(GoogleTest NAMES gtest PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(SFMLGraphics NAMES sfml-graphics PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(SFMLWindow NAMES sfml-window PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(SFMLSystem NAMES sfml-system PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
 find_package(Boost 1.61.0 REQUIRED COMPONENTS serialization)
+find_package(X11 REQUIRED)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY})
+
+enable_testing()
 
 find_package(Threads)
 
@@ -69,13 +85,10 @@ foreach (DIR ${MODULES_DIRS})
         if (SOURCE_LENGTH EQUAL 0)
             add_library(${MODULE_NAME} INTERFACE)
             target_sources(${MODULE_NAME} INTERFACE ${INCLUDES})
+            target_link_libraries(${MODULE_NAME} INTERFACE ${MOD_DEPS})
         else()
             add_library(${MODULE_NAME} ${SOURCES} ${INCLUDES})
-        endif()
-
-        list(LENGTH MOD_DEPS MOD_LENGTH)
-        if (NOT MOD_LENGTH EQUAL 0)
-            add_dependencies(${MODULE_NAME} ${MOD_DEPS})
+            target_link_libraries(${MODULE_NAME} ${MOD_DEPS})
         endif()
 
         # Copy the headers
@@ -91,7 +104,8 @@ foreach (DIR ${MODULES_DIRS})
             foreach (TEST ${TESTS})
                 get_filename_component(TEST_NAME ${TEST} NAME_WE)
                 add_executable(${TEST_NAME} ${TEST})
-                target_link_libraries(${TEST_NAME} ${MODULE_NAME} nyra-test-cpp ${GoogleTest} ${Boost_SERIALIZATION_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${TEST_DEPS} ${MOD_DEPS})
+                target_link_libraries(${TEST_NAME} ${MODULE_NAME} nyra-test-cpp ${GoogleTest} ${CMAKE_THREAD_LIBS_INIT} ${TEST_DEPS} ${MOD_DEPS})
+                add_test(run_${TEST_NAME} ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR}/${TEST_NAME})
             endforeach()
         endif()
     endif()

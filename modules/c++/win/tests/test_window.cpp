@@ -28,7 +28,10 @@ namespace
 class TestWindow : public nyra::win::Window
 {
 public:
-    TestWindow() = default;
+    TestWindow()
+    {
+        close();
+    }
 
     TestWindow(const std::string& name,
                const nyra::math::Vector2U& size,
@@ -44,15 +47,23 @@ public:
         setName(name);
         setSize(size);
         setPosition(position);
+        mOpen = true;
+        mHandle = 1;
+    }
+
+    void update()
+    {
     }
 
     void close() override
     {
+        mOpen = false;
+        mHandle = 0;
     }
 
     bool isOpen() const
     {
-        return true;
+        return mOpen;
     }
 
     std::string getName() const override
@@ -70,9 +81,9 @@ public:
         return mPosition;
     }
 
-    void* getHandle() const override
+    size_t getID() const override
     {
-        return nullptr;
+        return mHandle;
     }
 
     void setName(const std::string& name) override
@@ -94,6 +105,8 @@ private:
     std::string mName;
     nyra::math::Vector2U mSize;
     nyra::math::Vector2I mPosition;
+    bool mOpen;
+    size_t mHandle;
 };
 }
 

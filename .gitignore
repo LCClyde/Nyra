@@ -42,3 +42,7 @@ temp
 external/build/
 external/install/
 external/bootstrap.log
+
+CTestTestfile.cmake
+Testing/
+
