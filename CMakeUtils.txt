@@ -1,0 +1,79 @@
+###############################################################################
+#  Copyright (c) 2016 Clyde Stanfield
+#
+#  Permission is hereby granted, free of charge, to any person obtaining a copy
+#  of this software and associated documentation files (the "Software"), to
+#  deal in the Software without restriction, including without limitation the
+#  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+#  sell copies of the Software, and to permit persons to whom the Software is
+#  furnished to do so, subject to the following conditions:
+#
+#  The above copyright notice and this permission notice shall be included in
+#  all copies or substantial portions of the Software.
+#
+#  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+#  IN THE SOFTWARE.
+###############################################################################
+
+macro(ModList list prefix suffix outputName)
+    set(output "")
+    foreach(var ${list})
+        list(APPEND output ${prefix}${var}${suffix})
+    endforeach()
+    set(${outputName} ${output})
+endmacro()
+
+macro(GetDeps pathname)
+    # Clear out MOD and TEST DEPS
+    set(MOD_DEPS "")
+    set(EXT_DEPS "")
+    set(TEST_DEPS "")
+
+    if(EXISTS ${pathname}/CMakeLists.txt)
+        add_subdirectory(${pathname})
+    endif()
+
+    ModList("${MOD_DEPS}" nyra- -cpp MOD_DEPS)
+endmacro()
+
+macro(BuildModule name libname pathname)
+
+    # Get all the source files
+    file(GLOB SOURCES ${pathname}/source/*.cpp)
+    file(GLOB INCLUDES ${pathname}/include/*.h ${pathname}/include/*.hpp)
+
+        list(LENGTH SOURCES SOURCE_LENGTH)
+        if (SOURCE_LENGTH EQUAL 0)
+            add_library(${libname} INTERFACE)
+            target_sources(${libname} INTERFACE ${INCLUDES})
+            target_link_libraries(${libname} INTERFACE ${MOD_DEPS} ${EXT_DEPS})
+        else()
+            add_library(${libname} ${SOURCES} ${INCLUDES})
+            target_link_libraries(${libname} ${MOD_DEPS} ${EXT_DEPS})
+        endif()
+
+        # Copy the headers
+        add_custom_target(${libname}-inc
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${name}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${name})
+        add_dependencies(${libname} ${libname}-inc)
+endmacro()
+
+macro(BuildTests libname pathname outdir)
+    # Build the unittests
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${outdir})
+    if (IS_DIRECTORY ${pathname})
+        file(GLOB TESTS ${pathname}/*.cpp)
+            foreach (TEST ${TESTS})
+                get_filename_component(TEST_NAME ${TEST} NAME_WE)
+                add_executable(${TEST_NAME} ${TEST})
+                target_link_libraries(${TEST_NAME} ${libname} nyra-tests-cpp ${GoogleTest} ${CMAKE_THREAD_LIBS_INIT} ${TEST_DEPS} ${MOD_DEPS} ${EXT_DEPS})
+                add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})
+            endforeach()
+        endif()
+endmacro()

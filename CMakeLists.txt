@@ -57,57 +57,26 @@ enable_testing()
 
 find_package(Threads)
 
+include(CMakeUtils.txt)
+
 # Get all the modules
 file(GLOB MODULES_DIRS RELATIVE ${CPP_MODULES_DIR} ${CPP_MODULES_DIR}/*)
 
 # Loop through each module
 foreach (DIR ${MODULES_DIRS})
     set(MODULE_DIR ${CPP_MODULES_DIR}/${DIR})
+    set(MODULE_TEST_DIR ${MODULE_DIR}/test/apps)
     set(MODULE_NAME nyra-${DIR}-cpp)
-    set(MODULE_TEST_DIR ${MODULE_DIR}/tests)
+    set(TEST_NAME nyra-${DIR}-test-cpp)
 
     # Make sure this is a directory and not a file
     if (IS_DIRECTORY ${MODULE_DIR})
 
-        # Clear out MOD and TEST DEPS
-        set(MOD_DEPS "")
-        set(TEST_DEPS "")
+        GetDeps(${MODULE_DIR})
+        BuildModule(${DIR} ${MODULE_NAME} ${MODULE_DIR})
+        BuildModule(test ${TEST_NAME} ${MODULE_DIR}/test)
+        BuildTests(${MODULE_NAME} ${MODULE_TEST_DIR} ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR})
 
-        if(EXISTS ${MODULE_DIR}/CMakeLists.txt)
-            add_subdirectory(${MODULE_DIR})
-        endif()
-
-        # Get all the source files
-        file(GLOB SOURCES ${MODULE_DIR}/source/*.cpp)
-        file(GLOB INCLUDES ${MODULE_DIR}/include/*.h ${MODULE_DIR}/include/*.hpp)
-
-        list(LENGTH SOURCES SOURCE_LENGTH)
-        if (SOURCE_LENGTH EQUAL 0)
-            add_library(${MODULE_NAME} INTERFACE)
-            target_sources(${MODULE_NAME} INTERFACE ${INCLUDES})
-            target_link_libraries(${MODULE_NAME} INTERFACE ${MOD_DEPS})
-        else()
-            add_library(${MODULE_NAME} ${SOURCES} ${INCLUDES})
-            target_link_libraries(${MODULE_NAME} ${MOD_DEPS})
-        endif()
-
-        # Copy the headers
-        add_custom_target(${MODULE_NAME}-inc
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${MODULE_DIR}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${DIR})
-        add_dependencies(${MODULE_NAME} ${MODULE_NAME}-inc)
-
-        # Build the unittests
-        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR})
-        if (IS_DIRECTORY ${MODULE_TEST_DIR})
-            file(GLOB TESTS ${MODULE_TEST_DIR}/*.cpp)
-            foreach (TEST ${TESTS})
-                get_filename_component(TEST_NAME ${TEST} NAME_WE)
-                add_executable(${TEST_NAME} ${TEST})
-                target_link_libraries(${TEST_NAME} ${MODULE_NAME} nyra-test-cpp ${GoogleTest} ${CMAKE_THREAD_LIBS_INIT} ${TEST_DEPS} ${MOD_DEPS})
-                add_test(run_${TEST_NAME} ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR}/${TEST_NAME})
-            endforeach()
-        endif()
     endif()
 endforeach()
 

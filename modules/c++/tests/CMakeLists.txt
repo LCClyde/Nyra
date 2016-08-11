@@ -19,4 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS ${Boost_SERIALIZATION_LIBRARY} PARENT_SCOPE)
+set(EXT_DEPS ${Boost_SERIALIZATION_LIBRARY} PARENT_SCOPE)
