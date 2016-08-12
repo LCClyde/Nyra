@@ -73,9 +73,9 @@ foreach (DIR ${MODULES_DIRS})
     if (IS_DIRECTORY ${MODULE_DIR})
 
         GetDeps(${MODULE_DIR})
-        BuildModule(${DIR} ${MODULE_NAME} ${MODULE_DIR})
-        BuildModule(test ${TEST_NAME} ${MODULE_DIR}/test)
-        BuildTests(${MODULE_NAME} ${MODULE_TEST_DIR} ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR})
+        BuildModule(${DIR} ${MODULE_NAME} "" ${MODULE_DIR})
+        BuildModule(test ${TEST_NAME} ${MODULE_NAME} ${MODULE_DIR}/test)
+        BuildTests(${MODULE_NAME} ${TEST_NAME} ${MODULE_TEST_DIR} ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR})
 
     endif()
 endforeach()

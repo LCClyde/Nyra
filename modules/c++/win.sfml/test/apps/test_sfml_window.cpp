@@ -21,7 +21,6 @@
  */
 #include <nyra/win.sfml/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/Required.h>
 
 namespace
 {
@@ -34,6 +33,12 @@ void update(nyra::win::sfml::Window& window)
 }
 }
 
+namespace nyra
+{
+namespace win
+{
+namespace sfml
+{
 TEST(Window, Archive)
 {
     nyra::win::sfml::Window input("Test",
@@ -62,6 +67,9 @@ TEST(Required, Stdout)
     EXPECT_EQ(out, "Name: Test\nSize: x=1280 y=720\nPosition: x=512 y=256");
     //EXPECT_EQ(out.substr(0, 30), "Name: Test\nSize: x=1280 y=720\n");
 
+}
+}
+}
 }
 
 NYRA_TEST()

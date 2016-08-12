@@ -32,7 +32,6 @@ macro(GetDeps pathname)
     # Clear out MOD and TEST DEPS
     set(MOD_DEPS "")
     set(EXT_DEPS "")
-    set(TEST_DEPS "")
 
     if(EXISTS ${pathname}/CMakeLists.txt)
         add_subdirectory(${pathname})
@@ -41,7 +40,7 @@ macro(GetDeps pathname)
     ModList("${MOD_DEPS}" nyra- -cpp MOD_DEPS)
 endmacro()
 
-macro(BuildModule name libname pathname)
+macro(BuildModule name libname deps pathname)
 
     # Get all the source files
     file(GLOB SOURCES ${pathname}/source/*.cpp)
@@ -51,20 +50,20 @@ macro(BuildModule name libname pathname)
         if (SOURCE_LENGTH EQUAL 0)
             add_library(${libname} INTERFACE)
             target_sources(${libname} INTERFACE ${INCLUDES})
-            target_link_libraries(${libname} INTERFACE ${MOD_DEPS} ${EXT_DEPS})
+            target_link_libraries(${libname} INTERFACE ${deps} ${MOD_DEPS} ${EXT_DEPS})
         else()
             add_library(${libname} ${SOURCES} ${INCLUDES})
-            target_link_libraries(${libname} ${MOD_DEPS} ${EXT_DEPS})
+            target_link_libraries(${libname} ${deps} ${MOD_DEPS} ${EXT_DEPS})
         endif()
 
         # Copy the headers
         add_custom_target(${libname}-inc
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${name}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${name})
+                       ${pathname}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${name})
         add_dependencies(${libname} ${libname}-inc)
 endmacro()
 
-macro(BuildTests libname pathname outdir)
+macro(BuildTests libname testlibname pathname outdir)
     # Build the unittests
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${outdir})
     if (IS_DIRECTORY ${pathname})
@@ -72,7 +71,14 @@ macro(BuildTests libname pathname outdir)
             foreach (TEST ${TESTS})
                 get_filename_component(TEST_NAME ${TEST} NAME_WE)
                 add_executable(${TEST_NAME} ${TEST})
-                target_link_libraries(${TEST_NAME} ${libname} nyra-tests-cpp ${GoogleTest} ${CMAKE_THREAD_LIBS_INIT} ${TEST_DEPS} ${MOD_DEPS} ${EXT_DEPS})
+                target_link_libraries(${TEST_NAME}
+                                      ${libname}
+                                      ${testlibname}
+                                      ${GoogleTest}
+                                      nyra-core-test-cpp
+                                      ${MOD_DEPS}
+                                      ${EXT_DEPS}
+                                      ${CMAKE_THREAD_LIBS_INIT})
                 add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})
             endforeach()
         endif()

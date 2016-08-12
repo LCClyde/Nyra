@@ -19,63 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Required.h>
+#ifndef __NYRA_CORE_TEST_STD_OUT_H__
+#define __NYRA_CORE_TEST_STD_OUT_H__
 
-namespace
+#include <string>
+#include <gtest/gtest.h>
+
+namespace nyra
 {
-class Foo
+namespace test
 {
-public:
-    Foo()
-    {
-    }
-
-    Foo(const std::string& value) :
-        mBar(value)
-    {
-    }
-
-    bool operator==(const Foo& other) const
-    {
-        return mBar == other.mBar;
-    }
-
-    const std::string& get() const
-    {
-        return mBar;
-    }
-
-private:
-    std::string mBar;
-
-    friend class boost::serialization::access;
-    template<class ArchiveT>
-    void serialize(ArchiveT& ar, const unsigned int version)
-    {
-        ar & mBar;
-    }
-};
-
-std::ostream& operator<<(std::ostream& os, const Foo& foo)
+/*
+ *  \func testStdout
+ *  \brief Gets the stdout string. Used to test that the ostream is correct.
+ *
+ *  \tparam T The data type to test
+ *  \param obj The object to stream out.
+ *  \return The string sent to stdout.
+ */
+template <typename T>
+std::string testStdout(const T& obj = T())
 {
-    os << foo.get();
-    return os;
+    testing::internal::CaptureStdout();
+    std::cout << obj;
+    return testing::internal::GetCapturedStdout();
+}
 }
 }
 
-TEST(Required, Archive)
-{
-    Foo input("foo");
-    Foo output = nyra::test::testArchive(input);
-    EXPECT_EQ(input, output);
-}
-
-TEST(Required, Stdout)
-{
-    Foo input("foo");
-    const std::string out = nyra::test::testStdout(input);
-    EXPECT_EQ(out, "foo");
-}
-
-NYRA_TEST()
+#endif

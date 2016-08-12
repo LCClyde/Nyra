@@ -21,7 +21,6 @@
  */
 #include <nyra/math/Vector2.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/Required.h>
 
 namespace
 {
@@ -33,6 +32,10 @@ public:
 };
 }
 
+namespace nyra
+{
+namespace math
+{
 TEST(Vector2, Construction)
 {
     // Default construction should 0 values
@@ -191,6 +194,8 @@ TEST(Vector2, Stdout)
     nyra::math::Vector2F input(1.234f, 5.678);
     std::string out = nyra::test::testStdout(input);
     EXPECT_EQ(out, "x=1.234 y=5.678");
+}
+}
 }
 
 NYRA_TEST()

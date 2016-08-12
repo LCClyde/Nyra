@@ -19,11 +19,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
+#ifndef __NYRA_TEST_TEST_H__
+#define __NYRA_TEST_TEST_H__
 
-TEST(Test, Test)
-{
-    EXPECT_EQ(1 + 1, 2);
+#include <gtest/gtest.h>
+
+// Convenience includes
+#include <nyra/test/TestArchive.h>
+#include <nyra/test/TestStdout.h>
+
+/*
+ *  \macro NYRA_TEST
+ *  \brief Adds main to the unittest. This also gives us a single place to
+ *         update unittests globally.
+ */
+#define NYRA_TEST() \
+int main(int argc, char **argv) \
+{ \
+    ::testing::InitGoogleTest(&argc, argv); \
+    return RUN_ALL_TESTS(); \
 }
 
-NYRA_TEST()
+#endif
+

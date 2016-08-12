@@ -19,21 +19,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_TEST_TEST_H__
-#define __NYRA_TEST_TEST_H__
+#include <nyra/time/Utils.h>
+#include <nyra/test/Test.h>
 
-#include <gtest/gtest.h>
-
-/*
- *  \macro NYRA_TEST
- *  \brief Adds main to the unittest. This also gives us a single place to
- *         update unittests globally.
- */
-#define NYRA_TEST() \
-int main(int argc, char **argv) \
-{ \
-    ::testing::InitGoogleTest(&argc, argv); \
-    return RUN_ALL_TESTS(); \
+namespace nyra
+{
+namespace time
+{
+TEST(System, Sleep)
+{
+    const size_t wait = 150;
+    const size_t tick = epoch();
+    sleep(wait);
+    const size_t tock = epoch();
+    const size_t elapsed = tock - tick;
+    EXPECT_LT(elapsed, wait + 2);
+    EXPECT_GT(elapsed, wait - 2);
 }
 
-#endif
+TEST(System, Epoch)
+{
+    const size_t mills = epoch();
+    // TODO: This is a really bad test
+    EXPECT_NE(mills, static_cast<size_t>(0));
+}
+}
+}
+
+NYRA_TEST()

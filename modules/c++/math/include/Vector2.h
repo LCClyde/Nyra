@@ -24,7 +24,6 @@
 
 #include <ostream>
 #include <cmath>
-#include <boost/serialization/access.hpp>
 
 namespace nyra
 {
@@ -438,8 +437,6 @@ public:
      */
     TypeT y;
 
-private:
-    friend class boost::serialization::access;
     template<class ArchiveT>
     void serialize(ArchiveT& archive, const unsigned int version)
     {

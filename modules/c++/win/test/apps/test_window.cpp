@@ -21,7 +21,6 @@
  */
 #include <nyra/win/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/Required.h>
 
 namespace
 {
@@ -110,6 +109,10 @@ private:
 };
 }
 
+namespace nyra
+{
+namespace win
+{
 TEST(Window, Archive)
 {
     TestWindow input("Test",
@@ -128,6 +131,8 @@ TEST(Required, Stdout)
                      nyra::math::Vector2I(512, 256));
     const std::string out = nyra::test::testStdout(input);
     EXPECT_EQ(out, "Name: Test\nSize: x=1280 y=720\nPosition: x=512 y=256");
+}
+}
 }
 
 NYRA_TEST()
