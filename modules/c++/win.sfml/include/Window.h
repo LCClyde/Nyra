@@ -34,13 +34,27 @@ namespace sfml
 {
 /*
  *  \class Window
- *  \brief An interface class used to represent an operating system window.
+ *  \brief Allows easy creation of SFML windows that match the expected
+ *         nyra interface for Windows.
  */
 class Window : public nyra::win::Window
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a window. The default constructor will not actually
+     *         open a Window. You must call load to create something.
+     */
     Window();
 
+    /*
+     *  \func Constructor
+     *  \brief Creates and opens a window.
+     *
+     *  \param name The name (title) of the window
+     *  \param size The size of the window in pixels
+     *  \param position The desired position of the window
+     */
     Window(const std::string& name,
            const math::Vector2U& size,
            const math::Vector2I& position);
@@ -48,7 +62,8 @@ public:
     /*
      *  \func load
      *  \brief Initializes a window. The window is considered invalid until
-     *         this has been called.
+     *         this has been called. If the constructor with parameters is
+     *         used, then this will be called under the hood.
      *
      *  \param name The desired name (title) of the window.
      *  \param size The desired client size of the window in pixels.
@@ -59,6 +74,10 @@ public:
               const math::Vector2U& size,
               const math::Vector2I& position) override;
 
+    /*
+     *  \func update
+     *  \brief Provides SFML specific updates necessary for the OS.
+     */
     void update() override;
 
     /*
@@ -131,10 +150,9 @@ public:
 
     /*
      *  \func getNative
-     *  \brief An optional function that allows the user to get the underlying
-     *         library specific object.
+     *  \brief Gets the underlying SFML object.
      *
-     *  \return A library specific object.
+     *  \return An sf::RenderWindow representing this window object.
      */
     const void* getNative() const override
     {
@@ -145,7 +163,7 @@ public:
      *  \func getNative
      *  \brief Same as above but non-const
      *
-     *  \return A library specific object.
+     *  \return An sf::RenderWindow representing this window object.
      */
     void* getNative() override
     {
