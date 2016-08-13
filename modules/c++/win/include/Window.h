@@ -22,9 +22,10 @@
 #ifndef __NYRA_WIN_WINDOW_H__
 #define __NYRA_WIN_WINDOW_H__
 
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/split_member.hpp>
+#include <nyra/core/Archive.h>
 #include <nyra/math/Vector2.h>
+#include <nyra/test/TestArchive.h>
+#include <nyra/test/TestStdout.h>
 
 namespace nyra
 {
@@ -41,7 +42,7 @@ public:
      *  \func Destructor
      *  \brief Necessary for inheritance.
      */
-    virtual ~Window();
+    virtual ~Window() = default;
 
     /*
      *  \func load
@@ -158,12 +159,7 @@ public:
     virtual void setPosition(const math::Vector2I& position) = 0;
 
 private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive& archive, const unsigned int version)
-    {
-        boost::serialization::split_member(archive, *this, version);
-    }
+    NYRA_SPLIT_SERIALIZE()
 
     template<class Archive>
     void save(Archive& archive, const unsigned int version) const
@@ -200,17 +196,9 @@ private:
             close();
         }
     }
-};
 
-/*
- *  \fn Output Stream Operator
- *  \brief Prints a window.
- *
- *  \param os The output stream.
- *  \param window The window to print.
- *  \return The updated stream.
- */
-std::ostream& operator<<(std::ostream& os, const Window& window);
+    friend std::ostream& operator<<(std::ostream& os, const Window& window);
+};
 }
 }
 

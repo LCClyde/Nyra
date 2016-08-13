@@ -21,18 +21,21 @@
  */
 #include <nyra/win/Window.h>
 #include <nyra/test/Test.h>
+#include <nyra/test/TestWindow.h>
 
 namespace
 {
-class TestWindow : public nyra::win::Window
+class MockWindow : public nyra::win::Window
 {
 public:
-    TestWindow()
+    MockWindow() :
+        mOpen(false),
+        mHandle(1)
     {
         close();
     }
 
-    TestWindow(const std::string& name,
+    MockWindow(const std::string& name,
                const nyra::math::Vector2U& size,
                const nyra::math::Vector2I& position)
     {
@@ -47,7 +50,7 @@ public:
         setSize(size);
         setPosition(position);
         mOpen = true;
-        mHandle = 1;
+        mHandle += 1;
     }
 
     void update()
@@ -57,7 +60,6 @@ public:
     void close() override
     {
         mOpen = false;
-        mHandle = 0;
     }
 
     bool isOpen() const
@@ -113,24 +115,38 @@ namespace nyra
 {
 namespace win
 {
-TEST(Window, Archive)
+class TestMockWindow : public nyra::test::TestWindow<MockWindow>
 {
-    TestWindow input("Test",
-                     nyra::math::Vector2U(1280, 720),
-                     nyra::math::Vector2I(512, 256));
-    TestWindow output = nyra::test::testArchive(input);
-    EXPECT_EQ(input.getName(), output.getName());
-    EXPECT_EQ(input.getSize(), output.getSize());
-    EXPECT_EQ(input.getPosition(), output.getPosition());
+};
+
+TEST_F(TestMockWindow, GetSet)
+{
+    EXPECT_EQ(testName(), expectedName);
+    EXPECT_EQ(testSize(), expectedSize);
+    EXPECT_EQ(testPosition(), expectedPosition);
 }
 
-TEST(Required, Stdout)
+TEST_F(TestMockWindow, Close)
 {
-    TestWindow input("Test",
-                     nyra::math::Vector2U(1280, 720),
-                     nyra::math::Vector2I(512, 256));
-    const std::string out = nyra::test::testStdout(input);
-    EXPECT_EQ(out, "Name: Test\nSize: x=1280 y=720\nPosition: x=512 y=256");
+    EXPECT_NE(testID(), previousID);
+    EXPECT_TRUE(testClose());
+}
+
+TEST_F(TestMockWindow, Archive)
+{
+
+    MockWindow window = testArchiveOpen();
+    EXPECT_EQ(window.getName(), expectedName);
+    EXPECT_EQ(window.getSize(), expectedSize);
+    EXPECT_EQ(window.getPosition(), expectedPosition);
+
+    EXPECT_FALSE(testArchiveClosed().isOpen());
+}
+
+TEST_F(TestMockWindow, Stdout)
+{
+    EXPECT_EQ(testStdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(testStdoutClosed(), expectedStdoutClosed);
 }
 }
 }

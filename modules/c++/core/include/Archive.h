@@ -25,11 +25,33 @@
 #include <fstream>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/split_member.hpp>
 
 namespace nyra
 {
 namespace core
 {
+/*
+ *  \macro NYRA_SERIALIZE
+ *  \brief Necessary to include serialization into a class. This separates us
+ *         from boost in case we ever want to change systems, and matches
+ *         the rest of the code base in terms of style.
+ *         TODO: I don't want to use a macro here, but a typedef won't work
+ *         with friend classes.
+ */
+#define NYRA_SERIALIZE() friend class boost::serialization::access;
+
+/*
+ *  \macro NYRA_SPLIT_SERIALIZE
+ *  \brief Splits the serialize method into separate save / load methods.
+ *         This separates us from boost in case we ever want to change
+ *         systems, and matches the rest of the code base in terms of style.
+ */
+#define NYRA_SPLIT_SERIALIZE() \
+NYRA_SERIALIZE() \
+BOOST_SERIALIZATION_SPLIT_MEMBER()
+
 /*
  *  \func writeArchive
  *  \brief Serializes an object to disk

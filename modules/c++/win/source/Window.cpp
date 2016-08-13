@@ -25,16 +25,19 @@ namespace nyra
 {
 namespace win
 {
-Window::~Window()
-{
-}
-
 std::ostream& operator<<(std::ostream& os, const Window& window)
 {
-    os << "Name: " << window.getName()
-       << "\nSize: " << window.getSize()
-       << "\nPosition: " << window.getPosition();
-   return os;
+    if (window.isOpen())
+    {
+        os << "Name: " << window.getName()
+           << "\nSize: " << window.getSize()
+           << "\nPosition: " << window.getPosition();
+    }
+    else
+    {
+        os << "Window is closed";
+    }
+    return os;
 }
 }
 }
