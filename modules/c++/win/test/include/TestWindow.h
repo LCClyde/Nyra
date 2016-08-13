@@ -163,7 +163,7 @@ public:
     {
         previousID = mWindow.getID();
         mWindow.close();
-        mWindow.load(defaultName, defaultSize, defaultPosition);
+        reset();
         return mWindow.getID();
     }
 
@@ -177,7 +177,9 @@ public:
      */
     T testArchiveOpen()
     {
-        mWindow.load(expectedName, expectedSize, expectedPosition);
+        mWindow.setName(expectedName);
+        mWindow.setSize(expectedSize);
+        mWindow.setPosition(expectedPosition);
         update();
         return testArchive(mWindow);
     }
@@ -288,7 +290,7 @@ private:
     {
         // Give the window some time to animate in case the operating system
         // has it enabled
-        for (size_t ii = 0; ii < 5; ++ii)
+        for (size_t ii = 0; ii < 10; ++ii)
         {
             time::sleep(10);
             mWindow.update();
