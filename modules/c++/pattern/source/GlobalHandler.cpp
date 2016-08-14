@@ -19,31 +19,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/time/System.h>
-#include <nyra/test/Test.h>
+#include <stdexcept>
+#include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
 {
-namespace time
+namespace pattern
 {
-TEST(System, Sleep)
+//===========================================================================//
+void GlobalHandler::initialize(const void* handle)
 {
-    const size_t wait = 150;
-    const size_t tick = epoch();
-    sleep(wait);
-    const size_t tock = epoch();
-    const size_t elapsed = tock - tick;
-    EXPECT_LT(elapsed, wait + 2);
-    EXPECT_GT(elapsed, wait - 2);
+    // Early out if passing in nullptr
+    if (!handle)
+    {
+        throw std::runtime_error(
+            "Attempting to initialize a GlobalHandler with a nullptr");
+    }
+
+    if (mHandles.size() == 0)
+    {
+        intializeGlobal();
+    }
+
+    if (mHandles.find(handle) == mHandles.end())
+    {
+        mHandles.insert(handle);
+    }
 }
 
-TEST(System, Epoch)
+//===========================================================================//
+void GlobalHandler::shutdown(const void* handle)
 {
-    const size_t mills = epoch();
-    // TODO: This is a really bad test
-    EXPECT_NE(mills, static_cast<size_t>(0));
-}
-}
-}
+    if (!handle)
+    {
+        throw std::runtime_error(
+            "Attempting to shutdown a GlobalHandler with a nullptr");
+    }
 
-NYRA_TEST()
+    auto iter = mHandles.find(handle);
+    if (iter == mHandles.end())
+    {
+        throw std::runtime_error(
+            "Removing an unknown handle from a GlobalHandler");
+    }
+
+    mHandles.erase(iter);
+
+    if (mHandles.size() == 0)
+    {
+        shutdownGlobal();
+    }
+}
+}
+}

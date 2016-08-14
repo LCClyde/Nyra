@@ -83,8 +83,8 @@ public:
         else
         {
             mWindow.load(defaultName,
-                        defaultSize,
-                        defaultPosition);
+                         defaultSize,
+                         defaultPosition);
         }
         mWindow.update();
     }
@@ -297,11 +297,8 @@ private:
         }
     }
 
-    static T mWindow;
+    T mWindow;
 };
-
-template <typename T>
-T TestWindow<T>::mWindow;
 }
 }
 

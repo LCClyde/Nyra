@@ -19,29 +19,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/time/System.h>
+#include <nyra/win/qt/Window.h>
 #include <nyra/test/Test.h>
+#include <nyra/test/TestWindow.h>
 
 namespace nyra
 {
-namespace time
+namespace win
 {
-TEST(System, Sleep)
+namespace qt
 {
-    const size_t wait = 150;
-    const size_t tick = epoch();
-    sleep(wait);
-    const size_t tock = epoch();
-    const size_t elapsed = tock - tick;
-    EXPECT_LT(elapsed, wait + 2);
-    EXPECT_GT(elapsed, wait - 2);
+class TestQtWindow : public test::TestWindow<Window>
+{
+};
+
+TEST_F(TestQtWindow, GetSet)
+{
+    EXPECT_EQ(testName(), expectedName);
+    EXPECT_EQ(testSize(), expectedSize);
+    EXPECT_EQ(testPosition(), expectedPosition);
 }
 
-TEST(System, Epoch)
+TEST_F(TestQtWindow, Close)
 {
-    const size_t mills = epoch();
-    // TODO: This is a really bad test
-    EXPECT_NE(mills, static_cast<size_t>(0));
+    // TODO: It looks like Qt will use the same window ID even though
+    //       I destroy the object. This needs to be verified on other
+    //       platforms.
+    EXPECT_EQ(testID(), previousID);
+    EXPECT_TRUE(testClose());
+}
+
+TEST_F(TestQtWindow, Archive)
+{
+    Window window = testArchiveOpen();
+    EXPECT_EQ(window.getName(), expectedName);
+    EXPECT_EQ(window.getSize(), expectedSize);
+    EXPECT_EQ(testPosition(), expectedPosition);
+
+    EXPECT_FALSE(testArchiveClosed().isOpen());
+}
+
+TEST_F(TestQtWindow, Stdout)
+{
+    EXPECT_EQ(testStdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(testStdoutClosed(), expectedStdoutClosed);
+}
 }
 }
 }

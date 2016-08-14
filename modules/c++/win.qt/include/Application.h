@@ -19,31 +19,55 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/time/System.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_WIN_QT_APPLICATION_H__
+#define __NYRA_WIN_QT_APPLICATION_H__
+
+#include <memory>
+#include <QApplication>
+#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/pattern/Singleton.h>
 
 namespace nyra
 {
-namespace time
+namespace win
 {
-TEST(System, Sleep)
+namespace qt
 {
-    const size_t wait = 150;
-    const size_t tick = epoch();
-    sleep(wait);
-    const size_t tock = epoch();
-    const size_t elapsed = tock - tick;
-    EXPECT_LT(elapsed, wait + 2);
-    EXPECT_GT(elapsed, wait - 2);
+/*
+ *  \class Application
+ *  \brief Global handler class for the QApplication. This must be created
+ *         before any of Q* objects and must be deleted when you are done
+ *         with them, but before static variables are deleted. The
+ *         complexities of these interactions are hidden from the user in
+ *         this class.
+ */
+class Application : public pattern::GlobalHandler
+{
+public:
+    /*
+     *  \func Constructor
+     *  \brief Sets up the arguments for the QApplication.
+     */
+    Application();
+
+    /*
+     *  \type Instance
+     *  \brief Singleton access for the Application. This needs to be
+     *         accessed globally to match what Qt wants.
+     */
+    typedef pattern::Singleton<Application> Instance;
+
+private:
+    void intializeGlobal() override;
+
+    void shutdownGlobal() override;
+
+    std::vector<char*> mArgv;
+    int mArgc;
+    std::unique_ptr<QApplication> mApplication;
+};
+}
+}
 }
 
-TEST(System, Epoch)
-{
-    const size_t mills = epoch();
-    // TODO: This is a really bad test
-    EXPECT_NE(mills, static_cast<size_t>(0));
-}
-}
-}
-
-NYRA_TEST()
+#endif

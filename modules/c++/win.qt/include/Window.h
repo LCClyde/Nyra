@@ -19,22 +19,23 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_SFML_WINDOW_H__
-#define __NYRA_WIN_SFML_WINDOW_H__
+#ifndef __NYRA_WIN_QT_WINDOW_H__
+#define __NYRA_WIN_QT_WINDOW_H__
 
 #include <memory>
-#include <SFML/Graphics.hpp>
+#include <QtWidgets/qmainwindow.h>
+#include <QtWidgets/qapplication.h>
 #include <nyra/win/Window.h>
 
 namespace nyra
 {
 namespace win
 {
-namespace sfml
+namespace qt
 {
 /*
  *  \class Window
- *  \brief Allows easy creation of SFML windows that match the expected
+ *  \brief Allows easy creation of Qt windows that match the expected
  *         nyra interface for Windows.
  */
 class Window : public nyra::win::Window
@@ -60,6 +61,23 @@ public:
            const math::Vector2I& position);
 
     /*
+     *  \func Move Constructor
+     *  \brief Moves a Qt Window from one object to the other. This will
+     *         pass the "this" pointer to the new object which is used
+     *         to manage the global Application object.
+     *
+     *  \param other The object to move.
+     */
+    Window(Window&& other);
+
+    /*
+     *  \func Destructor
+     *  \brief Closes a window which in turn removes it reference from the
+     *         Application object.
+     */
+    ~Window();
+
+    /*
      *  \func load
      *  \brief Initializes a window. The window is considered invalid until
      *         this has been called. If the constructor with parameters is
@@ -76,19 +94,20 @@ public:
 
     /*
      *  \func update
-     *  \brief Provides SFML specific updates necessary for the OS.
+     *  \brief Provides Qt specific updates necessary for the OS.
+     *         TODO: This needs to be tested with multiple windows to ensure
+     *         it does not call multiple updates per frame.
      */
     void update() override;
 
     /*
      *  \func close
      *  \brief Closes a window. The window should be considered invalid after
-     *         being closed.
+     *         being closed. This will remove the window from the Application
+     *         class. When the last window is removed the Application will
+     *         be closed.
      */
-    void close() override
-    {
-        mWindow->close();
-    }
+    void close() override;
 
     /*
      *  \func isOpen
@@ -98,7 +117,7 @@ public:
      */
     bool isOpen() const override
     {
-        return mWindow->isOpen();
+        return mWindow.get();
     }
 
     /*
@@ -109,7 +128,7 @@ public:
      */
     std::string getName() const override
     {
-        return mName;
+        return mWindow->windowTitle().toUtf8().constData();
     }
 
     /*
@@ -121,22 +140,21 @@ public:
      */
     math::Vector2U getSize() const override
     {
-        return math::Vector2U(mWindow->getSize());
+        return math::Vector2U(mWindow->geometry().width(),
+                              mWindow->geometry().height());
     }
 
     /*
      *  \func getPosition
      *  \brief Gets the window position in pixels from the top left corner of
      *         the primary monitor.
-     *         NOTE: On Linux this does not take into account the decorators.
-     *         as a result you do not get the correct results if you call
-     *         setPosition and check it with this.
      *
      *  \return The position in pixels
      */
     math::Vector2I getPosition() const override
     {
-        return math::Vector2I(mWindow->getPosition());
+        return math::Vector2I(mWindow->x(),
+                              mWindow->y());
     }
 
     /*
@@ -146,13 +164,16 @@ public:
      *
      *  \return The OS specific window handle.
      */
-    size_t getID() const override;
+    size_t getID() const override
+    {
+        return static_cast<size_t>(mWindow->winId());
+    }
 
     /*
      *  \func getNative
-     *  \brief Gets the underlying SFML object.
+     *  \brief Gets the underlying Qt object.
      *
-     *  \return An sf::RenderWindow representing this window object.
+     *  \return A QMainWindow representing this window object.
      */
     const void* getNative() const override
     {
@@ -163,7 +184,7 @@ public:
      *  \func getNative
      *  \brief Same as above but non-const
      *
-     *  \return An sf::RenderWindow representing this window object.
+     *  \return An QMainWindow representing this window object.
      */
     void* getNative() override
     {
@@ -178,8 +199,7 @@ public:
      */
     void setName(const std::string& name) override
     {
-        mWindow->setTitle(name);
-        mName = name;
+        mWindow->setWindowTitle(name.c_str());
     }
 
     /*
@@ -190,28 +210,24 @@ public:
      */
     void setSize(const math::Vector2U& size) override
     {
-        mWindow->setSize(size.toThirdParty<sf::Vector2u>());
+        mWindow->resize(size.x, size.y);
     }
 
     /*
      *  \func setPosition
      *  \brief Sets the position of the window in pixels from the top left
      *         corner of the primary monitor.
-     *         NOTE: On Linux this takes the decorators into account and
-     *         the matching get function does not.
      *
      *  \param position The desired position.
      */
     void setPosition(const math::Vector2I& position) override
     {
-        mWindow->setPosition(position.toThirdParty<sf::Vector2i>());
+        mWindow->move(position.x, position.y);
     }
 
 private:
-    // Note: We use a unique_ptr here to allow this to be easily
-    // movable. sf::RenderWindow destroys the window in the destructor.
-    std::unique_ptr<sf::RenderWindow> mWindow;
-    std::string mName;
+    const void* const mHandle;
+    std::unique_ptr<QMainWindow> mWindow;
 };
 }
 }

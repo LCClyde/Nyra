@@ -57,9 +57,10 @@ macro(BuildModule name libname deps pathname)
         endif()
 
         # Copy the headers
+        string(REPLACE . / INC_DIR ${name})
         add_custom_target(${libname}-inc
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${pathname}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${name})
+                       ${pathname}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${INC_DIR})
         add_dependencies(${libname} ${libname}-inc)
 endmacro()
 

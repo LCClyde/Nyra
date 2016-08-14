@@ -19,31 +19,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/time/System.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_PATTERN_SINGLETON_H__
+#define __NYRA_PATTERN_SINGLETON_H__
 
 namespace nyra
 {
-namespace time
+namespace pattern
 {
-TEST(System, Sleep)
+/*
+ *  \class Singleton
+ *  \brief A wrapper to allow any class use the Singleton pattern. This
+ *         should be used as a last resort or for 3rd party objects that
+ *         enforce only a single instance. This class is meant to be abstract
+ *         and never instantiated by itself.
+ *
+ *  \tparam T The class to create a Singleton object for.
+ */
+template <typename T>
+class Singleton
 {
-    const size_t wait = 150;
-    const size_t tick = epoch();
-    sleep(wait);
-    const size_t tock = epoch();
-    const size_t elapsed = tock - tick;
-    EXPECT_LT(elapsed, wait + 2);
-    EXPECT_GT(elapsed, wait - 2);
-}
+public:
+    /*
+     *  \func get
+     *  \brief Gets the underlying Singleton object
+     *
+     *  \return The Singleton.
+     */
+    static T& get()
+    {
+        static T instance;
+        return instance;
+    }
 
-TEST(System, Epoch)
-{
-    const size_t mills = epoch();
-    // TODO: This is a really bad test
-    EXPECT_NE(mills, static_cast<size_t>(0));
+private:
+    // This class should never be instantiated.
+    Singleton() = delete;
+    Singleton(const Singleton&) = delete;
+    Singleton(const Singleton&&) = delete;
+    Singleton& operator=(const Singleton&) = delete;
+    Singleton& operator=(const Singleton&&) = delete;
+    ~Singleton() = delete;
+};
 }
 }
-}
-
-NYRA_TEST()
+#endif

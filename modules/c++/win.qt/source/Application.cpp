@@ -19,31 +19,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/time/System.h>
-#include <nyra/test/Test.h>
+#include <nyra/win/qt/Application.h>
 
 namespace nyra
 {
-namespace time
+namespace win
 {
-TEST(System, Sleep)
+namespace qt
 {
-    const size_t wait = 150;
-    const size_t tick = epoch();
-    sleep(wait);
-    const size_t tock = epoch();
-    const size_t elapsed = tock - tick;
-    EXPECT_LT(elapsed, wait + 2);
-    EXPECT_GT(elapsed, wait - 2);
+//===========================================================================//
+Application::Application() :
+    mArgv(2),
+    mArgc(mArgv.size() - 1)
+{
+    // This const cast may look dangerous, but it will never realistically
+    // change. In a "real" application, this would represent the name
+    // of the application. The upside with this cast is that it suppresses
+    // a warning.
+    // WARNING: mArgv should not be changed after this. We could try to make
+    //          them const, but QApplication takes in non-const values so
+    //          we would need another awkward const_cast if we do that.
+    mArgv.push_back(const_cast<char*>("NyraApplication"));
+    mArgv.push_back(nullptr);
 }
 
-TEST(System, Epoch)
+//===========================================================================//
+void Application::intializeGlobal()
 {
-    const size_t mills = epoch();
-    // TODO: This is a really bad test
-    EXPECT_NE(mills, static_cast<size_t>(0));
-}
-}
+    mApplication.reset(new QApplication(mArgc, &mArgv[0]));
 }
 
-NYRA_TEST()
+//===========================================================================//
+void Application::shutdownGlobal()
+{
+    mApplication.reset(nullptr);
+}
+}
+}
+}

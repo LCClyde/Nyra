@@ -19,17 +19,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/sfml/Window.h>
+#include <nyra/win/qt/Window.h>
+#include <nyra/win/qt/Application.h>
 
 namespace nyra
 {
 namespace win
 {
-namespace sfml
+namespace qt
 {
 //===========================================================================//
 Window::Window() :
-    mWindow(new sf::RenderWindow())
+    mHandle(this)
 {
 }
 
@@ -37,21 +38,33 @@ Window::Window() :
 Window::Window(const std::string& name,
                const math::Vector2U& size,
                const math::Vector2I& position) :
-    mWindow(new sf::RenderWindow())
+    mHandle(this)
 {
     load(name, size, position);
 }
 
 //===========================================================================//
+Window::Window(Window&& other) :
+    mHandle(other.mHandle),
+    mWindow(std::move(other.mWindow))
+{
+    // TODO: Should we zero out the handle? Since the pointer will be null,
+    //       it should not matter. I would rather keep the handle const
+    //       instead.
+}
+
+//===========================================================================//
+Window::~Window()
+{
+    close();
+}
+
+//===========================================================================//
 void Window::update()
 {
-    sf::Event event;
-    while (mWindow->pollEvent(event))
+    if (mWindow.get())
     {
-        if (event.type == sf::Event::Closed)
-        {
-            mWindow->close();
-        }
+        QApplication::instance()->sendPostedEvents(mWindow.get());
     }
 }
 
@@ -60,15 +73,23 @@ void Window::load(const std::string& name,
                   const math::Vector2U& size,
                   const math::Vector2I& position)
 {
-    mWindow->create(sf::VideoMode(size.x, size.y), name);
-    mWindow->setPosition(position.toThirdParty<sf::Vector2i>());
-    mName = name;
+    Application::Instance::get().initialize(mHandle);
+    mWindow.reset(new QMainWindow());
+    mWindow->show();
+    setName(name);
+    setSize(size);
+    setPosition(position);
 }
 
 //===========================================================================//
-size_t Window::getID() const
+void Window::close()
 {
-    return reinterpret_cast<size_t>(mWindow->getSystemHandle());
+    if (mWindow.get())
+    {
+        mWindow->close();
+        mWindow.reset(nullptr);
+        Application::Instance::get().shutdown(mHandle);
+    }
 }
 }
 }
