@@ -28,6 +28,18 @@ macro(ModList list prefix suffix outputName)
     set(${outputName} ${output})
 endmacro()
 
+macro(BuildInc includes outdir libname)
+    foreach(INC ${includes})
+        get_filename_component(INC_NAME ${INC} NAME)
+        string(REPLACE . - INC_TARGET_SUFFIX ${INC_NAME})
+        set(INC_TARGET_NAME ${libname}-${INC_TARGET_SUFFIX})
+        add_custom_target(${INC_TARGET_NAME}
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                       ${INC} ${outdir}/${INC_NAME})
+        add_dependencies(${libname} ${INC_TARGET_NAME})
+    endforeach()
+endmacro()
+
 macro(GetDeps pathname)
     # Clear out MOD and TEST DEPS
     set(MOD_DEPS "")
@@ -59,13 +71,7 @@ macro(BuildModule name libname deps pathname)
 
         # Copy the headers
         string(REPLACE . / INC_DIR ${name})
-
-        # TODO: This forces a rebuild of everything. Find a way to only copy
-        #       if headers changed.
-        add_custom_target(${libname}-inc
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${pathname}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${INC_DIR})
-        add_dependencies(${libname} ${libname}-inc)
+        BuildInc("${INCLUDES}" ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${INC_DIR} ${libname})
 endmacro()
 
 macro(BuildTests libname testlibname pathname outdir)
