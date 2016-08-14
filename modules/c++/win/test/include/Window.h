@@ -24,6 +24,8 @@
 
 #include <nyra/math/Vector2.h>
 #include <nyra/time/System.h>
+#include <nyra/test/Archive.h>
+#include <nyra/test/Stdout.h>
 
 namespace nyra
 {
@@ -36,14 +38,14 @@ namespace test
  *  \tparam T The window type to test
  */
 template <typename T>
-class TestWindow : public ::testing::Test
+class Window : public ::testing::Test
 {
 public:
     /*
      *  \func Constructor
      *  \brief Sets up the TestWindow and the default and expected values
      */
-    TestWindow() :
+    Window() :
         ::testing::Test(),
         defaultName("Default Name"),
         defaultSize(320, 240),
@@ -97,7 +99,7 @@ public:
      *
      *  \return The updated name of the window.
      */
-    std::string testName()
+    std::string name()
     {
         mWindow.setName(expectedName);
 
@@ -114,7 +116,7 @@ public:
      *
      *  \return The updated size of the window.
      */
-    math::Vector2U testSize()
+    math::Vector2U size()
     {
         mWindow.setSize(expectedSize);
         update();
@@ -129,7 +131,7 @@ public:
      *
      *  \return The updated name of the window.
      */
-    math::Vector2I testPosition()
+    math::Vector2I position()
     {
         mWindow.setPosition(expectedPosition);
         update();
@@ -145,7 +147,7 @@ public:
      *
      *  \return True if the window was closed
      */
-    bool testClose()
+    bool close()
     {
         mWindow.close();
         const bool results = !(mWindow.isOpen());
@@ -159,7 +161,7 @@ public:
      *         and reopened.
      *         USE: EXPECT_NE(testID(), previousID);
      */
-    size_t testID()
+    size_t id()
     {
         previousID = mWindow.getID();
         mWindow.close();
@@ -175,13 +177,13 @@ public:
      *              EXPECT_EQ(window.getSize(), expectedSize);
      *              EXPECT_EQ(window.getPosition(), expectedPosition);
      */
-    T testArchiveOpen()
+    T archiveOpen()
     {
         mWindow.setName(expectedName);
         mWindow.setSize(expectedSize);
         mWindow.setPosition(expectedPosition);
         update();
-        return testArchive(mWindow);
+        return archive(mWindow);
     }
 
     /*
@@ -189,10 +191,10 @@ public:
      *  \brief Test archiving a closed window.
      *         USE: EXPECT_FALSE(testArchiveClosed().isOpen());
      */
-    T testArchiveClosed()
+    T archiveClosed()
     {
         mWindow.close();
-        T window = testArchive(mWindow);
+        T window = archive(mWindow);
         reset();
         return window;
     }
@@ -203,11 +205,11 @@ public:
      *         USE: EXPECT_EQ(testStdoutOpen(), expectedStdoutOpen);
      *
      */
-    std::string testStdoutOpen()
+    std::string stdoutOpen()
     {
         // Make sure the window is set to defaults
         reset();
-        return testStdout(mWindow);
+        return stdout(mWindow);
     }
 
     /*
@@ -217,10 +219,10 @@ public:
      *         USE: EXPECT_EQ(testStdoutClosed(), expectedStdoutClosed)
      *
      */
-    std::string testStdoutClosed()
+    std::string stdoutClosed()
     {
         mWindow.close();
-        const std::string results = testStdout(mWindow);
+        const std::string results = stdout(mWindow);
         reset();
         return results;
     }

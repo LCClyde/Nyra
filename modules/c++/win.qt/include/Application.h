@@ -40,6 +40,9 @@ namespace qt
  *         with them, but before static variables are deleted. The
  *         complexities of these interactions are hidden from the user in
  *         this class.
+ *         TODO: This class does not have archive methods. As of now they
+ *         seem unnecessary as its state is dependent on the state of
+ *         Window objects.
  */
 class Application : public pattern::GlobalHandler
 {
@@ -57,10 +60,34 @@ public:
      */
     typedef pattern::Singleton<Application> Instance;
 
+    /*
+     *  \func get
+     *  \brief Gives access to the underlying QApplication.
+     *
+     *  \return The QApplication. This will be nullptr if no Qt is running.
+     */
+    QApplication* get()
+    {
+        return mApplication.get();
+    }
+
+    /*
+     *  \func get
+     *  \brief Gives access to the underlying QApplication.
+     *
+     *  \return The QApplication. This will be nullptr if no Qt is running.
+     */
+    const QApplication* get() const
+    {
+        return mApplication.get();
+    }
+
 private:
     void intializeGlobal() override;
 
     void shutdownGlobal() override;
+
+    friend std::ostream& operator<<(std::ostream& os, const Application& app);
 
     std::vector<char*> mArgv;
     int mArgc;

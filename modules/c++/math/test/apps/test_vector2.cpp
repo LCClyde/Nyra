@@ -185,14 +185,14 @@ TEST(Vector2, Archive)
 {
     nyra::math::Vector2F input(1.234f, 5.678);
     nyra::math::Vector2F output =
-            nyra::test::testArchive<nyra::math::Vector2F>(input);
+            nyra::test::archive<nyra::math::Vector2F>(input);
     EXPECT_EQ(input, output);
 }
 
 TEST(Vector2, Stdout)
 {
     nyra::math::Vector2F input(1.234f, 5.678);
-    std::string out = nyra::test::testStdout(input);
+    std::string out = nyra::test::stdout(input);
     EXPECT_EQ(out, "x=1.234 y=5.678");
 }
 }

@@ -64,7 +64,7 @@ void Window::update()
 {
     if (mWindow.get())
     {
-        QApplication::instance()->sendPostedEvents(mWindow.get());
+        Application::Instance::get().get()->sendPostedEvents(mWindow.get());
     }
 }
 

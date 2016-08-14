@@ -24,8 +24,6 @@
 
 #include <nyra/core/Archive.h>
 #include <nyra/math/Vector2.h>
-#include <nyra/test/TestArchive.h>
-#include <nyra/test/TestStdout.h>
 
 namespace nyra
 {

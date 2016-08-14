@@ -54,6 +54,21 @@ void Application::shutdownGlobal()
 {
     mApplication.reset(nullptr);
 }
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os, const Application& app)
+{
+    os << "Application state: ";
+    if (app.get())
+    {
+        os << "running";
+    }
+    else
+    {
+        os << "stopped";
+    }
+    return os;
+}
 }
 }
 }

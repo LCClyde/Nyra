@@ -70,5 +70,12 @@ void GlobalHandler::shutdown(const void* handle)
         shutdownGlobal();
     }
 }
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os, const GlobalHandler& handler)
+{
+    os << "Abstract Global Handler";
+    return os;
+}
 }
 }

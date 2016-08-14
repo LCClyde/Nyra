@@ -21,7 +21,7 @@
  */
 #include <nyra/win/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/TestWindow.h>
+#include <nyra/test/Window.h>
 
 namespace
 {
@@ -115,38 +115,38 @@ namespace nyra
 {
 namespace win
 {
-class TestMockWindow : public nyra::test::TestWindow<MockWindow>
+class TestMockWindow : public test::Window<MockWindow>
 {
 };
 
 TEST_F(TestMockWindow, GetSet)
 {
-    EXPECT_EQ(testName(), expectedName);
-    EXPECT_EQ(testSize(), expectedSize);
-    EXPECT_EQ(testPosition(), expectedPosition);
+    EXPECT_EQ(name(), expectedName);
+    EXPECT_EQ(size(), expectedSize);
+    EXPECT_EQ(position(), expectedPosition);
 }
 
 TEST_F(TestMockWindow, Close)
 {
-    EXPECT_NE(testID(), previousID);
-    EXPECT_TRUE(testClose());
+    EXPECT_NE(id(), previousID);
+    EXPECT_TRUE(close());
 }
 
 TEST_F(TestMockWindow, Archive)
 {
 
-    MockWindow window = testArchiveOpen();
+    MockWindow window = archiveOpen();
     EXPECT_EQ(window.getName(), expectedName);
     EXPECT_EQ(window.getSize(), expectedSize);
     EXPECT_EQ(window.getPosition(), expectedPosition);
 
-    EXPECT_FALSE(testArchiveClosed().isOpen());
+    EXPECT_FALSE(archiveClosed().isOpen());
 }
 
 TEST_F(TestMockWindow, Stdout)
 {
-    EXPECT_EQ(testStdoutOpen(), expectedStdoutOpen);
-    EXPECT_EQ(testStdoutClosed(), expectedStdoutClosed);
+    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
 }
 }
 }

@@ -42,7 +42,7 @@ namespace test
  *  \return The round trip object.
  */
 template <typename T>
-T testArchive(const T& input, const std::string& tempPathname = "temp")
+T archive(const T& input, const std::string& tempPathname = "temp")
 {
     core::writeArchive<T>(input, tempPathname);
     T output = core::readArchive<T>(tempPathname);

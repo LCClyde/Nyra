@@ -19,32 +19,42 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_CORE_TEST_STD_OUT_H__
-#define __NYRA_CORE_TEST_STD_OUT_H__
+#include <nyra/test/Test.h>
+#include <nyra/pattern/Singleton.h>
 
-#include <string>
-#include <gtest/gtest.h>
+namespace
+{
+class MockSingleton
+{
+public:
+    MockSingleton() :
+        count(0)
+    {
+    }
+
+    size_t count;
+
+    typedef nyra::pattern::Singleton<MockSingleton> Instance;
+};
+}
 
 namespace nyra
 {
-namespace test
+namespace pattern
 {
-/*
- *  \func testStdout
- *  \brief Gets the stdout string. Used to test that the ostream is correct.
- *
- *  \tparam T The data type to test
- *  \param obj The object to stream out.
- *  \return The string sent to stdout.
- */
-template <typename T>
-std::string testStdout(const T& obj = T())
+TEST(Singleton, Singleton)
 {
-    testing::internal::CaptureStdout();
-    std::cout << obj;
-    return testing::internal::GetCapturedStdout();
+    EXPECT_EQ(MockSingleton::Instance::get().count, static_cast<size_t>(0));
+    EXPECT_EQ(++MockSingleton::Instance::get().count, static_cast<size_t>(1));
+    MockSingleton::Instance::get().count = 100;
+    EXPECT_EQ(MockSingleton::Instance::get().count, static_cast<size_t>(100));
+    MockSingleton local;
+    EXPECT_EQ(local.count, static_cast<size_t>(0));
+    local.count = 256;
+    EXPECT_EQ(local.count, static_cast<size_t>(256));
+    EXPECT_EQ(MockSingleton::Instance::get().count, static_cast<size_t>(100));
 }
 }
 }
 
-#endif
+NYRA_TEST()

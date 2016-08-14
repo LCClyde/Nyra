@@ -19,26 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_TEST_TEST_H__
-#define __NYRA_TEST_TEST_H__
+#ifndef __NYRA_CORE_TEST_STD_OUT_H__
+#define __NYRA_CORE_TEST_STD_OUT_H__
 
+#include <string>
 #include <gtest/gtest.h>
 
-// Convenience includes
-#include <nyra/test/Archive.h>
-#include <nyra/test/Stdout.h>
-
+namespace nyra
+{
+namespace test
+{
 /*
- *  \macro NYRA_TEST
- *  \brief Adds main to the unittest. This also gives us a single place to
- *         update unittests globally.
+ *  \func testStdout
+ *  \brief Gets the stdout string. Used to test that the ostream is correct.
+ *
+ *  \tparam T The data type to test
+ *  \param obj The object to stream out.
+ *  \return The string sent to stdout.
  */
-#define NYRA_TEST() \
-int main(int argc, char **argv) \
-{ \
-    ::testing::InitGoogleTest(&argc, argv); \
-    return RUN_ALL_TESTS(); \
+template <typename T>
+std::string stdout(const T& obj = T())
+{
+    testing::internal::CaptureStdout();
+    std::cout << obj;
+    return testing::internal::GetCapturedStdout();
+}
+}
 }
 
 #endif
-

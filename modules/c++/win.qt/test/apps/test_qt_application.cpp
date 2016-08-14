@@ -19,26 +19,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_TEST_TEST_H__
-#define __NYRA_TEST_TEST_H__
-
-#include <gtest/gtest.h>
-
-// Convenience includes
-#include <nyra/test/Archive.h>
+#include <nyra/test/Test.h>
 #include <nyra/test/Stdout.h>
+#include <nyra/win/qt/Application.h>
 
-/*
- *  \macro NYRA_TEST
- *  \brief Adds main to the unittest. This also gives us a single place to
- *         update unittests globally.
- */
-#define NYRA_TEST() \
-int main(int argc, char **argv) \
-{ \
-    ::testing::InitGoogleTest(&argc, argv); \
-    return RUN_ALL_TESTS(); \
+namespace nyra
+{
+namespace win
+{
+namespace qt
+{
+TEST(Application, Application)
+{
+    Application app;
+    EXPECT_EQ(app.get(), nullptr);
+    app.initialize(reinterpret_cast<void*>(1));
+    EXPECT_NE(app.get(), nullptr);
+    app.shutdown(reinterpret_cast<void*>(1));
+    EXPECT_EQ(app.get(), nullptr);
+    app.initialize(reinterpret_cast<void*>(2));
+    EXPECT_NE(app.get(), nullptr);
+    app.initialize(reinterpret_cast<void*>(3));
+    EXPECT_NE(app.get(), nullptr);
+    app.shutdown(reinterpret_cast<void*>(2));
+    EXPECT_NE(app.get(), nullptr);
+    app.shutdown(reinterpret_cast<void*>(3));
+    EXPECT_EQ(app.get(), nullptr);
 }
 
-#endif
+TEST(Application, Stdout)
+{
+    Application app;
+    EXPECT_EQ(test::stdout(app), "Application state: stopped");
+    app.initialize(reinterpret_cast<void*>(1));
+    EXPECT_EQ(test::stdout(app), "Application state: running");
+    app.shutdown(reinterpret_cast<void*>(1));
+    EXPECT_EQ(test::stdout(app), "Application state: stopped");
+}
+}
+}
+}
 
+NYRA_TEST()

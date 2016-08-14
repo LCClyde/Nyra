@@ -37,6 +37,7 @@ macro(GetDeps pathname)
         add_subdirectory(${pathname})
     endif()
 
+    ModList("${MOD_DEPS}" nyra- -test-cpp MOD_TEST_DEPS)
     ModList("${MOD_DEPS}" nyra- -cpp MOD_DEPS)
 endmacro()
 
@@ -58,6 +59,9 @@ macro(BuildModule name libname deps pathname)
 
         # Copy the headers
         string(REPLACE . / INC_DIR ${name})
+
+        # TODO: This forces a rebuild of everything. Find a way to only copy
+        #       if headers changed.
         add_custom_target(${libname}-inc
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${pathname}/include/ ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${INC_DIR})
@@ -78,6 +82,7 @@ macro(BuildTests libname testlibname pathname outdir)
                                       ${GoogleTest}
                                       nyra-core-test-cpp
                                       ${MOD_DEPS}
+                                      ${MOD_TEST_DEPS}
                                       ${EXT_DEPS}
                                       ${CMAKE_THREAD_LIBS_INIT})
                 add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})

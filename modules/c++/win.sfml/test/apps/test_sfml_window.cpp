@@ -21,7 +21,7 @@
  */
 #include <nyra/win/sfml/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/TestWindow.h>
+#include <nyra/test/Window.h>
 
 namespace nyra
 {
@@ -29,62 +29,62 @@ namespace win
 {
 namespace sfml
 {
-class TestSFMLWindow : public test::TestWindow<Window>
+class TestSFMLWindow : public test::Window<Window>
 {
 };
 
 TEST_F(TestSFMLWindow, GetSet)
 {
-    EXPECT_EQ(testName(), expectedName);
-    EXPECT_EQ(testSize(), expectedSize);
+    EXPECT_EQ(name(), expectedName);
+    EXPECT_EQ(size(), expectedSize);
 #ifndef NYRA_POSIX
-    EXPECT_EQ(testPosition(), expectedPosition);
+    EXPECT_EQ(position(), expectedPosition);
 #else
     // SFML get position is wrong on Linux
     std::cout << "\nWARNING: SFML Window position is incorrect on Linux\n";
     std::cout << "Expected Position: " << expectedPosition << "\n";
-    std::cout << "Actual Position: " << testPosition() << "\n\n";
+    std::cout << "Actual Position: " << position() << "\n\n";
 #endif
 }
 
 TEST_F(TestSFMLWindow, Close)
 {
-    EXPECT_NE(testID(), previousID);
-    EXPECT_TRUE(testClose());
+    EXPECT_NE(id(), previousID);
+    EXPECT_TRUE(close());
 }
 
 TEST_F(TestSFMLWindow, Archive)
 {
-    Window window = testArchiveOpen();
+    sfml::Window window = archiveOpen();
     EXPECT_EQ(window.getName(), expectedName);
     EXPECT_EQ(window.getSize(), expectedSize);
 #ifndef NYRA_POSIX
-    EXPECT_EQ(testPosition(), expectedPosition);
+    EXPECT_EQ(window.getPosition(), expectedPosition);
 #else
     // SFML get position is wrong on Linux
     std::cout << "\nWARNING: SFML Window position is incorrect on Linux\n";
     std::cout << "Expected Position: " << expectedPosition << "\n";
-    std::cout << "Actual Position: " << testPosition() << "\n\n";
+    std::cout << "Actual Position: " << window.getPosition() << "\n\n";
 #endif
 
-    EXPECT_FALSE(testArchiveClosed().isOpen());
+    EXPECT_FALSE(archiveClosed().isOpen());
 }
 
 TEST_F(TestSFMLWindow, Stdout)
 {
 #ifndef NYRA_POSIX
-    EXPECT_EQ(testStdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
 #else
-    const std::string actualStdout = testStdoutOpen();
+    const std::string actualStdout = stdoutOpen();
 
     // SFML get position is wrong on Linux
     std::cout << "\nWARNING: SFML Window position is incorrect on Linux\n";
     std::cout << "\nExpected Stdout:\n" << expectedStdoutOpen << "\n";
     std::cout << "\nActual Stdout:\n" << actualStdout << "\n\n";
 
-    EXPECT_EQ(testStdoutOpen().substr(0, 37), expectedStdoutOpen.substr(0, 37));
+    EXPECT_EQ(stdoutOpen().substr(0, 37), expectedStdoutOpen.substr(0, 37));
 #endif
-    EXPECT_EQ(testStdoutClosed(), expectedStdoutClosed);
+    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
 }
 }
 }

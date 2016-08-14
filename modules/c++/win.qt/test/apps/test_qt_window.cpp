@@ -21,7 +21,7 @@
  */
 #include <nyra/win/qt/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/TestWindow.h>
+#include <nyra/test/Window.h>
 
 namespace nyra
 {
@@ -29,15 +29,15 @@ namespace win
 {
 namespace qt
 {
-class TestQtWindow : public test::TestWindow<Window>
+class TestQtWindow : public test::Window<Window>
 {
 };
 
 TEST_F(TestQtWindow, GetSet)
 {
-    EXPECT_EQ(testName(), expectedName);
-    EXPECT_EQ(testSize(), expectedSize);
-    EXPECT_EQ(testPosition(), expectedPosition);
+    EXPECT_EQ(name(), expectedName);
+    EXPECT_EQ(size(), expectedSize);
+    EXPECT_EQ(position(), expectedPosition);
 }
 
 TEST_F(TestQtWindow, Close)
@@ -45,24 +45,24 @@ TEST_F(TestQtWindow, Close)
     // TODO: It looks like Qt will use the same window ID even though
     //       I destroy the object. This needs to be verified on other
     //       platforms.
-    EXPECT_EQ(testID(), previousID);
-    EXPECT_TRUE(testClose());
+    EXPECT_EQ(id(), previousID);
+    EXPECT_TRUE(close());
 }
 
 TEST_F(TestQtWindow, Archive)
 {
-    Window window = testArchiveOpen();
+    qt::Window window = archiveOpen();
     EXPECT_EQ(window.getName(), expectedName);
     EXPECT_EQ(window.getSize(), expectedSize);
-    EXPECT_EQ(testPosition(), expectedPosition);
+    EXPECT_EQ(window.getPosition(), expectedPosition);
 
-    EXPECT_FALSE(testArchiveClosed().isOpen());
+    EXPECT_FALSE(archiveClosed().isOpen());
 }
 
 TEST_F(TestQtWindow, Stdout)
 {
-    EXPECT_EQ(testStdoutOpen(), expectedStdoutOpen);
-    EXPECT_EQ(testStdoutClosed(), expectedStdoutClosed);
+    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
 }
 }
 }

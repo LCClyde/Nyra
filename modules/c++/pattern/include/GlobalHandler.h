@@ -23,6 +23,7 @@
 #define __NYRA_PATTERN_GLOBAL_HANDLER_H__
 
 #include <unordered_set>
+#include <ostream>
 
 namespace nyra
 {
@@ -34,6 +35,9 @@ namespace pattern
  *         library with global init and shutdown calls. The common interface
  *         should not be required to call these. They should be hidden from
  *         user.
+ *         NOTE: This class does not have the ability to archive as it should
+ *         instead recreate itself as its dependencies are built back up
+ *         during a deserialize.
  */
 class GlobalHandler
 {
@@ -83,6 +87,11 @@ protected:
     virtual void shutdownGlobal() = 0;
 
 private:
+    // There is nothing meaningful here. It would be recommended to override
+    // this functionality in super classes.
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const GlobalHandler& handler);
+
     std::unordered_set<const void*> mHandles;
 };
 }
