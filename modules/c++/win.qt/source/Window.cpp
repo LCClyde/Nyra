@@ -29,34 +29,11 @@ namespace win
 namespace qt
 {
 //===========================================================================//
-Window::Window() :
-    mHandle(this)
-{
-}
-
-//===========================================================================//
 Window::Window(const std::string& name,
                const math::Vector2U& size,
-               const math::Vector2I& position) :
-    mHandle(this)
+               const math::Vector2I& position)
 {
     load(name, size, position);
-}
-
-//===========================================================================//
-Window::Window(Window&& other) :
-    mHandle(other.mHandle),
-    mWindow(std::move(other.mWindow))
-{
-    // TODO: Should we zero out the handle? Since the pointer will be null,
-    //       it should not matter. I would rather keep the handle const
-    //       instead.
-}
-
-//===========================================================================//
-Window::~Window()
-{
-    close();
 }
 
 //===========================================================================//
@@ -64,7 +41,7 @@ void Window::update()
 {
     if (mWindow.get())
     {
-        Application::Instance::get().get()->sendPostedEvents(mWindow.get());
+        getGlobalInstance().get()->sendPostedEvents(mWindow.get());
     }
 }
 
@@ -73,7 +50,6 @@ void Window::load(const std::string& name,
                   const math::Vector2U& size,
                   const math::Vector2I& position)
 {
-    Application::Instance::get().initialize(mHandle);
     mWindow.reset(new QMainWindow());
     mWindow->show();
     setName(name);
@@ -88,7 +64,6 @@ void Window::close()
     {
         mWindow->close();
         mWindow.reset(nullptr);
-        Application::Instance::get().shutdown(mHandle);
     }
 }
 }

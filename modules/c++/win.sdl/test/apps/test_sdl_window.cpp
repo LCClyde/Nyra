@@ -19,42 +19,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <nyra/win/sdl/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/win/qt/Application.h>
+#include <nyra/test/Window.h>
 
 namespace nyra
 {
 namespace win
 {
-namespace qt
+namespace sdl
 {
-TEST(Application, Application)
+class TestSDLWindow : public test::Window<Window>
 {
-    Application app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
+};
+
+TEST_F(TestSDLWindow, GetSet)
+{
+    EXPECT_EQ(name(), expectedName);
+    EXPECT_EQ(size(), expectedSize);
+    EXPECT_EQ(position(), expectedPosition);
 }
 
-TEST(Application, Stdout)
+TEST_F(TestSDLWindow, Close)
 {
-    Application app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
+    EXPECT_NE(id(), previousID);
+    EXPECT_TRUE(close());
+}
+
+TEST_F(TestSDLWindow, Archive)
+{
+    sdl::Window window = archiveOpen();
+    EXPECT_EQ(window.getName(), expectedName);
+    EXPECT_EQ(window.getSize(), expectedSize);
+    EXPECT_EQ(window.getPosition(), expectedPosition);
+
+    EXPECT_FALSE(archiveClosed().isOpen());
+}
+
+TEST_F(TestSDLWindow, Stdout)
+{
+    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
 }
 }
 }

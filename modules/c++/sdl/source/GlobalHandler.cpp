@@ -19,56 +19,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/qt/Application.h>
+#include <nyra/sdl/GlobalHandler.h>
+#include <SDL.h>
+
+namespace
+{
+std::string subsystemOstream(uint32_t subsystems, uint32_t target)
+{
+    if (subsystems & target)
+    {
+        return "running";
+    }
+    return "stopped";
+}
+}
 
 namespace nyra
 {
-namespace win
-{
-namespace qt
+namespace sdl
 {
 //===========================================================================//
-Application::Application() :
-    mArgv(2),
-    mArgc(mArgv.size() - 1)
+void GlobalHandler::initializeGlobal()
 {
-    // This const cast may look dangerous, but it will never realistically
-    // change. In a "real" application, this would represent the name
-    // of the application. The upside with this cast is that it suppresses
-    // a warning.
-    // WARNING: mArgv should not be changed after this. We could try to make
-    //          them const, but QApplication takes in non-const values so
-    //          we would need another awkward const_cast if we do that.
-    mArgv.push_back(const_cast<char*>("NyraApplication"));
-    mArgv.push_back(nullptr);
-}
-
-//===========================================================================//
-void Application::initializeGlobal()
-{
-    mApplication.reset(new QApplication(mArgc, &mArgv[0]));
-}
-
-//===========================================================================//
-void Application::shutdownGlobal()
-{
-    mApplication.reset(nullptr);
-}
-
-//===========================================================================//
-std::ostream& operator<<(std::ostream& os, const Application& app)
-{
-    os << "Application state: ";
-    if (app.get())
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        os << "running";
+        throw std::runtime_error("SDL could not initialize. SDL_Error: " +
+                std::string(SDL_GetError()));
     }
-    else
-    {
-        os << "stopped";
-    }
+}
+
+//===========================================================================//
+void GlobalHandler::shutdownGlobal()
+{
+    SDL_Quit();
+}
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os, const GlobalHandler& handler)
+{
+    const uint32_t subsystems = SDL_WasInit(SDL_INIT_EVERYTHING);
+    os << "SDL Global Handler Status:\n"
+       << "  Audio: " << subsystemOstream(subsystems, SDL_INIT_AUDIO) << "\n"
+       << "  Events: " << subsystemOstream(subsystems, SDL_INIT_EVENTS) << "\n"
+       << "  Game Controller: "
+       << subsystemOstream(subsystems, SDL_INIT_GAMECONTROLLER) << "\n"
+       << "  Haptic: " << subsystemOstream(subsystems, SDL_INIT_HAPTIC) << "\n"
+       << "  Joystick: "
+       << subsystemOstream(subsystems, SDL_INIT_JOYSTICK) << "\n"
+       << "  No Parachute: "
+       << subsystemOstream(subsystems, SDL_INIT_NOPARACHUTE) << "\n"
+       << "  Timer: " << subsystemOstream(subsystems, SDL_INIT_TIMER) << "\n"
+       << "  Video: " << subsystemOstream(subsystems, SDL_INIT_VIDEO);
     return os;
-}
 }
 }
 }

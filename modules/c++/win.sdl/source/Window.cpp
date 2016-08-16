@@ -19,55 +19,66 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/qt/Application.h>
+#include <nyra/win/sdl/Window.h>
 
 namespace nyra
 {
 namespace win
 {
-namespace qt
+namespace sdl
 {
 //===========================================================================//
-Application::Application() :
-    mArgv(2),
-    mArgc(mArgv.size() - 1)
+Window::Window() :
+    mWindow(nullptr)
 {
-    // This const cast may look dangerous, but it will never realistically
-    // change. In a "real" application, this would represent the name
-    // of the application. The upside with this cast is that it suppresses
-    // a warning.
-    // WARNING: mArgv should not be changed after this. We could try to make
-    //          them const, but QApplication takes in non-const values so
-    //          we would need another awkward const_cast if we do that.
-    mArgv.push_back(const_cast<char*>("NyraApplication"));
-    mArgv.push_back(nullptr);
 }
 
 //===========================================================================//
-void Application::initializeGlobal()
+Window::Window(const std::string& name,
+               const math::Vector2U& size,
+               const math::Vector2I& position) :
+    mWindow(nullptr)
 {
-    mApplication.reset(new QApplication(mArgc, &mArgv[0]));
+    load(name, size, position);
 }
 
 //===========================================================================//
-void Application::shutdownGlobal()
+Window::~Window()
 {
-    mApplication.reset(nullptr);
+    close();
 }
 
 //===========================================================================//
-std::ostream& operator<<(std::ostream& os, const Application& app)
+void Window::load(const std::string& name,
+                  const math::Vector2U& size,
+                  const math::Vector2I& position)
 {
-    os << "Application state: ";
-    if (app.get())
+    mWindow = SDL_CreateWindow(name.c_str(),
+                               position.x,
+                               position.y,
+                               size.x,
+                               size.y,
+                               SDL_WINDOW_SHOWN);
+}
+
+//===========================================================================//
+void Window::close()
+{
+    SDL_DestroyWindow(mWindow);
+    mWindow = nullptr;
+}
+
+//===========================================================================//
+void Window::update()
+{
+    SDL_Event event;
+    while(SDL_PollEvent(&event) != 0)
     {
-        os << "running";
+        if(event.type == SDL_QUIT)
+        {
+            close();
+        }
     }
-    else
-    {
-        os << "stopped";
-    }
-    return os;
 }
 }
 }

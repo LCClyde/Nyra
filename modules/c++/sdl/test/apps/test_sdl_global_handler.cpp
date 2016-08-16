@@ -20,42 +20,41 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/win/qt/Application.h>
+#include <nyra/sdl/GlobalHandler.h>
 
 namespace nyra
 {
-namespace win
+namespace sdl
 {
-namespace qt
+TEST(GlobalHandler, Stdout)
 {
-TEST(Application, Application)
-{
-    Application app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-}
+    GlobalHandler handler;
+    const std::string expectedOffResults =
+            "SDL Global Handler Status:\n"
+            "  Audio: stopped\n"
+            "  Events: stopped\n"
+            "  Game Controller: stopped\n"
+            "  Haptic: stopped\n"
+            "  Joystick: stopped\n"
+            "  No Parachute: stopped\n"
+            "  Timer: stopped\n"
+            "  Video: stopped";
+    EXPECT_EQ(test::stdout(handler), expectedOffResults);
 
-TEST(Application, Stdout)
-{
-    Application app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
+    handler.initialize();
+    const std::string expectedOnResults =
+            "SDL Global Handler Status:\n"
+            "  Audio: stopped\n"
+            "  Events: running\n"
+            "  Game Controller: stopped\n"
+            "  Haptic: stopped\n"
+            "  Joystick: stopped\n"
+            "  No Parachute: stopped\n"
+            "  Timer: stopped\n"
+            "  Video: running";
+    EXPECT_EQ(test::stdout(handler), expectedOnResults);
+    handler.shutdown();
+    EXPECT_EQ(test::stdout(handler), expectedOffResults);
 }
 }
 }

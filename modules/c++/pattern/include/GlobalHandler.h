@@ -42,6 +42,8 @@ namespace pattern
 class GlobalHandler
 {
 public:
+    GlobalHandler();
+
     /*
      *  \func Destructor
      *  \brief Required for proper inheritance.
@@ -52,11 +54,8 @@ public:
      *  \func initialize
      *  \brief Objects accessing this global object for the first time
      *         should call this to add themselves as dependent objects.
-     *
-     *  \param handle The pointer representing the object.
-     *  \throw std::runtime_error If a nullptr is passed in.
      */
-    void initialize(const void* handle);
+    void initialize();
 
     /*
      *  \func shutdown
@@ -65,19 +64,17 @@ public:
      *         When the last object is removed the global object will
      *         receive its shutdown command.
      *
-     *  \param handle The pointer representing the object. This should match
-     *         the same handle that was used during initialize.
-     *  \throw std::runtime_error If a nullptr is passed in.
-     *  \throw std::runtime_error If an unknown pointer is passed.
+     *  \throw std::runtime_error If this is called when the number of known
+     *         handlers is zero.
      */
-    void shutdown(const void* handle);
+    void shutdown();
 
 protected:
     /*
      *  \func initializeGlobal
      *  \brief This should call all the global 3rd party initialization code.
      */
-    virtual void intializeGlobal() = 0;
+    virtual void initializeGlobal() = 0;
 
     /*
      *  \func shutdownGlobal
@@ -92,7 +89,7 @@ private:
     friend std::ostream& operator<<(std::ostream& os,
                                     const GlobalHandler& handler);
 
-    std::unordered_set<const void*> mHandles;
+    size_t mHandles;
 };
 }
 }

@@ -25,7 +25,6 @@
 #include <memory>
 #include <QApplication>
 #include <nyra/pattern/GlobalHandler.h>
-#include <nyra/pattern/Singleton.h>
 
 namespace nyra
 {
@@ -54,13 +53,6 @@ public:
     Application();
 
     /*
-     *  \type Instance
-     *  \brief Singleton access for the Application. This needs to be
-     *         accessed globally to match what Qt wants.
-     */
-    typedef pattern::Singleton<Application> Instance;
-
-    /*
      *  \func get
      *  \brief Gives access to the underlying QApplication.
      *
@@ -83,7 +75,7 @@ public:
     }
 
 private:
-    void intializeGlobal() override;
+    void initializeGlobal() override;
 
     void shutdownGlobal() override;
 

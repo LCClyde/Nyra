@@ -42,10 +42,7 @@ TEST_F(TestQtWindow, GetSet)
 
 TEST_F(TestQtWindow, Close)
 {
-    // TODO: It looks like Qt will use the same window ID even though
-    //       I destroy the object. This needs to be verified on other
-    //       platforms.
-    EXPECT_EQ(id(), previousID);
+    EXPECT_NE(id(), previousID);
     EXPECT_TRUE(close());
 }
 

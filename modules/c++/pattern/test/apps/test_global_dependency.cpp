@@ -21,7 +21,7 @@
  */
 #include <nyra/test/Test.h>
 #include <nyra/pattern/GlobalHandler.h>
-#include <nyra/test/Stdout.h>
+#include <nyra/pattern/GlobalDependency.h>
 
 namespace
 {
@@ -48,6 +48,20 @@ protected:
         ++shutdownCalled;
     }
 };
+
+class MockGlobalDependency :
+    public nyra::pattern::GlobalDependency<MockGlobalHandler>
+{
+public:
+    MockGlobalHandler& get()
+    {
+        return getGlobalInstance();
+    }
+};
+
+
+typedef nyra::pattern::Singleton<MockGlobalHandler> GlobalInstance;
+
 }
 
 namespace nyra
@@ -56,45 +70,30 @@ namespace pattern
 {
 TEST(GlobalHandler, InitShutdown)
 {
-    MockGlobalHandler global;
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(0));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    EXPECT_EQ(GlobalInstance::get().initCalled, static_cast<size_t>(0));
+    EXPECT_EQ(GlobalInstance::get().shutdownCalled, static_cast<size_t>(0));
 
-    global.initialize();
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    {
+        MockGlobalDependency dep1;
+        EXPECT_EQ(GlobalInstance::get().initCalled, static_cast<size_t>(1));
+        EXPECT_EQ(GlobalInstance::get().shutdownCalled, static_cast<size_t>(0));
 
-    global.initialize();
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+        MockGlobalDependency dep2;
+        EXPECT_EQ(GlobalInstance::get().initCalled, static_cast<size_t>(1));
+        EXPECT_EQ(GlobalInstance::get().shutdownCalled, static_cast<size_t>(0));
+    }
 
-    global.shutdown();
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    EXPECT_EQ(GlobalInstance::get().initCalled, static_cast<size_t>(1));
+    EXPECT_EQ(GlobalInstance::get().shutdownCalled, static_cast<size_t>(1));
 
-    global.shutdown();
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(1));
+    {
+        MockGlobalDependency dep1;
+        EXPECT_EQ(GlobalInstance::get().initCalled, static_cast<size_t>(2));
+        EXPECT_EQ(GlobalInstance::get().shutdownCalled, static_cast<size_t>(1));
+    }
 
-    global.initialize();
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(2));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(1));
-
-    global.shutdown();
-    EXPECT_EQ(global.initCalled, static_cast<size_t>(2));
-    EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(2));
-}
-
-TEST(GlobalHandler, Throw)
-{
-    MockGlobalHandler global;
-    EXPECT_THROW(global.shutdown(), std::runtime_error);
-}
-
-TEST(GlobalHandler, Stdout)
-{
-    MockGlobalHandler global;
-    EXPECT_EQ(test::stdout(global), "Abstract Global Handler");
+    EXPECT_EQ(GlobalInstance::get().initCalled, static_cast<size_t>(2));
+    EXPECT_EQ(GlobalInstance::get().shutdownCalled, static_cast<size_t>(2));
 }
 }
 }

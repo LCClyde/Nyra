@@ -19,45 +19,33 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/win/qt/Application.h>
+#ifndef __NYRA_SDL_GLOBAL_HANDLER_H__
+#define __NYRA_SDL_GLOBAL_HANDLER_H__
+
+#include <nyra/pattern/GlobalHandler.h>
+
+#include <SDL.h>
 
 namespace nyra
 {
-namespace win
+namespace sdl
 {
-namespace qt
+/*
+ *  \class GlobalHandler
+ *  \brief Handles the SDL global init and shutdown commands. All SDL classes
+ *         should add a GlobalDependency to this class.
+ */
+class GlobalHandler : public pattern::GlobalHandler
 {
-TEST(Application, Application)
-{
-    Application app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-}
+private:
+    void initializeGlobal() override;
 
-TEST(Application, Stdout)
-{
-    Application app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
-}
+    void shutdownGlobal() override;
+
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const GlobalHandler& app);
+};
 }
 }
 
-NYRA_TEST()
+#endif

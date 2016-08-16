@@ -27,45 +27,33 @@ namespace nyra
 namespace pattern
 {
 //===========================================================================//
-void GlobalHandler::initialize(const void* handle)
+GlobalHandler::GlobalHandler() :
+    mHandles(0)
 {
-    // Early out if passing in nullptr
-    if (!handle)
-    {
-        throw std::runtime_error(
-            "Attempting to initialize a GlobalHandler with a nullptr");
-    }
-
-    if (mHandles.size() == 0)
-    {
-        intializeGlobal();
-    }
-
-    if (mHandles.find(handle) == mHandles.end())
-    {
-        mHandles.insert(handle);
-    }
 }
 
 //===========================================================================//
-void GlobalHandler::shutdown(const void* handle)
+void GlobalHandler::initialize()
 {
-    if (!handle)
+    if (mHandles == 0)
+    {
+        initializeGlobal();
+    }
+    ++mHandles;
+}
+
+//===========================================================================//
+void GlobalHandler::shutdown()
+{
+    if (mHandles == 0)
     {
         throw std::runtime_error(
-            "Attempting to shutdown a GlobalHandler with a nullptr");
+            "Attempting to shutdown an uninitialized GlobalHandler\n");
     }
 
-    auto iter = mHandles.find(handle);
-    if (iter == mHandles.end())
-    {
-        throw std::runtime_error(
-            "Removing an unknown handle from a GlobalHandler");
-    }
+    --mHandles;
 
-    mHandles.erase(iter);
-
-    if (mHandles.size() == 0)
+    if (mHandles == 0)
     {
         shutdownGlobal();
     }
