@@ -88,7 +88,7 @@ public:
                          defaultSize,
                          defaultPosition);
         }
-        mWindow.update();
+        update();
     }
 
     /*
@@ -292,7 +292,7 @@ private:
     {
         // Give the window some time to animate in case the operating system
         // has it enabled
-        for (size_t ii = 0; ii < 10; ++ii)
+        for (size_t ii = 0; ii < 5; ++ii)
         {
             time::sleep(10);
             mWindow.update();

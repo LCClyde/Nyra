@@ -104,6 +104,8 @@ public:
      */
     bool isOpen() const override
     {
+        // TODO: This does not take user input into account when closing
+        //       the window.
         return mWindow != nullptr;
     }
 

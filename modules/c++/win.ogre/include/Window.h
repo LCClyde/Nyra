@@ -19,36 +19,40 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_QT_WINDOW_H__
-#define __NYRA_WIN_QT_WINDOW_H__
+#ifndef __NYRA_WIN_OGRE_WINDOW_H__
+#define __NYRA_WIN_OGRE_WINDOW_H__
 
-#include <memory>
-#include <QMainWindow>
+#include <OgreRenderWindow.h>
 #include <nyra/win/Window.h>
+#include <nyra/ogre/GlobalHandler.h>
 #include <nyra/pattern/GlobalDependency.h>
-#include <nyra/win/qt/Application.h>
 
 namespace nyra
 {
 namespace win
 {
-namespace qt
+namespace ogre
 {
 /*
  *  \class Window
- *  \brief Allows easy creation of Qt windows that match the expected
+ *  \brief Allows easy creation of Ogre windows that match the expected
  *         nyra interface for Windows.
+ *         TODO: Ogre windows have massive problems.
+ *               You cannot change the name after creation
+ *               They autocreate a graphics handler with them
+ *               Closing and reopening the window can sometimes lead to
+ *               a seg fault.
+ *               The position of the window is not reported correctly.
+ *               The size of the window is rarely not reported correctly.
+ *               The update is global so there is not fine grain control.
+ *         WARNING: This class should be avoided because of all the issues.
+ *                  Instead use a Qt window.
  */
 class Window : public nyra::win::Window,
-        private nyra::pattern::GlobalDependency<Application>
+        private pattern::GlobalDependency<nyra::ogre::GlobalHandler>
 {
 public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a window. The default constructor will not actually
-     *         open a Window. You must call load to create something.
-     */
-    Window() = default;
+    Window();
 
     /*
      *  \func Constructor
@@ -61,6 +65,20 @@ public:
     Window(const std::string& name,
            const math::Vector2U& size,
            const math::Vector2I& position);
+
+    /*
+     *  \func Constructor
+     *  \brief Move constructor
+     *
+     *  \param other The object to move
+     */
+    Window(Window&& other);
+
+    /*
+     *  \func Destructor
+     *  \brief Closes the window when it falls out of scope.
+     */
+    ~Window();
 
     /*
      *  \func load
@@ -79,9 +97,9 @@ public:
 
     /*
      *  \func update
-     *  \brief Provides Qt specific updates necessary for the OS.
-     *         TODO: This needs to be tested with multiple windows to ensure
-     *         it does not call multiple updates per frame.
+     *  \brief Provides Ogre specific updates necessary for the OS.
+     *         WARNING: Ogre has one common update for all windows. Because
+     *         of this it is recommended to only call this in a window loop.
      */
     void update() override;
 
@@ -89,20 +107,27 @@ public:
      *  \func close
      *  \brief Closes a window. The window should be considered invalid after
      *         being closed.
+     *         WARNING: Ogre can crash if you open and close windows too often.
      */
-    void close() override;
+    void close() override
+    {
+        if (mWindow)
+        {
+            getGlobalInstance().get()->destroyRenderTarget(mWindow);
+            mWindow = nullptr;
+        }
+    }
 
     /*
      *  \func isOpen
      *  \brief Used to determine if a window is open and thus valid.
+     *         WARNING: Ogre can crash if you open and close windows too often.
      *
      *  \return True if the window is currently open.
      */
     bool isOpen() const override
     {
-        // TODO: This does not take user input into account when closing
-        //       the window.
-        return mWindow.get();
+        return mWindow && !mWindow->isClosed();
     }
 
     /*
@@ -113,78 +138,99 @@ public:
      */
     std::string getName() const override
     {
-        return mWindow->windowTitle().toUtf8().constData();
+        return mName;
     }
 
     /*
      *  \func getSize
      *  \brief Gets the size of the window. This represents the client size
      *         not the actual window size.
+     *         WARNING: Rarely Ogre sends out an incorrect size.
      *
      *  \return The client size
      */
     math::Vector2U getSize() const override
     {
-        return math::Vector2U(mWindow->geometry().width(),
-                              mWindow->geometry().height());
+        unsigned int width;
+        unsigned int height;
+        unsigned int depth;
+        int top;
+        int left;
+        mWindow->getMetrics(width, height, depth, left, top);
+        return math::Vector2U(static_cast<uint32_t>(width),
+                              static_cast<uint32_t>(height));
     }
 
     /*
      *  \func getPosition
      *  \brief Gets the window position in pixels from the top left corner of
      *         the primary monitor.
+     *         WARNING: Ogre can send out an incorrect position.
      *
      *  \return The position in pixels
      */
     math::Vector2I getPosition() const override
     {
-        return math::Vector2I(mWindow->x(),
-                              mWindow->y());
+        unsigned int width;
+        unsigned int height;
+        unsigned int depth;
+        int top;
+        int left;
+        mWindow->getMetrics(width, height, depth, left, top);
+        return math::Vector2I(static_cast<int32_t>(left),
+                              static_cast<int32_t>(top));
     }
 
     /*
      *  \func getHandle
      *  \brief Gets the operating system native handle for the window. This
      *         is platform specific.
+     *         TODO: This is wrong on Linux
      *
      *  \return The OS specific window handle.
      */
     size_t getID() const override
     {
-        return static_cast<size_t>(mWindow->winId());
+        void* id = nullptr;
+#ifdef NYRA_WIN32
+        mWindow->getCustomAttribute("HWND", id);
+#else
+        mWindow->getCustomAttribute("GLXWINDOW", id);
+#endif
+        return reinterpret_cast<size_t>(id);
     }
 
     /*
      *  \func getNative
-     *  \brief Gets the underlying Qt object.
+     *  \brief Gets the underlying SDL object.
      *
-     *  \return A QMainWindow representing this window object.
+     *  \return An Ogre object representing this window object.
      */
     const void* getNative() const override
     {
-        return mWindow.get();
+        return mWindow;
     }
 
     /*
      *  \func getNative
      *  \brief Same as above but non-const
      *
-     *  \return An QMainWindow representing this window object.
+     *  \return An Ogre object representing this window object.
      */
     void* getNative() override
     {
-        return mWindow.get();
+        return mWindow;
     }
 
     /*
      *  \func setName
-     *  \brief Sets the name (title) of the window.
+     *  \brief Ogre does not allow changing the window name.
+     *         TODO: Find a way to do this with the window handle.
      *
      *  \param name The desired name.
      */
     void setName(const std::string& name) override
     {
-        mWindow->setWindowTitle(name.c_str());
     }
 
     /*
@@ -207,11 +253,12 @@ public:
      */
     void setPosition(const math::Vector2I& position) override
     {
-        mWindow->move(position.x, position.y);
+        mWindow->reposition(position.x, position.y);
     }
 
 private:
-    std::unique_ptr<QMainWindow> mWindow;
+    Ogre::RenderWindow* mWindow;
+    std::string mName;
 };
 }
 }

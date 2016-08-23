@@ -19,28 +19,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/core/Archive.h>
 #include <nyra/test/Test.h>
+#include <nyra/ogre/GlobalHandler.h>
 
 namespace nyra
 {
-namespace core
+namespace ogre
 {
-TEST(Archive, Archive)
+TEST(GlobalHandler, Stdout)
 {
-    // Test return version
-    int foo = 12345;
-    writeArchive<int>(foo, "temp");
-    int bar = nyra::core::readArchive<int>("temp");
-    EXPECT_EQ(foo, bar);
-
-    // Test output param version
-    foo = 67890;
-    writeArchive<int>(foo, "temp");
-    readArchive<int>("temp", bar);
-    EXPECT_EQ(foo, bar);
-
-    std::remove("temp");
+    GlobalHandler handler;
+    EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
+    handler.initialize();
+    EXPECT_EQ(test::stdout(handler), "Ogre Root: running");
+    handler.shutdown();
+    EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
 }
 }
 }

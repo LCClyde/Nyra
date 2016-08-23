@@ -19,30 +19,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/core/Archive.h>
-#include <nyra/test/Test.h>
+#include <nyra/pattern/GlobalUpdate.h>
 
 namespace nyra
 {
-namespace core
+namespace pattern
 {
-TEST(Archive, Archive)
+//===========================================================================//
+bool GlobalUpdate::tryUpdate(const void* data)
 {
-    // Test return version
-    int foo = 12345;
-    writeArchive<int>(foo, "temp");
-    int bar = nyra::core::readArchive<int>("temp");
-    EXPECT_EQ(foo, bar);
+    bool ret = false;
 
-    // Test output param version
-    foo = 67890;
-    writeArchive<int>(foo, "temp");
-    readArchive<int>("temp", bar);
-    EXPECT_EQ(foo, bar);
+    // If there is nothing in the data list (meaning it has not been used) or
+    // if the data is already in the list then we have done a loop and should
+    // update.
+    if (mData.empty() || mData.find(data) != mData.end())
+    {
+        ret = true;
+        mData.clear();
+    }
 
-    std::remove("temp");
+    mData.insert(data);
+    return ret;
+}
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os, const GlobalUpdate& update)
+{
+    os << "Global Update";
+    return os;
 }
 }
 }
-
-NYRA_TEST()
