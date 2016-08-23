@@ -19,30 +19,55 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/core/Archive.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_CORE_PATH_H__
+#define __NYRA_CORE_PATH_H__
+
+#include <string>
+#include <vector>
 
 namespace nyra
 {
 namespace core
 {
-TEST(Archive, Archive)
+/*
+ *  \var APPLICATION_PATH
+ *  \brief The absolute path to the executable.
+ *
+ *  \throw If the definition of the application path is not supported on
+ *         your platform.
+ */
+extern const std::string APPLICATION_PATH;
+
+extern const std::string INSTALL_PATH;
+
+/*
+ *  \namespace path
+ *  \brief An extra namespace to help keep common functions outside of the
+ *         nyra::core:: namespace. Other common modules such as str might
+ *         have the functions with the same name.
+ */
+namespace path
 {
-    // Test return version
-    int foo = 12345;
-    writeArchive<int>(foo, "temp");
-    int bar = nyra::core::readArchive<int>("temp");
-    EXPECT_EQ(foo, bar);
+/*
+ *  \func split
+ *  \brief Splits a path into it's parts.
+ *
+ *  \param input The path to split
+ *  \return The parts of the path.
+ */
+std::vector<std::string> split(const std::string& input);
 
-    // Test output param version
-    foo = 67890;
-    writeArchive<int>(foo, "temp");
-    readArchive<int>("temp", bar);
-    EXPECT_EQ(foo, bar);
-
-    std::remove("temp");
+/*
+ *  \func join
+ *  \brief Joins to paths together and normalizes the result.
+ *
+ *  \param start The beginning of the path.
+ *  \param end The desired end of the path.
+ *  \return The joined path.
+ */
+std::string join(const std::string& start, const std::string& end);
 }
 }
 }
 
-NYRA_TEST()
+#endif

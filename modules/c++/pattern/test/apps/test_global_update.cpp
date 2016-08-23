@@ -19,28 +19,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/core/Archive.h>
 #include <nyra/test/Test.h>
+#include <nyra/pattern/GlobalUpdate.h>
 
 namespace nyra
 {
-namespace core
+namespace pattern
 {
-TEST(Archive, Archive)
+TEST(GlobalUpdate, TryUpdate)
 {
-    // Test return version
-    int foo = 12345;
-    writeArchive<int>(foo, "temp");
-    int bar = nyra::core::readArchive<int>("temp");
-    EXPECT_EQ(foo, bar);
+    GlobalUpdate update;
+    EXPECT_TRUE(update.tryUpdate(reinterpret_cast<void*>(1)));
+    EXPECT_FALSE(update.tryUpdate(reinterpret_cast<void*>(2)));
+    EXPECT_TRUE(update.tryUpdate(reinterpret_cast<void*>(1)));
 
-    // Test output param version
-    foo = 67890;
-    writeArchive<int>(foo, "temp");
-    readArchive<int>("temp", bar);
-    EXPECT_EQ(foo, bar);
+    for (size_t ii = 2; ii < 100; ++ii)
+    {
+        EXPECT_FALSE(update.tryUpdate(reinterpret_cast<void*>(ii)));
+    }
+    EXPECT_TRUE(update.tryUpdate(reinterpret_cast<void*>(10)));
+}
 
-    std::remove("temp");
+TEST(GlobalUpdate, Stdout)
+{
+    EXPECT_EQ(test::stdout<GlobalUpdate>(), "Global Update");
 }
 }
 }

@@ -19,30 +19,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/core/Archive.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_OGRE_GLOBAL_HANDLER_H__
+#define __NYRA_OGRE_GLOBAL_HANDLER_H__
+
+#include <memory>
+#include <OgreRoot.h>
+#include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
 {
-namespace core
+namespace ogre
 {
-TEST(Archive, Archive)
+/*
+ *  \class GlobalHandler
+ *  \brief Handles the SDL global init and shutdown commands. All SDL classes
+ *         should add a GlobalDependency to this class.
+ */
+class GlobalHandler : public pattern::GlobalHandler
 {
-    // Test return version
-    int foo = 12345;
-    writeArchive<int>(foo, "temp");
-    int bar = nyra::core::readArchive<int>("temp");
-    EXPECT_EQ(foo, bar);
+public:
+    /*
+     *  \func get
+     *  \brief Retrieves the Ogre Root object,
+     *
+     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     */
+    Ogre::Root* get()
+    {
+        return mRoot.get();
+    }
 
-    // Test output param version
-    foo = 67890;
-    writeArchive<int>(foo, "temp");
-    readArchive<int>("temp", bar);
-    EXPECT_EQ(foo, bar);
+    /*
+     *  \func get
+     *  \brief Retrieves the Ogre Root object,
+     *
+     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     */
+    const Ogre::Root* get() const
+    {
+        return mRoot.get();
+    }
 
-    std::remove("temp");
+private:
+    void initializeGlobal() override;
+
+    void shutdownGlobal() override;
+
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const GlobalHandler& app);
+
+    std::unique_ptr<Ogre::Root> mRoot;
+};
 }
 }
-}
 
-NYRA_TEST()
+#endif

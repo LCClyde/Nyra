@@ -50,15 +50,18 @@ find_library(SFMLGraphics NAMES sfml-graphics PATHS ${CMAKE_LIBRARY_OUTPUT_DIREC
 find_library(SFMLWindow NAMES sfml-window PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(SFMLSystem NAMES sfml-system PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(SDL2 NAMES SDL2 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(OGRE_MAIN NAMES OgreMain PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
-find_package(Boost 1.61.0 REQUIRED COMPONENTS serialization)
+find_package(Boost 1.61.0 REQUIRED COMPONENTS serialization filesystem)
 find_package(Qt5Widgets)
 find_package(X11 REQUIRED)
+find_package(OpenCV REQUIRED)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY})
 
 # SDL does not references includes from its directory, so it needs to be
 # added separately
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/SDL2)
+include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/OGRE)
 
 enable_testing()
 
