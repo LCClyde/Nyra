@@ -19,12 +19,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/core/Color.h>
+#include <nyra/img/Color.h>
 
 namespace nyra
 {
-namespace core
+namespace img
 {
+//===========================================================================//
+const Color Color::BLACK(0, 0, 0);
+const Color Color::WHITE(255, 255, 255);
+const Color Color::GRAY(127, 127, 127);
+
 //===========================================================================//
 Color::Color() :
     r(0),

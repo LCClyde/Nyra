@@ -40,6 +40,21 @@ macro(BuildInc includes outdir libname)
     endforeach()
 endmacro()
 
+macro(BuildData data libname)
+    get_filename_component(DATA_TYPE ${data} NAME)
+    message(${DATA_TYPE})
+    file(GLOB DATA_FILES ${data}/*)
+    foreach(DATA_FILE ${DATA_FILES})
+        get_filename_component(DATA_NAME ${DATA_FILE} NAME)
+        string(REPLACE . - DATA_TARGET_NAME ${DATA_NAME})
+        add_custom_target(${DATA_TARGET_NAME}
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                       ${DATA_FILE} ${CMAKE_INSTALL_PREFIX}/data/${DATA_TYPE}/${DATA_NAME})
+        message(${DATA_TARGET_NAME})
+        add_dependencies(${libname} ${DATA_TARGET_NAME})
+    endforeach()
+endmacro()
+
 macro(GetDeps pathname)
     # Clear out MOD and TEST DEPS
     set(MOD_DEPS "")
@@ -58,6 +73,7 @@ macro(BuildModule name libname deps pathname)
     # Get all the source files
     file(GLOB SOURCES ${pathname}/source/*.cpp)
     file(GLOB INCLUDES ${pathname}/include/*.h ${pathname}/include/*.hpp)
+    file(GLOB DATA_DIRS ${pathname}/data/*)
 
         list(LENGTH SOURCES SOURCE_LENGTH)
         if (SOURCE_LENGTH EQUAL 0)
@@ -72,6 +88,9 @@ macro(BuildModule name libname deps pathname)
         # Copy the headers
         string(REPLACE . / INC_DIR ${name})
         BuildInc("${INCLUDES}" ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${INC_DIR} ${libname})
+        foreach(DATA_DIR ${DATA_DIRS})
+            BuildData(${DATA_DIR} ${libname})
+        endforeach()
 endmacro()
 
 macro(BuildTests libname testlibname pathname outdir)

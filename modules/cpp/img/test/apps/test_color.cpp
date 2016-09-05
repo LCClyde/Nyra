@@ -20,11 +20,11 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/core/Color.h>
+#include <nyra/img/Color.h>
 
 namespace nyra
 {
-namespace core
+namespace img
 {
 TEST(Color, Equality)
 {
@@ -86,6 +86,19 @@ TEST(Color, Constructor)
     EXPECT_EQ(assignColor.g, static_cast<uint8_t>(0x78));
     EXPECT_EQ(assignColor.b, static_cast<uint8_t>(0x9A));
     EXPECT_EQ(assignColor.a, static_cast<uint8_t>(0xBC));
+}
+
+TEST(Color, Cast)
+{
+    Color color(0x56, 0x78, 0x9A, 0xBC);
+    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[0],
+              static_cast<uint8_t>(0x56));
+    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[1],
+              static_cast<uint8_t>(0x78));
+    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[2],
+              static_cast<uint8_t>(0x9A));
+    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[3],
+              static_cast<uint8_t>(0xBC));
 }
 
 TEST(Color, Uint32)
