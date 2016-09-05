@@ -69,6 +69,7 @@ namespace core
 {
 const std::string APPLICATION_PATH = getApplicationPath();
 const std::string INSTALL_PATH = getInstallPath(APPLICATION_PATH);
+const std::string DATA_PATH = path::join(INSTALL_PATH, "data");
 
 namespace path
 {

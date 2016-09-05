@@ -19,19 +19,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_CORE_COLOR_H__
-#define __NYRA_CORE_COLOR_H__
+#ifndef __NYRA_IMG_COLOR_H__
+#define __NYRA_IMG_COLOR_H__
 
 #include <stdint.h>
 #include <nyra/core/Archive.h>
 
 namespace nyra
 {
-namespace core
+namespace img
 {
 /*
  *  \class Color
- *  \brief Represents an RGBA color.
+ *  \brief Represents an RGBA color. A color is guaranteed to be able to cast
+ *         to a uint8_t* with r=p[0], g=p[1], b=p[2], a=p[3]. This allows it
+ *         to go to and from pixel buffers.
  */
 class Color
 {
@@ -129,6 +131,14 @@ public:
      *  \brief The alpha value in the range of 0-255
      */
     uint8_t a;
+
+    /*
+     *  \var
+     *  \brief Easy access common colors.
+     */
+    static const Color BLACK;
+    static const Color WHITE;
+    static const Color GRAY;
 
 private:
     NYRA_SERIALIZE()

@@ -42,6 +42,7 @@ TEST(Path, Constants)
 {
     EXPECT_TRUE(openBinary(APPLICATION_PATH, "test_path"));
     EXPECT_TRUE(openBinary(INSTALL_PATH, "tests/core/test_path"));
+    EXPECT_TRUE(openBinary(DATA_PATH, "../tests/core/test_path"));
 }
 
 namespace path
