@@ -42,7 +42,6 @@ endmacro()
 
 macro(BuildData data libname)
     get_filename_component(DATA_TYPE ${data} NAME)
-    message(${DATA_TYPE})
     file(GLOB DATA_FILES ${data}/*)
     foreach(DATA_FILE ${DATA_FILES})
         get_filename_component(DATA_NAME ${DATA_FILE} NAME)
@@ -50,7 +49,6 @@ macro(BuildData data libname)
         add_custom_target(${DATA_TARGET_NAME}
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${DATA_FILE} ${CMAKE_INSTALL_PREFIX}/data/${DATA_TYPE}/${DATA_NAME})
-        message(${DATA_TARGET_NAME})
         add_dependencies(${libname} ${DATA_TARGET_NAME})
     endforeach()
 endmacro()

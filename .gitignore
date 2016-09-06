@@ -47,4 +47,5 @@ CTestTestfile.cmake
 Testing/
 
 Ogre.log
+DefaultLog
 
