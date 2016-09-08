@@ -20,104 +20,41 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/RenderTarget.h>
-#include <nyra/graphics/RenderTarget.h>
-
-namespace
-{
-class MockRenderTarget : public nyra::graphics::RenderTarget
-{
-public:
-    MockRenderTarget(size_t winId) :
-        nyra::graphics::RenderTarget(winId)
-    {
-    }
-
-    nyra::math::Vector2U getSize() const override
-    {
-        return mSize;
-    }
-
-    void resize(const nyra::math::Vector2U& size) override
-    {
-        mSize = size;
-        mPixels.resize(size);
-    }
-
-    void clear(const nyra::img::Color& color) override
-    {
-        for (size_t ii = 0; ii < mSize.product(); ++ii)
-        {
-            mPixels(ii) = color;
-        }
-    }
-
-    void flush() override
-    {
-    }
-
-    nyra::img::Image getPixels() const override
-    {
-        return mPixels;
-    }
-
-private:
-    nyra::math::Vector2U mSize;
-    nyra::img::Image mPixels;
-};
-
-class MockWindow
-{
-public:
-    MockWindow(const std::string& name,
-               const nyra::math::Vector2U& size,
-               const nyra::math::Vector2I& position)
-    {
-    }
-
-    size_t getID() const
-    {
-        return 0;
-    }
-
-    void update()
-    {
-    }
-};
-}
+#include <nyra/graphics/sfml/RenderTarget.h>
+#include <nyra/win/sfml/Window.h>
 
 namespace nyra
 {
 namespace graphics
 {
-class TestMockRenderTarget :
-        public test::RenderTarget<MockRenderTarget, MockWindow>
+namespace sfml
+{
+class TestSFMLRenderTarget :
+        public test::RenderTarget<RenderTarget, win::sfml::Window>
 {
 };
 
-TEST_F(TestMockRenderTarget, Render)
+TEST_F(TestSFMLRenderTarget, Render)
 {
-    // Normally this would be sized with the window information. Because
-    // we don't have a real window we need to resize here.
-    mRenderTarget.resize(defaultSize);
-
     img::Image renderWindow(defaultSize);
     for (size_t ii = 0; ii < defaultSize.product(); ++ii)
     {
         renderWindow(ii) = renderColor;
     }
-    EXPECT_EQ(render(), renderWindow);
+    EXPECT_EQ(renderWindow, render());
 
     renderWindow.resize(resizeSize);
     for (size_t ii = 0; ii < resizeSize.product(); ++ii)
     {
         renderWindow(ii) = resizeColor;
     }
-    EXPECT_EQ(resize(), renderWindow);
+    EXPECT_EQ(renderWindow, resize());
 }
 
-TEST_F(TestMockRenderTarget, Stdout)
+TEST_F(TestSFMLRenderTarget, Stdout)
 {
     EXPECT_EQ(stdout(), expectedStdout);
+}
 }
 }
 }
