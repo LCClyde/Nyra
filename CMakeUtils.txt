@@ -57,6 +57,7 @@ macro(GetDeps pathname)
     # Clear out MOD and TEST DEPS
     set(MOD_DEPS "")
     set(EXT_DEPS "")
+    set(TEST_DEPS "")
 
     if(EXISTS ${pathname}/CMakeLists.txt)
         add_subdirectory(${pathname})
@@ -64,6 +65,7 @@ macro(GetDeps pathname)
 
     ModList("${MOD_DEPS}" nyra- -test-cpp MOD_TEST_DEPS)
     ModList("${MOD_DEPS}" nyra- -cpp MOD_DEPS)
+    ModList("${TEST_DEPS}" nyra- -cpp TEST_DEPS)
 endmacro()
 
 macro(BuildModule name libname deps pathname)
@@ -107,6 +109,7 @@ macro(BuildTests libname testlibname pathname outdir)
                                       ${MOD_DEPS}
                                       ${MOD_TEST_DEPS}
                                       ${EXT_DEPS}
+                                      ${TEST_DEPS}
                                       ${CMAKE_THREAD_LIBS_INIT})
                 add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})
             endforeach()

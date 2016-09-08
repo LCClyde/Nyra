@@ -24,6 +24,7 @@
 
 #include <nyra/test/Test.h>
 #include <nyra/graphics/RenderTarget.h>
+#include <nyra/time/System.h>
 
 namespace nyra
 {
@@ -50,11 +51,13 @@ public:
         resizeSize(800, 600),
         renderColor(0x56, 0x78, 0x9A),
         resizeColor(0x12, 0x34, 0x56),
+        expectedStdout("Render Target: x=320 y=240"),
         mWindow("Render Target Test",
                 defaultSize,
                 math::Vector2I(0, 0)),
         mRenderTarget(mWindow.getID())
     {
+        update();
     }
 
     /*
@@ -67,6 +70,7 @@ public:
     {
         mRenderTarget.clear(renderColor);
         mRenderTarget.flush();
+        update();
         return mRenderTarget.getPixels();
     }
 
@@ -81,17 +85,42 @@ public:
         mRenderTarget.resize(resizeSize);
         mRenderTarget.clear(resizeColor);
         mRenderTarget.flush();
+        update();
         const img::Image pixels = mRenderTarget.getPixels();
-        mRenderTarget.resize(defaultSize);
         return pixels;
+    }
+
+    /*
+     *  \func stdout
+     *  \brief Gets the standard out for a render target
+     *
+     *  \return The output that would be written to screen
+     */
+    std::string stdout()
+    {
+        mRenderTarget.resize(defaultSize);
+        return test::stdout(mRenderTarget);
     }
 
     const math::Vector2U defaultSize;
     const math::Vector2U resizeSize;
     const img::Color renderColor;
     const img::Color resizeColor;
+    const std::string expectedStdout;
     WindowT mWindow;
     RenderT mRenderTarget;
+
+private:
+    void update()
+    {
+        // Give the window some time to animate in case the operating system
+        // has it enabled
+        for (size_t ii = 0; ii < 5; ++ii)
+        {
+            time::sleep(5);
+            mWindow.update();
+        }
+    }
 };
 }
 }
