@@ -121,7 +121,8 @@ public:
      */
     math::Vector2U getSize() const override
     {
-        return math::Vector2U(mWindow->getSize());
+        return math::Vector2U(mWindow->getSize().x,
+                              mWindow->getSize().y);
     }
 
     /*
@@ -136,7 +137,8 @@ public:
      */
     math::Vector2I getPosition() const override
     {
-        return math::Vector2I(mWindow->getPosition());
+        return math::Vector2I(mWindow->getPosition().x,
+                              mWindow->getPosition().y);
     }
 
     /*
@@ -190,7 +192,7 @@ public:
      */
     void setSize(const math::Vector2U& size) override
     {
-        mWindow->setSize(size.toThirdParty<sf::Vector2u>());
+        mWindow->setSize(sf::Vector2u(size.x(), size.y()));
     }
 
     /*
@@ -204,7 +206,7 @@ public:
      */
     void setPosition(const math::Vector2I& position) override
     {
-        mWindow->setPosition(position.toThirdParty<sf::Vector2i>());
+        mWindow->setPosition(sf::Vector2i(position.x(), position.y()));
     }
 
 private:

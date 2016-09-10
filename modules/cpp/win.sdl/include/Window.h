@@ -208,7 +208,7 @@ public:
      */
     void setSize(const math::Vector2U& size) override
     {
-        SDL_SetWindowSize(mWindow, size.x, size.y);
+        SDL_SetWindowSize(mWindow, size.x(), size.y());
     }
 
     /*
@@ -220,7 +220,7 @@ public:
      */
     void setPosition(const math::Vector2I& position) override
     {
-        SDL_SetWindowPosition(mWindow, position.x, position.y);
+        SDL_SetWindowPosition(mWindow, position.x(), position.y());
     }
 
 private:

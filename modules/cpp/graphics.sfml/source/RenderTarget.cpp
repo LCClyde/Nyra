@@ -35,19 +35,21 @@ RenderTarget::RenderTarget(size_t winId) :
     mTexture(new sf::RenderTexture()),
     mSprite(new sf::Sprite())
 {
-    resize(mWindow->getSize());
+    resize(math::Vector2U(mWindow->getSize().x,
+                          mWindow->getSize().y));
 }
 
 //===========================================================================//
 math::Vector2U RenderTarget::getSize() const
 {
-    return math::Vector2U(mTexture->getSize());
+    return math::Vector2U(mTexture->getSize().x,
+                          mTexture->getSize().y);
 }
 
 //===========================================================================//
 void RenderTarget::resize(const math::Vector2U& size)
 {
-    mTexture->create(size.x, size.y);
+    mTexture->create(size.x(), size.y());
     mSprite->setTexture(mTexture->getTexture(), true);
 }
 
@@ -71,7 +73,9 @@ void RenderTarget::flush()
 img::Image RenderTarget::getPixels() const
 {
     const sf::Image image = mTexture->getTexture().copyToImage();
-    return img::Image(image.getPixelsPtr(), math::Vector2U(image.getSize()));
+    return img::Image(image.getPixelsPtr(),
+                      math::Vector2U(image.getSize().x,
+                                     image.getSize().y));
 }
 }
 }

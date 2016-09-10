@@ -137,7 +137,7 @@ public:
      */
     inline const Color& operator()(size_t row, size_t col) const
     {
-        return mPixels[row * mSize.x + col];
+        return mPixels[row * mSize.x() + col];
     }
 
     /*
@@ -152,7 +152,7 @@ public:
      */
     Color& operator()(size_t row, size_t col)
     {
-        return mPixels[row * mSize.x + col];
+        return mPixels[row * mSize.x() + col];
     }
 
     /*
