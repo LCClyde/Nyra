@@ -60,6 +60,14 @@ public:
               float a31, float a32, float a33);
 
     /*
+     *  \func Constructor
+     *  \brief Copy constructs from the base class.
+     *
+     *  \param other The matrix to copy
+     */
+    Matrix3x3(const Matrix<float, 3, 3>& other);
+
+    /*
      *  \func transform
      *  \brief Creates a transform matrix from smaller pieces. Note that this
      *         destroys the current matrix.
@@ -73,9 +81,6 @@ public:
                    const Vector2F& scale,
                    float rotation,
                    const Vector2F& pivot);
-
-private:
-    //friend std::ostream& operator<<(std::ostream& os, const Matrix3x3& matrix);
 };
 }
 }

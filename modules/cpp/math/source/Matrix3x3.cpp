@@ -46,11 +46,20 @@ Matrix3x3::Matrix3x3(float a11, float a12, float a13,
 }
 
 //===========================================================================//
+Matrix3x3::Matrix3x3(const Matrix<float, 3, 3>& other)
+{
+    mMatrix = other.getNative();
+}
+
+//===========================================================================//
 void Matrix3x3::transform(const Vector2F& position,
                           const Vector2F& scale,
                           float rotation,
                           const Vector2F& pivot)
 {
+    // TODO: SFML does this as a single assignment to a 3x3 matrix. I need to
+    //       test what kind of performance gain that gives. I would rather
+    //       not maintain the linear algebra.
     gmtl::Matrix<float, 3, 3> pivotMatrix;
     gmtl::setTrans(pivotMatrix, pivot.getNative());
 

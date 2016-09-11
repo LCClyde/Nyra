@@ -39,8 +39,19 @@ template <typename TypeT>
 class Vector2 : public Vector<TypeT, 2>
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default Vector2
+     */
     Vector2() = default;
 
+    /*
+     *  \func Constructor
+     *  \brief Creates a Vector2 from an x and y value
+     *
+     *  \param x The desired x value
+     *  \param y The desired y value
+     */
     Vector2(const TypeT& x, const TypeT& y)
     {
         this->x() = x;
@@ -48,49 +59,71 @@ public:
     }
 
     /*
-     *  \var x
+     *  \func Constructor
+     *  \brief Creates a Vector2 from a Vector base object
+     *
+     *  \tparam OtherT The data type of the other vector
+     *  \param vector The vector to copy
+     */
+    template <typename OtherT>
+    Vector2(const Vector<OtherT, 2>& vector)
+    {
+        x() = static_cast<TypeT>(vector[0]);
+        y() = static_cast<TypeT>(vector[1]);
+    }
+
+    /*
+     *  \func x
      *  \brief Represents the first element of the vector.
+     *
+     *  \return The x value
      */
     TypeT& x()
     {
         return (*this)[0];
     }
 
+    /*
+     *  \func x
+     *  \brief Represents the first element of the vector.
+     *
+     *  \return The x value
+     */
     const TypeT& x() const
     {
         return (*this)[0];
     }
 
     /*
-     *  \var y
+     *  \func y
      *  \brief Represents the second element of the vector.
+     *
+     *  \return The y value
      */
     TypeT& y()
     {
         return (*this)[1];
     }
 
+    /*
+     *  \func y
+     *  \brief Represents the second element of the vector.
+     *
+     *  \return The y value
+     */
     const TypeT& y() const
     {
         return (*this)[1];
     }
-};
 
-/*
- *  \fn Output Stream Operator
- *  \brief Prints a vector.
- *
- *  \tparam TypeT The element type of the vector.
- *  \param os The output stream.
- *  \param vector The vector to print.
- *  \return The updated stream.
- */
-template <typename TypeT>
-std::ostream& operator<<(std::ostream& os, const Vector2<TypeT>& vector)
-{
-    os << "x=" << vector.x() << " y=" << vector.y();
-    return os;
-}
+private:
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Vector2<TypeT>& vector)
+    {
+        os << "x=" << vector.x() << " y=" << vector.y();
+        return os;
+    }
+};
 
 typedef Vector2<float> Vector2F;
 typedef Vector2<int32_t> Vector2I;

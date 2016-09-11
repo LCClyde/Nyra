@@ -32,6 +32,14 @@ TEST(Conversions, Angles)
     const double radians = M_PI;
     EXPECT_EQ(degrees, radiansToDegrees(radians));
     EXPECT_EQ(radians, degreesToRadians(degrees));
+
+    EXPECT_EQ(0.0, normalizeAngle(0.0));
+    EXPECT_EQ(180.0, normalizeAngle(180.0));
+    EXPECT_EQ(0.0, normalizeAngle(360.0));
+    EXPECT_EQ(1.0, normalizeAngle(361.0));
+    EXPECT_EQ(40.125, normalizeAngle(400.125));
+    EXPECT_EQ(45.0, normalizeAngle(765.0));
+    EXPECT_EQ(315.0, normalizeAngle(-45.0));
 }
 }
 }

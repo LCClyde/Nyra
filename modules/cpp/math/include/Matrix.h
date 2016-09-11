@@ -84,7 +84,7 @@ public:
      */
     bool operator!=(const Matrix<TypeT, Rows, Cols>& other) const
     {
-        return !((*this) != other);
+        return !((*this) == other);
     }
 
     /*

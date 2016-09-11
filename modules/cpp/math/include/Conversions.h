@@ -51,6 +51,22 @@ inline double radiansToDegrees(double radians)
 {
     return radians * (180.0 / M_PI);
 }
+
+/*
+ *  \func normalizeAngle
+ *  \brief Normalizes between [0.0 - 360.0)
+ *
+ *  \param value The starting value
+ */
+inline double normalizeAngle(double value)
+{
+    value = fmod(value, 360);
+    if (value < 0)
+    {
+        value += 360;
+    }
+    return value;
+}
 }
 }
 

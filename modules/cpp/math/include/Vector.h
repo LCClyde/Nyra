@@ -350,32 +350,23 @@ private:
         }
     }
 
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Vector<TypeT, SizeT>& vector)
+    {
+        for (size_t ii = 0; ii < SizeT; ++ii)
+        {
+            if (ii > 0)
+            {
+                os << " ";
+            }
+            os << "vec[" << ii << "]=" << vector[ii];
+        }
+        return os;
+    }
+
 protected:
     gmtl::Vec<TypeT, SizeT> mVec;
 };
-
-/*
- *  \func Output Stream Operator
- *  \brief Prints a vector.
- *
- *  \tparam TypeT The element type of the vector.
- *  \param os The output stream.
- *  \param vector The vector to print.
- *  \return The updated stream.
- */
-template <typename TypeT, size_t SizeT>
-std::ostream& operator<<(std::ostream& os, const Vector<TypeT, SizeT>& vector)
-{
-    for (size_t ii = 0; ii < SizeT; ++ii)
-    {
-        if (ii > 0)
-        {
-            os << " ";
-        }
-        os << "vec[" << ii << "]=" << vector[ii];
-    }
-    return os;
-}
 }
 }
 
