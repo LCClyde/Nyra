@@ -59,30 +59,37 @@ TEST(GlobalHandler, InitShutdown)
     MockGlobalHandler global;
     EXPECT_EQ(global.initCalled, static_cast<size_t>(0));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    EXPECT_FALSE(global.isInitialized());
 
     global.initialize();
     EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    EXPECT_TRUE(global.isInitialized());
 
     global.initialize();
     EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    EXPECT_TRUE(global.isInitialized());
 
     global.shutdown();
     EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(0));
+    EXPECT_TRUE(global.isInitialized());
 
     global.shutdown();
     EXPECT_EQ(global.initCalled, static_cast<size_t>(1));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(1));
+    EXPECT_FALSE(global.isInitialized());
 
     global.initialize();
     EXPECT_EQ(global.initCalled, static_cast<size_t>(2));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(1));
+    EXPECT_TRUE(global.isInitialized());
 
     global.shutdown();
     EXPECT_EQ(global.initCalled, static_cast<size_t>(2));
     EXPECT_EQ(global.shutdownCalled, static_cast<size_t>(2));
+    EXPECT_FALSE(global.isInitialized());
 }
 
 TEST(GlobalHandler, Throw)

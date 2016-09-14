@@ -69,6 +69,17 @@ public:
      */
     void shutdown();
 
+    /*
+     *  \func isInitialized
+     *  \brief Checks if the global handler has been initialized.
+     *
+     *  \return True if the handler is initialized
+     */
+    bool isInitialized() const
+    {
+        return mHandles > 0;
+    }
+
 protected:
     /*
      *  \func initializeGlobal

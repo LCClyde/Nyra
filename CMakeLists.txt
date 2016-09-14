@@ -52,6 +52,8 @@ find_library(SFMLSystem NAMES sfml-system PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY
 find_library(SDL2 NAMES SDL2 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(OGRE_MAIN NAMES OgreMain PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(LibPNG NAMES png PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_package(PythonLibs 3 REQUIRED)
+include_directories(${PYTHON_INCLUDE_DIRS})
 
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
 find_package(Boost 1.61.0 REQUIRED COMPONENTS serialization filesystem)
