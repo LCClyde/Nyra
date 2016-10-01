@@ -21,17 +21,15 @@
  */
 #include <nyra/test/Test.h>
 #include <nyra/test/Stdout.h>
-#include <nyra/win/qt/Application.h>
+#include <nyra/qt/GlobalHandler.h>
 
 namespace nyra
 {
-namespace win
-{
 namespace qt
 {
-TEST(Application, Application)
+TEST(GlobalHandler, Application)
 {
-    Application app;
+    GlobalHandler app;
     EXPECT_EQ(app.get(), nullptr);
     app.initialize();
     EXPECT_NE(app.get(), nullptr);
@@ -47,15 +45,14 @@ TEST(Application, Application)
     EXPECT_EQ(app.get(), nullptr);
 }
 
-TEST(Application, Stdout)
+TEST(GlobalHandler, Stdout)
 {
-    Application app;
+    GlobalHandler app;
     EXPECT_EQ(test::stdout(app), "Application state: stopped");
     app.initialize();
     EXPECT_EQ(test::stdout(app), "Application state: running");
     app.shutdown();
     EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
 }
 }
 }

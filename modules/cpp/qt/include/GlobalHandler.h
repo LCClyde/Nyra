@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_QT_APPLICATION_H__
-#define __NYRA_WIN_QT_APPLICATION_H__
+#ifndef __NYRA_QT_GLOBAL_HANDLER_H__
+#define __NYRA_QT_GLOBAL_HANDLER_H__
 
 #include <memory>
 #include <QApplication>
@@ -28,12 +28,10 @@
 
 namespace nyra
 {
-namespace win
-{
 namespace qt
 {
 /*
- *  \class Application
+ *  \class GlobalHandler
  *  \brief Global handler class for the QApplication. This must be created
  *         before any of Q* objects and must be deleted when you are done
  *         with them, but before static variables are deleted. The
@@ -43,14 +41,14 @@ namespace qt
  *         seem unnecessary as its state is dependent on the state of
  *         Window objects.
  */
-class Application : public pattern::GlobalHandler
+class GlobalHandler : public pattern::GlobalHandler
 {
 public:
     /*
      *  \func Constructor
      *  \brief Sets up the arguments for the QApplication.
      */
-    Application();
+    GlobalHandler();
 
     /*
      *  \func get
@@ -79,13 +77,12 @@ private:
 
     void shutdownGlobal() override;
 
-    friend std::ostream& operator<<(std::ostream& os, const Application& app);
+    friend std::ostream& operator<<(std::ostream& os, const GlobalHandler& app);
 
     std::vector<char*> mArgv;
     int mArgc;
     std::unique_ptr<QApplication> mApplication;
 };
-}
 }
 }
 

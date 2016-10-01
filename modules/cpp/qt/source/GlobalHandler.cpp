@@ -19,16 +19,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/qt/Application.h>
+#include <nyra/qt/GlobalHandler.h>
 
 namespace nyra
-{
-namespace win
 {
 namespace qt
 {
 //===========================================================================//
-Application::Application() :
+GlobalHandler::GlobalHandler() :
     mArgv(2),
     mArgc(mArgv.size() - 1)
 {
@@ -44,19 +42,19 @@ Application::Application() :
 }
 
 //===========================================================================//
-void Application::initializeGlobal()
+void GlobalHandler::initializeGlobal()
 {
     mApplication.reset(new QApplication(mArgc, &mArgv[0]));
 }
 
 //===========================================================================//
-void Application::shutdownGlobal()
+void GlobalHandler::shutdownGlobal()
 {
     mApplication.reset(nullptr);
 }
 
 //===========================================================================//
-std::ostream& operator<<(std::ostream& os, const Application& app)
+std::ostream& operator<<(std::ostream& os, const GlobalHandler& app)
 {
     os << "Application state: ";
     if (app.get())
@@ -68,7 +66,6 @@ std::ostream& operator<<(std::ostream& os, const Application& app)
         os << "stopped";
     }
     return os;
-}
 }
 }
 }

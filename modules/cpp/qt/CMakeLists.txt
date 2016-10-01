@@ -19,4 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS qt win PARENT_SCOPE)
+set(MOD_DEPS pattern PARENT_SCOPE)
+set(EXT_DEPS Qt5::Widgets PARENT_SCOPE)

@@ -26,7 +26,7 @@
 #include <QMainWindow>
 #include <nyra/win/Window.h>
 #include <nyra/pattern/GlobalDependency.h>
-#include <nyra/win/qt/Application.h>
+#include <nyra/qt/GlobalHandler.h>
 
 namespace nyra
 {
@@ -40,7 +40,7 @@ namespace qt
  *         nyra interface for Windows.
  */
 class Window : public nyra::win::Window,
-        private nyra::pattern::GlobalDependency<Application>
+        private nyra::pattern::GlobalDependency<nyra::qt::GlobalHandler>
 {
 public:
     /*
