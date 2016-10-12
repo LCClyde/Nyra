@@ -26,11 +26,14 @@ namespace nyra
 {
 namespace core
 {
+//===========================================================================//
 template <typename RetT, typename ...ArgsT>
 class EventCall
 {
 public:
-    static RetT call(const boost::signals2::signal<RetT(ArgsT...)>& func, ArgsT... args)
+    static RetT call(
+            const boost::signals2::signal<RetT(ArgsT...)>& func,
+            ArgsT... args)
     {
         auto optional = func(args...);
         if (optional)
@@ -42,28 +45,34 @@ public:
     }
 };
 
+//===========================================================================//
 template <typename ...ArgsT>
 class EventCall<void, ArgsT...>
 {
 public:
-    static void call(const boost::signals2::signal<void(ArgsT...)>& func, ArgsT... args)
+    static void call(
+            const boost::signals2::signal<void(ArgsT...)>& func,
+            ArgsT... args)
     {
         func(args...);
     }
 };
 
+//===========================================================================//
 template <typename RetT, typename ...ArgsT>
 RetT Event<RetT(ArgsT...)>::operator()(ArgsT... args) const
 {
     return EventCall<RetT, ArgsT...>::call(mFunction, args...);
 }
 
+//===========================================================================//
 template <typename RetT, typename ...ArgsT>
 void Event<RetT(ArgsT...)>::reset()
 {
     mFunction.disconnect_all_slots();
 }
 
+//===========================================================================//
 template <typename RetT, typename ...ArgsT>
 template <typename T>
 void Event<RetT(ArgsT...)>::operator=(const T& func)
