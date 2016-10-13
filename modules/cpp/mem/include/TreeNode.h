@@ -27,6 +27,7 @@
 #include <vector>
 #include <string>
 #include <nyra/core/Archive.h>
+#include <nyra/mem/SetParent.h>
 
 namespace nyra
 {
@@ -42,6 +43,17 @@ class TreeNode
 {
 public:
     /*
+     *  \func Constructor
+     *  \brief Creates a TreeNode
+     *
+     *  \param parent The parent tree node
+     */
+    TreeNode(const TreeNode<TypeT>* const parent = nullptr) :
+        mParent(parent)
+    {
+    }
+
+    /*
      *  \func Index Operator
      *  \brief Returns a child node. If the node does not exist, it will
      *         be created.
@@ -53,7 +65,7 @@ public:
     {
         if (!mChildren[index].get())
         {
-            mChildren[index].reset(new TreeNode<TypeT>());
+            mChildren[index].reset(new TreeNode<TypeT>(this));
         }
         return *mChildren[index];
     }
@@ -116,8 +128,6 @@ public:
         return *ret;
     }
 
-
-
     /*
      *  \func Assignment Operator
      *  \brief Assigns a pointer to the node. The node will take ownership
@@ -129,6 +139,8 @@ public:
     TreeNode<TypeT>& operator=(TypeT* assignment)
     {
         mNode.reset(assignment);
+        setParent((*mNode),
+                (mParent && mParent->mNode.get() ? &mParent->get() : nullptr));
         return *this;
     }
 
@@ -181,6 +193,7 @@ private:
             std::string, std::shared_ptr<TreeNode<TypeT> > > LeafMap;
     LeafMap mChildren;
     std::unique_ptr<TypeT> mNode;
+    const TreeNode<TypeT>* const mParent;
 };
 }
 }
