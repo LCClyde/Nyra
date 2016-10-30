@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,17 +19,38 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/RenderTarget.h>
+#ifndef __NYRA_GRAPHICS_SPRITE_H__
+#define __NYRA_GRAPHICS_SPRITE_H__
+
+#include <nyra/graphics/Renderable.h>
+#include <nyra/math/Transform2D.h>
 
 namespace nyra
 {
 namespace graphics
 {
-//===========================================================================//
-std::ostream& operator<<(std::ostream& os, const RenderTarget& target)
+/*
+ *  \class Sprite
+ *  \brief Class for rendering images to a render target.
+ */
+class Sprite : public Renderable
 {
-    os << "Render Target: " << target.getSize();
-    return os;
+public:
+    /*
+     *  \func Destructor
+     *  \brief Here for proper inheritance.
+     */
+    virtual ~Sprite() = default;
+
+    /*
+     *  \func load
+     *  \brief Loads a Sprite from a texture on disk.
+     *
+     *  \param texture The name of the texture.
+     */
+    virtual void load(const std::string& texture) = 0;
+};
 }
 }
-}
+
+#endif

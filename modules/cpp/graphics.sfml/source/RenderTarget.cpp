@@ -29,14 +29,33 @@ namespace graphics
 namespace sfml
 {
 //===========================================================================//
-RenderTarget::RenderTarget(size_t winId) :
-    graphics::RenderTarget(winId),
-    mWindow(new sf::RenderWindow(static_cast<sf::WindowHandle>(winId))),
+RenderTarget::RenderTarget(const math::Vector2U& size) :
     mTexture(new sf::RenderTexture()),
     mSprite(new sf::Sprite())
 {
+    initialize(size);
+}
+
+//===========================================================================//
+RenderTarget::RenderTarget(size_t winId) :
+    mTexture(new sf::RenderTexture()),
+    mSprite(new sf::Sprite())
+{
+    initialize(winId);
+}
+
+//===========================================================================//
+void RenderTarget::initialize(size_t winId)
+{
+    mWindow.reset(new sf::RenderWindow(static_cast<sf::WindowHandle>(winId)));
     resize(math::Vector2U(mWindow->getSize().x,
                           mWindow->getSize().y));
+}
+
+//===========================================================================//
+void RenderTarget::initialize(const math::Vector2U& size)
+{
+    resize(size);
 }
 
 //===========================================================================//
@@ -57,7 +76,10 @@ void RenderTarget::resize(const math::Vector2U& size)
 void RenderTarget::clear(const img::Color& color)
 {
     const sf::Color sfColor(color.r, color.g, color.b);
-    mWindow->clear(sfColor);
+    if (mWindow.get())
+    {
+        mWindow->clear(sfColor);
+    }
     mTexture->clear(sfColor);
 }
 
@@ -65,8 +87,12 @@ void RenderTarget::clear(const img::Color& color)
 void RenderTarget::flush()
 {
     mTexture->display();
-    mWindow->draw(*mSprite);
-    mWindow->display();
+
+    if (mWindow.get())
+    {
+        mWindow->draw(*mSprite);
+        mWindow->display();
+    }
 }
 
 //===========================================================================//

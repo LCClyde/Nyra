@@ -42,11 +42,35 @@ class RenderTarget : public graphics::RenderTarget
 public:
     /*
      *  \func Constructor
+     *  \brief Sets up the default render target without a Window.
+     *
+     *  \param size The size of the render target.
+     */
+    RenderTarget(const math::Vector2U& size);
+
+    /*
+     *  \func Constructor
      *  \brief Sets up the default render target.
      *
      *  \param winId The Window ID from a nyra::win::Window object
      */
     RenderTarget(size_t winId);
+
+    /*
+     *  \func initialize
+     *  \brief Sets up the default render target without a Window.
+     *
+     *  \param size The size of the render target.
+     */
+    void initialize(const math::Vector2U& size) override;
+
+    /*
+     *  \func initialize
+     *  \brief Sets up the default render target.
+     *
+     *  \param winId The Window ID from a nyra::win::Window object
+     */
+    void initialize(size_t winId) override;
 
     /*
      *  \func getSize
@@ -87,6 +111,17 @@ public:
      *  \return The image representing the render target.
      */
     img::Image getPixels() const;
+
+    /*
+     *  \func get
+     *  \brief Gets the underlying render target.
+     *
+     *  \return The SFML render texture.
+     */
+    sf::RenderTarget& get()
+    {
+        return *mTexture;
+    }
 
 
 private:

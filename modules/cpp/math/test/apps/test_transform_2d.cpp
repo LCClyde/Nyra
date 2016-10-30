@@ -83,15 +83,15 @@ TEST(Transform2D, Matrix)
     transform.setRotation(180.0f);
     transform.setSize(Vector2F(10.0f, 20.0f));
     transform.setPivot(Vector2F(1.0f, 1.0f));
-    transform.update(identity);
+    transform.updateTransform(identity);
     Matrix3x3 results = transform.getMatrix();
-    Matrix3x3 expected(-2.0f, 0.0f,  -15.0f,
-                       0.0f,  -3.0f, -54.0f,
+    Matrix3x3 expected(-2.0f, 0.0f,  25.0f,
+                       0.0f,  -3.0f, 66.0f,
                        0.0f,  0.0f,  1.0f);
     EXPECT_EQ(expected, results);
 
     const Transform2D copied = transform;
-    transform.update(copied);
+    transform.updateTransform(copied);
     results = transform.getMatrix();
 
     // This should equal something crazy. Just make sure that the results

@@ -27,8 +27,7 @@ namespace
 class MockRenderable : public nyra::graphics::Renderable
 {
 public:
-    void render(const nyra::math::Transform2D& transform,
-                nyra::graphics::RenderTarget& target) override
+    void render(nyra::graphics::RenderTarget& target) override
     {
     }
 };

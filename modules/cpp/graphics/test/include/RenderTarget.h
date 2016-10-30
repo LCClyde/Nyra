@@ -55,7 +55,8 @@ public:
         mWindow("Render Target Test",
                 defaultSize,
                 math::Vector2I(0, 0)),
-        mRenderTarget(mWindow.getID())
+        mRenderTarget(mWindow.getID()),
+        mOffscreen(defaultSize)
     {
         update();
     }
@@ -72,6 +73,19 @@ public:
         mRenderTarget.flush();
         update();
         return mRenderTarget.getPixels();
+    }
+
+    /*
+     *  \func renderOffscreen
+     *  \brief Tests the basic render functionality
+     *
+     *  \return The rendered pixels..
+     */
+    img::Image renderOffscreen()
+    {
+        mOffscreen.clear(renderColor);
+        mOffscreen.flush();
+        return mOffscreen.getPixels();
     }
 
     /*
@@ -109,6 +123,7 @@ public:
     const std::string expectedStdout;
     WindowT mWindow;
     RenderT mRenderTarget;
+    RenderT mOffscreen;
 
 private:
     void update()

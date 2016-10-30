@@ -42,6 +42,7 @@ TEST_F(TestSFMLRenderTarget, Render)
         renderWindow(ii) = renderColor;
     }
     EXPECT_EQ(renderWindow, render());
+    EXPECT_EQ(renderWindow, renderOffscreen());
 
     renderWindow.resize(resizeSize);
     for (size_t ii = 0; ii < resizeSize.product(); ++ii)
@@ -49,6 +50,7 @@ TEST_F(TestSFMLRenderTarget, Render)
         renderWindow(ii) = resizeColor;
     }
     EXPECT_EQ(renderWindow, resize());
+
 }
 
 TEST_F(TestSFMLRenderTarget, Stdout)

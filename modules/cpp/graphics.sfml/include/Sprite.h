@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,17 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/RenderTarget.h>
+#ifndef __NYRA_GRAPHICS_SFML_SPRITE_H__
+#define __NYRA_GRAPHICS_SFML_SPRITE_H__
+
+#include <memory>
+#include <SFML/Graphics.hpp>
+#include <nyra/graphics/Sprite.h>
+#include <nyra/graphics/sfml/Texture.h>
 
 namespace nyra
 {
 namespace graphics
 {
-//===========================================================================//
-std::ostream& operator<<(std::ostream& os, const RenderTarget& target)
+namespace sfml
 {
-    os << "Render Target: " << target.getSize();
-    return os;
+/*
+ *  \class Sprite
+ *  \brief Class for rendering images to a render target.
+ */
+class Sprite : public nyra::graphics::Sprite
+{
+public:
+    Sprite(const std::string& texture);
+
+    /*
+     *  \func load
+     *  \brief Loads a Sprite from a texture on disk.
+     *
+     *  \param texture The name of the texture.
+     */
+    void load(const std::string& texture) override;
+
+    /*
+     *  \func render
+     *  \brief Renders to the screen
+     *
+     *  \param transform The transform that represents this object
+     *  \param target The target to render to
+     */
+    void render(graphics::RenderTarget& target) override;
+
+private:
+    std::shared_ptr<Texture> mTexture;
+    std::unique_ptr<sf::Sprite> mSprite;
+
+};
 }
 }
 }
+
+#endif

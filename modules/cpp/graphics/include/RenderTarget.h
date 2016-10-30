@@ -42,12 +42,20 @@ class RenderTarget
 {
 public:
     /*
-     *  \func Constructor
+     *  \func initialize
+     *  \brief Sets up the default render target without a Window.
+     *
+     *  \param size The size of the render target.
+     */
+    virtual void initialize(const math::Vector2U& size) = 0;
+
+    /*
+     *  \func initialize
      *  \brief Sets up the default render target.
      *
      *  \param winId The Window ID from a nyra::win::Window object
      */
-    RenderTarget(size_t winId);
+    virtual void initialize(size_t winId) = 0;
 
     /*
      *  \func Destructor
@@ -106,9 +114,6 @@ public:
      *  \return The image representing the render target.
      */
     virtual img::Image getPixels() const = 0;
-
-protected:
-    size_t mWinId;
 
 private:
     friend std::ostream& operator<<(std::ostream& os,

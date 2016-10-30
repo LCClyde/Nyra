@@ -27,9 +27,22 @@ namespace
 class MockRenderTarget : public nyra::graphics::RenderTarget
 {
 public:
-    MockRenderTarget(size_t winId) :
-        nyra::graphics::RenderTarget(winId)
+    MockRenderTarget(size_t winId)
     {
+    }
+
+    MockRenderTarget(const nyra::math::Vector2U& size)
+    {
+        initialize(size);
+    }
+
+    void initialize(size_t winId)
+    {
+    }
+
+    void initialize(const nyra::math::Vector2U& size)
+    {
+        resize(size);
     }
 
     nyra::math::Vector2U getSize() const override
@@ -106,6 +119,7 @@ TEST_F(TestMockRenderTarget, Render)
         renderWindow(ii) = renderColor;
     }
     EXPECT_EQ(render(), renderWindow);
+    EXPECT_EQ(renderOffscreen(), renderWindow);
 
     renderWindow.resize(resizeSize);
     for (size_t ii = 0; ii < resizeSize.product(); ++ii)

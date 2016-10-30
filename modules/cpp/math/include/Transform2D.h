@@ -236,7 +236,7 @@ public:
     }
 
     /*
-     *  \func update
+     *  \func updateTransform
      *  \brief Updates the global matrix. You must call this
      *         on the parent transform before calling it on a child node.
      *         TODO: Is there a way to get this to be callable from anywhere?
@@ -249,7 +249,7 @@ public:
      *         Transform2D for a world matrix
      *  \return The transform matrix
      */
-    void update(const Transform2D& parent);
+    void updateTransform(const Transform2D& parent);
 
 
 private:

@@ -33,7 +33,7 @@ namespace graphics
  *  \class Renderable
  *  \brief Interface class for objects that can be rendered
  */
-class Renderable
+class Renderable : public math::Transform2D
 {
 public:
     /*
@@ -49,8 +49,7 @@ public:
      *  \param transform The transform that represents this object
      *  \param target The target to render to
      */
-    virtual void render(const math::Transform2D& transform,
-                        RenderTarget& target) = 0;
+    virtual void render(RenderTarget& target) = 0;
 
 private:
     friend std::ostream& operator<<(std::ostream& os,
