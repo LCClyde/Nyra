@@ -19,57 +19,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_OGRE_GLOBAL_HANDLER_H__
-#define __NYRA_OGRE_GLOBAL_HANDLER_H__
-
-#include <memory>
-#include <OgreRoot.h>
-#include <nyra/pattern/GlobalHandler.h>
+#ifndef __NYRA_MATH_INTERPOLATE_H__
+#define __NYRA_MATH_INTERPOLATE_H__
 
 namespace nyra
 {
-namespace ogre
+namespace math
 {
 /*
- *  \class GlobalHandler
- *  \brief Handles the SDL global init and shutdown commands. All SDL classes
- *         should add a GlobalDependency to this class.
+ *  \func linearInterpolate
+ *  \brief Interpolates linearly between a start and an end.
+ *
+ *  \tparam T The data type to interpolate.
+ *  \param start The starting value
+ *  \param end The ending value
+ *  \param delta The amount from 0 - 1 to interpolate. A value of 0 will return
+ *         start. A value of 1 will return end.
+ *  \return The interpolated value.
  */
-class GlobalHandler : public pattern::GlobalHandler
+template <typename T>
+T linearInterpolate(const T& start, const T& end, double delta)
 {
-public:
-    /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
-     */
-    Ogre::Root* get()
-    {
-        return mRoot.get();
-    }
-
-    /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
-     */
-    const Ogre::Root* get() const
-    {
-        return mRoot.get();
-    }
-
-private:
-    void initializeGlobal() override;
-
-    void shutdownGlobal() override;
-
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const GlobalHandler& app);
-
-    std::unique_ptr<Ogre::Root> mRoot;
-};
+    return start + delta * (end - start);
+}
 }
 }
 

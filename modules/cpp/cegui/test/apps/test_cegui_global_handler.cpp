@@ -19,58 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_OGRE_GLOBAL_HANDLER_H__
-#define __NYRA_OGRE_GLOBAL_HANDLER_H__
-
-#include <memory>
-#include <OgreRoot.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/test/Test.h>
+#include <nyra/cegui/GlobalHandler.h>
+#include <nyra/graphics/sfml/RenderTarget.h>
 
 namespace nyra
 {
-namespace ogre
+namespace cegui
 {
-/*
- *  \class GlobalHandler
- *  \brief Handles the SDL global init and shutdown commands. All SDL classes
- *         should add a GlobalDependency to this class.
- */
-class GlobalHandler : public pattern::GlobalHandler
+TEST(GlobalHandler, Stdout)
 {
-public:
-    /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
-     */
-    Ogre::Root* get()
-    {
-        return mRoot.get();
-    }
+    // We need to a initialize openGL
+    graphics::sfml::RenderTarget target(math::Vector2U(32, 32));
 
-    /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
-     */
-    const Ogre::Root* get() const
-    {
-        return mRoot.get();
-    }
-
-private:
-    void initializeGlobal() override;
-
-    void shutdownGlobal() override;
-
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const GlobalHandler& app);
-
-    std::unique_ptr<Ogre::Root> mRoot;
-};
+    GlobalHandler handler;
+    EXPECT_EQ(test::stdout(handler), "CEGUI stopped");
+    handler.initialize();
+    EXPECT_EQ(test::stdout(handler), "CEGUI running");
+    handler.shutdown();
+    EXPECT_EQ(test::stdout(handler), "CEGUI stopped");
+}
 }
 }
 
-#endif
+NYRA_TEST()

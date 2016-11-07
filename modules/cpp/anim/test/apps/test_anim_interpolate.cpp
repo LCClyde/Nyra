@@ -19,58 +19,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_OGRE_GLOBAL_HANDLER_H__
-#define __NYRA_OGRE_GLOBAL_HANDLER_H__
-
-#include <memory>
-#include <OgreRoot.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/anim/Interpolate.h>
+#include <nyra/test/Test.h>
 
 namespace nyra
 {
-namespace ogre
+namespace anim
 {
-/*
- *  \class GlobalHandler
- *  \brief Handles the SDL global init and shutdown commands. All SDL classes
- *         should add a GlobalDependency to this class.
- */
-class GlobalHandler : public pattern::GlobalHandler
+TEST(Interpolate, Values)
 {
-public:
-    /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
-     */
-    Ogre::Root* get()
+    double value;
+    Interpolate<double> animation(100.0,
+                                  200.0,
+                                  10.0,
+                                  Animation::ONCE,
+                                  value);
+
+    for (size_t ii = 0; ii < 100; ++ii)
     {
-        return mRoot.get();
+        animation.update(0.1);
+        EXPECT_NEAR(101.0 + ii, value, 0.0001);
     }
 
-    /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
-     */
-    const Ogre::Root* get() const
-    {
-        return mRoot.get();
-    }
-
-private:
-    void initializeGlobal() override;
-
-    void shutdownGlobal() override;
-
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const GlobalHandler& app);
-
-    std::unique_ptr<Ogre::Root> mRoot;
-};
+}
 }
 }
 
-#endif
+NYRA_TEST()

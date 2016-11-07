@@ -19,45 +19,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_OGRE_GLOBAL_HANDLER_H__
-#define __NYRA_OGRE_GLOBAL_HANDLER_H__
+#ifndef __NYRA_CEGUI_GLOBAL_HANDLER_H__
+#define __NYRA_CEGUI_GLOBAL_HANDLER_H__
 
-#include <memory>
-#include <OgreRoot.h>
+#include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
 #include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
 {
-namespace ogre
+namespace cegui
 {
 /*
  *  \class GlobalHandler
- *  \brief Handles the SDL global init and shutdown commands. All SDL classes
- *         should add a GlobalDependency to this class.
+ *  \brief Handles the CEGUI global init and shutdown commands. All CEGUI
+ *         classes should add a GlobalDependency to this class.
  */
 class GlobalHandler : public pattern::GlobalHandler
 {
 public:
     /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
-     *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     *  \func Constructor
+     *  \brief Creates an uninitialized CEGUI Global Handler object.
      */
-    Ogre::Root* get()
+    GlobalHandler();
+
+    /*
+     *  \func get
+     *  \brief Retrieves the CEGUI object,
+     *
+     *  \return The CEGUI object or nullptr if it has not been initialized
+     */
+    CEGUI::Renderer* get()
     {
-        return mRoot.get();
+        return mRenderer;
     }
 
     /*
      *  \func get
-     *  \brief Retrieves the Ogre Root object,
+     *  \brief Retrieves the CEGUI object,
      *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     *  \return The CEGUI object or nullptr if it has not been initialized
      */
-    const Ogre::Root* get() const
+    const CEGUI::Renderer* get() const
     {
-        return mRoot.get();
+        return mRenderer;
     }
 
 private:
@@ -68,7 +73,7 @@ private:
     friend std::ostream& operator<<(std::ostream& os,
                                     const GlobalHandler& app);
 
-    std::unique_ptr<Ogre::Root> mRoot;
+    CEGUI::OpenGLRenderer* mRenderer;
 };
 }
 }

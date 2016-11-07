@@ -19,56 +19,67 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_OGRE_GLOBAL_HANDLER_H__
-#define __NYRA_OGRE_GLOBAL_HANDLER_H__
-
-#include <memory>
-#include <OgreRoot.h>
-#include <nyra/pattern/GlobalHandler.h>
+#ifndef __NYRA_ANIM_ANIMATION_H__
+#define __NYRA_ANIM_ANIMATION_H__
 
 namespace nyra
 {
-namespace ogre
+namespace anim
 {
 /*
- *  \class GlobalHandler
- *  \brief Handles the SDL global init and shutdown commands. All SDL classes
- *         should add a GlobalDependency to this class.
+ *  \class Animation
+ *  \brief A base animation class to allow for polymorphism.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class Animation
 {
 public:
     /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
+     *  \enum PlayType
+     *  \brief Used to determine the play type for this animation.
      *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     *  \value ONCE The animation plays onces.
+     *  \value LOOP The animation restarts after finishing.
+     *  \value PING_PONG The animation plays forward then plays backwards
+     *         it then repeats this process until destroyed.
      */
-    Ogre::Root* get()
+    enum PlayType
     {
-        return mRoot.get();
-    }
+        ONCE,
+        LOOP,
+        PING_PONG
+    };
 
     /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
+     *  \func update
+     *  \brief Updates an animation.
      *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     *  \param deltaTime The time that has passed since the last animation
+     *         update.
      */
-    const Ogre::Root* get() const
-    {
-        return mRoot.get();
-    }
+    virtual void update(double deltaTime) = 0;
+
+protected:
+    void initialize(double duration,
+                    PlayType playType);
+
+    double normalizeTime(double deltaTime);
 
 private:
-    void initializeGlobal() override;
+    void updatePing(double& deltaTime);
 
-    void shutdownGlobal() override;
+    void updatePong(double& deltaTime);
 
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const GlobalHandler& app);
+    PlayType mPlayType;
+    double mDuration;
+    double mElapsed;
 
-    std::unique_ptr<Ogre::Root> mRoot;
+    enum PingPong
+    {
+        PING,
+        PONG
+    };
+
+    PingPong mPingPong;
 };
 }
 }

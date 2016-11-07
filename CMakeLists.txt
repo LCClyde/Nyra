@@ -52,6 +52,8 @@ find_library(SFMLSystem NAMES sfml-system PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY
 find_library(SDL2 NAMES SDL2 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(OGRE_MAIN NAMES OgreMain PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(LibPNG NAMES png PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(CEGUIBase NAMES CEGUIBase-0 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(CEGUIOpenGLRenderer NAMES CEGUIOpenGLRenderer-0 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
@@ -66,6 +68,7 @@ include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY})
 # added separately
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/SDL2)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/OGRE)
+include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/cegui-0)
 
 enable_testing()
 
