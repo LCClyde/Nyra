@@ -50,6 +50,14 @@ private:
         archive & value;
     }
 };
+
+static std::string* globalParent = nullptr;
+static std::string globalChild;
+void onChildAddedFunc(std::string* parent, std::string& child)
+{
+    globalParent = parent;
+    globalChild = child;
+}
 }
 
 namespace nyra
@@ -64,6 +72,14 @@ TEST(Tree, Nodes)
     node["a"] = new std::string("The letter a");
     EXPECT_EQ("The letter a", node["a"].get());
 
+    node["a"] = new std::string("The letter a");
+    EXPECT_EQ("The letter a", node["a"].get());
+
+    // Throw if you try to add unallocated nested nodes
+    EXPECT_THROW(node["a"]["b"]["c"]["d"], std::runtime_error);
+
+    node["a"]["b"] = new std::string();
+    node["a"]["b"]["c"] = new std::string();
     node["a"]["b"]["c"]["d"] = new std::string("Nested");
     EXPECT_EQ("Nested", node["a"]["b"]["c"]["d"].get());
 
@@ -74,26 +90,21 @@ TEST(Tree, Nodes)
     EXPECT_THROW(constNode["a2"], std::runtime_error);
 }
 
-TEST(Tree, Archive)
+TEST(Tree, OnChild)
 {
-    // TreeNode cannot serialize types types that do not have a serialize
-    // function. If this is an issue, it may be possible to create a specialized
-    // overloading for unique_ptr<T> to resolve this.
-    Tree<TestNode> node;
-    node["a"] = new TestNode("a");
-    node["b"] = new TestNode("b");
-    node["c"] = new TestNode("c");
-    node["a"]["d"] = new TestNode("ad");
-    node["a"]["e"] = new TestNode("ae");
-    node["a"]["g"] = new TestNode("ag");
-    Tree<TestNode> archived = test::archive(node);
+    Tree<std::string> node;
+    node.onChildAdded = onChildAddedFunc;
 
-    EXPECT_EQ(TestNode("a"), archived["a"].get());
-    EXPECT_EQ(TestNode("b"), archived["b"].get());
-    EXPECT_EQ(TestNode("c"), archived["c"].get());
-    EXPECT_EQ(TestNode("ad"), archived["a"]["d"].get());
-    EXPECT_EQ(TestNode("ae"), archived["a"]["e"].get());
-    EXPECT_EQ(TestNode("ag"), archived["a"]["g"].get());
+    EXPECT_EQ(nullptr, globalParent);
+    EXPECT_EQ("", globalChild);
+
+    node["a"] = new std::string("Testing A");
+    EXPECT_EQ(nullptr, globalParent);
+    EXPECT_EQ("Testing A", globalChild);
+
+    node["a"]["b"] = new std::string("Testing B");
+    EXPECT_EQ("Testing A", *globalParent);
+    EXPECT_EQ("Testing B", globalChild);
 }
 
 TEST(Tree, Stdout)

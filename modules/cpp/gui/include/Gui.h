@@ -22,7 +22,8 @@
 #ifndef __NYRA_GUI_GUI_H__
 #define __NYRA_GUI_GUI_H__
 
-#include <mem/Tree.h>
+#include <nyra/mem/Tree.h>
+#include <nyra/gui/Widget.h>
 
 namespace nyra
 {
@@ -32,9 +33,15 @@ namespace gui
  *  \class Gui
  *  \brief The top level class for graphical user interface.
  */
-class Gui : mem::Tree<Widget>
+class Gui : public mem::Tree<Widget>
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Creates an empty Gui.
+     */
+    Gui();
+
     /*
      *  \func Destructor
      *  \brief Necessary for proper inheritance.
@@ -63,6 +70,12 @@ public:
      *  \brief Renders all the widgets in the Gui.
      */
     virtual void render() = 0;
+
+protected:
+    virtual void addChild(Widget& child) = 0;
+
+private:
+    void addChildInternal(Widget* parent, Widget& child);
 };
 }
 }

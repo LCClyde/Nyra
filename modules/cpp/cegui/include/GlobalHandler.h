@@ -44,26 +44,57 @@ public:
     GlobalHandler();
 
     /*
-     *  \func get
+     *  \func getRenderer
      *  \brief Retrieves the CEGUI object,
      *
      *  \return The CEGUI object or nullptr if it has not been initialized
      */
-    CEGUI::Renderer* get()
+    CEGUI::Renderer* getRenderer() const
     {
         return mRenderer;
     }
 
     /*
-     *  \func get
+     *  \func getWindowManager
      *  \brief Retrieves the CEGUI object,
      *
      *  \return The CEGUI object or nullptr if it has not been initialized
      */
-    const CEGUI::Renderer* get() const
+    CEGUI::WindowManager* getWindowManager() const
     {
-        return mRenderer;
+        return mWindowManager;
     }
+
+    /*
+     *  \func getRoot
+     *  \brief Retrieves the CEGUI object,
+     *
+     *  \return The CEGUI object or nullptr if it has not been initialized
+     */
+    CEGUI::Window* getRoot() const
+    {
+        return mRoot;
+    }
+
+    /*
+     *  \func getSystem
+     *  \brief Retrieves the CEGUI object,
+     *
+     *  \return The CEGUI object or nullptr if it has not been initialized
+     */
+    CEGUI::System* getSystem() const
+    {
+        return mSystem;
+    }
+
+    /*
+     *  \func createWidget
+     *  \brief Creates a CEGUI Window object.
+     *
+     *  \param type The type that represents the widget in the XML.
+     *  \return The created object.
+     */
+    CEGUI::Window& createWidget(const std::string& type) const;
 
 private:
     void initializeGlobal() override;
@@ -74,6 +105,10 @@ private:
                                     const GlobalHandler& app);
 
     CEGUI::OpenGLRenderer* mRenderer;
+    CEGUI::WindowManager* mWindowManager;
+    CEGUI::Window* mRoot;
+    CEGUI::System* mSystem;
+    std::string mScheme;
 };
 }
 }

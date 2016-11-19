@@ -24,8 +24,8 @@
 
 #include <vector>
 #include <string>
-#include <nyra/core/Archive.h>
 #include <nyra/mem/TreeNode.h>
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
@@ -43,6 +43,15 @@ template <typename TypeT>
 class Tree
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default empty tree.
+     */
+    Tree() :
+        mRoot(nullptr, onChildAdded)
+    {
+    }
+
     /*
      *  \func Index Operator
      *  \brief Gets a node in the tree. If the node does not exist than the it
@@ -75,15 +84,14 @@ public:
         return mRoot.keys();
     }
 
+    /*
+     *  \var onChildAdded
+     *  \brief Event that is fired whenever a new child node is add anywhere
+     *         in the tree.
+     */
+    core::Event<void(TypeT* parent, TypeT& child)> onChildAdded;
+
 private:
-    NYRA_SERIALIZE()
-
-    template<class Archive>
-    void serialize(Archive& archive, const unsigned int version)
-    {
-        archive & mRoot;
-    }
-
     friend std::ostream& operator<<(std::ostream& os, const Tree<TypeT>& tree)
     {
         const std::vector<std::string> keys = tree.keys();

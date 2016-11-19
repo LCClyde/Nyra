@@ -19,69 +19,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_WIDGET_H__
-#define __NYRA_GUI_WIDGET_H__
+#ifndef __NYRA_GUI_CEGUI_LABEL_H__
+#define __NYRA_GUI_CEGUI_LABEL_H__
 
-#include <nyra/math/Vector2.h>
-#include <string>
+#include <nyra/gui/cegui/Widget.h>
+#include <nyra/gui/Label.h>
 
 namespace nyra
 {
 namespace gui
 {
+namespace cegui
+{
 /*
- *  \class Widget
- *  \brief Base class for all Gui widgets.
+ *  \class Label
+ *  \brief A class used to render text to the screen.
  */
-class Widget
+class Label : public gui::Label, public Widget
 {
 public:
     /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance.
+     *  \func Constructor
+     *  \brief Creates a default Label.
+     *
+     *  \param text The beginning text for the Label.
      */
-    virtual ~Widget();
+    Label(const std::string& text);
 
     /*
-     *  \func setSize
-     *  \brief Sets the size of the widget in pixels.
+     *  \func setText
+     *  \brief Sets the text of the widget.
      *
-     *  \param size The desired size.
+     *  \param text The desired text.
      */
-    virtual void setSize(const math::Vector2F& size) = 0;
+    void setText(const std::string& text) override;
 
     /*
-     *  \func setPosition
-     *  \brief Sets the position of the widget in pixels.
+     *  \func getText
+     *  \brief Gets the current text.
      *
-     *  \param position The desired position.
+     *  \return The value of the text.
      */
-    virtual void setPosition(const math::Vector2F& position) = 0;
-
-    /*
-     *  \func getPosition
-     *  \brief Gets the current position.
-     *
-     *  \return The value of the position.
-     */
-    virtual math::Vector2F getPosition() const = 0;
-
-    /*
-     *  \func getSize
-     *  \brief Gets the current size.
-     *
-     *  \return The value of the size.
-     */
-    virtual math::Vector2F getSize() const = 0;
-
-    /*
-     *  \func addChild
-     *  \brief Adds a new child widget to this widget.
-     *
-     *  \param child The widget to add.
-     */
-    virtual void addChild(Widget& child) = 0;
+    std::string getText() const override;
 };
+}
 }
 }
 

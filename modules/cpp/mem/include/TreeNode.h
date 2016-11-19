@@ -26,8 +26,7 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <nyra/core/Archive.h>
-#include <nyra/mem/SetParent.h>
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
@@ -48,8 +47,11 @@ public:
      *
      *  \param parent The parent tree node
      */
-    TreeNode(const TreeNode<TypeT>* const parent = nullptr) :
-        mParent(parent)
+    TreeNode(TreeNode<TypeT>* const parent,
+             const core::Event<void(
+                    TypeT* parent, TypeT& child)>& onChildAdded) :
+        mParent(parent),
+        mOnChildAdded(onChildAdded)
     {
     }
 
@@ -65,7 +67,14 @@ public:
     {
         if (!mChildren[index].get())
         {
-            mChildren[index].reset(new TreeNode<TypeT>(this));
+            // Do not allow creation of children nodes unless this is set.
+            if (!mNode.get() && mParent)
+            {
+                throw std::runtime_error(
+                        "Node: " + index + " is not set and "
+                        "cannot create children.");
+            }
+            mChildren[index].reset(new TreeNode<TypeT>(this, mOnChildAdded));
         }
         return *mChildren[index];
     }
@@ -139,8 +148,7 @@ public:
     TreeNode<TypeT>& operator=(TypeT* assignment)
     {
         mNode.reset(assignment);
-        setParent((*mNode),
-                (mParent && mParent->mNode.get() ? &mParent->get() : nullptr));
+        mOnChildAdded(mParent ? mParent->mNode.get() : nullptr, *mNode.get());
         return *this;
     }
 
@@ -161,15 +169,6 @@ public:
     }
 
 private:
-    NYRA_SERIALIZE()
-
-    template<class Archive>
-    void serialize(Archive& archive, const unsigned int version)
-    {
-        archive & mNode;
-        archive & mChildren;
-    }
-
     friend std::ostream& operator<<(std::ostream& os,
                                     const TreeNode<TypeT>& node)
     {
@@ -193,7 +192,8 @@ private:
             std::string, std::shared_ptr<TreeNode<TypeT> > > LeafMap;
     LeafMap mChildren;
     std::unique_ptr<TypeT> mNode;
-    const TreeNode<TypeT>* const mParent;
+    TreeNode<TypeT>* const mParent;
+    const core::Event<void(TypeT* parent, TypeT& child)>& mOnChildAdded;
 };
 }
 }

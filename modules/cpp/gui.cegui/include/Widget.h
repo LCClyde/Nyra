@@ -19,26 +19,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_WIDGET_H__
-#define __NYRA_GUI_WIDGET_H__
+#ifndef __NYRA_GUI_CEGUI_WIDGET_H__
+#define __NYRA_GUI_CEGUI_WIDGET_H__
 
-#include <nyra/math/Vector2.h>
-#include <string>
+#include <nyra/gui/Widget.h>
+#include <CEGUI/Window.h>
+#include <nyra/cegui/GlobalHandler.h>
+#include <nyra/pattern/GlobalDependency.h>
 
 namespace nyra
 {
 namespace gui
 {
+namespace cegui
+{
 /*
  *  \class Widget
- *  \brief Base class for all Gui widgets.
+ *  \brief A base class for CEGUI widgets.
  */
-class Widget
+class Widget : public virtual gui::Widget,
+        protected pattern::GlobalDependency<nyra::cegui::GlobalHandler>
 {
 public:
     /*
+     *  \func Constructor
+     *  \brief Sets up a base CEGUI widget.
+     *
+     *  \param type The CEGUI type from the data on disk.
+     */
+    Widget(const std::string& type);
+
+    /*
      *  \func Destructor
-     *  \brief Necessary for proper inheritance.
+     *  \brief Necessary for inheritance.
      */
     virtual ~Widget();
 
@@ -48,7 +61,7 @@ public:
      *
      *  \param size The desired size.
      */
-    virtual void setSize(const math::Vector2F& size) = 0;
+    void setSize(const math::Vector2F& size) override;
 
     /*
      *  \func setPosition
@@ -56,7 +69,7 @@ public:
      *
      *  \param position The desired position.
      */
-    virtual void setPosition(const math::Vector2F& position) = 0;
+    void setPosition(const math::Vector2F& position) override;
 
     /*
      *  \func getPosition
@@ -64,7 +77,7 @@ public:
      *
      *  \return The value of the position.
      */
-    virtual math::Vector2F getPosition() const = 0;
+    math::Vector2F getPosition() const override;
 
     /*
      *  \func getSize
@@ -72,7 +85,7 @@ public:
      *
      *  \return The value of the size.
      */
-    virtual math::Vector2F getSize() const = 0;
+    math::Vector2F getSize() const override;
 
     /*
      *  \func addChild
@@ -80,8 +93,17 @@ public:
      *
      *  \param child The widget to add.
      */
-    virtual void addChild(Widget& child) = 0;
+    void addChild(gui::Widget& child) override;
+
+    CEGUI::Window& getWidget()
+    {
+        return mWidget;
+    }
+
+protected:
+    CEGUI::Window& mWidget;
 };
+}
 }
 }
 

@@ -19,70 +19,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_WIDGET_H__
-#define __NYRA_GUI_WIDGET_H__
-
-#include <nyra/math/Vector2.h>
-#include <string>
+#include <nyra/gui/Gui.h>
+#include <nyra/cegui/GlobalHandler.h>
+#include <nyra/pattern/GlobalDependency.h>
 
 namespace nyra
 {
 namespace gui
 {
+namespace cegui
+{
 /*
- *  \class Widget
- *  \brief Base class for all Gui widgets.
+ *  \class Gui
+ *  \brief A base class that holds a CEGUI Gui.
  */
-class Widget
+class Gui : public gui::Gui,
+        private pattern::GlobalDependency<nyra::cegui::GlobalHandler>
 {
 public:
     /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance.
+     *  \func Constructor
+     *  \brief Creates a blank Gui.
      */
-    virtual ~Widget();
+    Gui();
 
     /*
-     *  \func setSize
-     *  \brief Sets the size of the widget in pixels.
+     *  \func init
+     *  \brief Initializes a Gui.
      *
-     *  \param size The desired size.
+     *  \param winId The window ID that is associated with this Gui.
      */
-    virtual void setSize(const math::Vector2F& size) = 0;
+    void init(size_t winId) override;
 
     /*
-     *  \func setPosition
-     *  \brief Sets the position of the widget in pixels.
+     *  \func update
+     *  \brief Updates all the elements in the Gui.
      *
-     *  \param position The desired position.
+     *  \param deltaTime The time in seconds that has passed since the
+     *         last update.
      */
-    virtual void setPosition(const math::Vector2F& position) = 0;
+    void update(double deltaTime) override;
 
     /*
-     *  \func getPosition
-     *  \brief Gets the current position.
-     *
-     *  \return The value of the position.
+     *  \func render
+     *  \brief Renders all the widgets in the Gui.
      */
-    virtual math::Vector2F getPosition() const = 0;
+    void render() override;
 
-    /*
-     *  \func getSize
-     *  \brief Gets the current size.
-     *
-     *  \return The value of the size.
-     */
-    virtual math::Vector2F getSize() const = 0;
-
-    /*
-     *  \func addChild
-     *  \brief Adds a new child widget to this widget.
-     *
-     *  \param child The widget to add.
-     */
-    virtual void addChild(Widget& child) = 0;
+private:
+    void addChild(gui::Widget& child) override;
 };
 }
 }
-
-#endif
+}

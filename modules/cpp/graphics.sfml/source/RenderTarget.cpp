@@ -70,6 +70,14 @@ void RenderTarget::resize(const math::Vector2U& size)
 {
     mTexture->create(size.x(), size.y());
     mSprite->setTexture(mTexture->getTexture(), true);
+
+    // Set the window as the active render target. This allows external
+    // applications to get the current OpenGL context after the initial
+    // setup.
+    if (mWindow.get())
+    {
+        mWindow->setActive(true);
+    }
 }
 
 //===========================================================================//

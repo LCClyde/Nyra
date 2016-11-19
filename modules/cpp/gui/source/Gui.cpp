@@ -19,45 +19,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_LABEL_H__
-#define __NYRA_GUI_LABEL_H__
-
-#include <nyra/gui/Widget.h>
+#include <nyra/gui/Gui.h>
+#include <functional>
 
 namespace nyra
 {
 namespace gui
 {
-/*
- *  \class Label
- *  \brief Widget that represents text on screen.
- */
-class Label : public virtual Widget
+//===========================================================================//
+Gui::Gui()
 {
-public:
-    /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance
-     */
-    virtual ~Label();
-
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    virtual void setText(const std::string& text) = 0;
-
-    /*
-     *  \func getText
-     *  \brief Gets the current text.
-     *
-     *  \return The value of the text.
-     */
-    virtual std::string getText() const = 0;
-};
-}
+    onChildAdded = std::bind(
+            &Gui::addChildInternal,
+            this,
+            std::placeholders::_1,
+            std::placeholders::_2);
 }
 
-#endif
+//===========================================================================//
+Gui::~Gui()
+{
+}
+
+//===========================================================================//
+void Gui::addChildInternal(Widget* parent, Widget& child)
+{
+    if (!parent)
+    {
+        addChild(child);
+    }
+    else
+    {
+        parent->addChild(child);
+    }
+}
+}
+}
