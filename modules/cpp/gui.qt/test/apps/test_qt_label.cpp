@@ -40,7 +40,8 @@ TEST(Event, Call)
                            math::Vector2I(256, 128));
 
     Gui gui(window);
-    gui["label"] = new Label("Hello World");
+    Label* label = new Label("Hello World");
+    gui["label"] = label;
 
     // We need to make sure the Window is fully updated and has time to
     // animate if need be.
@@ -55,6 +56,10 @@ TEST(Event, Call)
     img::Image truth = core::readArchive<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_qt_label.png"));
     EXPECT_EQ(truth, window.getPixels());
+
+    EXPECT_NE(math::Vector2F(0.0f, 0.0f), label->getSize());
+    EXPECT_NE(math::Vector2F(256.0f, 64.0f), label->getSize());
+    EXPECT_EQ(math::Vector2F(0.0f, 0.0f), label->getPosition());
 }
 }
 }
