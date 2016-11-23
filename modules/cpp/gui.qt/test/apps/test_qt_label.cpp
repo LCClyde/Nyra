@@ -19,40 +19,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <nyra/gui/qt/Gui.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/qt/GlobalHandler.h>
+#include <nyra/win/qt/Window.h>
+#include <nyra/gui/qt/Label.h>
+#include <nyra/core/Path.h>
+#include <nyra/time/System.h>
 
 namespace nyra
 {
+namespace gui
+{
 namespace qt
 {
-TEST(GlobalHandler, Application)
+TEST(Event, Call)
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-}
+    // The position is offset so the window doesn't go into the title bar.
+    win::qt::Window window("test_qt_label",
+                           math::Vector2U(256, 64),
+                           math::Vector2I(256, 128));
 
-TEST(GlobalHandler, Stdout)
-{
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
+    Gui gui(window);
+    gui["label"] = new Label("Hello World");
+
+    // We need to make sure the Window is fully updated and has time to
+    // animate if need be.
+    for (size_t ii = 0; ii < 10; ++ii)
+    {
+        window.update();
+        time::sleep(100);
+    }
+
+    // TODO: This works on Linux, it will probably be different on
+    //       other platforms.
+    img::Image truth = core::readArchive<img::Image>(core::path::join(
+            core::DATA_PATH, "textures/test_qt_label.png"));
+    EXPECT_EQ(truth, window.getPixels());
+}
 }
 }
 }

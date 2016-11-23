@@ -19,42 +19,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/qt/GlobalHandler.h>
+#include <nyra/qt/GlobalUpdate.h>
+#include <nyra/pattern/GlobalUpdate.h>
 
 namespace nyra
 {
 namespace qt
 {
-TEST(GlobalHandler, Application)
+//===========================================================================//
+void globalUpdate(pattern::GlobalDependency<GlobalHandler>& qtResource)
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-}
+    static pattern::GlobalUpdate updater;
+    if (updater.tryUpdate(&qtResource))
+    {
+        qtResource.getGlobalInstance().get()->processEvents();
+    }
 
-TEST(GlobalHandler, Stdout)
-{
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
 }
 }
 }
-
-NYRA_TEST()

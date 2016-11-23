@@ -24,6 +24,7 @@
 
 #include <nyra/mem/Tree.h>
 #include <nyra/gui/Widget.h>
+#include <nyra/win/Window.h>
 
 namespace nyra
 {
@@ -47,14 +48,6 @@ public:
      *  \brief Necessary for proper inheritance.
      */
     virtual ~Gui();
-
-    /*
-     *  \func init
-     *  \brief Initializes a Gui.
-     *
-     *  \param winId The window ID that is associated with this Gui.
-     */
-    virtual void init(size_t winId) = 0;
 
     /*
      *  \func update

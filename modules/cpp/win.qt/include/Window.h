@@ -27,6 +27,7 @@
 #include <nyra/win/Window.h>
 #include <nyra/pattern/GlobalDependency.h>
 #include <nyra/qt/GlobalHandler.h>
+#include <nyra/img/Image.h>
 
 namespace nyra
 {
@@ -209,6 +210,16 @@ public:
     {
         mWindow->move(position.x(), position.y());
     }
+
+    /*
+     *  \func getPixels
+     *  \brief Gets a screenshot of the window. This is necessary because
+     *         Qt does not have a renderer. Maybe it is better to have this
+     *         as every window object?
+     *
+     *  \return The image that represents the window.
+     */
+    img::Image getPixels() const;
 
 private:
     std::unique_ptr<QMainWindow> mWindow;

@@ -19,42 +19,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
+#ifndef __NYRA_QT_GLOBAL_UPDATE_H__
+#define __NYRA_QT_GLOBAL_UPDATE_H__
+
+#include <nyra/pattern/GlobalDependency.h>
 #include <nyra/qt/GlobalHandler.h>
 
 namespace nyra
 {
 namespace qt
 {
-TEST(GlobalHandler, Application)
-{
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-}
-
-TEST(GlobalHandler, Stdout)
-{
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
+/*
+ *  \func globalUpdate
+ *  \brief Updates all QT windows.
+ *
+ *  \param qtResource A QT global dependency that needs to be updated.
+ */
+void globalUpdate(pattern::GlobalDependency<GlobalHandler>& qtResource);
 }
 }
 
-NYRA_TEST()
+#endif

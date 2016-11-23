@@ -35,12 +35,6 @@ namespace cegui
 //===========================================================================//
 Gui::Gui()
 {
-    init(0);
-}
-
-//===========================================================================//
-void Gui::init(size_t )
-{
 }
 
 //===========================================================================//
@@ -62,7 +56,7 @@ void Gui::render()
 void Gui::addChild(gui::Widget& child)
 {
     getGlobalInstance().getRoot()->addChild(
-            &dynamic_cast<gui::cegui::Widget&>(child).getWidget());
+            reinterpret_cast<CEGUI::Window*>(child.getNative()));
 }
 }
 }

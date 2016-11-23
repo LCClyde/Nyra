@@ -19,42 +19,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/qt/GlobalHandler.h>
+#include <nyra/gui/qt/Gui.h>
+#include <nyra/qt/GlobalUpdate.h>
+#include <QMainWindow>
 
 namespace nyra
 {
+namespace gui
+{
 namespace qt
 {
-TEST(GlobalHandler, Application)
+//===========================================================================//
+Gui::Gui(win::qt::Window& window) :
+    mWidget(*reinterpret_cast<QMainWindow*>(window.getNative()))
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
 }
 
-TEST(GlobalHandler, Stdout)
+//===========================================================================//
+void Gui::update(double deltaTime)
 {
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
-}
+    nyra::qt::globalUpdate(*this);
 }
 
-NYRA_TEST()
+//===========================================================================//
+void Gui::render()
+{
+}
+
+//===========================================================================//
+void Gui::addChild(gui::Widget& child)
+{
+    reinterpret_cast<QWidget*>(child.getNative())->setParent(&mWidget);
+    reinterpret_cast<QWidget*>(child.getNative())->show();
+}
+}
+}
+}

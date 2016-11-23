@@ -19,42 +19,55 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/qt/GlobalHandler.h>
+#ifndef __NYRA_GUI_QT_LABEL_H__
+#define __NYRA_GUI_QT_LABEL_H__
+
+#include <nyra/gui/qt/Widget.h>
+#include <nyra/gui/Label.h>
+#include <QLabel>
 
 namespace nyra
 {
+namespace gui
+{
 namespace qt
 {
-TEST(GlobalHandler, Application)
+/*
+ *  \class Label
+ *  \brief A class used to render text to the screen.
+ */
+class Label : public gui::Label, public Widget
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default Label.
+     *
+     *  \param text The beginning text for the Label.
+     */
+    Label(const std::string& text);
+
+    /*
+     *  \func setText
+     *  \brief Sets the text of the widget.
+     *
+     *  \param text The desired text.
+     */
+    void setText(const std::string& text) override;
+
+    /*
+     *  \func getText
+     *  \brief Gets the current text.
+     *
+     *  \return The value of the text.
+     */
+    std::string getText() const override;
+
+private:
+    QLabel mLabel;
+};
+}
+}
 }
 
-TEST(GlobalHandler, Stdout)
-{
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
-}
-}
-
-NYRA_TEST()
+#endif

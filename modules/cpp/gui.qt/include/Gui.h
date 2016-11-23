@@ -19,42 +19,59 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
+#ifndef __NYRA_GUI_QT_GUI_H__
+#define __NYRA_GUI_QT_GUI_H__
+
+#include <nyra/gui/Gui.h>
 #include <nyra/qt/GlobalHandler.h>
+#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/win/qt/Window.h>
+#include <QWidget>
 
 namespace nyra
 {
+namespace gui
+{
 namespace qt
 {
-TEST(GlobalHandler, Application)
+/*
+ *  \class Gui
+ *  \brief A base class that holds a Qt Gui.
+ */
+class Gui : public gui::Gui,
+        private pattern::GlobalDependency<nyra::qt::GlobalHandler>
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a blank Gui.
+     *
+     *  \param window The window object associated with this Gui.
+     */
+    Gui(win::qt::Window& window);
+
+    /*
+     *  \func update
+     *  \brief Updates all the elements in the Gui.
+     *
+     *  \param deltaTime The time in seconds that has passed since the
+     *         last update.
+     */
+    void update(double deltaTime) override;
+
+    /*
+     *  \func render
+     *  \brief Renders all the widgets in the Gui.
+     */
+    void render() override;
+
+private:
+    void addChild(gui::Widget& child) override;
+
+    QWidget& mWidget;
+};
+}
+}
 }
 
-TEST(GlobalHandler, Stdout)
-{
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
-}
-}
-
-NYRA_TEST()
+#endif

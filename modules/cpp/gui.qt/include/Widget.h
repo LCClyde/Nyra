@@ -19,35 +19,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_CEGUI_WIDGET_H__
-#define __NYRA_GUI_CEGUI_WIDGET_H__
+#ifndef __NYRA_GUI_QT_WIDGET_H__
+#define __NYRA_GUI_QT_WIDGET_H__
 
 #include <nyra/gui/Widget.h>
-#include <CEGUI/Window.h>
-#include <nyra/cegui/GlobalHandler.h>
+#include <nyra/qt/GlobalHandler.h>
 #include <nyra/pattern/GlobalDependency.h>
+#include <QWidget>
 
 namespace nyra
 {
 namespace gui
 {
-namespace cegui
+namespace qt
 {
 /*
  *  \class Widget
- *  \brief A base class for CEGUI widgets.
+ *  \brief A base class for Qt widgets.
  */
 class Widget : public virtual gui::Widget,
-        protected pattern::GlobalDependency<nyra::cegui::GlobalHandler>
+        protected pattern::GlobalDependency<nyra::qt::GlobalHandler>
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Sets up a base CEGUI widget.
+     *  \brief Sets up a base Qt widget.
      *
-     *  \param type The CEGUI type from the data on disk.
+     *  \param widget Dependency injected base QWidget.
      */
-    Widget(const std::string& type);
+    Widget(QWidget& widget);
 
     /*
      *  \func Destructor
@@ -97,9 +97,9 @@ public:
 
     /*
      *  \func getNative
-     *  \brief Returns the underlying CEGUI object.
+     *  \brief Returns the underlying Qt Widget.
      *
-     *  \return The CEGUI Window.
+     *  \return A pointer to the Qt Widget.
      */
     void* getNative() override
     {
@@ -107,7 +107,7 @@ public:
     }
 
 protected:
-    CEGUI::Window& mWidget;
+    QWidget& mWidget;
 };
 }
 }

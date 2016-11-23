@@ -19,4 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS qt win img PARENT_SCOPE)
+set(MOD_DEPS gui qt win.qt PARENT_SCOPE)

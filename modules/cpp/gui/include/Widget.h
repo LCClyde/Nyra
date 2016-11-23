@@ -81,6 +81,14 @@ public:
      *  \param child The widget to add.
      */
     virtual void addChild(Widget& child) = 0;
+
+    /*
+     *  \func getNative
+     *  \brief Gets the underlying native object for the widget.
+     *
+     *  \return A pointer to the native object.
+     */
+    virtual void* getNative() =  0;
 };
 }
 }

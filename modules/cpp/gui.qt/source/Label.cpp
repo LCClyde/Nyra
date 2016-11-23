@@ -19,42 +19,36 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/qt/GlobalHandler.h>
+#include <nyra/gui/qt/Label.h>
 
 namespace nyra
 {
+namespace gui
+{
 namespace qt
 {
-TEST(GlobalHandler, Application)
+//===========================================================================//
+Label::Label(const std::string& text) :
+    Widget(mLabel)
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
+    setText(text);
 }
 
-TEST(GlobalHandler, Stdout)
+//===========================================================================//
+void Label::setText(const std::string& text)
 {
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-}
-}
+    const QString qText(text.c_str());
+    mLabel.setText(qText);
+
+    const QFontMetrics metric(mLabel.font());
+    setSize(math::Vector2F(metric.width(qText), metric.height()));
 }
 
-NYRA_TEST()
+//===========================================================================//
+std::string Label::getText() const
+{
+    return mLabel.text().toUtf8().constData();
+}
+}
+}
+}

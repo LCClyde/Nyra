@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2016 Clyde Stanfield
  *
@@ -20,39 +21,18 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/test/Stdout.h>
-#include <nyra/qt/GlobalHandler.h>
+#include <nyra/qt/GlobalUpdate.h>
 
 namespace nyra
 {
 namespace qt
 {
-TEST(GlobalHandler, Application)
+// There is nothing really to test here because everything is encapsulated
+// in QT. Just make sure it doesn't throw.
+TEST(GlobalUpdate, Update)
 {
-    GlobalHandler app;
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.initialize();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_NE(app.get(), nullptr);
-    app.shutdown();
-    EXPECT_EQ(app.get(), nullptr);
-}
-
-TEST(GlobalHandler, Stdout)
-{
-    GlobalHandler app;
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
-    app.initialize();
-    EXPECT_EQ(test::stdout(app), "Application state: running");
-    app.shutdown();
-    EXPECT_EQ(test::stdout(app), "Application state: stopped");
+    pattern::GlobalDependency<GlobalHandler> app;
+    globalUpdate(app);
 }
 }
 }

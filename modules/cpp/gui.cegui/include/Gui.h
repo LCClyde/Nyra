@@ -19,6 +19,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#ifndef __NYRA_GUI_CEGUI_GUI_H__
+#define __NYRA_GUI_CEGUI_GUI_H__
+
 #include <nyra/gui/Gui.h>
 #include <nyra/cegui/GlobalHandler.h>
 #include <nyra/pattern/GlobalDependency.h>
@@ -44,14 +47,6 @@ public:
     Gui();
 
     /*
-     *  \func init
-     *  \brief Initializes a Gui.
-     *
-     *  \param winId The window ID that is associated with this Gui.
-     */
-    void init(size_t winId) override;
-
-    /*
      *  \func update
      *  \brief Updates all the elements in the Gui.
      *
@@ -72,3 +67,5 @@ private:
 }
 }
 }
+
+#endif

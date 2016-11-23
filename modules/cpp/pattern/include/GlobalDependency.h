@@ -54,7 +54,6 @@ public:
      */
     typedef Singleton<HandlerT> GlobalInstance;
 
-protected:
     /*
      *  \func Constructor
      *  \brief Adds the dependency to the global handler.
@@ -73,11 +72,23 @@ protected:
         GlobalInstance::get().shutdown();
     }
 
+    /*
+     *  \func getGlobalInstance
+     *  \brief Gets the underlying global handler.
+     *
+     *  \return The global handler
+     */
     HandlerT& getGlobalInstance()
     {
         return GlobalInstance::get();
     }
 
+    /*
+     *  \func getGlobalInstance
+     *  \brief Gets the underlying global handler.
+     *
+     *  \return The global handler
+     */
     const HandlerT& getGlobalInstance() const
     {
         return GlobalInstance::get();
