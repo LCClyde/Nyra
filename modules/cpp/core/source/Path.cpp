@@ -47,6 +47,7 @@ std::string getApplicationPath()
 }
 #endif
 
+//===========================================================================//
 std::string getInstallPath(const std::string& appPath)
 {
     const std::vector<std::string> splits = nyra::core::path::split(appPath);
@@ -67,12 +68,14 @@ namespace nyra
 {
 namespace core
 {
+//===========================================================================//
 const std::string APPLICATION_PATH = getApplicationPath();
 const std::string INSTALL_PATH = getInstallPath(APPLICATION_PATH);
 const std::string DATA_PATH = path::join(INSTALL_PATH, "data");
 
 namespace path
 {
+//===========================================================================//
 std::vector<std::string> split(const std::string& input)
 {
     std::vector<std::string> elements;
@@ -83,12 +86,19 @@ std::vector<std::string> split(const std::string& input)
     return elements;
 }
 
+//===========================================================================//
 std::string join(const std::string& start, const std::string& end)
 {
     boost::filesystem::path path(start);
     path /= end;
     path.normalize();
     return path.string();
+}
+
+//===========================================================================//
+bool exists(const std::string& pathname)
+{
+    return boost::filesystem::exists(pathname);
 }
 }
 }

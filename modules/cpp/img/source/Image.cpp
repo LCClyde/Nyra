@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/img/Image.h>
+#include <nyra/core/Path.h>
 #include <png.h>
 
 namespace
@@ -266,6 +267,10 @@ template <>
 void readArchive<img::Image>(const std::string& pathname,
                              img::Image& image)
 {
+    if (!core::path::exists(pathname))
+    {
+        throw std::runtime_error("Pathname: " + pathname + " does not exist");
+    }
     PNGReader(pathname, image);
 }
 }

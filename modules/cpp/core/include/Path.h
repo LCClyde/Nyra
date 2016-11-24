@@ -68,6 +68,15 @@ std::vector<std::string> split(const std::string& input);
  *  \return The joined path.
  */
 std::string join(const std::string& start, const std::string& end);
+
+/*
+ *  \func exists
+ *  \brief Returns true if the pathname exists on disk.
+ *
+ *  \param pathname The location on disk.
+ *  \return True if the pathname exists.
+ */
+bool exists(const std::string& pathname);
 }
 }
 }

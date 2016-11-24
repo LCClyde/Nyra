@@ -82,6 +82,14 @@ TEST(Path, Join)
     EXPECT_EQ(join("/foo/bar", "../baz"), "/foo/baz");
     EXPECT_EQ(join("foo/bar", "../../../baz"), "../baz");
 }
+
+TEST(Path, Exists)
+{
+    EXPECT_TRUE(exists(join(APPLICATION_PATH, "test_path")));
+    EXPECT_FALSE(exists(
+            join(APPLICATION_PATH,
+                 "hopefully_this_application_never_exists")));
+}
 }
 }
 }

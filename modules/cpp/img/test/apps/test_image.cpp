@@ -145,6 +145,8 @@ TEST(Image, Archive)
     Image imageRoundTrip = core::readArchive<Image>(core::path::join(
             core::DATA_PATH, "textures/test_png.png"));
     EXPECT_EQ(test::archive(imageRoundTrip), imageRoundTrip);
+
+    EXPECT_ANY_THROW(core::readArchive<img::Image>("something_that_does_not_exist.png"));
 }
 }
 }
