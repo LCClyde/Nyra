@@ -27,6 +27,8 @@
 *.exe
 *.out
 *.app
+*automoc.cpp
+moc_*.cpp
 
 CMakeFiles/
 CMakeCache.txt

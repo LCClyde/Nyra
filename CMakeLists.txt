@@ -35,6 +35,8 @@ else()
     add_definitions(-DNYRA_POSIX=${CMAKE_SYSTEM})
 endif()
 
+set(CMAKE_AUTOMOC ON)
+
 #TODO: Only set this if the caller did not set it
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)

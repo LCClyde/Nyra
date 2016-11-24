@@ -36,8 +36,10 @@ namespace qt
  *  \class Slider
  *  \brief Represents a moveable slider widget that scales from 0-1
  */
-class Slider : public gui::Slider, public Widget
+class Slider : public QObject, public gui::Slider, public Widget
 {
+    Q_OBJECT
+
 public:
     /*
      *  \func Constructor
@@ -61,7 +63,12 @@ public:
      */
     void setValue(double value) override;
 
+private slots:
+    void valueChanged(int value) const;
+
 private:
+    double normalizeValue(int value) const;
+
     QSlider mSlider;
 };
 }

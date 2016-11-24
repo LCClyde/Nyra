@@ -37,20 +37,38 @@ Slider::Slider() :
 {
     mSlider.setMinimum(0),
     mSlider.setMaximum(std::numeric_limits<int>::max());
+    connect(&mSlider,
+            SIGNAL(valueChanged(int)),
+            this,
+            SLOT(valueChanged(int)));
 }
 
 //===========================================================================//
 double Slider::getValue() const
 {
-    return static_cast<double>(mSlider.value()) /
-            static_cast<double>(mSlider.maximum());
+    return normalizeValue(mSlider.value());
 }
 
 //===========================================================================//
 void Slider::setValue(double value)
 {
+    value = std::min(std::max(value, 0.0), 1.0);
     const int diff = mSlider.maximum() - mSlider.minimum();
     mSlider.setValue(static_cast<int>(mSlider.minimum() + (diff * value)));
+}
+
+//===========================================================================//
+double Slider::normalizeValue(int value) const
+{
+    const int diff = mSlider.maximum() - mSlider.minimum();
+    return static_cast<double>(value - mSlider.minimum()) /
+            static_cast<double>(diff);
+}
+
+//===========================================================================//
+void Slider::valueChanged(int value) const
+{
+    onValueChanged(normalizeValue(value));
 }
 }
 }
