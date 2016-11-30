@@ -39,12 +39,12 @@ void update(nyra::win::Window& window)
     }
 }
 
+static double broadcastValue = 0.0;
+
 void valueChanged(double value)
 {
     broadcastValue = value;
 }
-
-static double broadcastValue = 0.0;
 }
 
 namespace nyra

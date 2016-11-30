@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,65 +19,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/img/Color.h>
+#include <nyra/img/BlobInstruction.h>
 
 namespace nyra
 {
 namespace img
 {
 //===========================================================================//
-const Color Color::BLACK(0, 0, 0);
-const Color Color::WHITE(255, 255, 255);
-const Color Color::GRAY(127, 127, 127);
-const Color Color::ALPHA(0, 0, 0, 0);
-
-//===========================================================================//
-Color::Color() :
-    r(0),
-    g(0),
-    b(0),
-    a(255)
+BlobInstruction::BlobInstruction(BlobInstruction::Type type,
+                                 const math::Vector2F& point,
+                                 const math::Vector2F& bezier1,
+                                 const math::Vector2F& bezier2) :
+    type(type),
+    point(point),
+    bezier1(bezier1),
+    bezier2(bezier2)
 {
 }
 
 //===========================================================================//
-Color::Color(uint8_t r, uint8_t g, uint8_t b) :
-    r(r),
-    g(g),
-    b(b),
-    a(255)
+BlobInstruction createBlobStart(const math::Vector2F& point)
 {
+    return BlobInstruction(BlobInstruction::START,
+                           point,
+                           math::Vector2F(0.0f, 0.0f),
+                           math::Vector2F(0.0f, 0.0f));
 }
 
 //===========================================================================//
-Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) :
-    r(r),
-    g(g),
-    b(b),
-    a(a)
+BlobInstruction createBlobLine(const math::Vector2F& point)
 {
+    return BlobInstruction(BlobInstruction::LINE,
+                           point,
+                           math::Vector2F(0.0f, 0.0f),
+                           math::Vector2F(0.0f, 0.0f));
 }
 
 //===========================================================================//
-uint32_t Color::toRGBA() const
+BlobInstruction createBlobCurve(const math::Vector2F& point,
+                                const math::Vector2F& bezier1,
+                                const math::Vector2F& bezier2)
 {
-    return (r << 24) | (g << 16) | (b << 8) | a;
-}
-
-//===========================================================================//
-uint32_t Color::toARGB() const
-{
-    return (a << 24) | (r << 16) | (g << 8) | b;
-}
-
-//===========================================================================//
-std::ostream& operator<<(std::ostream& os, const Color& color)
-{
-    os << "r=" << static_cast<uint32_t>(color.r)
-       << ", g=" << static_cast<uint32_t>(color.g)
-       << ", b=" << static_cast<uint32_t>(color.b)
-       << ", a=" << static_cast<uint32_t>(color.a);
-    return os;
+    return BlobInstruction(BlobInstruction::CURVE,
+                           point,
+                           bezier1,
+                           bezier2);
 }
 }
 }

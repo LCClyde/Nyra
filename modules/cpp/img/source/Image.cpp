@@ -25,9 +25,11 @@
 
 namespace
 {
+//===========================================================================//
 class PNGWrapper
 {
 public:
+//===========================================================================//
     PNGWrapper() :
         mFile(nullptr),
         mPNG(nullptr),
@@ -35,6 +37,7 @@ public:
     {
     }
 
+//===========================================================================//
     virtual ~PNGWrapper()
     {
         if (mFile)
@@ -43,15 +46,18 @@ public:
         }
     }
 
+//===========================================================================//
 protected:
     FILE* mFile;
     png_structp mPNG;
     png_infop mInfo;
 };
 
+//===========================================================================//
 class PNGWriter : public PNGWrapper
 {
 public:
+//===========================================================================//
     PNGWriter(const nyra::img::Image& image,
               const std::string& pathname)
     {
@@ -85,6 +91,7 @@ public:
         png_write_png (mPNG, mInfo, PNG_TRANSFORM_IDENTITY, nullptr);
     }
 
+//===========================================================================//
     ~PNGWriter()
     {
         if (mPNG && mInfo)
@@ -94,9 +101,11 @@ public:
     }
 };
 
+//===========================================================================//
 class PNGReader : public PNGWrapper
 {
 public:
+//===========================================================================//
     PNGReader(const std::string& pathname,
               nyra::img::Image& image)
     {
@@ -163,6 +172,7 @@ public:
         png_read_image(mPNG, rows.data());
     }
 
+//===========================================================================//
     ~PNGReader()
     {
         if (mPNG && mInfo)
@@ -179,13 +189,43 @@ namespace img
 {
 //===========================================================================//
 Image::Image(const uint8_t* pixels,
-             const math::Vector2U& size)
+             const math::Vector2U& size,
+             Format format)
 {
     resize(size);
     if (size.product() > 0)
     {
-        uint8_t* imagePixels = reinterpret_cast<uint8_t*>(mPixels.data());
-        memcpy(imagePixels, pixels, size.product() * sizeof(Color));
+        switch (format)
+        {
+        case RGBA:
+        {
+            uint8_t* imagePixels = reinterpret_cast<uint8_t*>(mPixels.data());
+            memcpy(imagePixels, pixels, size.product() * sizeof(Color));
+            break;
+        }
+
+        case ARGB:
+            for (size_t ii = 0, jj = 0; ii < mPixels.size(); ++ii, jj += 4)
+            {
+                // Swap the channels around
+                mPixels[ii] = Color(pixels[jj + 1],
+                                    pixels[jj + 2],
+                                    pixels[jj + 3],
+                                    pixels[jj]);
+            }
+            break;
+
+        case BGRA:
+            for (size_t ii = 0, jj = 0; ii < mPixels.size(); ++ii, jj += 4)
+            {
+                // Swap the channels around
+                mPixels[ii] = Color(pixels[jj + 2],
+                                    pixels[jj + 1],
+                                    pixels[jj],
+                                    pixels[jj + 3]);
+            }
+            break;
+        }
     }
 }
 

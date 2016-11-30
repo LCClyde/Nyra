@@ -38,6 +38,17 @@ class Image
 {
 public:
     /*
+     *  \type Format
+     *  \brief The Pixel format of the image
+     */
+    enum Format
+    {
+        RGBA,
+        ARGB,
+        BGRA
+    };
+
+    /*
      *  \func Constructor
      *  \brief Creates an empty image
      */
@@ -49,9 +60,11 @@ public:
      *
      *  \param pixels Pixels in RGBA format.
      *  \param size The size of the image.
+     *  \param format The format of the incoming pixels
      */
     Image(const uint8_t* pixels,
-          const math::Vector2U& size);
+          const math::Vector2U& size,
+          Format format = RGBA);
 
     /*
      *  \func Constructor

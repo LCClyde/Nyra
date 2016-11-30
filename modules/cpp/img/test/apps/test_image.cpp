@@ -88,6 +88,44 @@ TEST(Image, Constructor)
     }
 }
 
+TEST(Image, ARGB)
+{
+    const math::Vector2U size(17, 13);
+    std::vector<uint8_t> argb(size.product() * 4);
+    for (size_t ii = 0; ii < argb.size(); ii += 4)
+    {
+        argb[ii] = 255;     // alpha
+        argb[ii + 1] = 128; // red
+        argb[ii + 2] = 64;  // green
+        argb[ii + 3] = 32;  // blue
+    }
+
+    Image image(argb.data(), size, Image::ARGB);
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        EXPECT_EQ(Color(128, 64, 32, 255), image(ii));
+    }
+}
+
+TEST(Image, BGRA)
+{
+    const math::Vector2U size(17, 13);
+    std::vector<uint8_t> argb(size.product() * 4);
+    for (size_t ii = 0; ii < argb.size(); ii += 4)
+    {
+        argb[ii] = 32;      // blue
+        argb[ii + 1] = 64;  // green
+        argb[ii + 2] = 128; // red
+        argb[ii + 3] = 255; // alpha
+    }
+
+    Image image(argb.data(), size, Image::BGRA);
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        EXPECT_EQ(Color(128, 64, 32, 255), image(ii));
+    }
+}
+
 TEST(Image, Index)
 {
     const math::Vector2U size(17, 13);
