@@ -19,45 +19,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/gui/cegui/Gui.h>
-#include <nyra/test/Test.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
-#include <nyra/win/sfml/Window.h>
-#include <nyra/gui/cegui/Label.h>
-#include <nyra/img/Image.h>
-#include <nyra/core/Path.h>
+#include <nyra/test/RenderTarget.h>
+#include <nyra/graphics/ogre/RenderTarget.h>
+#include <nyra/win/ogre/Window.h>
 
 namespace nyra
 {
-namespace gui
+namespace graphics
 {
-namespace cegui
+namespace ogre
 {
-TEST(Event, Call)
+class TestOgreRenderTarget :
+        public test::RenderTarget<RenderTarget, win::ogre::Window>
 {
-    // Currently, CEGUI will only render to a Window.
-    // It does not work with an offscreen target by itself.
-    win::sfml::Window window("test_cegui_gui",
-                             math::Vector2U(256, 32),
-                             math::Vector2I(0, 0));
-    graphics::sfml::RenderTarget target(window);
+};
 
-    Gui gui;
-    Label* label = new Label("Hello World");
+TEST_F(TestOgreRenderTarget, Render)
+{
+    img::Image renderWindow(defaultSize);
+    for (size_t ii = 0; ii < defaultSize.product(); ++ii)
+    {
+        renderWindow(ii) = renderColor;
+    }
+    EXPECT_EQ(renderWindow, render());
+    EXPECT_EQ(renderWindow, renderOffscreen());
 
-    // TODO: I should not have to set the size for a label.
-    label->setSize(math::Vector2F(256.0f, 32.0f));
-    gui["A"] = label;
+    renderWindow.resize(resizeSize);
+    for (size_t ii = 0; ii < resizeSize.product(); ++ii)
+    {
+        renderWindow(ii) = resizeColor;
+    }
+    EXPECT_EQ(renderWindow, resize());
 
-    window.update();
-    target.clear(img::Color::WHITE);
-    gui.render();
-    target.flush();
+}
 
-    // TODO: This looks incorrect. It needs to be fixed.
-    img::Image truth = core::readArchive<img::Image>(core::path::join(
-            core::DATA_PATH, "textures/test_cegui_label.png"));
-    EXPECT_EQ(truth, target.getPixels());
+TEST_F(TestOgreRenderTarget, Stdout)
+{
+    EXPECT_EQ(stdout(), expectedStdout);
 }
 }
 }

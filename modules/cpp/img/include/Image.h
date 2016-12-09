@@ -45,7 +45,9 @@ public:
     {
         RGBA,
         ARGB,
-        BGRA
+        BGRA,
+        RGB,
+        BGR
     };
 
     /*

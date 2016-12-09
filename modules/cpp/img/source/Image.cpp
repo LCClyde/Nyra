@@ -225,6 +225,26 @@ Image::Image(const uint8_t* pixels,
                                     pixels[jj + 3]);
             }
             break;
+
+        case RGB:
+            for (size_t ii = 0, jj = 0; ii < mPixels.size(); ++ii, jj += 3)
+            {
+                mPixels[ii] = Color(pixels[jj],
+                                    pixels[jj + 1],
+                                    pixels[jj + 2],
+                                    255);
+            }
+            break;
+
+        case BGR:
+            for (size_t ii = 0, jj = 0; ii < mPixels.size(); ++ii, jj += 3)
+            {
+                mPixels[ii] = Color(pixels[jj + 2],
+                                    pixels[jj + 1],
+                                    pixels[jj],
+                                    255);
+            }
+            break;
         }
     }
 }

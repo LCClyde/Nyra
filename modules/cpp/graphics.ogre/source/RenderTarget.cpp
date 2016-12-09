@@ -19,97 +19,106 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/sfml/RenderTarget.h>
+#include <nyra/graphics/ogre/RenderTarget.h>
+#include <OgreColourValue.h>
+#include <OgreHardwarePixelBuffer.h>
 
 namespace nyra
 {
 namespace graphics
 {
-namespace sfml
+namespace ogre
 {
 //===========================================================================//
 RenderTarget::RenderTarget(const math::Vector2U& size) :
-    mTexture(new sf::RenderTexture()),
-    mSprite(new sf::Sprite())
+    mWindow(nullptr),
+    mRenderTexture(nullptr)
 {
     initialize(size);
 }
 
 //===========================================================================//
 RenderTarget::RenderTarget(win::Window& window) :
-    mTexture(new sf::RenderTexture()),
-    mSprite(new sf::Sprite())
+    mWindow(nullptr),
+    mRenderTexture(nullptr)
 {
     initialize(window);
+    initialize(window.getSize());
 }
 
 //===========================================================================//
 void RenderTarget::initialize(win::Window& window)
 {
-    mWindow.reset(new sf::RenderWindow(
-            static_cast<sf::WindowHandle>(window.getID())));
-    resize(math::Vector2U(mWindow->getSize().x,
-                          mWindow->getSize().y));
+    mWindow = reinterpret_cast<Ogre::RenderWindow*>(window.getNative());
 }
 
 //===========================================================================//
 void RenderTarget::initialize(const math::Vector2U& size)
 {
-    resize(size);
+    mTexture = Ogre::TextureManager::getSingleton().createManual(
+        "RenderTexture",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        Ogre::TEX_TYPE_2D,
+        size.x(),
+        size.y(),
+        0,
+        Ogre::PF_R8G8B8,
+        Ogre::TU_RENDERTARGET);
+    mRenderTexture = mTexture->getBuffer()->getRenderTarget();
+
+    static size_t cameraNumber = 0;
+    mCamera = getGlobalInstance().getSceneManager()->createCamera(
+            "RenderTargetCamera_" + std::to_string(++cameraNumber));
+    mCamera->setPosition(0, 0, 5);
+    mCamera->lookAt(Ogre::Vector3(0, 0, 0));
+    mRenderTexture->addViewport(mCamera);
+    mRenderTexture->setAutoUpdated(false);
+    mRenderTexture->getViewport(0)->setClearEveryFrame(true);
 }
 
 //===========================================================================//
 math::Vector2U RenderTarget::getSize() const
 {
-    return math::Vector2U(mTexture->getSize().x,
-                          mTexture->getSize().y);
+    return math::Vector2U(mTexture->getWidth(),
+                          mTexture->getHeight());
 }
 
 //===========================================================================//
 void RenderTarget::resize(const math::Vector2U& size)
 {
-    mTexture->create(size.x(), size.y());
-    mSprite->setTexture(mTexture->getTexture(), true);
-
-    // Set the window as the active render target. This allows external
-    // applications to get the current OpenGL context after the initial
-    // setup.
-    if (mWindow.get())
-    {
-        mWindow->setActive(true);
-    }
+    initialize(size);
 }
 
 //===========================================================================//
 void RenderTarget::clear(const img::Color& color)
 {
-    const sf::Color sfColor(color.r, color.g, color.b);
-    if (mWindow.get())
-    {
-        mWindow->clear(sfColor);
-    }
-    mTexture->clear(sfColor);
+    mRenderTexture->getViewport(0)->setBackgroundColour(
+            Ogre::ColourValue(color.r / 255.0f,
+                              color.g / 255.0f,
+                              color.b / 255.0f,
+                              color.a / 255.0f));
 }
 
 //===========================================================================//
 void RenderTarget::flush()
 {
-    mTexture->display();
-
-    if (mWindow.get())
-    {
-        mWindow->draw(*mSprite);
-        mWindow->display();
-    }
+    getGlobalInstance().getRoot()->renderOneFrame();
+    mRenderTexture->update();
 }
 
 //===========================================================================//
 img::Image RenderTarget::getPixels() const
 {
-    const sf::Image image = mTexture->getTexture().copyToImage();
-    return img::Image(image.getPixelsPtr(),
-                      math::Vector2U(image.getSize().x,
-                                     image.getSize().y));
+    Ogre::Image::Box imageBox;
+    Ogre::HardwarePixelBufferSharedPtr returnBuffer = mTexture->getBuffer();
+    const Ogre::PixelBox& returnBufferPixelBox =
+            returnBuffer->lock(imageBox, Ogre::HardwareBuffer::HBL_NORMAL);
+    const img::Image ret(
+            static_cast<uint8_t*>(returnBufferPixelBox.data),
+            getSize(),
+            img::Image::BGRA);
+    returnBuffer -> unlock();
+    return ret;
 }
 }
 }

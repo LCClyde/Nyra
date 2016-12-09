@@ -113,7 +113,7 @@ public:
     {
         if (mWindow)
         {
-            getGlobalInstance().get()->destroyRenderTarget(mWindow);
+            getGlobalInstance().getRoot()->destroyRenderTarget(mWindow);
             mWindow = nullptr;
         }
     }

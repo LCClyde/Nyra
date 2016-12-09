@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -55,10 +55,20 @@ public:
         mWindow("Render Target Test",
                 defaultSize,
                 math::Vector2I(0, 0)),
-        mRenderTarget(mWindow.getID()),
-        mOffscreen(defaultSize)
+        mRenderTarget(mWindow),
+        mOffscreen(defaultSize),
+        expectedRender(defaultSize),
+        expectedResizeRender(resizeSize)
     {
         update();
+        for (size_t ii = 0; ii < defaultSize.product(); ++ii)
+        {
+            expectedRender(ii) = renderColor;
+        }
+        for (size_t ii = 0; ii < defaultSize.product(); ++ii)
+        {
+            expectedResizeRender(ii) = resizeColor;
+        }
     }
 
     /*
@@ -124,6 +134,8 @@ public:
     WindowT mWindow;
     RenderT mRenderTarget;
     RenderT mOffscreen;
+    img::Image expectedRender;
+    img::Image expectedResizeRender;
 
 private:
     void update()

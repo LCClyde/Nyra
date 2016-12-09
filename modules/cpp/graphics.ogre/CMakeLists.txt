@@ -19,4 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS img math win PARENT_SCOPE)
+set(MOD_DEPS graphics ogre PARENT_SCOPE)
+set(TEST_DEPS win.ogre time PARENT_SCOPE)

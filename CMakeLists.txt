@@ -20,7 +20,8 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.0.2)
+
 project(Nyra)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -fPIC")
@@ -35,6 +36,8 @@ else()
     add_definitions(-DNYRA_POSIX=${CMAKE_SYSTEM})
 endif()
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(GLOBAL PROPERTY AUTOMOC_TARGETS_FOLDER ${CMAKE_BINARY_DIR}/automoc/)
 set(CMAKE_AUTOMOC ON)
 
 #TODO: Only set this if the caller did not set it

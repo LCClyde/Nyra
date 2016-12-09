@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -52,9 +52,9 @@ public:
      *  \func Constructor
      *  \brief Sets up the default render target.
      *
-     *  \param winId The Window ID from a nyra::win::Window object
+     *  \param window The Window to render to.
      */
-    RenderTarget(size_t winId);
+    RenderTarget(win::Window& window);
 
     /*
      *  \func initialize
@@ -68,9 +68,9 @@ public:
      *  \func initialize
      *  \brief Sets up the default render target.
      *
-     *  \param winId The Window ID from a nyra::win::Window object
+     *  \param window The Window to render to.
      */
-    void initialize(size_t winId) override;
+    void initialize(win::Window& window) override;
 
     /*
      *  \func getSize

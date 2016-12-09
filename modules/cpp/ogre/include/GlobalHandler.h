@@ -39,25 +39,31 @@ class GlobalHandler : public pattern::GlobalHandler
 {
 public:
     /*
-     *  \func get
+     *  \func Constructor
+     *  \brief Sets up a default GlobalHandler.
+     */
+    GlobalHandler();
+
+    /*
+     *  \func getRoot
      *  \brief Retrieves the Ogre Root object,
      *
      *  \return The Ogre::Root object or nullptr if it has not been initialized
      */
-    Ogre::Root* get()
+    Ogre::Root* getRoot() const
     {
         return mRoot.get();
     }
 
     /*
-     *  \func get
-     *  \brief Retrieves the Ogre Root object,
+     *  \func getSceneManager
+     *  \brief Retrieves the Ogre Scene Manager.
      *
-     *  \return The Ogre::Root object or nullptr if it has not been initialized
+     *  \return The Ogre::SceneManager object.
      */
-    const Ogre::Root* get() const
+    Ogre::SceneManager* getSceneManager() const
     {
-        return mRoot.get();
+        return mSceneManager;
     }
 
 private:
@@ -69,6 +75,7 @@ private:
                                     const GlobalHandler& app);
 
     std::unique_ptr<Ogre::Root> mRoot;
+    Ogre::SceneManager* mSceneManager;
 };
 }
 }

@@ -2,4 +2,6 @@ rm -rf CMakeFiles/ CMakeCache.txt
 rm -rf install/include/nyra/*
 rm -rf install/lib/libnyra*
 rm -rf install/data
+rm -rf *_automoc.cpp
+rm -rf moc_*.cpp
 

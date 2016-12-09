@@ -76,7 +76,7 @@ void Window::load(const std::string& name,
     static size_t winId = 0;
     ++winId;
 
-    mWindow = getGlobalInstance().get()->createRenderWindow(
+    mWindow = getGlobalInstance().getRoot()->createRenderWindow(
             ("Window: " + std::to_string(winId)).c_str(),
             size.x(),
             size.y(),

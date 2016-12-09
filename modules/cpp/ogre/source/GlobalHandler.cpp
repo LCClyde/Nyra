@@ -27,6 +27,12 @@ namespace nyra
 namespace ogre
 {
 //===========================================================================//
+GlobalHandler::GlobalHandler() :
+    mSceneManager(nullptr)
+{
+}
+
+//===========================================================================//
 void GlobalHandler::initializeGlobal()
 {
     Ogre::LogManager* logMgr = OGRE_NEW Ogre::LogManager;
@@ -67,11 +73,13 @@ void GlobalHandler::initializeGlobal()
     Ogre::NameValuePairList misc;
     misc["hidden"] = "true";
     mRoot->createRenderWindow("Proxy Window", 1, 1, false, &misc);
+    mSceneManager = mRoot->createSceneManager(Ogre::ST_GENERIC);
 }
 
 //===========================================================================//
 void GlobalHandler::shutdownGlobal()
 {
+    mSceneManager = nullptr;
     mRoot.reset(nullptr);
 }
 
@@ -79,7 +87,7 @@ void GlobalHandler::shutdownGlobal()
 std::ostream& operator<<(std::ostream& os, const GlobalHandler& app)
 {
     os << "Ogre Root: ";
-    if (app.get())
+    if (app.getRoot())
     {
         os << "running";
     }
