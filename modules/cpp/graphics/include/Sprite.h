@@ -23,7 +23,7 @@
 #define __NYRA_GRAPHICS_SPRITE_H__
 
 #include <nyra/graphics/Renderable.h>
-#include <nyra/math/Transform2D.h>
+#include <nyra/math/Transform.h>
 
 namespace nyra
 {

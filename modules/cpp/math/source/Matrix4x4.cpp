@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/math/Matrix3x3.h>
+#include <nyra/math/Matrix4x4.h>
 #include <nyra/math/Conversions.h>
 #include <gmtl/Generate.h>
 
@@ -28,51 +28,60 @@ namespace nyra
 namespace math
 {
 //===========================================================================//
-Matrix3x3::Matrix3x3(float a11, float a12, float a13,
-                     float a21, float a22, float a23,
-                     float a31, float a32, float a33)
+Matrix4x4::Matrix4x4(float a11, float a12, float a13, float a14,
+                     float a21, float a22, float a23, float a24,
+                     float a31, float a32, float a33, float a34,
+                     float a41, float a42, float a43, float a44)
 {
     (*this)(0, 0) = a11;
     (*this)(0, 1) = a12;
     (*this)(0, 2) = a13;
+    (*this)(0, 3) = a14;
 
     (*this)(1, 0) = a21;
     (*this)(1, 1) = a22;
     (*this)(1, 2) = a23;
+    (*this)(1, 3) = a24;
 
     (*this)(2, 0) = a31;
     (*this)(2, 1) = a32;
     (*this)(2, 2) = a33;
+    (*this)(2, 3) = a34;
+
+    (*this)(3, 0) = a41;
+    (*this)(3, 1) = a42;
+    (*this)(3, 2) = a43;
+    (*this)(3, 3) = a44;
 }
 
 //===========================================================================//
-Matrix3x3::Matrix3x3(const Matrix<float, 3, 3>& other)
+Matrix4x4::Matrix4x4(const Matrix<float, 4, 4>& other)
 {
     mMatrix = other.getNative();
 }
 
 //===========================================================================//
-void Matrix3x3::transform(const Vector2F& position,
-                          const Vector2F& scale,
-                          float rotation,
-                          const Vector2F& pivot)
+void Matrix4x4::transform(const Vector3F& position,
+                          const Vector3F& scale,
+                          const Vector3F& rotation,
+                          const Vector3F& pivot)
 {
-    // TODO: SFML does this as a single assignment to a 3x3 matrix. I need to
-    //       test what kind of performance gain that gives. I would rather
-    //       not maintain the linear algebra.
-    gmtl::Matrix<float, 3, 3> pivotMatrix;
+    gmtl::Matrix<float, 4, 4> pivotMatrix;
     gmtl::setTrans(pivotMatrix, pivot.getNative());
 
-    gmtl::Matrix<float, 3, 3> translationMatrix;
+    gmtl::Matrix<float, 4, 4> translationMatrix;
     gmtl::setTrans(translationMatrix, position.getNative());
 
-    gmtl::Matrix<float, 3, 3> scaleMatrix;
+    gmtl::Matrix<float, 4, 4> scaleMatrix;
     gmtl::setScale(scaleMatrix, scale.getNative());
 
-    gmtl::Matrix<float, 3, 3> rotationMatrix;
+    gmtl::Matrix<float, 4, 4> rotationMatrix;
     gmtl::EulerAngle<float, gmtl::XYZ> eulerRotation(
-            0.0f, 0.0f, degreesToRadians(rotation));
+            degreesToRadians(rotation.x()),
+            degreesToRadians(rotation.y()),
+            degreesToRadians(rotation.z()));
     gmtl::setRot(rotationMatrix, eulerRotation);
+
     mMatrix = translationMatrix * rotationMatrix * scaleMatrix * pivotMatrix;
 }
 }

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -132,6 +132,22 @@ public:
     }
 
     /*
+     *  \func Multiplication Assignment Operator
+     *  \brief Multiplies each element of two vectors together.
+     *
+     *  \param value The value to multiply by.
+     *  \return The original vector with the value multiplied by it.
+     */
+    Vector<TypeT, SizeT>& operator*=(const Vector<TypeT, SizeT>& value)
+    {
+        for (size_t ii = 0; ii < SizeT; ++ii)
+        {
+            (*this)[ii] *= value[ii];
+        }
+        return *this;
+    }
+
+    /*
      *  \func Division Assignment Operator
      *  \brief Divides each element in a vector by a passed in value.
      *
@@ -182,6 +198,20 @@ public:
      *  \return A new vector which is multiplied by the scalar.
      */
     Vector<TypeT, SizeT> operator*(double value) const
+    {
+        Vector<TypeT, SizeT> ret(*this);
+        ret *= value;
+        return ret;
+    }
+
+    /*
+     *  \func Multiplication Operator
+     *  \brief Multiplies each element of two vectors together.
+     *
+     *  \param value The value to multiply by.
+     *  \return A new vector with the value multiplied by it.
+     */
+    Vector<TypeT, SizeT> operator*(const Vector<TypeT, SizeT>& value) const
     {
         Vector<TypeT, SizeT> ret(*this);
         ret *= value;

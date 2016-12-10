@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
+ *  of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,28 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MATH_MATRIX_3X3_H__
-#define __NYRA_MATH_MATRIX_3X3_H__
+#ifndef __NYRA_MATH_MATRIX_4X4_H__
+#define __NYRA_MATH_MATRIX_4X4_H__
 
 #include <nyra/math/Matrix.h>
-#include <nyra/math/Vector2.h>
+#include <nyra/math/Vector3.h>
 
 namespace nyra
 {
 namespace math
 {
 /*
- *  \class Matrix3x3
- *  \brief Matrix used for 2D transforms
+ *  \class Matrix4x4
+ *  \brief Matrix used for 3D transforms
  */
-class Matrix3x3 : public Matrix<float, 3, 3>
+class Matrix4x4 : public Matrix<float, 4, 4>
 {
 public:
     /*
      *  \func Constructor
      *  \brief Creates an identity matrix.
      */
-    Matrix3x3() = default;
+    Matrix4x4() = default;
 
     /*
      *  \func Constructor
@@ -49,16 +49,24 @@ public:
      *  \param a11 row 1 column 1
      *  \param a12 row 1 column 2
      *  \param a13 row 1 column 3
+     *  \param a14 row 1 column 4
      *  \param a21 row 2 column 1
      *  \param a22 row 2 column 2
      *  \param a23 row 2 column 3
+     *  \param a24 row 2 column 4
      *  \param a31 row 3 column 1
      *  \param a32 row 3 column 2
      *  \param a33 row 3 column 3
+     *  \param a34 row 3 column 4
+     *  \param a41 row 4 column 1
+     *  \param a42 row 4 column 2
+     *  \param a43 row 4 column 3
+     *  \param a44 row 4 column 4
      */
-    Matrix3x3(float a11, float a12, float a13,
-              float a21, float a22, float a23,
-              float a31, float a32, float a33);
+    Matrix4x4(float a11, float a12, float a13, float a14,
+              float a21, float a22, float a23, float a24,
+              float a31, float a32, float a33, float a34,
+              float a41, float a42, float a43, float a44);
 
     /*
      *  \func Constructor
@@ -66,7 +74,7 @@ public:
      *
      *  \param other The matrix to copy
      */
-    Matrix3x3(const Matrix<float, 3, 3>& other);
+    Matrix4x4(const Matrix<float, 4, 4>& other);
 
     /*
      *  \func transform
@@ -78,10 +86,10 @@ public:
      *  \param rotation The rotation of the object
      *  \param pivot The pivot point of the object
      */
-    void transform(const Vector2F& position,
-                   const Vector2F& scale,
-                   float rotation,
-                   const Vector2F& pivot);
+    void transform(const Vector3F& position,
+                   const Vector3F& scale,
+                   const Vector3F& rotation,
+                   const Vector3F& pivot);
 };
 }
 }

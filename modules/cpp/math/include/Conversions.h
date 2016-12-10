@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -23,6 +23,7 @@
 #define __NYRA_MATH_CONVERSIONS_H__
 
 #include <math.h>
+#include <nyra/math/Vector.h>
 
 namespace nyra
 {
@@ -64,6 +65,24 @@ inline double normalizeAngle(double value)
     if (value < 0)
     {
         value += 360;
+    }
+    return value;
+}
+
+/*
+ *  \func normalizeAngle
+ *  \brief Normalizes a vector of angles between [0.0 - 360.0)
+ *
+ *  \tparam TypeT The data type of the vector
+ *  \tparam SizeT The size of the vector
+ *  \param value The starting value
+ */
+template <typename TypeT, size_t SizeT>
+Vector<TypeT, SizeT> normalizeAngle(Vector<TypeT, SizeT> value)
+{
+    for (size_t ii = 0; ii < SizeT; ++ii)
+    {
+        value[ii] = normalizeAngle(value[ii]);
     }
     return value;
 }

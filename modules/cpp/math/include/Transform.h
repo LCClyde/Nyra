@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,11 +19,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MATH_TRANSFORM_2D_H__
-#define __NYRA_MATH_TRANSFORM_2D_H__
+#ifndef __NYRA_MATH_TRANSFORM_H__
+#define __NYRA_MATH_TRANSFORM_H__
 
 #include <nyra/math/Matrix3x3.h>
 #include <nyra/math/Vector2.h>
+#include <nyra/math/Matrix4x4.h>
+#include <nyra/math/Vector3.h>
 #include <nyra/math/Conversions.h>
 
 namespace nyra
@@ -31,24 +33,36 @@ namespace nyra
 namespace math
 {
 /*
- *  \class Transform2D
+ *  \class Transform
  *  \brief Handles setting position, rotation, and scale information for
- *         2D objects
+ *         objects
  */
-class Transform2D
+template <typename PositionT,
+          typename ScaleT,
+          typename RotationT,
+          typename SizeT,
+          typename PivotT,
+          typename MatrixT>
+class Transform
 {
 public:
     /*
      *  \func Constructor
      *  \brief Sets up a default Transform
      */
-    Transform2D();
+    Transform() :
+        mScale(1.0f),
+        mPivot(0.5f),
+        mRotation(0.0f),
+        mDirty(false)
+    {
+    }
 
     /*
      *  \func Destructor
      *  \brief Necessary for proper inheritance
      */
-    virtual ~Transform2D() = default;
+    virtual ~Transform() = default;
 
     /*
      *  \func setPosition
@@ -56,7 +70,7 @@ public:
      *
      *  \param position The desired position
      */
-    void setPosition(const Vector2F& position)
+    void setPosition(const PositionT& position)
     {
         mPosition = position;
         mDirty = true;
@@ -68,7 +82,7 @@ public:
      *
      *  \param move The amount to move by
      */
-    void moveBy(const Vector2F& move)
+    void moveBy(const PositionT& move)
     {
         setPosition(mPosition + move);
     }
@@ -79,7 +93,7 @@ public:
      *
      *  \return The position
      */
-    const Vector2F& getPosition() const
+    const PositionT& getPosition() const
     {
         return mPosition;
     }
@@ -90,7 +104,7 @@ public:
      *
      *  \param scale The desired scale
      */
-    void setScale(const Vector2F& scale)
+    void setScale(const ScaleT& scale)
     {
         mScale = scale;
         mDirty = true;
@@ -104,7 +118,7 @@ public:
      */
     void setScale(float scale)
     {
-        setScale(Vector2F(scale, scale));
+        setScale(ScaleT(scale));
     }
 
     /*
@@ -113,10 +127,9 @@ public:
      *
      *  \param scale The amount to scale by
      */
-    void scaleBy(const Vector2F& scale)
+    void scaleBy(const ScaleT& scale)
     {
-        setScale(Vector2F(mScale.x() * scale.x(),
-                          mScale.y() * scale.y()));
+        setScale(mScale * scale);
     }
 
     /*
@@ -136,7 +149,7 @@ public:
      *
      *  \return The object scale
      */
-    const Vector2F& getScale() const
+    const ScaleT& getScale() const
     {
         return mScale;
     }
@@ -148,7 +161,7 @@ public:
      *
      *  \param size The size of the object
      */
-    void setSize(const Vector2F& size)
+    void setSize(const SizeT& size)
     {
         mSize = size;
         mDirty = true;
@@ -160,7 +173,7 @@ public:
      *
      *  \return The size of the object
      */
-    const Vector2F& getSize() const
+    const SizeT& getSize() const
     {
         return mSize;
     }
@@ -172,7 +185,7 @@ public:
      *
      *  \param pivot The desired pivot
      */
-    void setPivot(const Vector2F& pivot)
+    void setPivot(const PivotT& pivot)
     {
         mPivot = pivot;
         mDirty = true;
@@ -184,7 +197,7 @@ public:
      *
      *  \return The object pivot
      */
-    const Vector2F& getPivot() const
+    const PivotT& getPivot() const
     {
         return mPivot;
     }
@@ -195,7 +208,7 @@ public:
      *
      *  \param rotation The rotation in degrees
      */
-    void setRotation(float rotation)
+    void setRotation(RotationT rotation)
     {
         mRotation = normalizeAngle(rotation);
         mDirty = true;
@@ -207,7 +220,7 @@ public:
      *
      *  \param rotation The amount to rotate by
      */
-    void rotateBy(float rotation)
+    void rotateBy(RotationT rotation)
     {
         setRotation(mRotation + rotation);
     }
@@ -218,7 +231,7 @@ public:
      *
      *  \return The rotation value of the object
      */
-    float getRotation() const
+    const RotationT& getRotation() const
     {
         return mRotation;
     }
@@ -230,7 +243,7 @@ public:
      *
      *  \return The global matrix
      */
-    const Matrix3x3& getMatrix() const
+    const MatrixT& getMatrix() const
     {
         return mGlobal;
     }
@@ -249,7 +262,27 @@ public:
      *         Transform2D for a world matrix
      *  \return The transform matrix
      */
-    void updateTransform(const Transform2D& parent);
+    void updateTransform(const Transform<PositionT,
+                                         ScaleT,
+                                         RotationT,
+                                         SizeT,
+                                         PivotT,
+                                         MatrixT>& parent)
+    {
+        if (mDirty)
+        {
+            mLocal.transform(mPosition,
+                             mScale,
+                             mRotation,
+                             mPivot * (mSize * -1.0f));
+        }
+
+        // We could optimize out this matrix transform but you can get into
+        // strange situations where it you optimize it out by accident if you
+        // change the parent to a stable matrix.
+        mGlobal = mLocal * parent.mGlobal;
+        mDirty = false;
+    }
 
 
 private:
@@ -272,17 +305,51 @@ private:
     }
 
     friend std::ostream& operator<<(std::ostream& os,
-                                    const Transform2D& transform);
+                                    const Transform<PositionT,
+                                                    ScaleT,
+                                                    RotationT,
+                                                    SizeT,
+                                                    PivotT,
+                                                    MatrixT>& transform)
+    {
+        os << "Position: " << transform.getPosition() << "\n"
+           << "Scale: " << transform.getScale() << "\n"
+           << "Rotation: " << transform.getRotation() << "\n"
+           << "Pivot: " << transform.getPivot();
+        return os;
+    }
 
-    Vector2F mPosition;
-    Vector2F mScale;
-    Vector2F mSize;
-    Vector2F mPivot;
-    float mRotation;
-    Matrix3x3 mLocal;
-    Matrix3x3 mGlobal;
+    PositionT mPosition;
+    ScaleT mScale;
+    SizeT mSize;
+    PivotT mPivot;
+    RotationT mRotation;
+    MatrixT mLocal;
+    MatrixT mGlobal;
     bool mDirty;
 };
+
+/*
+ *  \type Transform2D
+ *  \brief Transform usable to 2D objects.
+ */
+typedef Transform<Vector2F,
+                  Vector2F,
+                  float,
+                  Vector2F,
+                  Vector2F,
+                  Matrix3x3> Transform2D;
+
+/*
+ *  \type Transform3D
+ *  \brief Transform usable to 3D objects.
+ */
+typedef Transform<Vector3F,
+                  Vector3F,
+                  Vector3F,
+                  Vector3F,
+                  Vector3F,
+                  Matrix4x4> Transform3D;
 }
 }
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/math/Conversions.h>
+#include <nyra/math/Vector3.h>
 #include <nyra/test/Test.h>
 
 namespace nyra
@@ -40,6 +41,16 @@ TEST(Conversions, Angles)
     EXPECT_EQ(40.125, normalizeAngle(400.125));
     EXPECT_EQ(45.0, normalizeAngle(765.0));
     EXPECT_EQ(315.0, normalizeAngle(-45.0));
+}
+
+TEST(Conversions, Vector)
+{
+    Vector3D vec;
+    vec[0] = 370.0;
+    vec[1] = 380.0;
+    vec[2] = 45.0;
+    Vector3D expected(10.0, 20.0, 45.0);
+    EXPECT_EQ(expected, normalizeAngle(vec));
 }
 }
 }

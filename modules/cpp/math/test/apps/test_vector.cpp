@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -37,7 +37,7 @@ namespace nyra
 {
 namespace math
 {
-TEST(Vector2, Equality)
+TEST(Vector, Equality)
 {
     // Equality
     const Vector<float, 2> vec = get2(4.25f, 9.75f);
@@ -55,7 +55,7 @@ TEST(Vector2, Equality)
     EXPECT_TRUE(vec != get2(0.0f, 9.75f));
 }
 
-TEST(Vector2, Assignment)
+TEST(Vector, Assignment)
 {
     Vector<float, 2> vec = get2(10.0f, 20.0f);
     const Vector<float, 2> assigned = vec;
@@ -68,18 +68,21 @@ TEST(Vector2, Assignment)
     EXPECT_EQ(vec, get2(20.0f, 40.0f));
     vec /= 2.0;
     EXPECT_EQ(vec, get2(10.0f, 20.0f));
+    vec *= get2(10.0f, 20.0f);
+    EXPECT_EQ(vec, get2(100.0f, 400.0f));
 }
 
-TEST(Vector2, Operators)
+TEST(Vector, Operators)
 {
     const Vector<float, 2> vec = get2(10.0f, 20.0f);
     EXPECT_EQ(vec + vec, get2(20.0f, 40.0f));
     EXPECT_EQ(vec - vec, get2(0.0f, 0.0f));
     EXPECT_EQ(vec * 2.0, get2(20.0f, 40.0f));
+    EXPECT_EQ(vec * vec, get2(100.0f, 400.0f));
     EXPECT_EQ(vec / 2.0, get2(5.0f, 10.0f));
 }
 
-TEST(Vector2, Calculations)
+TEST(Vector, Calculations)
 {
     Vector<float, 2> vec = get2(10.0f, 20.0f);
     EXPECT_EQ(vec.sum(), 30.0f);
@@ -92,7 +95,7 @@ TEST(Vector2, Calculations)
     EXPECT_FLOAT_EQ(vec.length(), 1.0f);
 }
 
-TEST(Vector2, Archive)
+TEST(Vector, Archive)
 {
     Vector<float, 2> input = get2(1.234f, 5.678);
     Vector<float, 2> output =
@@ -100,7 +103,7 @@ TEST(Vector2, Archive)
     EXPECT_EQ(input, output);
 }
 
-TEST(Vector2, Stdout)
+TEST(Vector, Stdout)
 {
     Vector<float, 2> input = get2(1.234f, 5.678);
     std::string out = nyra::test::stdout(input);

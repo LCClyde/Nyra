@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MATH_VECTOR_2_H__
-#define __NYRA_MATH_VECTOR_2_H__
+#ifndef __NYRA_MATH_VECTOR_3_H__
+#define __NYRA_MATH_VECTOR_3_H__
 
 #include <nyra/math/Vector.h>
 
@@ -29,21 +29,21 @@ namespace nyra
 namespace math
 {
 /*
- *  \class Vector2
- *  \brief A two dimensional vector. This can be used for 2D position or scale.
+ *  \class Vector3
+ *  \brief A three dimensional vector. This can be used for 3D pos, rot, scale.
  *         Common types are typenamed for easier use.
  *
  *  \tparam TypeT The data type for elements.
  */
 template <typename TypeT>
-class Vector2 : public Vector<TypeT, 2>
+class Vector3 : public Vector<TypeT, 3>
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Creates a default Vector2
+     *  \brief Creates a default Vector3
      */
-    Vector2() = default;
+    Vector3() = default;
 
     /*
      *  \func Constructor
@@ -51,37 +51,41 @@ public:
      *
      *  \param value The desired starting value.
      */
-    Vector2(const TypeT& value)
+    Vector3(const TypeT& value)
     {
         this->x() = value;
         this->y() = value;
+        this->z() = value;
     }
 
     /*
      *  \func Constructor
-     *  \brief Creates a Vector2 from an x and y value
+     *  \brief Creates a Vector3 from an x, y, and z values
      *
      *  \param x The desired x value
      *  \param y The desired y value
+     *  \param z The desired z value
      */
-    Vector2(const TypeT& x, const TypeT& y)
+    Vector3(const TypeT& x, const TypeT& y, const TypeT& z)
     {
         this->x() = x;
         this->y() = y;
+        this->z() = z;
     }
 
     /*
      *  \func Constructor
-     *  \brief Creates a Vector2 from a Vector base object
+     *  \brief Creates a Vector3 from a Vector base object
      *
      *  \tparam OtherT The data type of the other vector
      *  \param vector The vector to copy
      */
     template <typename OtherT>
-    Vector2(const Vector<OtherT, 2>& vector)
+    Vector3(const Vector<OtherT, 3>& vector)
     {
         x() = static_cast<TypeT>(vector[0]);
         y() = static_cast<TypeT>(vector[1]);
+        z() = static_cast<TypeT>(vector[2]);
     }
 
     /*
@@ -128,19 +132,41 @@ public:
         return (*this)[1];
     }
 
+    /*
+     *  \func z
+     *  \brief Represents the third element of the vector.
+     *
+     *  \return The z value
+     */
+    TypeT& z()
+    {
+        return (*this)[2];
+    }
+
+    /*
+     *  \func z
+     *  \brief Represents the third element of the vector.
+     *
+     *  \return The z value
+     */
+    const TypeT& z() const
+    {
+        return (*this)[2];
+    }
+
 private:
     friend std::ostream& operator<<(std::ostream& os,
-                                    const Vector2<TypeT>& vector)
+                                    const Vector3<TypeT>& vector)
     {
-        os << "x=" << vector.x() << " y=" << vector.y();
+        os << "x=" << vector.x() << " y=" << vector.y() << " z=" << vector.z();
         return os;
     }
 };
 
-typedef Vector2<float> Vector2F;
-typedef Vector2<int32_t> Vector2I;
-typedef Vector2<uint32_t> Vector2U;
-typedef Vector2<double> Vector2D;
+typedef Vector3<float> Vector3F;
+typedef Vector3<int32_t> Vector3I;
+typedef Vector3<uint32_t> Vector3U;
+typedef Vector3<double> Vector3D;
 }
 }
 
