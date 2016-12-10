@@ -23,7 +23,6 @@
 #define __NYRA_GRAPHICS_RENDERABLE_H__
 
 #include <nyra/graphics/RenderTarget.h>
-#include <nyra/math/Transform2D.h>
 
 namespace nyra
 {
@@ -33,7 +32,8 @@ namespace graphics
  *  \class Renderable
  *  \brief Interface class for objects that can be rendered
  */
-class Renderable : public math::Transform2D
+template <class TransformT>
+class Renderable : public TransformT
 {
 public:
     /*
@@ -50,10 +50,6 @@ public:
      *  \param target The target to render to
      */
     virtual void render(RenderTarget& target) = 0;
-
-private:
-    friend std::ostream& operator<<(std::ostream& os,
-                                    const Renderable& renderable);
 };
 }
 }

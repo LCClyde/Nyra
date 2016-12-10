@@ -155,9 +155,9 @@ TEST_F(TestMockRenderTarget, Render)
     // we don't have a real window we need to resize here.
     mRenderTarget.resize(defaultSize);
 
-    //EXPECT_EQ(render(), expectedRender);
+    EXPECT_EQ(render(), expectedRender);
     EXPECT_EQ(renderOffscreen(), expectedRender);
-    //EXPECT_EQ(resize(), expectedResizeRender);
+    EXPECT_EQ(resize(), expectedResizeRender);
 }
 
 TEST_F(TestMockRenderTarget, Stdout)

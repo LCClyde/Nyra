@@ -33,7 +33,7 @@ namespace graphics
  *  \class Sprite
  *  \brief Class for rendering images to a render target.
  */
-class Sprite : public Renderable
+class Sprite : public Renderable<math::Transform2D>
 {
 public:
     /*

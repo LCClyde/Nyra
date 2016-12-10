@@ -65,7 +65,7 @@ public:
         {
             expectedRender(ii) = renderColor;
         }
-        for (size_t ii = 0; ii < defaultSize.product(); ++ii)
+        for (size_t ii = 0; ii < resizeSize.product(); ++ii)
         {
             expectedResizeRender(ii) = resizeColor;
         }
