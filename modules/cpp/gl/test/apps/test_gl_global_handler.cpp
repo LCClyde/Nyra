@@ -19,32 +19,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/RenderTarget.h>
-#include <nyra/graphics/ogre/RenderTarget.h>
-#include <nyra/win/ogre/Window.h>
+#include <nyra/test/Test.h>
+#include <nyra/gl/GlobalHandler.h>
 
 namespace nyra
 {
-namespace graphics
+namespace gl
 {
-namespace ogre
+TEST(GlobalHandler, Stdout)
 {
-class TestOgreRenderTarget :
-        public test::RenderTarget<RenderTarget, win::ogre::Window>
-{
-};
-
-TEST_F(TestOgreRenderTarget, Render)
-{
-    EXPECT_EQ(expectedRender, render());
-    EXPECT_EQ(expectedRender, renderOffscreen());
-    EXPECT_EQ(expectedResizeRender, resize());
-}
-
-TEST_F(TestOgreRenderTarget, Stdout)
-{
-    EXPECT_EQ(stdout(), expectedStdout);
-}
+    GlobalHandler handler;
+    EXPECT_EQ(test::stdout(handler), "OpenGL is stopped");
+    handler.initialize();
+    EXPECT_EQ(test::stdout(handler), "OpenGL is running");
+    handler.shutdown();
+    EXPECT_EQ(test::stdout(handler), "OpenGL is stopped");
 }
 }
 }

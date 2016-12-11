@@ -61,6 +61,10 @@ find_library(CEGUIBase NAMES CEGUIBase-0 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 find_library(CEGUIOpenGLRenderer NAMES CEGUIOpenGLRenderer-0 PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(Cairo NAMES cairo PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_package(PythonLibs 3 REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(GLEW REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
@@ -76,7 +80,7 @@ include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/SDL2)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/OGRE)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/cegui-0)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/cairo)
-
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 
 enable_testing()
 

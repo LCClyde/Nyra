@@ -19,16 +19,34 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/qt/Window.h>
-#include <nyra/qt/GlobalUpdate.h>
-#include <QScreen>
+#include <nyra/win/gl/Window.h>
+
+#ifdef NYRA_POSIX
+#define GLFW_EXPOSE_NATIVE_X11
+#endif
+#define GLFW_EXPOSE_NATIVE_GLX
+
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
 
 namespace nyra
 {
 namespace win
 {
-namespace qt
+namespace gl
 {
+//===========================================================================//
+Window::Window() :
+    mWindow(nullptr)
+{
+}
+
+//===========================================================================//
+Window::~Window()
+{
+    close();
+}
+
 //===========================================================================//
 Window::Window(const std::string& name,
                const math::Vector2U& size,
@@ -40,7 +58,7 @@ Window::Window(const std::string& name,
 //===========================================================================//
 void Window::update()
 {
-    nyra::qt::globalUpdate(*this);
+    glfwPollEvents();
 }
 
 //===========================================================================//
@@ -48,36 +66,28 @@ void Window::load(const std::string& name,
                   const math::Vector2U& size,
                   const math::Vector2I& position)
 {
-    mWindow.reset(new QMainWindow());
-    mWindow->show();
-    setName(name);
-    setSize(size);
+    mName = name;
+    mWindow = glfwCreateWindow(size.x(),
+                               size.y(),
+                               name.c_str(),
+                               nullptr,
+                               nullptr);
+    if (!mWindow)
+    {
+        throw std::runtime_error("Failed to create GLFW window");
+    }
     setPosition(position);
+
+    glfwMakeContextCurrent(mWindow);
 }
 
 //===========================================================================//
-void Window::close()
+size_t Window::getID() const
 {
-    if (mWindow.get())
-    {
-        mWindow->close();
-        mWindow.reset(nullptr);
-    }
-}
-
-//===========================================================================//
-img::Image Window::getPixels() const
-{
-    QScreen* screen = QGuiApplication::primaryScreen();
-    if (screen)
-    {
-        const math::Vector2I position = getPosition();
-        const math::Vector2U size = getSize();
-        QImage image = screen->grabWindow(getID()).toImage();
-        return img::Image(image.constBits(),
-                          math::Vector2U(image.width(), image.height()));
-    }
-    return img::Image();
+#ifdef NYRA_POSIX
+    // TODO: Verify this is correct.
+    return  reinterpret_cast<size_t>(glfwGetX11Window(mWindow));
+#endif
 }
 }
 }

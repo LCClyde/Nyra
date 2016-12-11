@@ -19,34 +19,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/RenderTarget.h>
-#include <nyra/graphics/ogre/RenderTarget.h>
-#include <nyra/win/ogre/Window.h>
+#ifndef __NYRA_GRAPHICS_MESH_H__
+#define __NYRA_GRAPHICS_MESH_H__
+
+#include <nyra/graphics/Renderable.h>
+#include <nyra/math/Transform.h>
+#include <nyra/math/Vector3.h>
+#include <vector>
 
 namespace nyra
 {
 namespace graphics
 {
-namespace ogre
+/*
+ *  \class Mesh
+ *  \brief A class that represents a 3D model.
+ */
+class Mesh : public Renderable<math::Transform2D>
 {
-class TestOgreRenderTarget :
-        public test::RenderTarget<RenderTarget, win::ogre::Window>
-{
+public:
+    /*
+     *  \func Destructor
+     *  \brief Necessary for proper inheritance.
+     */
+    virtual ~Mesh() = default;
+
+    /*
+     *  \func load
+     *  \brief Loads a mesh from a file.
+     *
+     *  \param pathname The pathname of the file on disk.
+     */
+    virtual void load(const std::string& pathname) = 0;
+
+    /*
+     *  \func load
+     *  \brief Loads a mesh from vert and indice buffers in memory.
+     *
+     *  \param vertices A list of vertices.
+     *  \param indices A list of indices into the vertex buffer.
+     */
+    virtual void load(const std::vector<math::Vector3F>& vertices,
+                      const std::vector<size_t>& indices) = 0;
 };
-
-TEST_F(TestOgreRenderTarget, Render)
-{
-    EXPECT_EQ(expectedRender, render());
-    EXPECT_EQ(expectedRender, renderOffscreen());
-    EXPECT_EQ(expectedResizeRender, resize());
-}
-
-TEST_F(TestOgreRenderTarget, Stdout)
-{
-    EXPECT_EQ(stdout(), expectedStdout);
-}
-}
 }
 }
 
-NYRA_TEST()
+#endif

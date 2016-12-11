@@ -19,24 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/Window.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <nyra/gl/GlobalHandler.h>
 
 namespace nyra
 {
-namespace win
+namespace gl
 {
 //===========================================================================//
-std::ostream& operator<<(std::ostream& os, const Window& window)
+void GlobalHandler::initializeGlobal()
 {
-    if (window.isOpen())
+    if(!glfwInit())
     {
-        os << "Name: " << window.getName()
-           << "\nSize: " << window.getSize()
-           << "\nPosition: " << window.getPosition();
+        throw std::runtime_error("Failed to initialize GLFW");
+    }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+    /*glutInitDisplayMode(GLUT_RGB);
+    glewExperimental = GL_TRUE;
+    GLenum error = glewInit();
+    if (error != GLEW_OK)
+    {
+        throw std::runtime_error(std::string("Failed to initialize GLEW: ") +
+                reinterpret_cast<const char*>(glewGetErrorString(error)));
+    }*/
+}
+
+//===========================================================================//
+void GlobalHandler::shutdownGlobal()
+{
+    glfwTerminate();
+}
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os,
+                         const GlobalHandler& app)
+{
+    if (app.isInitialized())
+    {
+        os << "OpenGL is running";
     }
     else
     {
-        os << "Window is closed";
+        os << "OpenGL is stopped";
     }
     return os;
 }

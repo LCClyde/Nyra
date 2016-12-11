@@ -19,31 +19,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/RenderTarget.h>
-#include <nyra/graphics/ogre/RenderTarget.h>
-#include <nyra/win/ogre/Window.h>
+#include <nyra/win/gl/Window.h>
+#include <nyra/test/Test.h>
+#include <nyra/test/Window.h>
 
 namespace nyra
 {
-namespace graphics
+namespace win
 {
-namespace ogre
+namespace gl
 {
-class TestOgreRenderTarget :
-        public test::RenderTarget<RenderTarget, win::ogre::Window>
+class TestOpenGLWindow : public test::Window<Window>
 {
 };
 
-TEST_F(TestOgreRenderTarget, Render)
+TEST_F(TestOpenGLWindow, GetSet)
 {
-    EXPECT_EQ(expectedRender, render());
-    EXPECT_EQ(expectedRender, renderOffscreen());
-    EXPECT_EQ(expectedResizeRender, resize());
+    EXPECT_EQ(name(), expectedName);
+    EXPECT_EQ(size(), expectedSize);
+    EXPECT_EQ(position(), expectedPosition);
 }
 
-TEST_F(TestOgreRenderTarget, Stdout)
+TEST_F(TestOpenGLWindow, Close)
 {
-    EXPECT_EQ(stdout(), expectedStdout);
+    EXPECT_NE(id(), previousID);
+    EXPECT_TRUE(close());
+}
+
+TEST_F(TestOpenGLWindow, Archive)
+{
+    gl::Window window = archiveOpen();
+    for (size_t ii = 0; ii < 10; ++ii)
+    {
+        time::sleep(10);
+        window.update();
+    }
+    EXPECT_EQ(window.getName(), expectedName);
+    EXPECT_EQ(window.getSize(), expectedSize);
+    EXPECT_EQ(window.getPosition(), expectedPosition);
+    EXPECT_FALSE(archiveClosed().isOpen());
+}
+
+TEST_F(TestOpenGLWindow, Stdout)
+{
+    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
+    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
 }
 }
 }

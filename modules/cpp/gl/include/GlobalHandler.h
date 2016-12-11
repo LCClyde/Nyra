@@ -19,34 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/RenderTarget.h>
-#include <nyra/graphics/ogre/RenderTarget.h>
-#include <nyra/win/ogre/Window.h>
+#ifndef __NYRA_GL_GLOBAL_HANDLER_H__
+#define __NYRA_GL_GLOBAL_HANDLER_H__
+
+#include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
 {
-namespace graphics
+namespace gl
 {
-namespace ogre
+/*
+ *  \class GlobalHandler
+ *  \brief Handles the OpenGL global init and shutdown commands. All OpenGL
+ *         classes should add a GlobalDependency to this class.
+ */
+class GlobalHandler : public pattern::GlobalHandler
 {
-class TestOgreRenderTarget :
-        public test::RenderTarget<RenderTarget, win::ogre::Window>
-{
+public:
+private:
+    void initializeGlobal() override;
+
+    void shutdownGlobal() override;
+
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const GlobalHandler& app);
 };
-
-TEST_F(TestOgreRenderTarget, Render)
-{
-    EXPECT_EQ(expectedRender, render());
-    EXPECT_EQ(expectedRender, renderOffscreen());
-    EXPECT_EQ(expectedResizeRender, resize());
-}
-
-TEST_F(TestOgreRenderTarget, Stdout)
-{
-    EXPECT_EQ(stdout(), expectedStdout);
-}
-}
 }
 }
 
-NYRA_TEST()
+#endif
