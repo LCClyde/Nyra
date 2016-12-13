@@ -22,6 +22,8 @@
 #ifndef __NYRA_GL_GLOBAL_HANDLER_H__
 #define __NYRA_GL_GLOBAL_HANDLER_H__
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
@@ -43,6 +45,8 @@ private:
 
     friend std::ostream& operator<<(std::ostream& os,
                                     const GlobalHandler& app);
+
+    GLFWwindow* mWindow;
 };
 }
 }

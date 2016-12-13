@@ -19,39 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_MESH_H__
-#define __NYRA_GRAPHICS_MESH_H__
+#ifndef __NYRA_GRAPHICS_GL_MESH_H__
+#define __NYRA_GRAPHICS_GL_MESH_H__
 
-#include <nyra/graphics/Renderable.h>
-#include <nyra/math/Transform.h>
-#include <nyra/math/Vector3.h>
-#include <vector>
-#include <string>
+#include <GL/glew.h>
+#include <nyra/graphics/Mesh.h>
+#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/gl/GlobalHandler.h>
+#include <nyra/graphics/gl/Shader.h>
 
 namespace nyra
 {
 namespace graphics
 {
+namespace gl
+{
 /*
  *  \class Mesh
  *  \brief A class that represents a 3D model.
  */
-class Mesh : public Renderable<math::Transform2D>
+class Mesh : public graphics::Mesh,
+        private nyra::pattern::GlobalDependency<nyra::gl::GlobalHandler>
 {
 public:
     /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance.
+     *  \func Constructor
+     *  \brief Creates a mesh
+     *
+     *  \param vertices A list of vertices.
+     *  \param indices A list of indices into the vertex buffer.
      */
-    virtual ~Mesh() = default;
+    Mesh(const std::vector<math::Vector3F>& vertices,
+         const std::vector<size_t>& indices);
+
+    /*
+     *  \func Destructor
+     *  \brief Destroys the OpenGL objects.
+     */
+    ~Mesh();
 
     /*
      *  \func initialize
      *  \brief Loads a mesh from a file.
+     *         TODO: Implement this.
      *
      *  \param pathname The pathname of the file on disk.
      */
-    virtual void initialize(const std::string& pathname) = 0;
+    void initialize(const std::string& pathname) override;
 
     /*
      *  \func initialize
@@ -60,9 +74,25 @@ public:
      *  \param vertices A list of vertices.
      *  \param indices A list of indices into the vertex buffer.
      */
-    virtual void initialize(const std::vector<math::Vector3F>& vertices,
-                            const std::vector<size_t>& indices) = 0;
+    void initialize(const std::vector<math::Vector3F>& vertices,
+                    const std::vector<size_t>& indices) override;
+
+    /*
+     *  \func render
+     *  \brief Renders to the screen
+     *
+     *  \param transform The transform that represents this object
+     *  \param target The target to render to
+     */
+    void render(graphics::RenderTarget& target) override;
+
+private:
+    Shader mShader;
+    GLuint mVectorBufferObject;
+    GLuint mVectorArrayObject;
+    GLuint mElementBufferObject;
 };
+}
 }
 }
 

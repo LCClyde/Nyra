@@ -19,51 +19,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_MESH_H__
-#define __NYRA_GRAPHICS_MESH_H__
-
-#include <nyra/graphics/Renderable.h>
-#include <nyra/math/Transform.h>
-#include <nyra/math/Vector3.h>
-#include <vector>
-#include <string>
+#include <nyra/test/RenderTarget.h>
+#include <nyra/graphics/gl/RenderTarget.h>
+#include <nyra/win/gl/Window.h>
 
 namespace nyra
 {
 namespace graphics
 {
-/*
- *  \class Mesh
- *  \brief A class that represents a 3D model.
- */
-class Mesh : public Renderable<math::Transform2D>
+namespace gl
 {
-public:
-    /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance.
-     */
-    virtual ~Mesh() = default;
-
-    /*
-     *  \func initialize
-     *  \brief Loads a mesh from a file.
-     *
-     *  \param pathname The pathname of the file on disk.
-     */
-    virtual void initialize(const std::string& pathname) = 0;
-
-    /*
-     *  \func initialize
-     *  \brief Loads a mesh from vert and indice buffers in memory.
-     *
-     *  \param vertices A list of vertices.
-     *  \param indices A list of indices into the vertex buffer.
-     */
-    virtual void initialize(const std::vector<math::Vector3F>& vertices,
-                            const std::vector<size_t>& indices) = 0;
+class TestOpenGLRenderTarget :
+        public test::RenderTarget<RenderTarget, win::gl::Window>
+{
 };
+
+TEST_F(TestOpenGLRenderTarget, Render)
+{
+    EXPECT_EQ(expectedRender, render());
+    // TODO: Only render to screen works at the moment
+    //EXPECT_EQ(expectedRender, renderOffscreen());
+    //EXPECT_EQ(expectedResizeRender, resize());
+}
+
+TEST_F(TestOpenGLRenderTarget, Stdout)
+{
+    EXPECT_EQ(stdout(), expectedStdout);
+}
+}
 }
 }
 
-#endif
+NYRA_TEST()

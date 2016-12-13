@@ -19,51 +19,46 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <nyra/test/RenderTarget.h>
+#include <nyra/graphics/gl/RenderTarget.h>
+#include <nyra/graphics/gl/Mesh.h>
 #include <nyra/win/gl/Window.h>
-#include <nyra/test/Test.h>
-#include <nyra/test/Window.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
-namespace win
+namespace graphics
 {
 namespace gl
 {
-class TestOpenGLWindow : public test::Window<Window>
+TEST(OpenGLRenderTarget, Temp)
 {
-};
+    win::gl::Window window("temp",
+                           math::Vector2U(256, 256),
+                           math::Vector2I(200, 200));
+    RenderTarget target(window);
+    std::vector<math::Vector3F> vertices;
+    vertices.push_back(math::Vector3F(0.5f,  0.5f, 0.0f));
+    vertices.push_back(math::Vector3F(0.5f, -0.5f, 0.0f));
+    vertices.push_back(math::Vector3F(-0.5f, -0.5f, 0.0f));
+    vertices.push_back(math::Vector3F(-0.5f, 0.5f, 0.0f));
+    std::vector<size_t> indices;
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(3);
+    indices.push_back(1);
+    indices.push_back(2);
+    indices.push_back(3);
+    Mesh mesh(vertices, indices);
 
-TEST_F(TestOpenGLWindow, GetSet)
-{
-    EXPECT_EQ(name(), expectedName);
-    EXPECT_EQ(size(), expectedSize);
-    EXPECT_EQ(position(), expectedPosition);
-}
+    window.update();
+    target.clear(img::Color(128, 128, 128));
+    mesh.render(target);
+    target.flush();
 
-TEST_F(TestOpenGLWindow, Close)
-{
-    EXPECT_NE(id(), previousID);
-    EXPECT_TRUE(close());
-}
-
-TEST_F(TestOpenGLWindow, Archive)
-{
-    gl::Window window = archiveOpen();
-    EXPECT_EQ(window.getName(), expectedName);
-    std::cout << "WARNING: OpenGL is not "
-                 "consistent when archiving.\n";
-
-    // TODO: Fix this so it is always correct. I think it needs more time
-    //       during the first window before it is archived.
-    //EXPECT_EQ(window.getSize(), expectedSize);
-    //EXPECT_EQ(window.getPosition(), expectedPosition);
-    EXPECT_FALSE(archiveClosed().isOpen());
-}
-
-TEST_F(TestOpenGLWindow, Stdout)
-{
-    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
-    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
+    img::Image image = core::readArchive<img::Image>(core::path::join(
+            core::DATA_PATH, "textures/test_gl_mesh.png"));
+    EXPECT_EQ(image, target.getPixels());
 }
 }
 }

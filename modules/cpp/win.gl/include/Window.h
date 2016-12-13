@@ -27,7 +27,6 @@
 #include <nyra/win/Window.h>
 #include <nyra/pattern/GlobalDependency.h>
 #include <nyra/gl/GlobalHandler.h>
-#include <iostream>
 
 namespace nyra
 {

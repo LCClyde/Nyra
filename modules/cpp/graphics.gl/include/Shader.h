@@ -19,50 +19,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_MESH_H__
-#define __NYRA_GRAPHICS_MESH_H__
+#ifndef __NYRA_GRAPHICS_GL_SHADER_H__
+#define __NYRA_GRAPHICS_GL_SHADER_H__
 
-#include <nyra/graphics/Renderable.h>
-#include <nyra/math/Transform.h>
-#include <nyra/math/Vector3.h>
-#include <vector>
 #include <string>
+#include <GL/glew.h>
+#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/gl/GlobalHandler.h>
 
 namespace nyra
 {
 namespace graphics
 {
+namespace gl
+{
 /*
- *  \class Mesh
- *  \brief A class that represents a 3D model.
+ *  \class Shader
+ *  \brief Compiles and holds an OpenGL shader.
  */
-class Mesh : public Renderable<math::Transform2D>
+class Shader :
+        private nyra::pattern::GlobalDependency<nyra::gl::GlobalHandler>
 {
 public:
     /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance.
+     *  \func Constructor
+     *  \brief Compiles the shader.
+     *
+     *  \param vertexString The vertex shader. Pass in an empty string
+     *         to create a trivial shader.
+     *  \param fragmentString The fragment shader. Pass in an empty string
+     *         to create a trivial shader.
      */
-    virtual ~Mesh() = default;
+    Shader(const std::string& vertexString,
+           const std::string& fragmentString);
 
     /*
-     *  \func initialize
-     *  \brief Loads a mesh from a file.
+     *  \func getNative
+     *  \brief Gets the underlying OpenGL object.
      *
-     *  \param pathname The pathname of the file on disk.
+     *  \return The OpenGL shader program.
      */
-    virtual void initialize(const std::string& pathname) = 0;
+    GLuint getNative() const
+    {
+        return mShader;
+    }
 
-    /*
-     *  \func initialize
-     *  \brief Loads a mesh from vert and indice buffers in memory.
-     *
-     *  \param vertices A list of vertices.
-     *  \param indices A list of indices into the vertex buffer.
-     */
-    virtual void initialize(const std::vector<math::Vector3F>& vertices,
-                            const std::vector<size_t>& indices) = 0;
+private:
+    GLuint compileShader(const std::string& shaderString,
+                         GLenum shaderType) const;
+
+    GLuint mShader;
 };
+}
 }
 }
 

@@ -39,14 +39,22 @@ void GlobalHandler::initializeGlobal()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    /*glutInitDisplayMode(GLUT_RGB);
+    // Create a hidden window
+    mWindow = glfwCreateWindow(1, 1, "hidden", nullptr, nullptr);
+    if (!mWindow)
+    {
+        throw std::runtime_error("Failed to create GLFW window");
+    }
+    glfwHideWindow(mWindow);
+    glfwMakeContextCurrent(mWindow);
+
     glewExperimental = GL_TRUE;
     GLenum error = glewInit();
     if (error != GLEW_OK)
     {
         throw std::runtime_error(std::string("Failed to initialize GLEW: ") +
                 reinterpret_cast<const char*>(glewGetErrorString(error)));
-    }*/
+    }
 }
 
 //===========================================================================//
