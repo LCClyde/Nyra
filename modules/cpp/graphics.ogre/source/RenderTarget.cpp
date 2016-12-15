@@ -19,9 +19,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/ogre/RenderTarget.h>
+#include <atomic>
 #include <OgreColourValue.h>
 #include <OgreHardwarePixelBuffer.h>
+#include <nyra/graphics/ogre/RenderTarget.h>
+
+namespace
+{
+static std::atomic_size_t TARGET_NUMBER(0);
+}
 
 namespace nyra
 {
@@ -31,32 +37,71 @@ namespace ogre
 {
 //===========================================================================//
 RenderTarget::RenderTarget(const math::Vector2U& size) :
+    mID(0),
     mWindow(nullptr),
-    mRenderTexture(nullptr)
+    mRenderTexture(nullptr),
+    mScreen(true),
+    mScreenNode(nullptr),
+    mScreenManager(nullptr)
 {
     initialize(size);
 }
 
 //===========================================================================//
 RenderTarget::RenderTarget(win::Window& window) :
+    mID(0),
     mWindow(nullptr),
-    mRenderTexture(nullptr)
+    mRenderTexture(nullptr),
+    mScreen(true),
+    mScreenNode(nullptr),
+    mScreenManager(nullptr)
 {
-    initialize(window);
     initialize(window.getSize());
+    initialize(window);
 }
 
 //===========================================================================//
 void RenderTarget::initialize(win::Window& window)
 {
     mWindow = reinterpret_cast<Ogre::RenderWindow*>(window.getNative());
+
+    mScreenManager = getGlobalInstance().getRoot()->createSceneManager(
+            Ogre::ST_GENERIC);
+    Ogre::Camera* camera = mCamera =
+            mScreenManager->createCamera(
+            "FullscreenCamera_" + std::to_string(mID));
+
+    camera->setPosition(0, 0, 5);
+    camera->lookAt(Ogre::Vector3(0, 0, 0));
+    mWindow->addViewport(camera);
+    mWindow->setAutoUpdated(false);
+    mWindow->getViewport(0)->setClearEveryFrame(true);
+    mWindow->getViewport(0)->setBackgroundColour(
+            Ogre::ColourValue(0.0f, 0.0f, 0.0f, 1.0f));
+
+    mScreen.setCorners(-1.0, 1.0, 1.0, -1.0);
+    mScreen.setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);
+
+    mScreenNode = mScreenManager->getRootSceneNode()->createChildSceneNode();
+    mScreenNode->attachObject(&mScreen);
+
+    mRenderMaterial =
+            Ogre::MaterialManager::getSingleton().create(
+            "RttMat",
+            Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+    mRenderMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+    mRenderMaterial->getTechnique(0)->getPass(0)->createTextureUnitState(
+            "RenderTexture_" + std::to_string(mID));
+    mScreen.setMaterial("RttMat");
 }
 
 //===========================================================================//
 void RenderTarget::initialize(const math::Vector2U& size)
 {
+    mID = (TARGET_NUMBER++);
     mTexture = Ogre::TextureManager::getSingleton().createManual(
-        "RenderTexture",
+        "RenderTexture_" + std::to_string(mID),
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         Ogre::TEX_TYPE_2D,
         size.x(),
@@ -66,13 +111,12 @@ void RenderTarget::initialize(const math::Vector2U& size)
         Ogre::TU_RENDERTARGET);
     mRenderTexture = mTexture->getBuffer()->getRenderTarget();
 
-    static size_t cameraNumber = 0;
     mCamera = getGlobalInstance().getSceneManager()->createCamera(
-            "RenderTargetCamera_" + std::to_string(++cameraNumber));
+            "RenderTargetCamera_" + std::to_string(mID));
     mCamera->setPosition(0, 0, 5);
     mCamera->lookAt(Ogre::Vector3(0, 0, 0));
     mRenderTexture->addViewport(mCamera);
-    mRenderTexture->setAutoUpdated(false);
+    mRenderTexture->setAutoUpdated(true);
     mRenderTexture->getViewport(0)->setClearEveryFrame(true);
 }
 
@@ -103,7 +147,10 @@ void RenderTarget::clear(const img::Color& color)
 void RenderTarget::flush()
 {
     getGlobalInstance().getRoot()->renderOneFrame();
-    mRenderTexture->update();
+    if (mWindow)
+    {
+        mWindow->update();
+    }
 }
 
 //===========================================================================//

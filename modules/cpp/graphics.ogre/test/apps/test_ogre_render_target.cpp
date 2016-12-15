@@ -45,6 +45,22 @@ TEST_F(TestOgreRenderTarget, Stdout)
 {
     EXPECT_EQ(stdout(), expectedStdout);
 }
+
+/*TEST(OgreRenderTarget, RealTimeRender)
+{
+    win::ogre::Window window("temp",
+                             math::Vector2U(200, 200),
+                             math::Vector2I(300, 300));
+    RenderTarget target(window);
+
+    while (window.isOpen())
+    {
+        window.update();
+        target.clear(img::Color(255, 0, 0));
+        target.flush();
+    }
+    core::writeArchive(target.getPixels(), "test.png");
+}*/
 }
 }
 }

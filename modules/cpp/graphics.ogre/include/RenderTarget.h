@@ -26,6 +26,7 @@
 #include <nyra/ogre/GlobalHandler.h>
 #include <nyra/pattern/GlobalDependency.h>
 #include <OgreRenderWindow.h>
+#include <OgreRectangle2D.h>
 
 namespace nyra
 {
@@ -115,10 +116,15 @@ public:
 
 
 private:
+    size_t mID;
     Ogre::RenderWindow* mWindow;
     Ogre::Camera* mCamera;
     Ogre::TexturePtr mTexture;
     Ogre::RenderTexture* mRenderTexture;
+    Ogre::Rectangle2D mScreen;
+    Ogre::SceneNode* mScreenNode;
+    Ogre::SceneManager* mScreenManager;
+    Ogre::MaterialPtr mRenderMaterial;
 };
 }
 }
