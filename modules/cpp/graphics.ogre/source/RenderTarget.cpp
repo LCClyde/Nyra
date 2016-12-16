@@ -71,8 +71,6 @@ void RenderTarget::initialize(win::Window& window)
             mScreenManager->createCamera(
             "FullscreenCamera_" + std::to_string(mID));
 
-    camera->setPosition(0, 0, 5);
-    camera->lookAt(Ogre::Vector3(0, 0, 0));
     mWindow->addViewport(camera);
     mWindow->setAutoUpdated(false);
     mWindow->getViewport(0)->setClearEveryFrame(true);
@@ -113,7 +111,7 @@ void RenderTarget::initialize(const math::Vector2U& size)
 
     mCamera = getGlobalInstance().getSceneManager()->createCamera(
             "RenderTargetCamera_" + std::to_string(mID));
-    mCamera->setPosition(0, 0, 5);
+    mCamera->setPosition(Ogre::Vector3(0, 300, 500));
     mCamera->lookAt(Ogre::Vector3(0, 0, 0));
     mRenderTexture->addViewport(mCamera);
     mRenderTexture->setAutoUpdated(true);
