@@ -23,6 +23,7 @@
 #include <nyra/graphics/ogre/RenderTarget.h>
 #include <nyra/graphics/ogre/Mesh.h>
 #include <nyra/test/Image.h>
+#include <nyra/graphics/MarchingCubes.h>
 
 namespace nyra
 {
@@ -30,7 +31,7 @@ namespace graphics
 {
 namespace ogre
 {
-TEST(OgreRenderTarget, Temp)
+TEST(OgreRenderTarget, RenderSquare)
 {
     RenderTarget target(math::Vector2U(1024, 1024));
     std::vector<math::Vector3F> vertices;
@@ -52,6 +53,31 @@ TEST(OgreRenderTarget, Temp)
     target.flush();
 
     EXPECT_TRUE(test::compareImage(target.getPixels(), "test_ogre_mesh.png"));
+}
+
+TEST(OgreRenderTarget, MarchingCubes)
+{
+    RenderTarget target(math::Vector2U(1024, 1024));
+    graphics::MarchingCubes cubes;
+
+    cubes.xyzFunction = [](const math::Vector3F& p)->float
+    {
+        const float x = p.x() * p.x() / std::pow(100.0, 2);
+        const float y = p.y() * p.y() / std::pow(100.0, 2);
+        const float z = p.z() * p.z() / std::pow(100.0, 2);
+        return x + y + z;
+    };
+
+    const std::vector<math::Vector3F>& vertices = cubes(500.0f, 20.0f, 1.0f);
+    std::vector<size_t> indices;
+    Mesh mesh(vertices, indices);
+
+    target.clear(img::Color(128, 0, 128));
+    mesh.render(target);
+    target.flush();
+    core::writeArchive(target.getPixels(), "test_ogre_marching_cubes_sphere.png");
+    EXPECT_TRUE(test::compareImage(target.getPixels(),
+                                   "test_ogre_marching_cubes_sphere.png"));
 }
 }
 }

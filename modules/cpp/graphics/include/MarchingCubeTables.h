@@ -19,29 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MATH_INTERPOLATE_H__
-#define __NYRA_MATH_INTERPOLATE_H__
+#ifndef __NYRA_GRAPHICS_MARCHING_CUBE_TABLES_H__
+#define __NYRA_GRAPHICS_MARCHING_CUBE_TABLES_H__
+
+#include <vector>
+#include <stdint.h>
 
 namespace nyra
 {
-namespace math
+namespace graphics
 {
 /*
- *  \func linearInterpolate
- *  \brief Interpolates linearly between a start and an end.
- *
- *  \tparam T The data type to interpolate.
- *  \param start The starting value
- *  \param end The ending value
- *  \param delta The amount from 0 - 1 to interpolate. A value of 0 will return
- *         start. A value of 1 will return end.
- *  \return The interpolated value.
+ *  \var EDGE_TABLE
+ *  \brief Look up table for cube edges. This should only be used internally.
  */
-template <typename T>
-T linearInterpolate(const T& start, const T& end, double delta)
-{
-    return start + (end - start) * delta;
-}
+extern const std::vector<uint16_t> EDGE_TABLE;
+
+/*
+ *  \var TRIANGLE_TABLE
+ *  \brief Look up table for triangles. This should only be used internally.
+ */
+extern const std::vector<std::vector<int8_t> > TRIANGLE_TABLE;
 }
 }
 

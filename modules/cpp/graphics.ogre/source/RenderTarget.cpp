@@ -97,7 +97,18 @@ void RenderTarget::initialize(win::Window& window)
 //===========================================================================//
 void RenderTarget::initialize(const math::Vector2U& size)
 {
+    Ogre::SceneManager& manager = *getGlobalInstance().getSceneManager();
+
+    // TODO: Do I need to destroy this? It causes crashes, but need
+    //       to verify.
+    //if (mCamera)
+    //{
+    //    manager.destroyCamera(mCamera);
+    //}
+
     mID = (TARGET_NUMBER++);
+
+    // TODO: Do I need to destroy the previous texture?
     mTexture = Ogre::TextureManager::getSingleton().createManual(
         "RenderTexture_" + std::to_string(mID),
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
@@ -109,12 +120,15 @@ void RenderTarget::initialize(const math::Vector2U& size)
         Ogre::TU_RENDERTARGET);
     mRenderTexture = mTexture->getBuffer()->getRenderTarget();
 
-    mCamera = getGlobalInstance().getSceneManager()->createCamera(
-            "RenderTargetCamera_" + std::to_string(mID));
-    mCamera->setPosition(Ogre::Vector3(0, 300, 500));
+    mCamera = manager.createCamera("RenderTargetCamera_" + std::to_string(mID));
+    mCamera->setPosition(Ogre::Vector3(0, 0, 500));
     mCamera->lookAt(Ogre::Vector3(0, 0, 0));
+    mCamera->setNearClipDistance(5);
     mRenderTexture->addViewport(mCamera);
     mRenderTexture->setAutoUpdated(true);
+    mCamera->setAspectRatio(
+            Ogre::Real(mRenderTexture->getViewport(0)->getActualWidth()) /
+            Ogre::Real(mRenderTexture->getViewport(0)->getActualHeight()));
     mRenderTexture->getViewport(0)->setClearEveryFrame(true);
 }
 
