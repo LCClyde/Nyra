@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_MARCHING_CUBES_H__
-#define __NYRA_GRAPHICS_MARCHING_CUBES_H__
+#ifndef __NYRA_ALGS_MARCHING_CUBES_H__
+#define __NYRA_ALGS_MARCHING_CUBES_H__
 
 #include <vector>
 #include <nyra/math/Vector3.h>
@@ -28,7 +28,7 @@
 
 namespace nyra
 {
-namespace graphics
+namespace algs
 {
 /*
  *  \class MarchingCubes

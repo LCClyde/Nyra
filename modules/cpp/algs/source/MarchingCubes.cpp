@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/MarchingCubes.h>
-#include <nyra/graphics/MarchingCubeTables.h>
+#include <nyra/algs/MarchingCubes.h>
+#include <nyra/algs/MarchingCubeTables.h>
 #include <nyra/math/Interpolate.h>
 
 namespace
@@ -62,7 +62,7 @@ nyra::math::Vector3F interp(float isoLevel,
 
 namespace nyra
 {
-namespace graphics
+namespace algs
 {
 //===========================================================================//
 const std::vector<math::Vector3F>& MarchingCubes::operator()(
@@ -78,6 +78,8 @@ const std::vector<math::Vector3F>& MarchingCubes::operator()(
         {
             for (float z = -halfExtents; z < halfExtents; z += cubeSize)
             {
+                // TODO: Verify these, changing the values here can change
+                //       where holes appear in the mesh.
                 cube[0] = math::Vector3F(x,            y,            z+ cubeSize);
                 cube[1] = math::Vector3F(x + cubeSize, y,            z+ cubeSize);
                 cube[2] = math::Vector3F(x + cubeSize, y,            z );

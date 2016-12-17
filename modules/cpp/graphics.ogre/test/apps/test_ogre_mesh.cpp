@@ -23,7 +23,7 @@
 #include <nyra/graphics/ogre/RenderTarget.h>
 #include <nyra/graphics/ogre/Mesh.h>
 #include <nyra/test/Image.h>
-#include <nyra/graphics/MarchingCubes.h>
+#include <nyra/algs/MarchingCubes.h>
 
 namespace nyra
 {
@@ -31,7 +31,7 @@ namespace graphics
 {
 namespace ogre
 {
-TEST(OgreRenderTarget, RenderSquare)
+TEST(RenderTarget, RenderSquare)
 {
     RenderTarget target(math::Vector2U(1024, 1024));
     std::vector<math::Vector3F> vertices;
@@ -55,10 +55,10 @@ TEST(OgreRenderTarget, RenderSquare)
     EXPECT_TRUE(test::compareImage(target.getPixels(), "test_ogre_mesh.png"));
 }
 
-TEST(OgreRenderTarget, MarchingCubes)
+TEST(RenderTarget, MarchingCubes)
 {
     RenderTarget target(math::Vector2U(1024, 1024));
-    graphics::MarchingCubes cubes;
+    algs::MarchingCubes cubes;
 
     cubes.xyzFunction = [](const math::Vector3F& p)->float
     {
@@ -75,7 +75,6 @@ TEST(OgreRenderTarget, MarchingCubes)
     target.clear(img::Color(128, 0, 128));
     mesh.render(target);
     target.flush();
-    core::writeArchive(target.getPixels(), "test_ogre_marching_cubes_sphere.png");
     EXPECT_TRUE(test::compareImage(target.getPixels(),
                                    "test_ogre_marching_cubes_sphere.png"));
 }

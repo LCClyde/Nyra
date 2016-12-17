@@ -31,7 +31,7 @@ TEST(Shader, Default)
 {
     Shader shader("", "");
     // Just make sure this compiled
-    EXPECT_NE(0, shader.getNative());
+    EXPECT_NE(static_cast<GLuint>(0), shader.getNative());
 }
 
 TEST(Shader, Invalid)

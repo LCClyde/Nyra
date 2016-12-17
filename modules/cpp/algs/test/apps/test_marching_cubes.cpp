@@ -20,11 +20,11 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/graphics/MarchingCubes.h>
+#include <nyra/algs/MarchingCubes.h>
 
 namespace nyra
 {
-namespace graphics
+namespace algs
 {
 
 TEST(MarchingCubes, UnitSphere)

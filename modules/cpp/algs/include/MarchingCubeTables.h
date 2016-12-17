@@ -19,15 +19,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_MARCHING_CUBE_TABLES_H__
-#define __NYRA_GRAPHICS_MARCHING_CUBE_TABLES_H__
+#ifndef __NYRA_ALGS_MARCHING_CUBE_TABLES_H__
+#define __NYRA_ALGS_MARCHING_CUBE_TABLES_H__
 
 #include <vector>
 #include <stdint.h>
 
 namespace nyra
 {
-namespace graphics
+namespace algs
 {
 /*
  *  \var EDGE_TABLE

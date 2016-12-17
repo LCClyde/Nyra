@@ -19,11 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/MarchingCubeTables.h>
+#include <nyra/algs/MarchingCubeTables.h>
 
 namespace nyra
 {
-namespace graphics
+namespace algs
 {
 //========================================================================== //
 const std::vector<uint16_t> EDGE_TABLE =
