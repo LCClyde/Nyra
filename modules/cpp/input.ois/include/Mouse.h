@@ -19,50 +19,72 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_CEGUI_GUI_H__
-#define __NYRA_GUI_CEGUI_GUI_H__
+#ifndef __NYRA_INPUT_OIS_MOUSE_H__
+#define __NYRA_INPUT_OIS_MOUSE_H__
 
-#include <nyra/gui/Gui.h>
-#include <nyra/gui/cegui/GlobalHandler.h>
+#include <OIS/OISMouse.h>
+#include <nyra/input/Mouse.h>
+#include <nyra/win/Window.h>
+#include <nyra/input/ois/GlobalHandler.h>
 #include <nyra/pattern/GlobalDependency.h>
 
 namespace nyra
 {
-namespace gui
+namespace input
 {
-namespace cegui
+namespace ois
 {
 /*
- *  \class Gui
- *  \brief A base class that holds a CEGUI Gui.
+ *  \class Mouse
+ *  \brief Class to represent user input from the Mouse.
  */
-class Gui : public gui::Gui,
+class Mouse : public input::Mouse,
         private pattern::GlobalDependency<GlobalHandler>
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Creates a blank Gui.
+     *  \brief Sets up the Mouse object.
+     *
+     *  \param window The window associated with this Mouse.
      */
-    Gui();
+    Mouse(const win::Window& window);
+
+    /*
+     *  \func Destructor
+     *  \brief Shuts down the OIS device.
+     */
+    ~Mouse();
 
     /*
      *  \func update
-     *  \brief Updates all the elements in the Gui.
-     *
-     *  \param deltaTime The time in seconds that has passed since the
-     *         last update.
+     *  \brief Must be called to update mouse information.
      */
-    void update(double deltaTime) override;
+    void update() override;
 
     /*
-     *  \func render
-     *  \brief Renders all the widgets in the Gui.
+     *  \func getPosition
+     *  \brief Gets the position of the mouse relative to the window
+     *         associated with the device.
      */
-    void render() override;
+    math::Vector2F getPosition() const override;
+
+    /*
+     *  \func getDelta
+     *  \brief Gets the change in position of the position of the mouse
+     *         since the last update.
+     */
+    math::Vector2F getDelta() const override;
+
+    /*
+     *  \func getScroll
+     *  \brief Gets the change in the scroll value since the last update.
+     */
+    float getScroll() const override;
 
 private:
-    void addChild(gui::Widget& child) override;
+    const size_t mWinID;
+    OIS::Mouse& mMouse;
 };
 }
 }

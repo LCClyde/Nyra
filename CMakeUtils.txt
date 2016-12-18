@@ -58,6 +58,7 @@ macro(GetDeps pathname)
     set(MOD_DEPS "")
     set(EXT_DEPS "")
     set(TEST_DEPS "")
+    set(APP_DEPS "")
 
     if(EXISTS ${pathname}/CMakeLists.txt)
         add_subdirectory(${pathname})
@@ -66,6 +67,7 @@ macro(GetDeps pathname)
     ModList("${MOD_DEPS}" nyra- -test-cpp MOD_TEST_DEPS)
     ModList("${MOD_DEPS}" nyra- -cpp MOD_DEPS)
     ModList("${TEST_DEPS}" nyra- -cpp TEST_DEPS)
+    ModList("${APP_DEPS}" nyra- -cpp APP_DEPS)
 endmacro()
 
 macro(BuildModule name libname deps pathname)
@@ -112,6 +114,24 @@ macro(BuildTests libname testlibname pathname outdir)
                                       ${TEST_DEPS}
                                       ${CMAKE_THREAD_LIBS_INIT})
                 add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})
+            endforeach()
+        endif()
+endmacro()
+
+macro(BuildApps libname pathname outdir)
+    # Build the unittests
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${outdir})
+    if (IS_DIRECTORY ${pathname})
+        file(GLOB TESTS ${pathname}/*.cpp)
+            foreach (TEST ${TESTS})
+                get_filename_component(TEST_NAME ${TEST} NAME_WE)
+                add_executable(${TEST_NAME} ${TEST})
+                target_link_libraries(${TEST_NAME}
+                                      ${libname}
+                                      ${MOD_DEPS}
+                                      ${APP_DEPS}
+                                      ${EXT_DEPS}
+                                      ${CMAKE_THREAD_LIBS_INIT})
             endforeach()
         endif()
 endmacro()

@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/cegui/GlobalHandler.h>
+#include <nyra/gui/cegui/GlobalHandler.h>
 #include <nyra/core/Path.h>
 #include <CEGUI/System.h>
 #include <CEGUI/DefaultResourceProvider.h>
@@ -32,6 +32,8 @@
 #include <CEGUI/ScriptModule.h>
 
 namespace nyra
+{
+namespace gui
 {
 namespace cegui
 {
@@ -136,6 +138,7 @@ std::ostream& operator<<(std::ostream& os, const GlobalHandler& app)
         os << "stopped";
     }
     return os;
+}
 }
 }
 }

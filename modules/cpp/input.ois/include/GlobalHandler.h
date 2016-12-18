@@ -19,50 +19,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/qt/Window.h>
-#include <nyra/test/Test.h>
-#include <nyra/test/Window.h>
+#ifndef __NYRA_INPUT_OIS_GLOBAL_HANDLER_H__
+#define __NYRA_INPUT_OIS_GLOBAL_HANDLER_H__
+
+#include <unordered_map>
+#include <OIS/OISInputManager.h>
+#include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
 {
-namespace win
+namespace input
 {
-namespace qt
+namespace ois
 {
-class TestQtWindow : public test::Window<Window>
+/*
+ *  \class GlobalHandler
+ *  \brief Global objects for OIS. Because we need multiple global objects
+ *         for multiple windows, you must call get to initialize the system
+ *         with your winID.
+ *         When destroying devices, be sure to check that the global instance
+ *         is running as it will be destroyed first and shutdown the devices
+ *         under the hood.
+ */
+class GlobalHandler : public pattern::GlobalHandler
 {
+public:
+    /*
+     *  \func get
+     *  \brief Gets the OIS InputManager. This must be called once up front
+     *         to initialize the InputManager with the winID.
+     */
+    OIS::InputManager* get(size_t winID);
+
+private:
+    void initializeGlobal() override;
+
+    void shutdownGlobal() override;
+
+    std::unordered_map<size_t,  OIS::InputManager*> mMap;
 };
-
-TEST_F(TestQtWindow, GetSet)
-{
-    EXPECT_EQ(name(), expectedName);
-    EXPECT_EQ(size(), expectedSize);
-    EXPECT_EQ(position(), expectedPosition);
-}
-
-TEST_F(TestQtWindow, Close)
-{
-    EXPECT_NE(id(), previousID);
-    EXPECT_TRUE(close());
-}
-
-TEST_F(TestQtWindow, Archive)
-{
-    qt::Window window = archiveOpen();
-    EXPECT_EQ(window.getName(), expectedName);
-    EXPECT_EQ(window.getSize(), expectedSize);
-    EXPECT_EQ(window.getPosition(), expectedPosition);
-
-    EXPECT_FALSE(archiveClosed().isOpen());
-}
-
-TEST_F(TestQtWindow, Stdout)
-{
-    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
-    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
-}
 }
 }
 }
 
-NYRA_TEST()
+#endif

@@ -19,5 +19,7 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS pattern core PARENT_SCOPE)
-set(EXT_DEPS ${OGRE_MAIN} PARENT_SCOPE)
+set(MOD_DEPS input win pattern PARENT_SCOPE)
+set(EXT_DEPS ${OIS} PARENT_SCOPE)
+set(TEST_DEPS win.ogre PARENT_SCOPE)
+set(APP_DEPS time win.ogre win.qt gui.qt PARENT_SCOPE)

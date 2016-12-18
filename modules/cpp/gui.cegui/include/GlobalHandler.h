@@ -19,13 +19,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_CEGUI_GLOBAL_HANDLER_H__
-#define __NYRA_CEGUI_GLOBAL_HANDLER_H__
+#ifndef __NYRA_GUI_CEGUI_GLOBAL_HANDLER_H__
+#define __NYRA_GUI_CEGUI_GLOBAL_HANDLER_H__
 
 #include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
 #include <nyra/pattern/GlobalHandler.h>
 
 namespace nyra
+{
+namespace gui
 {
 namespace cegui
 {
@@ -110,6 +112,7 @@ private:
     CEGUI::System* mSystem;
     std::string mScheme;
 };
+}
 }
 }
 

@@ -19,6 +19,6 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS graphics PARENT_SCOPE)
+set(MOD_DEPS graphics mem PARENT_SCOPE)
 set(EXT_DEPS ${SFMLSystem} ${SFMLWindow} ${SFMLGraphics} PARENT_SCOPE)
 set(TEST_DEPS win.sfml time PARENT_SCOPE)

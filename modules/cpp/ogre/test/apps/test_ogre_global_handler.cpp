@@ -21,6 +21,7 @@
  */
 #include <nyra/test/Test.h>
 #include <nyra/ogre/GlobalHandler.h>
+#include <nyra/time/System.h>
 
 namespace nyra
 {
@@ -31,8 +32,10 @@ TEST(GlobalHandler, Stdout)
     GlobalHandler handler;
     EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
     handler.initialize();
+    time::sleep(1000);
     EXPECT_EQ(test::stdout(handler), "Ogre Root: running");
     handler.shutdown();
+    time::sleep(1000);
     EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
 }
 }

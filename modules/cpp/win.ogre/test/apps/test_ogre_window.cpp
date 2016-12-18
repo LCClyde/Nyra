@@ -50,14 +50,7 @@ TEST_F(TestOgreWindow, GetSet)
 
 TEST_F(TestOgreWindow, Id)
 {
-#ifdef NYRA_WIN32
-    EXPECT_NE(id(), previousID);
-#else
-    EXPECT_EQ(id(), previousID);
-    std::cout << "======================================================\n";
-    std::cout << "WARNING: Ogre winId is always 0 on Linux\n";
-    std::cout << "======================================================\n";
-#endif
+    EXPECT_NE(id(1000), previousID);
     time::sleep(1000);
 }
 

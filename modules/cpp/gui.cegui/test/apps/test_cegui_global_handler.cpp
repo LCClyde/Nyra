@@ -19,47 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/qt/Window.h>
 #include <nyra/test/Test.h>
-#include <nyra/test/Window.h>
+#include <nyra/gui/cegui/GlobalHandler.h>
+#include <nyra/graphics/sfml/RenderTarget.h>
 
 namespace nyra
 {
-namespace win
+namespace gui
 {
-namespace qt
+namespace cegui
 {
-class TestQtWindow : public test::Window<Window>
+TEST(GlobalHandler, Stdout)
 {
-};
+    // We need to a initialize openGL
+    graphics::sfml::RenderTarget target(math::Vector2U(32, 32));
 
-TEST_F(TestQtWindow, GetSet)
-{
-    EXPECT_EQ(name(), expectedName);
-    EXPECT_EQ(size(), expectedSize);
-    EXPECT_EQ(position(), expectedPosition);
-}
-
-TEST_F(TestQtWindow, Close)
-{
-    EXPECT_NE(id(), previousID);
-    EXPECT_TRUE(close());
-}
-
-TEST_F(TestQtWindow, Archive)
-{
-    qt::Window window = archiveOpen();
-    EXPECT_EQ(window.getName(), expectedName);
-    EXPECT_EQ(window.getSize(), expectedSize);
-    EXPECT_EQ(window.getPosition(), expectedPosition);
-
-    EXPECT_FALSE(archiveClosed().isOpen());
-}
-
-TEST_F(TestQtWindow, Stdout)
-{
-    EXPECT_EQ(stdoutOpen(), expectedStdoutOpen);
-    EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
+    GlobalHandler handler;
+    EXPECT_EQ(test::stdout(handler), "CEGUI stopped");
+    handler.initialize();
+    EXPECT_EQ(test::stdout(handler), "CEGUI running");
+    handler.shutdown();
+    EXPECT_EQ(test::stdout(handler), "CEGUI stopped");
 }
 }
 }

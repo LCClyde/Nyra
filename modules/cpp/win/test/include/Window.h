@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -160,11 +160,23 @@ public:
      *  \brief Used to tests if the window ID changes when the window is closed
      *         and reopened.
      *         USE: EXPECT_NE(testID(), previousID);
+     *
+     *  \param extraWait An extra wait after the window closes. Some window
+     *         systems do not do a good job of rapid open/close.
      */
-    size_t id()
+    size_t id(size_t extraWait = 0)
     {
         previousID = mWindow.getID();
+        update();
+        if (extraWait > 0)
+        {
+            time::sleep(extraWait);
+        }
         mWindow.close();
+        if (extraWait > 0)
+        {
+            time::sleep(extraWait);
+        }
         reset();
         return mWindow.getID();
     }

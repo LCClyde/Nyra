@@ -54,7 +54,7 @@ public:
         expectedStdout("Render Target: x=320 y=240"),
         mWindow("Render Target Test",
                 defaultSize,
-                math::Vector2I(0, 0)),
+                math::Vector2I(100, 100)),
         mRenderTarget(mWindow),
         mOffscreen(defaultSize),
         expectedRender(defaultSize),

@@ -191,13 +191,16 @@ public:
      */
     size_t getID() const override
     {
-        void* id = nullptr;
-#ifdef NYRA_WIN32
-        mWindow->getCustomAttribute("HWND", id);
-#else
-        mWindow->getCustomAttribute("GLXWINDOW", id);
-#endif
-        return reinterpret_cast<size_t>(id);
+        size_t id = 0;
+
+        // Get window handle
+        mWindow->getCustomAttribute("WINDOW", &id);
+//#ifdef NYRA_WIN32
+//        mWindow->getCustomAttribute("HWND", id);
+//#else
+//        mWindow->getCustomAttribute("GLXWINDOW", id);
+//#endif
+        return id;
     }
 
     /*

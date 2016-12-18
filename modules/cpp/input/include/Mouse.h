@@ -19,27 +19,61 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/cegui/GlobalHandler.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
+#ifndef __NYRA_INPUT_MOUSE_H__
+#define __NYRA_INPUT_MOUSE_H__
+
+#include <nyra/math/Vector2.h>
+#include <nyra/input/Buttons.h>
 
 namespace nyra
 {
-namespace cegui
+namespace input
 {
-TEST(GlobalHandler, Stdout)
+/*
+ *  \class Mouse
+ *  \brief Class to represent user input from the Mouse.
+ */
+class Mouse : public Buttons<3>
 {
-    // We need to a initialize openGL
-    graphics::sfml::RenderTarget target(math::Vector2U(32, 32));
+public:
+    /*
+     *  \type MouseButton
+     *  \brief Index of mouse buttons.
+     */
+    enum MouseButton
+    {
+        MOUSE_LEFT = 0,
+        MOUSE_RIGHT,
+        MOUSE_MIDDLE
+    };
 
-    GlobalHandler handler;
-    EXPECT_EQ(test::stdout(handler), "CEGUI stopped");
-    handler.initialize();
-    EXPECT_EQ(test::stdout(handler), "CEGUI running");
-    handler.shutdown();
-    EXPECT_EQ(test::stdout(handler), "CEGUI stopped");
-}
+    /*
+     *  \func update
+     *  \brief Must be called to update mouse information.
+     */
+    virtual void update() = 0;
+
+    /*
+     *  \func getPosition
+     *  \brief Gets the position of the mouse relative to the window
+     *         associated with the device.
+     */
+    virtual math::Vector2F getPosition() const = 0;
+
+    /*
+     *  \func getDelta
+     *  \brief Gets the change in position of the position of the mouse
+     *         since the last update.
+     */
+    virtual math::Vector2F getDelta() const = 0;
+
+    /*
+     *  \func getScroll
+     *  \brief Gets the change in the scroll value since the last update.
+     */
+    virtual float getScroll() const = 0;
+};
 }
 }
 
-NYRA_TEST()
+#endif
