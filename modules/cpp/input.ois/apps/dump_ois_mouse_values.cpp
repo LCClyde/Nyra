@@ -24,7 +24,6 @@
 #include <nyra/input/ois/Mouse.h>
 #include <nyra/gui/qt/Gui.h>
 #include <nyra/gui/qt/Label.h>
-#include <nyra/graphics/ogre/RenderTarget.h>
 #include <nyra/time/System.h>
 
 using namespace nyra;
@@ -99,21 +98,21 @@ int main()
         scroll->setText(ss.str());
 
         std::string button = "    ";
-        button += (mouse.getButtonPressed(input::Mouse::MOUSE_LEFT)) ? "X" : "-";
-        button += (mouse.getButtonDown(input::Mouse::MOUSE_LEFT)) ? "   X" : "   -";
-        button += (mouse.getButtonReleased(input::Mouse::MOUSE_LEFT)) ? "   X" : "   -";
+        button += (mouse.getButtonPressed(input::MOUSE_LEFT)) ? "X" : "-";
+        button += (mouse.getButtonDown(input::MOUSE_LEFT)) ? "   X" : "   -";
+        button += (mouse.getButtonReleased(input::MOUSE_LEFT)) ? "   X" : "   -";
         left->setText(button);
 
         button = "    ";
-        button += (mouse.getButtonPressed(input::Mouse::MOUSE_RIGHT)) ? "X" : "-";
-        button += (mouse.getButtonDown(input::Mouse::MOUSE_RIGHT)) ? "   X" : "   -";
-        button += (mouse.getButtonReleased(input::Mouse::MOUSE_RIGHT)) ? "   X" : "   -";
+        button += (mouse.getButtonPressed(input::MOUSE_RIGHT)) ? "X" : "-";
+        button += (mouse.getButtonDown(input::MOUSE_RIGHT)) ? "   X" : "   -";
+        button += (mouse.getButtonReleased(input::MOUSE_RIGHT)) ? "   X" : "   -";
         right->setText(button);
 
         button = "    ";
-        button += (mouse.getButtonPressed(input::Mouse::MOUSE_MIDDLE)) ? "X" : "-";
-        button += (mouse.getButtonDown(input::Mouse::MOUSE_MIDDLE)) ? "   X" : "   -";
-        button += (mouse.getButtonReleased(input::Mouse::MOUSE_MIDDLE)) ? "   X" : "   -";
+        button += (mouse.getButtonPressed(input::MOUSE_MIDDLE)) ? "X" : "-";
+        button += (mouse.getButtonDown(input::MOUSE_MIDDLE)) ? "   X" : "   -";
+        button += (mouse.getButtonReleased(input::MOUSE_MIDDLE)) ? "   X" : "   -";
         middle->setText(button);
 
         qWindow.update();

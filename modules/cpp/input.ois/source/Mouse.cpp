@@ -75,11 +75,11 @@ float Mouse::getScroll() const
 void Mouse::update()
 {
     mMouse.capture();
-    std::bitset<3> buttons;
+    std::bitset<input::MOUSE_MAX> buttons;
     const OIS::MouseState& state = mMouse.getMouseState();
-    buttons[input::Mouse::MOUSE_LEFT] = state.buttonDown(OIS::MB_Left);
-    buttons[input::Mouse::MOUSE_RIGHT] = state.buttonDown(OIS::MB_Right);
-    buttons[input::Mouse::MOUSE_MIDDLE] = state.buttonDown(OIS::MB_Middle);
+    buttons[input::MOUSE_LEFT] = state.buttonDown(OIS::MB_Left);
+    buttons[input::MOUSE_RIGHT] = state.buttonDown(OIS::MB_Right);
+    buttons[input::MOUSE_MIDDLE] = state.buttonDown(OIS::MB_Middle);
     updateButtons(buttons);
 
 }

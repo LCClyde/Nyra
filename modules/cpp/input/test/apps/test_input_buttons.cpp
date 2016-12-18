@@ -38,8 +38,6 @@ namespace nyra
 {
 namespace input
 {
-namespace ois
-{
 TEST(Buttons, Values)
 {
     MockButtons buttons;
@@ -118,7 +116,6 @@ TEST(Buttons, Values)
     {
          EXPECT_FALSE(buttons.getButtonReleased(ii));
     }
-}
 }
 }
 }

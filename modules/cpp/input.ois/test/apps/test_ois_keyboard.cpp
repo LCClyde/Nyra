@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/input/ois/Mouse.h>
+#include <nyra/input/ois/Keyboard.h>
 #include <nyra/win/ogre/Window.h>
 
 namespace nyra
@@ -29,34 +29,29 @@ namespace input
 {
 namespace ois
 {
-TEST(Mouse, Update)
+TEST(Keyboard, Update)
 {
     // Because all the values are user input, there is nothing to test here
     // except that the functions do not throw / segfault.
     std::cout << "=================================================\n";
-    std::cout << "WARNING: test_ois_mouse does not test any values.\n";
-    std::cout << "WARNING: Run dump_ois_mouse_values to manually\n";
+    std::cout << "WARNING: test_ois_keyboard does not test any values.\n";
+    std::cout << "WARNING: Run dump_ois_keyboard_values to manually\n";
     std::cout << "WARNING: test actual values.\n";
     std::cout << "=================================================\n";
-    win::ogre::Window window("Test Mouse",
-                             math::Vector2U(1280, 720),
+    win::ogre::Window window("Test Keyboard",
+                             math::Vector2U(50, 50),
                              math::Vector2I(450, 200));
-    input::ois::Mouse mouse(window);
+    input::ois::Keyboard keyboard(window);
 
     window.update();
-    mouse.update();
-    mouse.getPosition();
-    mouse.getDelta();
-    mouse.getScroll();
-    mouse.getButtonDown(input::MOUSE_LEFT);
-    mouse.getButtonPressed(input::MOUSE_LEFT);
-    mouse.getButtonReleased(input::MOUSE_LEFT);
-    mouse.getButtonDown(input::MOUSE_RIGHT);
-    mouse.getButtonPressed(input::MOUSE_RIGHT);
-    mouse.getButtonReleased(input::MOUSE_RIGHT);
-    mouse.getButtonDown(input::MOUSE_MIDDLE);
-    mouse.getButtonPressed(input::MOUSE_MIDDLE);
-    mouse.getButtonReleased(input::MOUSE_MIDDLE);
+    keyboard.update();
+
+    for (size_t ii = 0; ii < input::KEY_MAX; ++ii)
+    {
+        keyboard.getButtonDown(ii);
+        keyboard.getButtonPressed(ii);
+        keyboard.getButtonReleased(ii);
+    }
 }
 }
 }

@@ -19,62 +19,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_INPUT_MOUSE_H__
-#define __NYRA_INPUT_MOUSE_H__
-
-#include <nyra/math/Vector2.h>
-#include <nyra/input/Buttons.h>
+#include <nyra/test/Test.h>
+#include <nyra/input/Keyboard.h>
 
 namespace nyra
 {
 namespace input
 {
-/*
- *  \type MouseButton
- *  \brief Index of mouse buttons.
- */
-enum MouseButton
+TEST(KeyCodes, ToString)
 {
-    MOUSE_LEFT = 0,
-    MOUSE_RIGHT,
-    MOUSE_MIDDLE,
-    MOUSE_MAX
-};
+    for (size_t ii = 0; ii < KEY_MAX; ++ii)
+    {
+        const std::string strCode = keyCodeToString(static_cast<KeyCode>(ii));
+        EXPECT_FALSE(strCode.empty());
+        const KeyCode code = stringToKeyCode(strCode);
+        EXPECT_EQ(static_cast<KeyCode>(ii), code);
+    }
+}
 
-/*
- *  \class Mouse
- *  \brief Class to represent user input from the Mouse.
- */
-class Mouse : public Buttons<MOUSE_MAX>
+TEST(KeyCodes, Invalid)
 {
-public:
-    /*
-     *  \func update
-     *  \brief Must be called to update mouse information.
-     */
-    virtual void update() = 0;
-
-    /*
-     *  \func getPosition
-     *  \brief Gets the position of the mouse relative to the window
-     *         associated with the device.
-     */
-    virtual math::Vector2F getPosition() const = 0;
-
-    /*
-     *  \func getDelta
-     *  \brief Gets the change in position of the position of the mouse
-     *         since the last update.
-     */
-    virtual math::Vector2F getDelta() const = 0;
-
-    /*
-     *  \func getScroll
-     *  \brief Gets the change in the scroll value since the last update.
-     */
-    virtual float getScroll() const = 0;
-};
+    EXPECT_ANY_THROW(keyCodeToString(KEY_MAX));
+    EXPECT_ANY_THROW(stringToKeyCode("Foo"));
+}
 }
 }
 
-#endif
+NYRA_TEST()

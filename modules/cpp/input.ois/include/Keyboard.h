@@ -19,61 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_INPUT_MOUSE_H__
-#define __NYRA_INPUT_MOUSE_H__
+#ifndef __NYRA_INPUT_OIS_KEYBOARD_H__
+#define __NYRA_INPUT_OIS_KEYBOARD_H__
 
-#include <nyra/math/Vector2.h>
-#include <nyra/input/Buttons.h>
+#include <OIS/OISKeyboard.h>
+#include <nyra/input/Keyboard.h>
+#include <nyra/win/Window.h>
+#include <nyra/input/ois/GlobalHandler.h>
+#include <nyra/pattern/GlobalDependency.h>
 
 namespace nyra
 {
 namespace input
 {
-/*
- *  \type MouseButton
- *  \brief Index of mouse buttons.
- */
-enum MouseButton
+namespace ois
 {
-    MOUSE_LEFT = 0,
-    MOUSE_RIGHT,
-    MOUSE_MIDDLE,
-    MOUSE_MAX
-};
-
 /*
- *  \class Mouse
- *  \brief Class to represent user input from the Mouse.
+ *  \class Keyboard
+ *  \brief Class to represent user input from the Keyboard.
  */
-class Mouse : public Buttons<MOUSE_MAX>
+class Keyboard : public input::Keyboard,
+        private pattern::GlobalDependency<GlobalHandler>
 {
 public:
     /*
+     *  \func Constructor
+     *  \brief Sets up the internal structure of the Keyboard.
+     */
+    Keyboard(const win::Window& window);
+
+    /*
+     *  \func Destructor
+     *  \brief Destroys the OIS device object.
+     */
+    ~Keyboard();
+
+    /*
      *  \func update
-     *  \brief Must be called to update mouse information.
+     *  \brief Updates the button values for the keyboard.
      */
-    virtual void update() = 0;
+    void update() override;
 
-    /*
-     *  \func getPosition
-     *  \brief Gets the position of the mouse relative to the window
-     *         associated with the device.
-     */
-    virtual math::Vector2F getPosition() const = 0;
-
-    /*
-     *  \func getDelta
-     *  \brief Gets the change in position of the position of the mouse
-     *         since the last update.
-     */
-    virtual math::Vector2F getDelta() const = 0;
-
-    /*
-     *  \func getScroll
-     *  \brief Gets the change in the scroll value since the last update.
-     */
-    virtual float getScroll() const = 0;
+private:
+    std::bitset<input::KEY_MAX> mKeyBits;
+    const size_t mWinID;
+    OIS::Keyboard& mKeyboard;
 };
+}
 }
 }
 
