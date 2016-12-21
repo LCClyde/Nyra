@@ -114,6 +114,14 @@ public:
      */
     img::Image getPixels() const;
 
+    /*
+     *  \func getCamera
+     *  \brief Gets the Ogre camera object.
+     */
+     Ogre::Camera* getCamera() const
+     {
+        return mCamera;
+     }
 
 private:
     size_t mID;

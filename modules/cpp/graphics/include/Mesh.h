@@ -36,7 +36,7 @@ namespace graphics
  *  \class Mesh
  *  \brief A class that represents a 3D model.
  */
-class Mesh : public Renderable<math::Transform2D>
+class Mesh : public Renderable<math::Transform3D>
 {
 public:
     /*
