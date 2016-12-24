@@ -19,46 +19,64 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/emu/MemoryMap.h>
-#include <nyra/emu/RAM.h>
+#ifndef __NYRA_EMU_LONG_TYPE_H__
+#define __NYRA_EMU_LONG_TYPE_H__
 
 namespace nyra
 {
 namespace emu
 {
-TEST(MemoryMap, Values)
+/*
+ *  \class LongType
+ *  \brief Used to determine what a word of twice the size would be.
+ */
+template <typename>
+struct LongType
 {
-    const size_t NUM_BANKS = 11;
-    const size_t BANK_SIZE = 17;
-    MemoryMap<uint8_t> memMap;
-    for (size_t ii = 0; ii < NUM_BANKS; ++ii)
-    {
-        std::shared_ptr<RAM<uint8_t> > bank(new RAM<uint8_t>(BANK_SIZE));
-        memMap.setMemoryBank(ii * BANK_SIZE, bank);
-    }
-    memMap.lockLookUpTable();
+};
 
-    for (size_t ii = 0; ii < NUM_BANKS * BANK_SIZE; ++ii)
-    {
-        memMap.writeWord(ii, ii);
-    }
+/*
+ *  \class LongType<uint8_t>
+ *  \brief Finds long type for uint8_t.
+ */
+template <>
+struct LongType<uint8_t>
+{
+    /*
+     *  \type LongT
+     *  \brief uint16_t type
+     */
+    typedef uint16_t LongT;
+};
 
-    for (size_t ii = 0; ii < NUM_BANKS * BANK_SIZE; ++ii)
-    {
-        EXPECT_EQ(ii, memMap.readWord(ii));
-    }
+/*
+ *  \class LongType<uint16_t>
+ *  \brief Finds long type for uint16_t.
+ */
+template <>
+struct LongType<uint16_t>
+{
+    /*
+     *  \type LongT
+     *  \brief uint32_t type
+     */
+    typedef uint32_t LongT;
+};
 
-    // Test a few long values
-    EXPECT_EQ(static_cast<uint16_t>(0x0201), memMap.readLong(1));
-    EXPECT_EQ(static_cast<uint16_t>(0x0302), memMap.readLong(2));
-    EXPECT_EQ(static_cast<uint16_t>(0x0908), memMap.readLong(8));
-    EXPECT_EQ(static_cast<uint16_t>(0x0B0A), memMap.readLong(10));
-    EXPECT_EQ(static_cast<uint16_t>(0x0C0B), memMap.readLong(11));
-    EXPECT_EQ(static_cast<uint16_t>(0x0D0C), memMap.readLong(12));
-    EXPECT_EQ(static_cast<uint16_t>(0x0E0D), memMap.readLong(13));
+/*
+ *  \class LongType<uint32_t>
+ *  \brief Finds long type for uint32_t.
+ */
+template <>
+struct LongType<uint32_t>
+{
+    /*
+     *  \type LongT
+     *  \brief uint64_t type
+     */
+    typedef uint64_t LongT;
+};
 }
 }
-}
 
-NYRA_TEST()
+#endif

@@ -23,7 +23,6 @@
 #define __NYRA_EMU_MEMORY_H__
 
 #include <stdexcept>
-#include <nyra/emu/MemoryType.h>
 
 namespace nyra
 {
@@ -42,12 +41,6 @@ template <typename WordT>
 class Memory
 {
 public:
-    /*
-     *  \type LongT
-     *  \brief The double sized Word type.
-     */
-    typedef typename LongType<WordT>::LongT LongT;
-
     /*
      *  \func Constructor
      *  \brief Sets up the Memory object.
@@ -91,20 +84,6 @@ public:
     virtual WordT readWord(size_t address)
     {
         throw std::runtime_error("Cannot read word from ram");
-    }
-
-    /*
-     *  \func readLong
-     *  \brief - Reads a single long from the memory structure.
-     *  TODO: This is setup for a little endian system. We need a big
-     *        endian version as well.
-     *
-     *  \param address The address to read from.
-     *  \return The value at the address
-     */
-    virtual LongT readLong(size_t address)
-    {
-        throw std::runtime_error("Cannot read long from ram");
     }
 
     /*

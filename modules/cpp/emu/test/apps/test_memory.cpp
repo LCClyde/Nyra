@@ -31,7 +31,6 @@ TEST(Memory, Base)
     Memory<uint8_t> mem(16);
     EXPECT_ANY_THROW(mem.writeWord(0, 0));
     EXPECT_ANY_THROW(mem.readWord(0));
-    EXPECT_ANY_THROW(mem.readLong(0));
     EXPECT_EQ(static_cast<size_t>(16), mem.getSize());
 }
 }

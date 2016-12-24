@@ -22,7 +22,11 @@
 #ifndef __NYRA_EMU_MEMORY_MAP_H__
 #define __NYRA_EMU_MEMORY_MAP_H__
 
+#include <memory>
+#include <vector>
+#include <algorithm>
 #include <nyra/emu/Memory.h>
+#include <nyra/emu/MemoryType.h>
 
 namespace nyra
 {
@@ -110,24 +114,26 @@ public:
      *  \param address The global address to read from.
      *  \return The value at that address.
      */
-    typename Memory<WordT>::LongT readLong(size_t address) const
+    typename LongType<WordT>::LongT readLong(size_t address) const
     {
         size_t modAddress = address;
         const MemoryHandle* handle = &getMemoryBank(modAddress);
-        const uint16_t ret = handle->memory->readByte(modAddress);
+        const typename LongType<WordT>::LongT ret =
+                handle->memory->readWord(modAddress);
 
         // Check if this is zero page
         // TODO: Is this logic correct for VRAM as well?
         if (address >= 0x0100)
         {
-            modAddress = address + 1;
+            modAddress = address + sizeof(WordT);
             handle = &getMemoryBank(modAddress);
         }
         else
         {
             modAddress = (modAddress + 1) & 0xFF;
         }
-        return (handle->memory->readByte(modAddress) << 8) | ret;
+        return (handle->memory->readWord(modAddress) <<
+                (sizeof(WordT) * 8)) | ret;
     }
 
     /*

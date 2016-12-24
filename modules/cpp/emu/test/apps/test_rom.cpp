@@ -40,11 +40,6 @@ TEST(Memory, ROM8bit)
         EXPECT_EQ(ii, rom.readWord(ii));
     }
 
-    // Read a few longs
-    EXPECT_EQ(static_cast<uint16_t>(0x0201), rom.readLong(1));
-    EXPECT_EQ(static_cast<uint16_t>(0x0302), rom.readLong(2));
-    EXPECT_EQ(static_cast<uint16_t>(0x0908), rom.readLong(8));
-
     // Writing to ROM is not allowed.
     EXPECT_ANY_THROW(rom.writeWord(0, 0));
 }

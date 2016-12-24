@@ -81,21 +81,6 @@ public:
     }
 
     /*
-     *  \func readLong
-     *  \brief Reads a single long from the memory structure.
-     *  TODO: This is setup for a little endian system. We need a big
-     *        endian version as well.
-     *
-     *  \param address The address to read from.
-     *  \return The value at the address
-     */
-    typename Memory<WordT>::LongT readLong(size_t address) override
-    {
-        return ((readWord(address + 1) << (sizeof(WordT) * 8) |
-                readWord(address)));
-    }
-
-    /*
      *  \func getAddressRef
      *  \brief Gets the reference at the address.
      *

@@ -19,46 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/emu/MemoryMap.h>
-#include <nyra/emu/RAM.h>
+#include <nyra/emu/nes/CPUHelper.h>
 
 namespace nyra
 {
 namespace emu
 {
-TEST(MemoryMap, Values)
+namespace nes
 {
-    const size_t NUM_BANKS = 11;
-    const size_t BANK_SIZE = 17;
-    MemoryMap<uint8_t> memMap;
-    for (size_t ii = 0; ii < NUM_BANKS; ++ii)
-    {
-        std::shared_ptr<RAM<uint8_t> > bank(new RAM<uint8_t>(BANK_SIZE));
-        memMap.setMemoryBank(ii * BANK_SIZE, bank);
-    }
-    memMap.lockLookUpTable();
+//===========================================================================//
+CPUArgs::CPUArgs() :
+    opcode(0),
+    arg1(0),
+    arg2(0),
+    darg(0)
+{
+}
 
-    for (size_t ii = 0; ii < NUM_BANKS * BANK_SIZE; ++ii)
-    {
-        memMap.writeWord(ii, ii);
-    }
+//===========================================================================//
+CPURegisters::CPURegisters() :
+    accumulator(0),
+    xIndex(0),
+    yIndex(0),
+    stackPointer(0xFD),
+    statusRegister(0x24)
+{
+}
 
-    for (size_t ii = 0; ii < NUM_BANKS * BANK_SIZE; ++ii)
-    {
-        EXPECT_EQ(ii, memMap.readWord(ii));
-    }
+//===========================================================================//
+CPUInfo::CPUInfo() :
+    programCounter(0),
+    cycles(0),
+    scanLine(241),
+    generateNMI(false)
+{
+}
 
-    // Test a few long values
-    EXPECT_EQ(static_cast<uint16_t>(0x0201), memMap.readLong(1));
-    EXPECT_EQ(static_cast<uint16_t>(0x0302), memMap.readLong(2));
-    EXPECT_EQ(static_cast<uint16_t>(0x0908), memMap.readLong(8));
-    EXPECT_EQ(static_cast<uint16_t>(0x0B0A), memMap.readLong(10));
-    EXPECT_EQ(static_cast<uint16_t>(0x0C0B), memMap.readLong(11));
-    EXPECT_EQ(static_cast<uint16_t>(0x0D0C), memMap.readLong(12));
-    EXPECT_EQ(static_cast<uint16_t>(0x0E0D), memMap.readLong(13));
+//===========================================================================//
+CPUInfo::CPUInfo(uint16_t programCounter) :
+    programCounter(programCounter),
+    cycles(0),
+    scanLine(0)
+{
 }
 }
 }
-
-NYRA_TEST()
+}

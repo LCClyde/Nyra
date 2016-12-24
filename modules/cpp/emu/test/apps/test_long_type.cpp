@@ -19,64 +19,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_EMU_MEMORY_TYPE_H__
-#define __NYRA_EMU_MEMORY_TYPE_H__
+#include <nyra/test/Test.h>
+#include <nyra/emu/LongType.h>
 
 namespace nyra
 {
 namespace emu
 {
-/*
- *  \class LongType
- *  \brief Used to determine what a word of twice the size would be.
- */
-template <typename>
-struct LongType
+TEST(LongType, Size)
 {
-};
-
-/*
- *  \class LongType<uint8_t>
- *  \brief Finds long type for uint8_t.
- */
-template <>
-struct LongType<uint8_t>
-{
-    /*
-     *  \type LongT
-     *  \brief uint16_t type
-     */
-    typedef uint16_t LongT;
-};
-
-/*
- *  \class LongType<uint16_t>
- *  \brief Finds long type for uint16_t.
- */
-template <>
-struct LongType<uint16_t>
-{
-    /*
-     *  \type LongT
-     *  \brief uint32_t type
-     */
-    typedef uint32_t longT;
-};
-
-/*
- *  \class LongType<uint32_t>
- *  \brief Finds long type for uint32_t.
- */
-template <>
-struct LongType<uint32_t>
-{
-    /*
-     *  \type LongT
-     *  \brief uint64_t type
-     */
-    typedef uint64_t LongT;
-};
+    EXPECT_EQ(sizeof(uint8_t) * 2, sizeof(LongType<uint8_t>::LongT));
+    EXPECT_EQ(sizeof(uint16_t) * 2, sizeof(LongType<uint16_t>::LongT));
+    EXPECT_EQ(sizeof(uint32_t) * 2, sizeof(LongType<uint32_t>::LongT));
+}
 }
 }
 
-#endif
+NYRA_TEST()
