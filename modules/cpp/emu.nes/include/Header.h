@@ -337,20 +337,23 @@ private:
                             mUnused);
     }
 
-    NYRA_SPLIT_SERIALIZE()
+    NYRA_SERIALIZE()
 
     template<class Archive>
-    void save(Archive& archive, const unsigned int version) const
+    void serialize(Archive& archive, const unsigned int version)
     {
-        archive & toBinary();
-    }
-
-    template<class Archive>
-    void load(Archive& archive, const unsigned int version)
-    {
-        std::vector<uint8_t> binary;
-        archive & binary;
-        initialize(binary);
+        archive & mNESIdentifier;
+        archive & mProgSize;
+        archive & mChrRomSize;
+        archive & mMapperNumber;
+        archive & mFourScreenMode;
+        archive & mTrainer;
+        archive & mBatteryBack;
+        archive & mMirroring;
+        archive & mPlayChoice10;
+        archive & mVsUnisystem;
+        archive & mIsNes2_0;
+        archive & mUnused;
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Header& header);
