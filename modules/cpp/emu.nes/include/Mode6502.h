@@ -40,10 +40,7 @@ namespace nes
 class ModeAccumulator : public Mode
 {
 public:
-    ModeAccumulator() :
-        Mode(false, false)
-    {
-    }
+    ModeAccumulator();
 
     void operator()(const CPUArgs& ,
                     const CPURegisters& registers,
@@ -79,34 +76,12 @@ public:
 class ModeIndirect : public Mode
 {
 public:
-    ModeIndirect() :
-        Mode(true, true),
-        mOrigArg(0),
-        mCorrectArg(0)
-    {
-    }
+    ModeIndirect();
 
     void operator()(const CPUArgs& args,
-                    const CPURegisters& ,
+                    const CPURegisters& registers,
                     const emu::MemoryMap<uint8_t>& memory,
-                    CPUInfo& )
-    {
-        mOrigArg = args.darg;
-        mCorrectArg = memory.readLong(mOrigArg);
-
-        // There is a bug in 6502. If we try to get the address at 0xXXFF,
-        // it does not go to the next digit properly.
-        if (args.arg1 == 0xFF)
-        {
-            const uint8_t high = memory.readWord(args.darg);
-            const uint16_t low = memory.readWord(args.arg2 << 8);
-            mArg = (low << 8) | high;
-        }
-        else
-        {
-            mArg = mCorrectArg;
-        }
-    }
+                    CPUInfo& info);
 
 private:
     uint16_t mOrigArg;
@@ -117,12 +92,7 @@ private:
 class ModeIndirectX : public Mode
 {
 public:
-    ModeIndirectX() :
-        Mode(true, false),
-        mOrigArg(0),
-        mModArg(0)
-    {
-    }
+    ModeIndirectX();
 
     void operator()(const CPUArgs& args,
                     const CPURegisters& registers,
@@ -144,12 +114,7 @@ private:
 class ModeZeroPageN : public Mode
 {
 public:
-    ModeZeroPageN(char index) :
-        Mode(true, false),
-        mOrigArg(0),
-        mIndex(index)
-    {
-    }
+    ModeZeroPageN(char index);
 
     void operator()(const CPUArgs& args,
                     const CPURegisters& registers,
@@ -173,10 +138,7 @@ private:
 class ModeZeroPageX : public ModeZeroPageN
 {
 public:
-    ModeZeroPageX() :
-        ModeZeroPageN('X')
-    {
-    }
+    ModeZeroPageX();
 
 private:
     virtual uint8_t getIndex(
@@ -190,10 +152,7 @@ private:
 class ModeZeroPageY : public ModeZeroPageN
 {
 public:
-    ModeZeroPageY() :
-        ModeZeroPageN('Y')
-    {
-    }
+    ModeZeroPageY();
 
 private:
     virtual uint8_t getIndex(
@@ -317,10 +276,7 @@ private:
 class ModeRelative : public Mode
 {
 public:
-    ModeRelative() :
-        Mode(true, false)
-    {
-    }
+    ModeRelative();
 
     void operator()(const CPUArgs& args,
                     const CPURegisters& ,
@@ -337,10 +293,7 @@ public:
 class ModeZeroPage : public Mode
 {
 public:
-    ModeZeroPage() :
-        Mode(true, false)
-    {
-    }
+    ModeZeroPage();
 
     void operator()(const CPUArgs& args,
                     const CPURegisters& ,
@@ -356,10 +309,7 @@ public:
 class ModeImmediate : public Mode
 {
 public:
-    ModeImmediate() :
-        Mode(true, false)
-    {
-    }
+    ModeImmediate();
 
     void operator()(const CPUArgs& args,
                     const CPURegisters& ,
@@ -375,15 +325,9 @@ public:
 class ModeImplied : public Mode
 {
 public:
-    ModeImplied() :
-        Mode(false, false)
-    {
-    }
+    ModeImplied();
 
-    std::string toString() const
-    {
-        return "";
-    }
+    std::string toString() const;
 
     void operator()(const CPUArgs& ,
                     const CPURegisters& ,

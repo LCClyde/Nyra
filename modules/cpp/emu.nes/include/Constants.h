@@ -22,12 +22,41 @@
 #ifndef __NYRA_EMU_NES_CONSTANTS_H__
 #define __NYRA_EMU_NES_CONSTANTS_H__
 
+#include <vector>
+#include <nyra/emu/RAM.h>
+#include <nyra/emu/ROM.h>
+#include <nyra/emu/MemoryMap.h>
+
 namespace nyra
 {
 namespace emu
 {
 namespace nes
 {
+/*
+ *  \Constant - FLAG_SIZE
+ *  \brief - The number of flags in a register. For the 6502 these are
+ *            8 bit values.
+ */
+static const size_t FLAG_SIZE = 8;
+
+static const size_t SCREEN_WIDTH = 256;
+static const size_t SCREEN_HEIGHT = 240;
+static const size_t NUM_PIXELS = SCREEN_WIDTH * SCREEN_HEIGHT;
+
+//! NTSC CPU clock in MHz
+static const double CPU_CLOCK = 1.789773;
+
+/*
+ *  \type - ROMBanks
+ *  \brief - A vector of ROM objects. This is used to be able to
+ *           easily pass around several ROM objects in a form that is
+ *           usable in the emulator.
+ */
+typedef std::vector<std::unique_ptr<emu::ROM<uint8_t> > > ROMBanks;
+typedef std::vector<std::unique_ptr<emu::RAM<uint8_t> > > RAMBanks;
+typedef emu::MemoryMap<uint8_t> MemoryMap;
+
 /*
  *  \enum Mirroring
  *  \brief Describes how the nametables should be presented to
