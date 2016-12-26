@@ -70,7 +70,7 @@ public:
      *  \func Destructor
      *  \brief Used to create reliable inheritance.
      */
-    virtual ~OpCode();
+    virtual ~OpCode() = default;
 
     /*
      *  \func operator(functor)
@@ -127,13 +127,6 @@ public:
     virtual void op(CPURegisters& registers,
                     CPUInfo& info,
                     emu::MemoryMap<uint8_t>& memory) = 0;
-
-    virtual void alt(CPURegisters& registers,
-                     CPUInfo& info,
-                     emu::MemoryMap<uint8_t>& memory)
-    {
-        op(registers, info, memory);
-    }
 
 protected:
     const std::string mName;

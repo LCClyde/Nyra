@@ -23,12 +23,15 @@
 #define __NYRA_EMU_NES_OP_6502_HPP__
 
 #include <stdint.h>
-#include <stdexcept>
-#include <nyra/emu/nes/Mode6502.hpp>
+#include <nyra/emu/nes/Mode6502.h>
 #include <nyra/emu/nes/OpCode.h>
 #include <nyra/emu/nes/Constants.h>
+#include <nyra/emu/nes/CPUHelper.h>
+#include <nyra/emu/nes/Op6502Utils.h>
 
 namespace nyra
+{
+namespace emu
 {
 namespace nes
 {
@@ -36,19 +39,12 @@ namespace nes
 class OpNUL : public OpCode
 {
 public:
-    OpNUL(uint8_t opCode) :
-        OpCode("NUL", "Null Opcode", opCode,
-               0, 0, new ModeImplied())
-    {
-    }
+    OpNUL(uint8_t opCode);
 
 private:
-    void op(CPURegisters& ,
-            CPUInfo& ,
-            MemoryMap& )
-    {
-        throw std::runtime_error("Attempting to run null op");
-    }
+    void op(CPURegisters& registers,
+            CPUInfo& info,
+            MemoryMap& memory);
 };
 
 //===========================================================================//
@@ -166,7 +162,7 @@ private:
                                          registers.statusRegister);
         uint8_t garbage;
         setRegister(value, garbage, registers.statusRegister);
-        memory.writeByte(mMode->getArg(), value);
+        memory.writeWord(mMode->getArg(), value);
     }
 };
 
@@ -175,11 +171,7 @@ template <>
 class OpLSR <ModeAccumulator> : public OpCode
 {
 public:
-    OpLSR(uint8_t opcode, uint8_t length, uint8_t time) :
-        OpCode("LSR", "Logical shift right",
-               opcode, length, time, new ModeAccumulator())
-    {
-    }
+    OpLSR(uint8_t opcode, uint8_t length, uint8_t time);
 
 private:
     void op(CPURegisters& registers,
@@ -215,7 +207,7 @@ private:
                                          registers.statusRegister);
         uint8_t garbage;
         setRegister(value, garbage, registers.statusRegister);
-        memory.writeByte(mMode->getArg(), value);
+        memory.writeWord(mMode->getArg(), value);
     }
 };
 
@@ -224,11 +216,7 @@ template <>
 class OpASL <ModeAccumulator> : public OpCode
 {
 public:
-    OpASL(uint8_t opcode, uint8_t length, uint8_t time) :
-        OpCode("ASL", "Arithmetic shift left",
-               opcode, length, time, new ModeAccumulator())
-    {
-    }
+    OpASL(uint8_t opcode, uint8_t length, uint8_t time);
 
 private:
     void op(CPURegisters& registers,
@@ -264,7 +252,7 @@ private:
                                          registers.statusRegister);
         uint8_t garbage;
         setRegister(value, garbage, registers.statusRegister);
-        memory.writeByte(mMode->getArg(), value);
+        memory.writeWord(mMode->getArg(), value);
     }
 };
 
@@ -273,11 +261,7 @@ template <>
 class OpROR <ModeAccumulator> : public OpCode
 {
 public:
-    OpROR(uint8_t opcode, uint8_t length, uint8_t time) :
-        OpCode("ROR", "Rotate right",
-               opcode, length, time, new ModeAccumulator())
-    {
-    }
+    OpROR(uint8_t opcode, uint8_t length, uint8_t time);
 
 private:
     void op(CPURegisters& registers,
@@ -313,7 +297,7 @@ private:
                                         registers.statusRegister);
         uint8_t garbage;
         setRegister(value, garbage, registers.statusRegister);
-        memory.writeByte(mMode->getArg(), value);
+        memory.writeWord(mMode->getArg(), value);
     }
 };
 
@@ -322,11 +306,7 @@ template <>
 class OpROL <ModeAccumulator> : public OpCode
 {
 public:
-    OpROL(uint8_t opcode, uint8_t length, uint8_t time) :
-        OpCode("ROL", "Rotate left",
-               opcode, length, time, new ModeAccumulator())
-    {
-    }
+    OpROL(uint8_t opcode, uint8_t length, uint8_t time);
 
 private:
     void op(CPURegisters& registers,
@@ -357,7 +337,7 @@ private:
             CPUInfo& ,
             MemoryMap& memory)
     {
-        memory.writeByte(mMode->getArg(), registers.accumulator);
+        memory.writeWord(mMode->getArg(), registers.accumulator);
     }
 };
 
@@ -377,7 +357,7 @@ private:
             CPUInfo& ,
             MemoryMap& memory)
     {
-        memory.writeByte(mMode->getArg(), registers.xIndex);
+        memory.writeWord(mMode->getArg(), registers.xIndex);
     }
 };
 
@@ -397,7 +377,7 @@ private:
             CPUInfo& ,
             MemoryMap& memory)
     {
-        memory.writeByte(mMode->getArg(), registers.yIndex);
+        memory.writeWord(mMode->getArg(), registers.yIndex);
     }
 };
 
@@ -405,15 +385,9 @@ private:
 class OpJSR : public OpCode
 {
 public:
-    OpJSR() :
-        OpCode("JSR", "Jump to subroutine",
-               0x20, 0, 6, new ModeAbsolute<false>())
-    {
-    }
+    OpJSR();
 
-    virtual ~OpJSR()
-    {
-    }
+    virtual ~OpJSR() = default;
 
 protected:
     virtual void op(CPURegisters& registers,
@@ -432,11 +406,7 @@ protected:
 class OpJMI : public OpCode
 {
 public:
-    OpJMI() :
-        OpCode("JMI", "Jump to interrupt, NYRA created",
-               0x00, 0, 6, new ModeAbsolute<false>())
-    {
-    }
+    OpJMI();
 
 private:
     void op(CPURegisters& registers,
@@ -457,11 +427,7 @@ private:
 class OpNOP : public OpCode
 {
 public:
-    OpNOP() :
-        OpCode("NOP", "No operation",
-               0xEA, 1, 2, new ModeImplied())
-    {
-    }
+    OpNOP();
 
 private:
     void op(CPURegisters& ,
@@ -476,11 +442,7 @@ private:
 class OpRTI : public OpCode
 {
 public:
-    OpRTI() :
-        OpCode("RTI", "Return from interrupt",
-               0x40, 0, 6, new ModeImplied())
-    {
-    }
+    OpRTI();
 
 private:
     void op(CPURegisters& registers,
@@ -520,11 +482,7 @@ private:
 class OpINY : public OpCode
 {
 public:
-    OpINY() :
-        OpCode("INY", "Increment Y",
-               0xC8, 1, 2, new ModeImplied())
-    {
-    }
+    OpINY();
 
 private:
     void op(CPURegisters& registers,
@@ -541,11 +499,7 @@ private:
 class OpINX : public OpCode
 {
 public:
-    OpINX() :
-        OpCode("INX", "Increment X",
-               0xC8, 1, 2, new ModeImplied())
-    {
-    }
+    OpINX();
 
 private:
     void op(CPURegisters& registers,
@@ -578,7 +532,7 @@ private:
         setRegister(mMode->getValue() + 1,
                     garbage,
                     registers.statusRegister);
-        memory.writeByte(mMode->getArg(), mMode->getValue() + 1);
+        memory.writeWord(mMode->getArg(), mMode->getValue() + 1);
     }
 };
 
@@ -602,7 +556,7 @@ private:
         setRegister(mMode->getValue() - 1,
                     garbage,
                     registers.statusRegister);
-        memory.writeByte(mMode->getArg(), mMode->getValue() - 1);
+        memory.writeWord(mMode->getArg(), mMode->getValue() - 1);
     }
 };
 
@@ -610,11 +564,7 @@ private:
 class OpDEY : public OpCode
 {
 public:
-    OpDEY() :
-        OpCode("DEY", "Decrement Y",
-               0x88, 1, 2, new ModeImplied())
-    {
-    }
+    OpDEY();
 
 private:
     void op(CPURegisters& registers,
@@ -631,11 +581,7 @@ private:
 class OpDEX : public OpCode
 {
 public:
-    OpDEX() :
-        OpCode("DEX", "Decrement X",
-               0xCA, 1, 2, new ModeImplied())
-    {
-    }
+    OpDEX();
 
 private:
     void op(CPURegisters& registers,
@@ -652,11 +598,7 @@ private:
 class OpTAX : public OpCode
 {
 public:
-    OpTAX() :
-        OpCode("TAX", "Transfer A to X",
-               0xAA, 1, 2, new ModeImplied())
-    {
-    }
+    OpTAX();
 
 private:
     void op(CPURegisters& registers,
@@ -673,11 +615,7 @@ private:
 class OpTXA : public OpCode
 {
 public:
-    OpTXA() :
-        OpCode("TXA", "Transfer X to A",
-               0x8A, 1, 2, new ModeImplied())
-    {
-    }
+    OpTXA();
 
 private:
     void op(CPURegisters& registers,
@@ -694,11 +632,7 @@ private:
 class OpTAY : public OpCode
 {
 public:
-    OpTAY() :
-        OpCode("TAY", "Transfer A to Y",
-               0xA8, 1, 2, new ModeImplied())
-    {
-    }
+    OpTAY();
 
 private:
     void op(CPURegisters& registers,
@@ -715,11 +649,7 @@ private:
 class OpTYA : public OpCode
 {
 public:
-    OpTYA() :
-        OpCode("TYA", "Transfer Y to A",
-               0x98, 1, 2, new ModeImplied())
-    {
-    }
+    OpTYA();
 
 private:
     void op(CPURegisters& registers,
@@ -736,11 +666,7 @@ private:
 class OpSEC : public OpCode
 {
 public:
-    OpSEC() :
-        OpCode("SEC", "Set carry",
-               0x38, 1, 2, new ModeImplied())
-    {
-    }
+    OpSEC();
 
 private:
     void op(CPURegisters& registers,
@@ -755,11 +681,7 @@ private:
 class OpCLC : public OpCode
 {
 public:
-    OpCLC() :
-        OpCode("CLC", "Clear carry",
-               0x18, 1, 2, new ModeImplied())
-    {
-    }
+    OpCLC();
 
 private:
     void op(CPURegisters& registers,
@@ -774,11 +696,7 @@ private:
 class OpCLV : public OpCode
 {
 public:
-    OpCLV() :
-        OpCode("CLV", "Clear overflow",
-               0xB8, 1, 2, new ModeImplied())
-    {
-    }
+    OpCLV();
 
 private:
     void op(CPURegisters& registers,
@@ -793,11 +711,7 @@ private:
 class OpSEI : public OpCode
 {
 public:
-    OpSEI() :
-        OpCode("SEI", "Set interrupt",
-               0x78, 1, 2, new ModeImplied())
-    {
-    }
+    OpSEI();
 
 private:
     void op(CPURegisters& registers,
@@ -812,11 +726,7 @@ private:
 class OpSED : public OpCode
 {
 public:
-    OpSED() :
-        OpCode("SED", "Set decimal",
-               0xF8, 1, 2, new ModeImplied())
-    {
-    }
+    OpSED();
 
 private:
     void op(CPURegisters& registers,
@@ -831,11 +741,7 @@ private:
 class OpCLD : public OpCode
 {
 public:
-    OpCLD() :
-        OpCode("CLD", "Clear decimal",
-               0xD8, 1, 2, new ModeImplied())
-    {
-    }
+    OpCLD();
 
 private:
     void op(CPURegisters& registers,
@@ -850,11 +756,7 @@ private:
 class OpTSX : public OpCode
 {
 public:
-    OpTSX() :
-        OpCode("TSX", "Transfer stack ptr to X",
-               0xBA, 1, 2, new ModeImplied())
-    {
-    }
+    OpTSX();
 
 private:
     void op(CPURegisters& registers,
@@ -871,11 +773,7 @@ private:
 class OpTXS : public OpCode
 {
 public:
-    OpTXS() :
-        OpCode("TXS", "Transfer X to stack ptr",
-               0x9A, 1, 2, new ModeImplied())
-    {
-    }
+    OpTXS();
 
 private:
     void op(CPURegisters& registers,
@@ -890,11 +788,7 @@ private:
 class OpPLA : public OpCode
 {
 public:
-    OpPLA() :
-        OpCode("PLA", "Pull accumulator",
-               0x68, 1, 4, new ModeImplied())
-    {
-    }
+    OpPLA();
 
 private:
     void op(CPURegisters& registers,
@@ -911,11 +805,7 @@ private:
 class OpPHA : public OpCode
 {
 public:
-    OpPHA() :
-        OpCode("PHA", "Push accumulator",
-               0x48, 1, 3, new ModeImplied())
-    {
-    }
+    OpPHA();
 
 private:
     void op(CPURegisters& registers,
@@ -931,11 +821,7 @@ private:
 class OpPLP : public OpCode
 {
 public:
-    OpPLP() :
-        OpCode("PLP", "Pull processor status",
-               0x28, 1, 4, new ModeImplied())
-    {
-    }
+    OpPLP();
 
 private:
     void op(CPURegisters& registers,
@@ -952,11 +838,7 @@ private:
 class OpPHP : public OpCode
 {
 public:
-    OpPHP() :
-        OpCode("PHP", "Push processor status",
-               0x08, 1, 3, new ModeImplied())
-    {
-    }
+    OpPHP();
 
 private:
     void op(CPURegisters& registers,
@@ -970,60 +852,10 @@ private:
 };
 
 //===========================================================================//
-class OpBranch : public OpCode
-{
-public:
-    OpBranch(const std::string& name,
-             const std::string& extendedName,
-             uint8_t opcode) :
-        OpCode(name, extendedName, opcode,
-               0, 2, new ModeRelative())
-    {
-    }
-
-private:
-    virtual bool branchArg(
-            const std::bitset<8>& statusRegister) const = 0;
-
-    void op(CPURegisters& registers,
-            CPUInfo& info,
-            MemoryMap& )
-    {
-        if (branchArg(registers.statusRegister))
-        {
-            info.programCounter = mMode->getArg();
-            info.cycles += 3;
-        }
-        else
-        {
-            info.programCounter += 2;
-        }
-    }
-
-    void alt(CPURegisters& registers,
-             CPUInfo& info,
-             MemoryMap& )
-    {
-        if (!branchArg(registers.statusRegister))
-        {
-            info.programCounter = mMode->getArg();
-            info.cycles += 3;
-        }
-        else
-        {
-            info.programCounter += 2;
-        }
-    }
-
-};
-
-//===========================================================================//
 class OpBCS : public OpBranch
 {
 public:
-    OpBCS() : OpBranch("BCS", "Branch on carry set", 0xB0)
-    {
-    }
+    OpBCS();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1036,9 +868,7 @@ private:
 class OpBEQ : public OpBranch
 {
 public:
-    OpBEQ() : OpBranch("BEQ", "Branch on equal", 0xF0)
-    {
-    }
+    OpBEQ();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1051,9 +881,7 @@ private:
 class OpBNE : public OpBranch
 {
 public:
-    OpBNE() : OpBranch("BNE", "Branch on not equal", 0xD0)
-    {
-    }
+    OpBNE();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1066,9 +894,7 @@ private:
 class OpBCC : public OpBranch
 {
 public:
-    OpBCC() : OpBranch("BCC", "Branch on carry clear", 0x90)
-    {
-    }
+    OpBCC();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1081,9 +907,7 @@ private:
 class OpBVS : public OpBranch
 {
 public:
-    OpBVS() : OpBranch("BVS", "Branch on overflow set", 0x70)
-    {
-    }
+    OpBVS();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1096,9 +920,7 @@ private:
 class OpBVC : public OpBranch
 {
 public:
-    OpBVC() : OpBranch("BVC", "Branch on overflow clear",0x50)
-    {
-    }
+    OpBVC();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1111,9 +933,7 @@ private:
 class OpBPL : public OpBranch
 {
 public:
-    OpBPL() : OpBranch("BPL", "Branch on plus", 0x10)
-    {
-    }
+    OpBPL();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1126,9 +946,7 @@ private:
 class OpBMI : public OpBranch
 {
 public:
-    OpBMI() : OpBranch("BMI", "Branch on minus", 0x30)
-    {
-    }
+    OpBMI();
 
 private:
     bool branchArg(const std::bitset<8>& statusRegister) const
@@ -1311,6 +1129,7 @@ private:
         add(mMode->getValue(), registers);
     }
 };
+
 //===========================================================================//
 template <typename ModeT>
 class OpSBC : public OpCode
@@ -1330,6 +1149,7 @@ private:
         add(~mMode->getValue(), registers);
     }
 };
+}
 }
 }
 

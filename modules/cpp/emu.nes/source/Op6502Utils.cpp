@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/emu/nes/Op6502Utils.h>
+#include <nyra/emu/nes/Mode6502.h>
 
 namespace nyra
 {
@@ -77,6 +78,15 @@ void add(uint8_t value, CPURegisters& registers)
     registers.statusRegister[CARRY] = (sum > 0xFF) != 0;
     setRegister(static_cast<uint8_t>(sum),
                 registers.accumulator, registers.statusRegister);
+}
+
+//===========================================================================//
+OpBranch::OpBranch(const std::string& name,
+                   const std::string& extendedName,
+                   uint8_t opcode) :
+    OpCode(name, extendedName, opcode,
+           0, 2, new ModeRelative())
+{
 }
 }
 }
