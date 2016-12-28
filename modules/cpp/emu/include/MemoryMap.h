@@ -26,7 +26,7 @@
 #include <vector>
 #include <algorithm>
 #include <nyra/emu/Memory.h>
-#include <nyra/emu/MemoryType.h>
+#include <nyra/emu/LongType.h>
 
 namespace nyra
 {
