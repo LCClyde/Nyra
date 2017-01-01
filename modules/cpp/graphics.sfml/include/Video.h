@@ -19,13 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_SFML_SPRITE_H__
-#define __NYRA_GRAPHICS_SFML_SPRITE_H__
+#ifndef __NYRA_GRAPHICS_SFML_VIDEO_H__
+#define __NYRA_GRAPHICS_SFML_VIDEO_H__
 
-#include <memory>
-#include <SFML/Graphics.hpp>
-#include <nyra/graphics/Sprite.h>
-#include <nyra/graphics/sfml/Texture.h>
+#include <sfeMovie/Movie.hpp>
+#include <nyra/graphics/Video.h>
 
 namespace nyra
 {
@@ -34,21 +32,52 @@ namespace graphics
 namespace sfml
 {
 /*
- *  \class Sprite
- *  \brief Class for rendering images to a render target.
+ *  \class Video
+ *  \brief Class used for playing pre-rendered videos for SFML
  */
-class Sprite : public nyra::graphics::Sprite
+class Video : public graphics::Video
 {
 public:
-    Sprite(const std::string& texture);
+    /*
+     *  \func Constructor
+     *  \brief Sets up the video for playback.
+     *
+     *  \param pathname The location of the video on disk.
+     */
+    Video(const std::string& pathname);
 
     /*
-     *  \func load
-     *  \brief Loads a Sprite from a texture on disk.
+     *  \func initialize
+     *  \brief Sets up the video for playback. The video is not valid until
+     *         this is called.
      *
-     *  \param texture The name of the texture.
+     *  \param pathname The location of the video on disk.
      */
-    void load(const std::string& texture) override;
+    void initialize(const std::string& pathname) override;
+
+    /*
+     *  \func play
+     *  \brief Begin playback.
+     */
+    void play() override;
+
+    /*
+     *  \func pause
+     *  \brief Pauses the video
+     */
+    void pause() override;
+
+    /*
+     *  \func stop
+     *  \brief Stops the video.
+     */
+    void stop() override;
+
+    /*
+     *  \func update
+     *  \brief Updates the video playback.
+     */
+    void update() override;
 
     /*
      *  \func render
@@ -59,9 +88,7 @@ public:
     void render(graphics::RenderTarget& target) override;
 
 private:
-    std::shared_ptr<Texture> mTexture;
-    std::unique_ptr<sf::Sprite> mSprite;
-
+    sfe::Movie mVideo;
 };
 }
 }

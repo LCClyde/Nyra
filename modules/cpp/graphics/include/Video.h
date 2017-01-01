@@ -19,51 +19,63 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_SFML_SPRITE_H__
-#define __NYRA_GRAPHICS_SFML_SPRITE_H__
+#ifndef __NYRA_GRAPHICS_VIDEO_H__
+#define __NYRA_GRAPHICS_VIDEO_H__
 
-#include <memory>
-#include <SFML/Graphics.hpp>
-#include <nyra/graphics/Sprite.h>
-#include <nyra/graphics/sfml/Texture.h>
+#include <string>
+#include <nyra/graphics/Renderable.h>
+#include <nyra/math/Transform.h>
 
 namespace nyra
 {
 namespace graphics
 {
-namespace sfml
-{
 /*
- *  \class Sprite
- *  \brief Class for rendering images to a render target.
+ *  \class Video
+ *  \brief Class used for playing pre-rendered videos.
  */
-class Sprite : public nyra::graphics::Sprite
+class Video : public Renderable<math::Transform2D>
 {
 public:
-    Sprite(const std::string& texture);
+    /*
+     *  \func Destructor
+     *  \brief Necessary for proper inheritance.
+     */
+    virtual ~Video() = default;
 
     /*
-     *  \func load
-     *  \brief Loads a Sprite from a texture on disk.
+     *  \func initialize
+     *  \brief Sets up the video for playback. The video is not valid until
+     *         this is called.
      *
-     *  \param texture The name of the texture.
+     *  \param pathname The location of the video on disk.
      */
-    void load(const std::string& texture) override;
+    virtual void initialize(const std::string& pathname) = 0;
 
     /*
-     *  \func render
-     *  \brief Renders to the screen
-     *
-     *  \param target The target to render to
+     *  \func play
+     *  \brief Begin playback.
      */
-    void render(graphics::RenderTarget& target) override;
+    virtual void play() = 0;
 
-private:
-    std::shared_ptr<Texture> mTexture;
-    std::unique_ptr<sf::Sprite> mSprite;
+    /*
+     *  \func pause
+     *  \brief Pauses the video
+     */
+    virtual void pause() = 0;
 
+    /*
+     *  \func stop
+     *  \brief Stops the video.
+     */
+    virtual void stop() = 0;
+
+    /*
+     *  \func update
+     *  \brief Updates the video playback.
+     */
+    virtual void update() = 0;
 };
-}
 }
 }
 

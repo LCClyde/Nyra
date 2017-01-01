@@ -94,7 +94,7 @@ public:
      *
      *  \param color The color to clear to.
      */
-    void clear(const img::Color& color) override;
+    void clear(const img::Color& color = img::Color::BLACK) override;
 
     /*
      *  \func render

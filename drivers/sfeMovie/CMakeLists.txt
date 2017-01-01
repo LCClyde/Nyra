@@ -19,7 +19,9 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS graphics mem PARENT_SCOPE)
-set(EXT_DEPS ${SFMLSystem} ${SFMLWindow} ${SFMLGraphics} ${sfeMovie} PARENT_SCOPE)
-set(TEST_DEPS win.sfml time PARENT_SCOPE)
-set(APP_DEPS win.sfml PARENT_SCOPE)
+ExternalProject_Add(
+    sfeMovie
+    PREFIX ${BUILD_DIR}
+    GIT_REPOSITORY https://github.com/Yalir/sfeMovie.git
+    # GIT_TAG v1.0 TODO: This is a really old release. Need a newer one.
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR})
