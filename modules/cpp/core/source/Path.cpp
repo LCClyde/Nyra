@@ -19,6 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <iostream>
 #include <nyra/core/Path.h>
 #include <boost/filesystem.hpp>
 
@@ -99,6 +100,25 @@ std::string join(const std::string& start, const std::string& end)
 bool exists(const std::string& pathname)
 {
     return boost::filesystem::exists(pathname);
+}
+
+//===========================================================================//
+std::vector<std::string> listDirectory(const std::string& pathname)
+{
+    boost::filesystem::path path(pathname);
+    std::vector<std::string> ret;
+
+    for (auto iter = boost::filesystem::directory_iterator(path);
+         iter != boost::filesystem::directory_iterator();
+         ++iter)
+    {
+        if (!boost::filesystem::is_directory(iter->path()))
+        {
+            ret.push_back(iter->path().filename().string());
+        }
+    }
+
+    return ret;
 }
 }
 }

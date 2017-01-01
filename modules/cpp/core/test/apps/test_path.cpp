@@ -90,6 +90,26 @@ TEST(Path, Exists)
             join(APPLICATION_PATH,
                  "hopefully_this_application_never_exists")));
 }
+
+TEST(Path, ListDirectory)
+{
+    const std::vector<std::string> dir = listDirectory(join(
+            DATA_PATH, "misc/test_list_directory"));
+
+    // Files will be in the vector but not in any defined order
+    EXPECT_TRUE(std::find(dir.begin(), dir.end(), "f1") != dir.end());
+    EXPECT_TRUE(std::find(dir.begin(), dir.end(), "f2") != dir.end());
+    EXPECT_TRUE(std::find(dir.begin(), dir.end(), "f3") != dir.end());
+
+    // This does work but you cannot commit an empty directory in git
+    // When we have a mkdir command we can use it here.
+    //const std::vector<std::string> empty = listDirectory(join(
+    //        DATA_PATH, "misc/test_list_directory/empty"));
+    //EXPECT_TRUE(empty.empty());
+
+    EXPECT_ANY_THROW(listDirectory(join(
+            DATA_PATH, "misc/test_list_directory/foo")));
+}
 }
 }
 }

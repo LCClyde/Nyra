@@ -77,6 +77,14 @@ std::string join(const std::string& start, const std::string& end);
  *  \return True if the pathname exists.
  */
 bool exists(const std::string& pathname);
+
+/*
+ *  \func listDirectory
+ *  \brief Returns all files in a directory. This does not recurse and
+ *         does not list sub directories.
+ *         TODO: Add recurse and a directory flag when necessary.
+ */
+std::vector<std::string> listDirectory(const std::string& pathname);
 }
 }
 }

@@ -40,16 +40,23 @@ macro(BuildInc includes outdir libname)
     endforeach()
 endmacro()
 
-macro(BuildData data libname)
+
+macro(BuildData data libname subdir)
     get_filename_component(DATA_TYPE ${data} NAME)
     file(GLOB DATA_FILES ${data}/*)
+
     foreach(DATA_FILE ${DATA_FILES})
         get_filename_component(DATA_NAME ${DATA_FILE} NAME)
         string(REPLACE . - DATA_TARGET_NAME ${DATA_NAME})
         add_custom_target(${DATA_TARGET_NAME}
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${DATA_FILE} ${CMAKE_INSTALL_PREFIX}/data/${DATA_TYPE}/${DATA_NAME})
+                       ${DATA_FILE} ${CMAKE_INSTALL_PREFIX}/${subdir}/${DATA_TYPE}/${DATA_NAME})
         add_dependencies(${libname} ${DATA_TARGET_NAME})
+
+        if(IS_DIRECTORY ${DATA_FILE})
+            BuildData(${DATA_FILE} ${DATA_TARGET_NAME} ${subdir}/${DATA_TYPE})
+        endif()
+
     endforeach()
 endmacro()
 
@@ -91,7 +98,7 @@ macro(BuildModule name libname deps pathname)
         string(REPLACE . / INC_DIR ${name})
         BuildInc("${INCLUDES}" ${CMAKE_INCLUDE_OUTPUT_DIRECTORY}/nyra/${INC_DIR} ${libname})
         foreach(DATA_DIR ${DATA_DIRS})
-            BuildData(${DATA_DIR} ${libname})
+            BuildData(${DATA_DIR} ${libname} data)
         endforeach()
 endmacro()
 
