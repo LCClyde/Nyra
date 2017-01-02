@@ -26,18 +26,52 @@ namespace nyra
 {
 namespace core
 {
-TEST(Archive, Archive)
+TEST(Archive, Text)
 {
     // Test return version
     int foo = 12345;
-    writeArchive<int>(foo, "temp");
-    int bar = nyra::core::readArchive<int>("temp");
+    writeArchive<int>(foo, "temp", TEXT);
+    int bar = nyra::core::readArchive<int>("temp", TEXT);
     EXPECT_EQ(foo, bar);
 
     // Test output param version
     foo = 67890;
-    writeArchive<int>(foo, "temp");
-    readArchive<int>("temp", bar);
+    writeArchive<int>(foo, "temp", TEXT);
+    readArchive<int>("temp", bar, TEXT);
+    EXPECT_EQ(foo, bar);
+
+    std::remove("temp");
+}
+
+TEST(Archive, Binary)
+{
+    // Test return version
+    int foo = 12345;
+    writeArchive<int>(foo, "temp", BINARY);
+    int bar = nyra::core::readArchive<int>("temp", BINARY);
+    EXPECT_EQ(foo, bar);
+
+    // Test output param version
+    foo = 67890;
+    writeArchive<int>(foo, "temp", BINARY);
+    readArchive<int>("temp", bar, BINARY);
+    EXPECT_EQ(foo, bar);
+
+    std::remove("temp");
+}
+
+TEST(Archive, XML)
+{
+    // Test return version
+    int foo = 12345;
+    writeArchive<int>(foo, "temp", XML);
+    int bar = nyra::core::readArchive<int>("temp", XML);
+    EXPECT_EQ(foo, bar);
+
+    // Test output param version
+    foo = 67890;
+    writeArchive<int>(foo, "temp", XML);
+    readArchive<int>("temp", bar, XML);
     EXPECT_EQ(foo, bar);
 
     std::remove("temp");

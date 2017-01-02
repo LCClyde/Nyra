@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,48 +19,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_MEDIA_CENTER_H__
-#define __NYRA_MEDIA_MEDIA_CENTER_H__
-
-#include <nyra/win/sfml/Window.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
-#include <nyra/media/GameList.h>
-#include <nyra/input/ois/Keyboard.h>
-
+#include <nyra/test/Test.h>
+#include <nyra/input/sfml/Keyboard.h>
 
 namespace nyra
 {
-namespace media
+namespace input
 {
-/*
- *  \class MediaCenter
- *  \brief Top Level class for running the media center
- */
-class MediaCenter
+namespace sfml
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Sets up the Media Center
-     *
-     *  \param scale Scales up or down the window
-     */
-    MediaCenter(double scale);
+TEST(Keyboard, Update)
+{
+    // Because all the values are user input, there is nothing to test here
+    // except that the functions do not throw / segfault.
+    std::cout << "=================================================\n";
+    std::cout << "WARNING: test_ois_keyboard does not test any values.\n";
+    std::cout << "WARNING: Run dump_ois_keyboard_values to manually\n";
+    std::cout << "WARNING: test actual values.\n";
+    std::cout << "=================================================\n";
+    input::sfml::Keyboard keyboard;
 
-    /*
-     *  \func run
-     *  \brief Runs the media center. This is a blocking function.
-     */
-    void run();
+    keyboard.update();
 
-private:
-    win::sfml::Window mWindow;
-    graphics::sfml::RenderTarget mRenderTarget;
-    input::ois::Keyboard mKeyboard;
-    media::GameList mGames;
-};
+    for (size_t ii = 0; ii < input::KEY_MAX; ++ii)
+    {
+        keyboard.getButtonDown(ii);
+        keyboard.getButtonPressed(ii);
+        keyboard.getButtonReleased(ii);
+    }
+}
+}
 }
 }
 
-#endif
-
+NYRA_TEST()

@@ -147,10 +147,10 @@ private:
     template<class Archive>
     void serialize(Archive& archive, const unsigned int version)
     {
-        archive & r;
-        archive & g;
-        archive & b;
-        archive & a;
+        archive & BOOST_SERIALIZATION_NVP(r);
+        archive & BOOST_SERIALIZATION_NVP(g);
+        archive & BOOST_SERIALIZATION_NVP(b);
+        archive & BOOST_SERIALIZATION_NVP(a);
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Color& color);

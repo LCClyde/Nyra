@@ -163,12 +163,15 @@ private:
     void save(Archive& archive, const unsigned int version) const
     {
         const bool open = isOpen();
-        archive & open;
+        archive & BOOST_SERIALIZATION_NVP(open);
         if (open)
         {
-            archive & getName();
-            archive & getSize();
-            archive & getPosition();
+            const std::string name = getName();
+            archive & BOOST_SERIALIZATION_NVP(name);
+            const math::Vector2U size = getSize();
+            archive & BOOST_SERIALIZATION_NVP(size);
+            const math::Vector2I position = getPosition();
+            archive & BOOST_SERIALIZATION_NVP(position);
         }
     }
 
@@ -176,15 +179,15 @@ private:
     void load(Archive& archive, const unsigned int version)
     {
         bool open;
-        archive & open;
+        archive & BOOST_SERIALIZATION_NVP(open);
         if (open)
         {
             std::string name;
             math::Vector2U size;
             math::Vector2I position;
-            archive & name;
-            archive & size;
-            archive & position;
+            archive & BOOST_SERIALIZATION_NVP(name);
+            archive & BOOST_SERIALIZATION_NVP(size);
+            archive & BOOST_SERIALIZATION_NVP(position);
             load(name, size, position);
         }
         else

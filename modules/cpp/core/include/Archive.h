@@ -27,6 +27,10 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/xml_oarchive.hpp>
+#include <boost/archive/xml_iarchive.hpp>
 #include <boost/serialization/split_member.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/unique_ptr.hpp>
@@ -37,6 +41,17 @@ namespace nyra
 {
 namespace core
 {
+/*
+ *  \type ArchiveType
+ *  \brief The type of file we are going to archive as.
+ */
+enum ArchiveType
+{
+    TEXT,
+    BINARY,
+    XML
+};
+
 /*
  *  \macro NYRA_SERIALIZE
  *  \brief Necessary to include serialization into a class. This separates us
@@ -64,13 +79,37 @@ BOOST_SERIALIZATION_SPLIT_MEMBER()
  *  \tparam The object type
  *  \param data The object to serialize
  *  \param pathname The location to write to
+ *  \param type The archive formate type
  */
 template <typename T>
-void writeArchive(const T& data, const std::string& pathname)
+void writeArchive(const T& data,
+                  const std::string& pathname,
+                  ArchiveType type = TEXT)
 {
-    std::ofstream outFile(pathname);
-    boost::archive::text_oarchive archive(outFile);
-    archive << data;
+    switch (type)
+    {
+    case TEXT:
+        {
+            std::ofstream outFile(pathname);
+            boost::archive::text_oarchive archive(outFile);
+            archive << data;
+        }
+        break;
+    case BINARY:
+        {
+            std::ofstream outFile(pathname, std::ofstream::binary);
+            boost::archive::binary_oarchive archive(outFile);
+            archive << data;
+        }
+        break;
+    case XML:
+        {
+            std::ofstream outFile(pathname);
+            boost::archive::xml_oarchive archive(outFile);
+            archive << BOOST_SERIALIZATION_NVP(data);
+        }
+        break;
+    }
 }
 
 /*
@@ -81,13 +120,37 @@ void writeArchive(const T& data, const std::string& pathname)
  *  \tparam T The object type
  *  \param pathname The file to read
  *  \param [OUTPUT] The data to load into
+ *  \param type The archive formate type
  */
 template <typename T>
-void readArchive(const std::string& pathname, T& data)
+void readArchive(const std::string& pathname,
+                 T& data,
+                 ArchiveType type = TEXT)
 {
-    std::ifstream inFile(pathname);
-    boost::archive::text_iarchive archive(inFile);
-    archive >> data;
+    switch (type)
+    {
+    case TEXT:
+        {
+            std::ifstream inFile(pathname);
+            boost::archive::text_iarchive archive(inFile);
+            archive >> data;
+        }
+        break;
+    case BINARY:
+        {
+            std::ifstream inFile(pathname, std::ifstream::binary);
+            boost::archive::binary_iarchive archive(inFile);
+            archive >> data;
+        }
+        break;
+    case XML:
+        {
+            std::ifstream inFile(pathname);
+            boost::archive::xml_iarchive archive(inFile);
+            archive >> BOOST_SERIALIZATION_NVP(data);
+        }
+        break;
+    }
 }
 
 /*
@@ -97,12 +160,14 @@ void readArchive(const std::string& pathname, T& data)
  *  \tparam T The object type
  *  \param pathname The file to read
  *  \return The deserialzed object
+ *  \param type The archive formate type
  */
 template <typename T>
-T readArchive(const std::string& pathname)
+T readArchive(const std::string& pathname,
+              ArchiveType type = TEXT)
 {
     T data;
-    readArchive(pathname, data);
+    readArchive(pathname, data, type);
     return data;
 }
 }

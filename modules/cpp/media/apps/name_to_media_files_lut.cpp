@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,9 +19,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <unordered_map>
+#include <string>
 #include <iostream>
 #include <exception>
-#include <nyra/media/MediaCenter.h>
+#include <nyra/core/Archive.h>
+#include <nyra/core/Path.h>
+#include <nyra/media/Types.h>
 
 using namespace nyra;
 
@@ -29,10 +33,30 @@ int main(int argc, char** argv)
 {
     try
     {
-        const double scale = (argc >= 2) ? std::stod(argv[1]) : 1.0;
+        if (argc < 5)
+        {
+            std::cout << "Usage: " << argv[0]
+                      << " <LUT> <Game Name> <Box Art> <Video>\n";
+            return 1;
+        }
 
-        media::MediaCenter mediaCenter(scale);
-        mediaCenter.run();
+        media::NameToMediaFiles lut;
+        if (core::path::exists(argv[1]))
+        {
+            core::readArchive<media::NameToMediaFiles>(argv[1], lut, core::XML);
+        }
+        else
+        {
+            std::cout << argv[1] << " does not exist. It will be created.\n";
+        }
+
+        media::GameMediaFiles game;
+        game.boxArtFile = core::path::split(argv[3]).back();
+        game.videoFile = core::path::split(argv[4]).back();
+
+        lut[argv[2]] = game;
+
+        core::writeArchive(lut, argv[1], core::XML);
     }
     catch (const std::exception& ex)
     {
@@ -45,3 +69,4 @@ int main(int argc, char** argv)
 
     return 0;
 }
+

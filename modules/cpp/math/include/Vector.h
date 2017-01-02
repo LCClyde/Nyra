@@ -376,7 +376,7 @@ private:
     {
         for (size_t ii = 0; ii < SizeT; ++ii)
         {
-            archive & mVec[ii];
+            archive & BOOST_SERIALIZATION_NVP(mVec[ii]);
         }
     }
 

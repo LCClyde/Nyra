@@ -317,7 +317,8 @@ namespace core
 //===========================================================================//
 template <>
 void writeArchive<img::Image>(const img::Image& image,
-                              const std::string& pathname)
+                              const std::string& pathname,
+                              core::ArchiveType)
 {
     PNGWriter(image, pathname);
 }
@@ -325,7 +326,8 @@ void writeArchive<img::Image>(const img::Image& image,
 //===========================================================================//
 template <>
 void readArchive<img::Image>(const std::string& pathname,
-                             img::Image& image)
+                             img::Image& image,
+                              core::ArchiveType)
 {
     if (!core::path::exists(pathname))
     {

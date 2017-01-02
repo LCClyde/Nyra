@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,47 +19,46 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/media/MediaCenter.h>
+#include <iostream>
+#include <nyra/input/sfml/Keyboard.h>
+#include <nyra/time/System.h>
 
-namespace nyra
-{
-namespace media
-{
-//===========================================================================//
-MediaCenter::MediaCenter(double scale) :
-    mWindow("Media Center",
-            math::Vector2U(320 * scale, 240 * scale),
-            math::Vector2I(0, 0)),
-    mRenderTarget(mWindow),
-    mKeyboard(mWindow),
-    mGames("/home/clyde/workspace/Nyra/media_data/roms/nes",
-           mRenderTarget,
-           mKeyboard)
-{
-}
+using namespace nyra;
 
-//===========================================================================//
-void MediaCenter::run()
+// TODO: This prints the console from both the user and the application
+//       At the same time. This should be fixed, but does demonstrate
+//       functionality as is.
+int main()
 {
-    input::ois::Keyboard keyboard(mWindow);
-    while (mWindow.isOpen())
+    try
     {
-        mWindow.update();
-        keyboard.update();
+        input::sfml::Keyboard keyboard;
 
-        for (size_t ii = 0; ii < input::KEY_MAX; ++ii)
+        while (true)
         {
-            if (keyboard.getButtonPressed(ii))
+            keyboard.update();
+
+            for (size_t ii = 0; ii < input::KEY_MAX; ++ii)
             {
-                std::cout << input::keyCodeToString(
-                        static_cast<input::KeyCode>(ii)) << "\n";
+                if (keyboard.getButtonPressed(ii))
+                {
+                    std::cout << input::keyCodeToString(
+                            static_cast<input::KeyCode>(ii)) << "\n";
+                }
             }
+
+            // Fake 30 FPS, just to slow down the updates.
+            time::sleep(33);
         }
-        //mGames.update(0.0);
-        mRenderTarget.clear(img::Color::BLACK);
-        //mGames.render();
-        mRenderTarget.flush();
     }
-}
-}
+    catch (const std::exception& ex)
+    {
+        std::cout << "STD Exception: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown Exception: System Error!" << std::endl;
+    }
+
+    return 0;
 }

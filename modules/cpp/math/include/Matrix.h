@@ -180,7 +180,7 @@ private:
         {
             for (size_t jj = 0; jj < Cols; ++jj)
             {
-                archive & (*this)(ii, jj);
+                archive & BOOST_SERIALIZATION_NVP((*this)(ii, jj));
             }
         }
     }

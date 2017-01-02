@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,47 +19,36 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/media/MediaCenter.h>
+#ifndef __NYRA_MEDIA_TYPES_H__
+#define __NYRA_MEDIA_TYPES_H__
+
+#include <string>
+#include <unordered_map>
+#include <nyra/core/Archive.h>
 
 namespace nyra
 {
 namespace media
 {
-//===========================================================================//
-MediaCenter::MediaCenter(double scale) :
-    mWindow("Media Center",
-            math::Vector2U(320 * scale, 240 * scale),
-            math::Vector2I(0, 0)),
-    mRenderTarget(mWindow),
-    mKeyboard(mWindow),
-    mGames("/home/clyde/workspace/Nyra/media_data/roms/nes",
-           mRenderTarget,
-           mKeyboard)
+struct GameMediaFiles
 {
-}
+    std::string boxArtFile;
+    std::string videoFile;
 
-//===========================================================================//
-void MediaCenter::run()
-{
-    input::ois::Keyboard keyboard(mWindow);
-    while (mWindow.isOpen())
+private:
+    NYRA_SERIALIZE()
+
+    template<class Archive>
+    void serialize(Archive& archive, const unsigned int version)
     {
-        mWindow.update();
-        keyboard.update();
-
-        for (size_t ii = 0; ii < input::KEY_MAX; ++ii)
-        {
-            if (keyboard.getButtonPressed(ii))
-            {
-                std::cout << input::keyCodeToString(
-                        static_cast<input::KeyCode>(ii)) << "\n";
-            }
-        }
-        //mGames.update(0.0);
-        mRenderTarget.clear(img::Color::BLACK);
-        //mGames.render();
-        mRenderTarget.flush();
+        archive & BOOST_SERIALIZATION_NVP(boxArtFile);
+        archive & BOOST_SERIALIZATION_NVP(videoFile);
     }
+};
+
+typedef std::unordered_map<std::string, std::string> FileToName;
+typedef std::unordered_map<std::string, GameMediaFiles> NameToMediaFiles;
 }
 }
-}
+
+#endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,48 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_MEDIA_CENTER_H__
-#define __NYRA_MEDIA_MEDIA_CENTER_H__
+#ifndef __NYRA_MEDIA_GAME_H__
+#define __NYRA_MEDIA_GAME_H__
 
-#include <nyra/win/sfml/Window.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
-#include <nyra/media/GameList.h>
-#include <nyra/input/ois/Keyboard.h>
-
+#include <string>
+#include <nyra/graphics/Sprite.h>
+#include <nyra/media/Types.h>
 
 namespace nyra
 {
 namespace media
 {
-/*
- *  \class MediaCenter
- *  \brief Top Level class for running the media center
- */
-class MediaCenter
+struct Game
 {
 public:
-    /*
-     *  \func Constructor
-     *  \brief Sets up the Media Center
-     *
-     *  \param scale Scales up or down the window
-     */
-    MediaCenter(double scale);
-
-    /*
-     *  \func run
-     *  \brief Runs the media center. This is a blocking function.
-     */
-    void run();
-
-private:
-    win::sfml::Window mWindow;
-    graphics::sfml::RenderTarget mRenderTarget;
-    input::ois::Keyboard mKeyboard;
-    media::GameList mGames;
+    std::unique_ptr<graphics::Sprite> sprite;
+    std::string name;
+    std::string pathname;
+    std::string filename;
+    GameMediaFiles files;
 };
 }
 }
 
 #endif
-

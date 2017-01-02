@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,4 +19,7 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS win.sfml graphics.sfml input.ois PARENT_SCOPE)
+set(MOD_DEPS input win pattern PARENT_SCOPE)
+set(EXT_DEPS ${SFMLWindow} PARENT_SCOPE)
+set(TEST_DEPS win.sfml PARENT_SCOPE)
+set(APP_DEPS win.sfml time PARENT_SCOPE)

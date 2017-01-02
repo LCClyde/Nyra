@@ -40,6 +40,13 @@ class Video : public graphics::Video
 public:
     /*
      *  \func Constructor
+     *  \brief Sets up the video. The video is not valid until initialize
+     *         is called.
+     */
+    Video();
+
+    /*
+     *  \func Constructor
      *  \brief Sets up the video for playback.
      *
      *  \param pathname The location of the video on disk.

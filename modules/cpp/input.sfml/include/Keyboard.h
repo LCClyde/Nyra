@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,48 +19,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_MEDIA_CENTER_H__
-#define __NYRA_MEDIA_MEDIA_CENTER_H__
+#ifndef __NYRA_INPUT_SFML_KEYBOARD_H__
+#define __NYRA_INPUT_SFML_KEYBOARD_H__
 
-#include <nyra/win/sfml/Window.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
-#include <nyra/media/GameList.h>
-#include <nyra/input/ois/Keyboard.h>
-
+#include <nyra/input/Keyboard.h>
 
 namespace nyra
 {
-namespace media
+namespace input
+{
+namespace sfml
 {
 /*
- *  \class MediaCenter
- *  \brief Top Level class for running the media center
+ *  \class Keyboard
+ *  \brief Class to represent user input from the Keyboard. The SFML Keyboard
+ *         does not support as many keys as the OIS keyboard, but it does
+ *         not require a focused window to function.
  */
-class MediaCenter
+class Keyboard : public input::Keyboard
 {
 public:
     /*
-     *  \func Constructor
-     *  \brief Sets up the Media Center
-     *
-     *  \param scale Scales up or down the window
+     *  \func update
+     *  \brief Updates the button values for the keyboard.
      */
-    MediaCenter(double scale);
-
-    /*
-     *  \func run
-     *  \brief Runs the media center. This is a blocking function.
-     */
-    void run();
+    void update() override;
 
 private:
-    win::sfml::Window mWindow;
-    graphics::sfml::RenderTarget mRenderTarget;
-    input::ois::Keyboard mKeyboard;
-    media::GameList mGames;
+    std::bitset<input::KEY_MAX> mKeyBits;
 };
+}
 }
 }
 
 #endif
-

@@ -342,18 +342,18 @@ private:
     template<class Archive>
     void serialize(Archive& archive, const unsigned int version)
     {
-        archive & mNESIdentifier;
-        archive & mProgSize;
-        archive & mChrRomSize;
-        archive & mMapperNumber;
-        archive & mFourScreenMode;
-        archive & mTrainer;
-        archive & mBatteryBack;
-        archive & mMirroring;
-        archive & mPlayChoice10;
-        archive & mVsUnisystem;
-        archive & mIsNes2_0;
-        archive & mUnused;
+        archive & BOOST_SERIALIZATION_NVP(mNESIdentifier);
+        archive & BOOST_SERIALIZATION_NVP(mProgSize);
+        archive & BOOST_SERIALIZATION_NVP(mChrRomSize);
+        archive & BOOST_SERIALIZATION_NVP(mMapperNumber);
+        archive & BOOST_SERIALIZATION_NVP(mFourScreenMode);
+        archive & BOOST_SERIALIZATION_NVP(mTrainer);
+        archive & BOOST_SERIALIZATION_NVP(mBatteryBack);
+        archive & BOOST_SERIALIZATION_NVP(mMirroring);
+        archive & BOOST_SERIALIZATION_NVP(mPlayChoice10);
+        archive & BOOST_SERIALIZATION_NVP(mVsUnisystem);
+        archive & BOOST_SERIALIZATION_NVP(mIsNes2_0);
+        archive & BOOST_SERIALIZATION_NVP(mUnused);
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Header& header);

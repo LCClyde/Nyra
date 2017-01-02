@@ -29,6 +29,11 @@ namespace graphics
 namespace sfml
 {
 //===========================================================================//
+Video::Video()
+{
+}
+
+//===========================================================================//
 Video::Video(const std::string& pathname)
 {
     initialize(pathname);

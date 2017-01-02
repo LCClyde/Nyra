@@ -208,10 +208,13 @@ namespace core
  *
  *  \param image The image to save
  *  \param pathname The location to save to.
+ *  \param type This will only write binary, even if you select something
+ *         else
  */
 template <>
 void writeArchive<img::Image>(const img::Image& image,
-                              const std::string& pathname);
+                              const std::string& pathname,
+                              core::ArchiveType type);
 
 /*
  *  \func readArchive
@@ -220,10 +223,13 @@ void writeArchive<img::Image>(const img::Image& image,
  *
  *  \param pathname The location to save to.
  *  \param image The image to load
+ *  \param type This will only read binary, even if you select something
+ *         else
  */
 template <>
 void readArchive<img::Image>(const std::string& pathname,
-                             img::Image& image);
+                             img::Image& image,
+                             core::ArchiveType type);
 }
 }
 
