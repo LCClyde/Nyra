@@ -70,7 +70,7 @@ find_package(GLEW REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
-find_package(Boost 1.61.0 REQUIRED COMPONENTS serialization filesystem)
+find_package(Boost 1.63.0 REQUIRED COMPONENTS serialization filesystem system)
 find_package(Qt5Widgets)
 find_package(X11 REQUIRED)
 find_package(OpenCV REQUIRED)

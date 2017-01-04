@@ -42,6 +42,8 @@ extern const std::string INSTALL_PATH;
 
 extern const std::string DATA_PATH;
 
+extern const std::string BINARY_PATH;
+
 /*
  *  \namespace path
  *  \brief An extra namespace to help keep common functions outside of the

@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,29 +19,16 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-if (UNIX)
-    set(BOOTSTRAP ./bootstrap.sh)
-    set(B2 ./b2)
-else()
-    if (WIN32)
-        set(BOOTSTRAP bootstrap.bat)
-        set(B2 b2.exe)
-    endif()
-endif()
-
+# TODO:Boost process is not a part of Boost as 1.63. When it is, this can
+#      be removed in favor of the included one.
 ExternalProject_Add(
-    Boost
+    BoostProcess
     PREFIX ${BUILD_DIR}
-    GIT_REPOSITORY https://github.com/boostorg/boost.git
-    GIT_TAG boost-1.63.0
-    BUILD_IN_SOURCE 1
+    GIT_REPOSITORY https://github.com/klemens-morgenstern/boost-process.git
+    GIT_TAG boost_review
     UPDATE_COMMAND ""
     PATCH_COMMAND ""
-    CONFIGURE_COMMAND ${BOOTSTRAP}
-    BUILD_COMMAND ${B2} headers COMMAND ${B2} install
-        --prefix=${INSTALL_DIR}
-        --disable-icu
-        --variant=release
-        -j4
-    INSTALL_COMMAND ""
-    INSTALL_DIR ${INSTALL_DIR})
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory
+        <SOURCE_DIR>/include/ ${INCLUDE_DIR})

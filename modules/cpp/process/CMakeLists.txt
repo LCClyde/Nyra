@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,29 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-if (UNIX)
-    set(BOOTSTRAP ./bootstrap.sh)
-    set(B2 ./b2)
-else()
-    if (WIN32)
-        set(BOOTSTRAP bootstrap.bat)
-        set(B2 b2.exe)
-    endif()
-endif()
-
-ExternalProject_Add(
-    Boost
-    PREFIX ${BUILD_DIR}
-    GIT_REPOSITORY https://github.com/boostorg/boost.git
-    GIT_TAG boost-1.63.0
-    BUILD_IN_SOURCE 1
-    UPDATE_COMMAND ""
-    PATCH_COMMAND ""
-    CONFIGURE_COMMAND ${BOOTSTRAP}
-    BUILD_COMMAND ${B2} headers COMMAND ${B2} install
-        --prefix=${INSTALL_DIR}
-        --disable-icu
-        --variant=release
-        -j4
-    INSTALL_COMMAND ""
-    INSTALL_DIR ${INSTALL_DIR})
+set(EXT_DEPS ${Boost_SYSTEM_LIBRARY} PARENT_SCOPE)
