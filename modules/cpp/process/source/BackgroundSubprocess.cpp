@@ -19,50 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <boost/process.hpp>
-#include <boost/asio.hpp>
-#include <nyra/process/Subprocess.h>
+#include <nyra/process/BackgroundSubprocess.h>
+
+namespace
+{
+//===========================================================================//
+void runProcess(boost::asio::io_service& ios)
+{
+    ios.run();
+}
+}
 
 namespace nyra
 {
 namespace process
 {
-void subprocess(const std::string& binary,
-                const std::vector<std::string>& args,
-                std::string& stdout,
-                std::string& stderr)
+//===========================================================================//
+BackgroundSubprocess::BackgroundSubprocess(
+        const std::string& binary,
+        const std::vector<std::string>& args)
 {
-    stdout = "";
-    stderr = "";
-
-    std::future<std::string> out;
-    std::future<std::string> err;
-    std::unique_ptr<boost::process::child> child;
-    boost::asio::io_service ios;
-
     if (args.empty())
     {
-        child.reset(new boost::process::child(
+        mChild.reset(new boost::process::child(
                 binary,
                 boost::process::std_in.close(),
-                boost::process::std_out > out,
-                boost::process::std_err > err,
-                ios));
+                boost::process::std_out > mStdOut,
+                boost::process::std_err > mStdErr,
+                mIOS));
     }
     else
     {
-        child.reset(new boost::process::child(
+        mChild.reset(new boost::process::child(
                 binary,
                 args,
                 boost::process::std_in.close(),
-                boost::process::std_out > out,
-                boost::process::std_err > err,
-                ios));
+                boost::process::std_out > mStdOut,
+                boost::process::std_err > mStdErr,
+                mIOS));
     }
-    ios.run();
+    mThread  = std::thread(runProcess, std::ref(mIOS));
+}
 
-    stdout = out.get();
-    stderr = err.get();
+//===========================================================================//
+BackgroundSubprocess::~BackgroundSubprocess()
+{
+    terminate();
+    wait();
 }
 }
 }
