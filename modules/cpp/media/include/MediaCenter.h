@@ -25,7 +25,7 @@
 #include <nyra/win/sfml/Window.h>
 #include <nyra/graphics/sfml/RenderTarget.h>
 #include <nyra/media/GameList.h>
-#include <nyra/input/ois/Keyboard.h>
+#include <nyra/input/sfml/Keyboard.h>
 
 
 namespace nyra
@@ -56,7 +56,7 @@ public:
 private:
     win::sfml::Window mWindow;
     graphics::sfml::RenderTarget mRenderTarget;
-    input::ois::Keyboard mKeyboard;
+    input::sfml::Keyboard mKeyboard;
     media::GameList mGames;
 };
 }

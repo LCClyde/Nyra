@@ -30,9 +30,22 @@ namespace nyra
 {
 namespace media
 {
+/*
+ *  \class GameMediaFiles
+ *  \brief Files related to the game
+ */
 struct GameMediaFiles
 {
+    /*
+     *  \var boxArtFile
+     *  \brief The name of the box art
+     */
     std::string boxArtFile;
+
+    /*
+     *  \var videoFile
+     *  \brief The name of the video file
+     */
     std::string videoFile;
 
 private:
@@ -46,7 +59,16 @@ private:
     }
 };
 
+/*
+ *  \type FileToName
+ *  \brief Converts a filename to a game name
+ */
 typedef std::unordered_map<std::string, std::string> FileToName;
+
+/*
+ *  \type NameToMediaFiles
+ *  \brief Converts a game name to a GameMediaFile
+ */
 typedef std::unordered_map<std::string, GameMediaFiles> NameToMediaFiles;
 }
 }

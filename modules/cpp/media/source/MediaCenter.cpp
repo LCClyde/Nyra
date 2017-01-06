@@ -31,7 +31,6 @@ MediaCenter::MediaCenter(double scale) :
             math::Vector2U(320 * scale, 240 * scale),
             math::Vector2I(0, 0)),
     mRenderTarget(mWindow),
-    mKeyboard(mWindow),
     mGames("/home/clyde/workspace/Nyra/media_data/roms/nes",
            mRenderTarget,
            mKeyboard)
@@ -41,23 +40,16 @@ MediaCenter::MediaCenter(double scale) :
 //===========================================================================//
 void MediaCenter::run()
 {
-    input::ois::Keyboard keyboard(mWindow);
     while (mWindow.isOpen())
     {
         mWindow.update();
-        keyboard.update();
+        mKeyboard.update();
 
-        for (size_t ii = 0; ii < input::KEY_MAX; ++ii)
-        {
-            if (keyboard.getButtonPressed(ii))
-            {
-                std::cout << input::keyCodeToString(
-                        static_cast<input::KeyCode>(ii)) << "\n";
-            }
-        }
-        //mGames.update(0.0);
+        // Check for playing a game
+
+        mGames.update(0.0);
         mRenderTarget.clear(img::Color::BLACK);
-        //mGames.render();
+        mGames.render();
         mRenderTarget.flush();
     }
 }

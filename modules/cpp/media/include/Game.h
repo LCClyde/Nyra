@@ -30,13 +30,41 @@ namespace nyra
 {
 namespace media
 {
+/*
+ *  \class Game
+ *  \brief Struct to hold game information.
+ */
 struct Game
 {
 public:
+    /*
+     *  \var sprite
+     *  \brief Sprite to represent the game, usually box art.
+     */
     std::unique_ptr<graphics::Sprite> sprite;
+
+    /*
+     *  \var name
+     *  \brief Name of the game
+     */
     std::string name;
+
+    /*
+     *  \var pathname
+     *  \brief Pathname to the game
+     */
     std::string pathname;
+
+    /*
+     *  \var filename
+     *  \brief The filename of the game (no directory)
+     */
     std::string filename;
+
+    /*
+     *  \var files
+     *  \brief Game specific files
+     */
     GameMediaFiles files;
 };
 }

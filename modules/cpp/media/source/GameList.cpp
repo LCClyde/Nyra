@@ -76,13 +76,11 @@ void GameList::update(double deltaTime)
     bool update = false;
     if (mKeyboard.getButtonPressed(input::KEY_RIGHT))
     {
-        std::cout << "Right\n";
         ++mIndex;
         update = true;
     }
     else if (mKeyboard.getButtonPressed(input::KEY_LEFT))
     {
-        std::cout << "Left\n";
         --mIndex;
         update = true;
     }
@@ -90,8 +88,13 @@ void GameList::update(double deltaTime)
     if (update)
     {
         mIndex %= mGames.size();
-        std::cout << mIndex << "\n";
         updateIndex();
+    }
+
+    if (mKeyboard.getButtonReleased(input::KEY_RIGHT) ||
+        mKeyboard.getButtonReleased(input::KEY_LEFT))
+    {
+        playVideo();
     }
 
     mVideo->update();

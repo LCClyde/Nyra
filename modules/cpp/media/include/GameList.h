@@ -33,16 +33,49 @@ namespace nyra
 {
 namespace media
 {
+/*
+ *  \class GameList
+ *  \brief Screen to list and select games
+ */
 class GameList
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Sets up the game list
+     *
+     *  \param pathname The pathname to the game list
+     *  \param target The render target
+     *  \param keyboard The keyboard for input
+     */
     GameList(const std::string& pathname,
              graphics::RenderTarget& target,
              input::Keyboard& keyboard);
 
+    /*
+     *  \func update
+     *  \brief Updates the game list
+     *
+     *  \param delta The time in seconds since the last update
+     */
     void update(double delta);
 
+    /*
+     *  \func render
+     *  \brief Renders the game list
+     */
     void render();
+
+    /*
+     *  \func getGame
+     *  \brief Gets the currently selected game
+     *
+     *  \return The current game
+     */
+    const Game& getGame() const
+    {
+        return mGames[mIndex];
+    }
 
 private:
     void updateIndex();
