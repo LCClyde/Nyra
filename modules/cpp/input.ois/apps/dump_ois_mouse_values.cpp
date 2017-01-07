@@ -24,7 +24,7 @@
 #include <nyra/input/ois/Mouse.h>
 #include <nyra/gui/qt/Gui.h>
 #include <nyra/gui/qt/Label.h>
-#include <nyra/time/System.h>
+#include <nyra/core/Time.h>
 
 using namespace nyra;
 
@@ -118,6 +118,6 @@ int main()
         qWindow.update();
 
         // Fake 30 FPS, just to slow down the updates.
-        time::sleep(33);
+        core::sleep(33);
     }
 }

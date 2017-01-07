@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,26 +19,57 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/ogre/GlobalHandler.h>
-#include <nyra/core/Time.h>
+#ifndef __NYRA_CORE_FPS_H__
+#define __NYRA_CORE_FPS_H__
+
+#include <stddef.h>
 
 namespace nyra
 {
-namespace ogre
+namespace core
 {
-TEST(GlobalHandler, Stdout)
+/*
+ *  \class FPS
+ *  \brief Used to track frames per second and time between frames.
+ */
+class FPS
 {
-    GlobalHandler handler;
-    EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
-    handler.initialize();
-    core::sleep(1000);
-    EXPECT_EQ(test::stdout(handler), "Ogre Root: running");
-    handler.shutdown();
-    core::sleep(1000);
-    EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
-}
+public:
+    /*
+     *  \func Constructor
+     *  \brief Sets up the FPS object. In general the FPS object will need
+     *         two cycles before it gives meaningful information.
+     */
+    FPS();
+
+    /*
+     *  \func Functor
+     *  \brief Gets the delta time and updates the FPS.
+     *
+     *  \return The time seconds since the last call.
+     */
+    double operator()();
+
+    /*
+     *  \func getFPS
+     *  \brief Gets the number of frames in the last second. The first second
+     *         will read 0 FPS.
+     *
+     *  \return The number of frames in the last seconds.
+     */
+    size_t getFPS() const
+    {
+        return mFPS;
+    }
+
+private:
+    size_t mPrevTime;
+    size_t mFPS;
+    double mElapsed;
+    size_t mFrameCount;
+
+};
 }
 }
 
-NYRA_TEST()
+#endif

@@ -45,13 +45,13 @@ TEST_F(TestOgreWindow, GetSet)
     std::cout << "======================================================\n";
     std::cout << "WARNING: Ogre get window position is incorrect\n";
     std::cout << "======================================================\n";
-    time::sleep(1000);
+    core::sleep(1000);
 }
 
 TEST_F(TestOgreWindow, Id)
 {
     EXPECT_NE(id(1000), previousID);
-    time::sleep(1000);
+    core::sleep(1000);
 }
 
 TEST_F(TestOgreWindow, Close)
@@ -61,7 +61,7 @@ TEST_F(TestOgreWindow, Close)
     //       Add this test back in to test closing, but note that you may
     //       need to ignore some failures.
     EXPECT_TRUE(close());
-    time::sleep(1000);
+    core::sleep(1000);
 }
 
 TEST_F(TestOgreWindow, ArchiveOpen)
@@ -76,13 +76,13 @@ TEST_F(TestOgreWindow, ArchiveOpen)
     std::cout << "======================================================\n";
     std::cout << "WARNING: Ogre get window position is incorrect\n";
     std::cout << "======================================================\n";
-    time::sleep(1000);
+    core::sleep(1000);
 }
 
 TEST_F(TestOgreWindow, ArchiveClosed)
 {
     EXPECT_FALSE(archiveClosed().isOpen());
-    time::sleep(1000);
+    core::sleep(1000);
 }
 
 TEST_F(TestOgreWindow, Stdout)
@@ -93,7 +93,7 @@ TEST_F(TestOgreWindow, Stdout)
     std::cout << "======================================================\n";
     EXPECT_NE(stdoutOpen(), expectedStdoutOpen);
     EXPECT_EQ(stdoutClosed(), expectedStdoutClosed);
-    time::sleep(1000);
+    core::sleep(1000);
 }
 }
 }

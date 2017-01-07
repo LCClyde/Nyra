@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
+ *  of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,24 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/ogre/GlobalHandler.h>
 #include <nyra/core/Time.h>
+#include <nyra/core/FPS.h>
+#include <nyra/test/Test.h>
 
 namespace nyra
 {
-namespace ogre
+namespace core
 {
-TEST(GlobalHandler, Stdout)
+TEST(FPS, Delta)
 {
-    GlobalHandler handler;
-    EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
-    handler.initialize();
-    core::sleep(1000);
-    EXPECT_EQ(test::stdout(handler), "Ogre Root: running");
-    handler.shutdown();
-    core::sleep(1000);
-    EXPECT_EQ(test::stdout(handler), "Ogre Root: stopped");
+    FPS fps;
+    sleep(250);
+    EXPECT_NEAR(0.25, fps(), 0.01);
+}
+
+TEST(FPS, FPS)
+{
+    FPS fps;
+
+    for (size_t ii = 0; ii < 31; ++ii)
+    {
+        sleep(34);
+        fps();
+    }
+
+    EXPECT_NEAR(30, fps.getFPS(), 1);
 }
 }
 }

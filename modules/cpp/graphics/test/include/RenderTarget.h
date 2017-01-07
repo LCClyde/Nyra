@@ -24,7 +24,7 @@
 
 #include <nyra/test/Test.h>
 #include <nyra/graphics/RenderTarget.h>
-#include <nyra/time/System.h>
+#include <nyra/core/Time.h>
 
 namespace nyra
 {
@@ -144,7 +144,7 @@ private:
         // has it enabled
         for (size_t ii = 0; ii < 5; ++ii)
         {
-            time::sleep(5);
+            core::sleep(5);
             mWindow.update();
         }
     }

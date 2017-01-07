@@ -19,15 +19,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_TIME_SYSTEM_H__
-#define __NYRA_TIME_SYSTEM_H__
+#ifndef __NYRA_CORE_TIME_H__
+#define __NYRA_CORE_TIME_H__
 
 #include <chrono>
 #include <thread>
 
 namespace nyra
 {
-namespace time
+namespace core
 {
 /*
  *  \func sleep
@@ -35,7 +35,7 @@ namespace time
  *
  *  \param milliseconds The number of milliseconds to sleep for
  */
-void sleep(size_t milliseconds)
+inline void sleep(size_t milliseconds)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
@@ -46,7 +46,7 @@ void sleep(size_t milliseconds)
  *
  *  \return The number of milliseconds
  */
-size_t epoch()
+inline size_t epoch()
 {
     auto now = std::chrono::system_clock::now();
     auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);

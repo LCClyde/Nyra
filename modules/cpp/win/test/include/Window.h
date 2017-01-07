@@ -23,7 +23,7 @@
 #define __NYRA_WIN_TEST_WINDOW_H__
 
 #include <nyra/math/Vector2.h>
-#include <nyra/time/System.h>
+#include <nyra/core/Time.h>
 #include <nyra/test/Archive.h>
 #include <nyra/test/Stdout.h>
 
@@ -170,12 +170,12 @@ public:
         update();
         if (extraWait > 0)
         {
-            time::sleep(extraWait);
+            core::sleep(extraWait);
         }
         mWindow.close();
         if (extraWait > 0)
         {
-            time::sleep(extraWait);
+            core::sleep(extraWait);
         }
         reset();
         return mWindow.getID();
@@ -306,7 +306,7 @@ private:
         // has it enabled
         for (size_t ii = 0; ii < 10; ++ii)
         {
-            time::sleep(10);
+            core::sleep(10);
             mWindow.update();
         }
     }

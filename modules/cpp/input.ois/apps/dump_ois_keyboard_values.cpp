@@ -21,7 +21,7 @@
  */
 #include <nyra/win/ogre/Window.h>
 #include <nyra/input/ois/Keyboard.h>
-#include <nyra/time/System.h>
+#include <nyra/core/Time.h>
 
 using namespace nyra;
 
@@ -51,6 +51,6 @@ int main()
         }
 
         // Fake 30 FPS, just to slow down the updates.
-        time::sleep(33);
+        core::sleep(33);
     }
 }

@@ -24,7 +24,7 @@
 #include <nyra/win/qt/Window.h>
 #include <nyra/gui/qt/Slider.h>
 #include <nyra/core/Path.h>
-#include <nyra/time/System.h>
+#include <nyra/core/Time.h>
 
 namespace
 {
@@ -35,7 +35,7 @@ void update(nyra::win::Window& window)
     for (size_t ii = 0; ii < 100; ++ii)
     {
         window.update();
-        nyra::time::sleep(10);
+        nyra::core::sleep(10);
     }
 }
 

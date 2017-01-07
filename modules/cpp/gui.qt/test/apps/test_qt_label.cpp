@@ -24,7 +24,7 @@
 #include <nyra/win/qt/Window.h>
 #include <nyra/gui/qt/Label.h>
 #include <nyra/core/Path.h>
-#include <nyra/time/System.h>
+#include <nyra/core/Time.h>
 
 namespace nyra
 {
@@ -48,7 +48,7 @@ TEST(Event, Call)
     for (size_t ii = 0; ii < 10; ++ii)
     {
         window.update();
-        time::sleep(100);
+        core::sleep(100);
     }
 
     // TODO: This works on Linux, it will probably be different on
