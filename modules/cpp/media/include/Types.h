@@ -60,6 +60,35 @@ private:
 };
 
 /*
+ *  \class GameCommandLine
+ *  \brief Holds command line information about opening a game subprocess.
+ */
+struct GameCommandLine
+{
+    /*
+     *  \var binary
+     *  \brief The full path to the binary
+     */
+    std::string binary;
+
+    /*
+     *  \var args
+     *  \brief The arguments to send to the command.
+     */
+    std::vector<std::string> args;
+
+private:
+    NYRA_SERIALIZE()
+
+    template<class Archive>
+    void serialize(Archive& archive, const unsigned int version)
+    {
+        archive & BOOST_SERIALIZATION_NVP(binary);
+        archive & BOOST_SERIALIZATION_NVP(args);
+    }
+};
+
+/*
  *  \type FileToName
  *  \brief Converts a filename to a game name
  */
@@ -70,6 +99,12 @@ typedef std::unordered_map<std::string, std::string> FileToName;
  *  \brief Converts a game name to a GameMediaFile
  */
 typedef std::unordered_map<std::string, GameMediaFiles> NameToMediaFiles;
+
+/*
+ *  \type PlatformToBinary
+ *  \brief Converts a platfrom to a command line.
+ */
+typedef std::unordered_map<std::string, GameCommandLine> PlatformToBinary;
 }
 }
 

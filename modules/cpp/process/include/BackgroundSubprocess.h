@@ -27,6 +27,7 @@
 #include <memory>
 #include <future>
 #include <thread>
+#include <iostream>
 #include <boost/process.hpp>
 #include <boost/asio.hpp>
 

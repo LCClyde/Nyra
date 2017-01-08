@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,63 +19,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_MEDIA_CENTER_H__
-#define __NYRA_MEDIA_MEDIA_CENTER_H__
-
-#include <nyra/win/sfml/Window.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
 #include <nyra/media/Screen.h>
-#include <nyra/input/sfml/Keyboard.h>
-#include <nyra/media/Types.h>
 
 namespace nyra
 {
 namespace media
 {
-/*
- *  \class MediaCenter
- *  \brief Top Level class for running the media center
- */
-class MediaCenter
+//===========================================================================//
+Screen::Screen(graphics::RenderTarget& target,
+               input::Keyboard& keyboard) :
+    mTarget(target),
+    mKeyboard(keyboard)
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Sets up the Media Center
-     *
-     *  \param scale Scales up or down the window
-     */
-    MediaCenter(double scale);
-
-    /*
-     *  \func run
-     *  \brief Runs the media center. This is a blocking function.
-     */
-    void run();
-
-private:
-    void update();
-
-    void openGameSelect();
-
-    void openPlayGame(const std::string& pathname);
-
-    enum State
-    {
-        GAME_SELECT,
-        PLAYING_GAME
-    };
-
-    PlatformToBinary mPlatformToBinary;
-    std::string mPlatform;
-    win::sfml::Window mWindow;
-    graphics::sfml::RenderTarget mRenderTarget;
-    input::sfml::Keyboard mKeyboard;
-    std::unique_ptr<Screen> mScreen;
-    State mState;
-};
 }
 }
-
-#endif
-
+}

@@ -24,10 +24,9 @@
 
 #include <string>
 #include <vector>
-#include <nyra/graphics/RenderTarget.h>
 #include <nyra/graphics/Video.h>
 #include <nyra/media/Game.h>
-#include <nyra/input/Keyboard.h>
+#include <nyra/media/Screen.h>
 
 namespace nyra
 {
@@ -37,7 +36,7 @@ namespace media
  *  \class GameList
  *  \brief Screen to list and select games
  */
-class GameList
+class GameList : public Screen
 {
 public:
     /*
@@ -58,13 +57,13 @@ public:
      *
      *  \param delta The time in seconds since the last update
      */
-    void update(double delta);
+    void update(double delta) override;
 
     /*
      *  \func render
      *  \brief Renders the game list
      */
-    void render();
+    void render() override;
 
     /*
      *  \func getGame
@@ -90,8 +89,6 @@ private:
     std::vector<Game> mGames;
     const std::string mPlatform;
     const std::string mDataDir;
-    graphics::RenderTarget& mTarget;
-    input::Keyboard& mKeyboard;
     std::unique_ptr<graphics::Video> mVideo;
     int64_t mIndex;
     double mSpacing;

@@ -32,10 +32,9 @@ namespace media
 GameList::GameList(const std::string& pathname,
                    graphics::RenderTarget& target,
                    input::Keyboard& keyboard) :
+    Screen(target, keyboard),
     mPlatform(core::path::split(pathname).back()),
     mDataDir(core::path::join(pathname, "../../")),
-    mTarget(target),
-    mKeyboard(keyboard),
     mVideo(new graphics::sfml::Video()),
     mIndex(0),
     mSpacing(5.0 * mTarget.getSize().x() / 320)

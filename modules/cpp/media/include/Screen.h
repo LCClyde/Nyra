@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,60 +19,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_MEDIA_CENTER_H__
-#define __NYRA_MEDIA_MEDIA_CENTER_H__
+#ifndef __NYRA_MEDIA_SCREEN_H__
+#define __NYRA_MEDIA_SCREEN_H__
 
-#include <nyra/win/sfml/Window.h>
-#include <nyra/graphics/sfml/RenderTarget.h>
-#include <nyra/media/Screen.h>
-#include <nyra/input/sfml/Keyboard.h>
-#include <nyra/media/Types.h>
+#include <nyra/input/Keyboard.h>
+#include <nyra/graphics/RenderTarget.h>
 
 namespace nyra
 {
 namespace media
 {
 /*
- *  \class MediaCenter
- *  \brief Top Level class for running the media center
+ *  \class Screen
+ *  \brief Base class for all media center screens.
  */
-class MediaCenter
+class Screen
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Sets up the Media Center
+     *  \brief Sets up the screen object
      *
-     *  \param scale Scales up or down the window
+     *  \param target The render target
+     *  \param keyboard The keyboard for input
      */
-    MediaCenter(double scale);
+    Screen(graphics::RenderTarget& target,
+           input::Keyboard& keyboard);
 
     /*
-     *  \func run
-     *  \brief Runs the media center. This is a blocking function.
+     *  \func Destructor
+     *  \brief Necessary for proper inheritance.
      */
-    void run();
+    virtual ~Screen() = default;
 
-private:
-    void update();
+    /*
+     *  \func update
+     *  \brief Updates the screen
+     *
+     *  \param delta The time in seconds since the last update
+     */
+    virtual void update(double delta) = 0;
 
-    void openGameSelect();
+    /*
+     *  \func render
+     *  \brief Renders the screen
+     */
+    virtual void render() = 0;
 
-    void openPlayGame(const std::string& pathname);
-
-    enum State
-    {
-        GAME_SELECT,
-        PLAYING_GAME
-    };
-
-    PlatformToBinary mPlatformToBinary;
-    std::string mPlatform;
-    win::sfml::Window mWindow;
-    graphics::sfml::RenderTarget mRenderTarget;
-    input::sfml::Keyboard mKeyboard;
-    std::unique_ptr<Screen> mScreen;
-    State mState;
+protected:
+    graphics::RenderTarget& mTarget;
+    input::Keyboard& mKeyboard;
 };
 }
 }

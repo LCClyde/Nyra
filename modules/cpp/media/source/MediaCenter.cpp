@@ -20,6 +20,9 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/media/MediaCenter.h>
+#include <nyra/media/GameList.h>
+#include <nyra/media/PlayGame.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
@@ -27,14 +30,16 @@ namespace media
 {
 //===========================================================================//
 MediaCenter::MediaCenter(double scale) :
+    mPlatformToBinary(core::readArchive<PlatformToBinary>(
+            "/home/clyde/workspace/Nyra/media_data/serial/platform.xml",
+            core::XML)),
+    mPlatform("nes"),
     mWindow("Media Center",
             math::Vector2U(320 * scale, 240 * scale),
             math::Vector2I(0, 0)),
-    mRenderTarget(mWindow),
-    mGames("/home/clyde/workspace/Nyra/media_data/roms/nes",
-           mRenderTarget,
-           mKeyboard)
+    mRenderTarget(mWindow)
 {
+    openGameSelect();
 }
 
 //===========================================================================//
@@ -45,13 +50,53 @@ void MediaCenter::run()
         mWindow.update();
         mKeyboard.update();
 
-        // Check for playing a game
-
-        mGames.update(0.0);
+        mScreen->update(0.0);
         mRenderTarget.clear(img::Color::BLACK);
-        mGames.render();
+        mScreen->render();
         mRenderTarget.flush();
+
+        update();
     }
+}
+
+//===========================================================================//
+void MediaCenter::update()
+{
+    switch (mState)
+    {
+    case GAME_SELECT:
+        if (mKeyboard.getButtonPressed(input::KEY_ENTER))
+        {
+            openPlayGame(dynamic_cast<GameList*>(
+                    mScreen.get())->getGame().pathname);
+        }
+        break;
+    case PLAYING_GAME:
+        if (mKeyboard.getButtonPressed(input::KEY_ESCAPE))
+        {
+            openGameSelect();
+        }
+        break;
+    }
+}
+
+//===========================================================================//
+void MediaCenter::openGameSelect()
+{
+    const std::string romsList = core::path::join(
+            "/home/clyde/workspace/Nyra/media_data/roms/", mPlatform);
+    mScreen.reset(new GameList(romsList, mRenderTarget, mKeyboard));
+    mState = GAME_SELECT;
+}
+
+//===========================================================================//
+void MediaCenter::openPlayGame(const std::string& pathname)
+{
+    mScreen.reset(new PlayGame(mPlatformToBinary[mPlatform],
+                               pathname,
+                               mRenderTarget,
+                               mKeyboard));
+    mState = PLAYING_GAME;
 }
 }
 }
