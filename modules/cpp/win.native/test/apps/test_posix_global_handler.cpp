@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -20,41 +20,26 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/sdl/GlobalHandler.h>
+#include <nyra/win/native/PosixGlobalHandler.h>
 
 namespace nyra
 {
-namespace sdl
+namespace win
 {
-TEST(GlobalHandler, Stdout)
+namespace native
 {
-    GlobalHandler handler;
-    const std::string expectedOffResults =
-            "SDL Global Handler Status:\n"
-            "  Audio: stopped\n"
-            "  Events: stopped\n"
-            "  Game Controller: stopped\n"
-            "  Haptic: stopped\n"
-            "  Joystick: stopped\n"
-            "  No Parachute: stopped\n"
-            "  Timer: stopped\n"
-            "  Video: stopped";
+TEST(PosixGlobalHandler, Stdout)
+{
+    PosixGlobalHandler handler;
+    const std::string expectedOffResults = "X11 is shutdown";
     EXPECT_EQ(test::stdout(handler), expectedOffResults);
 
     handler.initialize();
-    const std::string expectedOnResults =
-            "SDL Global Handler Status:\n"
-            "  Audio: stopped\n"
-            "  Events: running\n"
-            "  Game Controller: stopped\n"
-            "  Haptic: stopped\n"
-            "  Joystick: stopped\n"
-            "  No Parachute: stopped\n"
-            "  Timer: stopped\n"
-            "  Video: running";
+    const std::string expectedOnResults = "X11 is running";
     EXPECT_EQ(test::stdout(handler), expectedOnResults);
     handler.shutdown();
     EXPECT_EQ(test::stdout(handler), expectedOffResults);
+}
 }
 }
 }

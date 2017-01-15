@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,58 +19,60 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/sdl/GlobalHandler.h>
-#include <SDL.h>
+#include <nyra/win/native/PosixGlobalHandler.h>
 
 namespace
 {
-std::string subsystemOstream(uint32_t subsystems, uint32_t target)
+int GlobalErrorHandler(Display* display, XErrorEvent* event)
 {
-    if (subsystems & target)
-    {
-        return "running";
-    }
-    return "stopped";
+    char buffer[1024];
+    XGetErrorText(display, event->error_code, buffer, 1024);
+    throw std::runtime_error(buffer);
 }
 }
 
 namespace nyra
 {
-namespace sdl
+namespace win
+{
+namespace native
 {
 //===========================================================================//
-void GlobalHandler::initializeGlobal()
+PosixGlobalHandler::PosixGlobalHandler() :
+    mDisplay(nullptr),
+    mScreen(0)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+}
+
+//===========================================================================//
+void PosixGlobalHandler::initializeGlobal()
+{
+    mDisplay = XOpenDisplay(0);
+    mScreen = DefaultScreen(mDisplay);
+    XSetErrorHandler(GlobalErrorHandler);
+}
+
+//===========================================================================//
+void PosixGlobalHandler::shutdownGlobal()
+{
+    XCloseDisplay(mDisplay);
+    mDisplay = nullptr;
+    mScreen = 0;
+}
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os, const PosixGlobalHandler& handler)
+{
+    if (handler.get())
     {
-        throw std::runtime_error("SDL could not initialize. SDL_Error: " +
-                std::string(SDL_GetError()));
+        os << "X11 is running";
     }
-}
-
-//===========================================================================//
-void GlobalHandler::shutdownGlobal()
-{
-    SDL_Quit();
-}
-
-//===========================================================================//
-std::ostream& operator<<(std::ostream& os, const GlobalHandler& handler)
-{
-    const uint32_t subsystems = SDL_WasInit(SDL_INIT_EVERYTHING);
-    os << "SDL Global Handler Status:\n"
-       << "  Audio: " << subsystemOstream(subsystems, SDL_INIT_AUDIO) << "\n"
-       << "  Events: " << subsystemOstream(subsystems, SDL_INIT_EVENTS) << "\n"
-       << "  Game Controller: "
-       << subsystemOstream(subsystems, SDL_INIT_GAMECONTROLLER) << "\n"
-       << "  Haptic: " << subsystemOstream(subsystems, SDL_INIT_HAPTIC) << "\n"
-       << "  Joystick: "
-       << subsystemOstream(subsystems, SDL_INIT_JOYSTICK) << "\n"
-       << "  No Parachute: "
-       << subsystemOstream(subsystems, SDL_INIT_NOPARACHUTE) << "\n"
-       << "  Timer: " << subsystemOstream(subsystems, SDL_INIT_TIMER) << "\n"
-       << "  Video: " << subsystemOstream(subsystems, SDL_INIT_VIDEO);
+    else
+    {
+        os << "X11 is shutdown";
+    }
     return os;
+}
 }
 }
 }

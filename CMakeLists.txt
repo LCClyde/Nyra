@@ -72,8 +72,8 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
 find_package(Boost 1.63.0 REQUIRED COMPONENTS serialization filesystem system)
 find_package(Qt5Widgets)
-find_package(X11 REQUIRED)
-find_package(OpenCV REQUIRED)
+find_package(X11)
+find_package(OpenCV)
 include_directories(${CMAKE_INCLUDE_OUTPUT_DIRECTORY})
 
 # SDL does not references includes from its directory, so it needs to be

@@ -19,44 +19,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/sdl/GlobalHandler.h>
+#ifndef __NYRA_WIN_NATIVE_WINDOW_H__
+#define __NYRA_WIN_NATIVE_WINDOW_H__
+
+#ifdef NYRA_POSIX
+#include <nyra/win/native/WindowPosix.h>
+#endif
 
 namespace nyra
 {
-namespace sdl
+namespace win
 {
-TEST(GlobalHandler, Stdout)
+namespace native
 {
-    GlobalHandler handler;
-    const std::string expectedOffResults =
-            "SDL Global Handler Status:\n"
-            "  Audio: stopped\n"
-            "  Events: stopped\n"
-            "  Game Controller: stopped\n"
-            "  Haptic: stopped\n"
-            "  Joystick: stopped\n"
-            "  No Parachute: stopped\n"
-            "  Timer: stopped\n"
-            "  Video: stopped";
-    EXPECT_EQ(test::stdout(handler), expectedOffResults);
-
-    handler.initialize();
-    const std::string expectedOnResults =
-            "SDL Global Handler Status:\n"
-            "  Audio: stopped\n"
-            "  Events: running\n"
-            "  Game Controller: stopped\n"
-            "  Haptic: stopped\n"
-            "  Joystick: stopped\n"
-            "  No Parachute: stopped\n"
-            "  Timer: stopped\n"
-            "  Video: running";
-    EXPECT_EQ(test::stdout(handler), expectedOnResults);
-    handler.shutdown();
-    EXPECT_EQ(test::stdout(handler), expectedOffResults);
+#ifdef NYRA_POSIX
+typedef WindowPosix Window;
+#endif
 }
 }
 }
 
-NYRA_TEST()
+#endif
