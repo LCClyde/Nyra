@@ -19,4 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(EXT_DEPS ${Boost_SYSTEM_LIBRARY} PARENT_SCOPE)
+set(MOD_DEPS win.native PARENT_SCOPE)
+set(EXT_DEPS ${Boost_SYSTEM_LIBRARY} ${X11_LIBRARIES} PARENT_SCOPE)

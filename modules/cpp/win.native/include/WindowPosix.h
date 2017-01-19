@@ -61,6 +61,14 @@ public:
                 const math::Vector2I& position = math::Vector2I(0, 0));
 
     /*
+     *  \func Constructor
+     *  \brief Wrap an existing window into the nyra interface.
+     *
+     *  \param window A valid X11 window.
+     */
+    WindowPosix(::Window window);
+
+    /*
      *  \func load
      *  \brief Initializes a window. The window is considered invalid until
      *         this has been called. If the constructor with parameters is

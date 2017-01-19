@@ -44,6 +44,12 @@ WindowPosix::WindowPosix(const std::string& name,
 }
 
 //===========================================================================//
+WindowPosix::WindowPosix(::Window window) :
+    mWindow(window)
+{
+}
+
+//===========================================================================//
 void WindowPosix::load(const std::string& name,
                        const math::Vector2U& size,
                        const math::Vector2I& position)
@@ -116,7 +122,7 @@ bool WindowPosix::isOpen() const
 //===========================================================================//
 void WindowPosix::close()
 {
-    if (mWindow)
+    if (mWindow && isOpen())
     {
         XDestroyWindow(getGlobalInstance().get(), mWindow);
         mWindow = 0;
