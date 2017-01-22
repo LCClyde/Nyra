@@ -31,16 +31,37 @@ namespace nyra
 {
 namespace mem
 {
+/*
+ *  \class Tree
+ *  \brief Class meant to mimic the functionality you can get from a Python
+ *         dict / list. This supports both vector and map operations
+ *         in a single container.
+ *
+ *  \tparam TypeT The element type. This can be a base class.
+ */
 template <typename TypeT>
 class Tree
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Sets up the root node.
+     */
     Tree() :
         mParent(nullptr),
         mRoot(this)
     {
     }
 
+    /*
+     *  \func Index operator
+     *  \brief Gets the node at an index.
+     *         If the node does not exist an attempt will be made to create it.
+     *         This node must be set for that to finish.
+     *
+     *  \param index The desired node
+     *  \return The node.
+     */
     Tree<TypeT>& operator[](const std::string& index)
     {
         validate();
@@ -48,6 +69,13 @@ public:
         return (*mMap[index]);
     }
 
+    /*
+     *  \func Index operator
+     *  \brief Gets the node at an index.
+     *
+     *  \param index The desired node
+     *  \return The node.
+     */
     const Tree<TypeT>& operator[](const std::string& index) const
     {
         validate();
@@ -59,6 +87,15 @@ public:
         return *iter->second;
     }
 
+    /*
+     *  \func Index operator
+     *  \brief Gets the node at an index.
+     *         If the node does not exist an attempt will be made to create it.
+     *         This node must be set for that to finish.
+     *
+     *  \param index The desired node
+     *  \return The node.
+     */
     Tree<TypeT>& operator[](size_t index)
     {
         validate();
@@ -66,6 +103,13 @@ public:
         return *mList[index];
     }
 
+    /*
+     *  \func Index operator
+     *  \brief Gets the node at an index.
+     *
+     *  \param index The desired node
+     *  \return The node.
+     */
     const Tree<TypeT>& operator[](size_t index) const
     {
         validate();
@@ -150,6 +194,21 @@ public:
         return keys;
     }
 
+    /*
+     *  \func size
+     *  \brief Gets the size of the list component.
+     *
+     *  \return The size of the list.
+     */
+    size_t size() const
+    {
+        return mList.size();
+    }
+
+    /*
+     *  \event onChildAdded
+     *  \brief Occurs when a new child is added or a parent node is changed.
+     */
     core::Event<void(TypeT* parent, TypeT& child)> onChildAdded;
 
 private:

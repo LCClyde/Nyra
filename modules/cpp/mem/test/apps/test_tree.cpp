@@ -61,6 +61,7 @@ TEST(Tree, Nodes)
         node["a"]["b"][ii]["map"] = new std::string(mapStr);
         EXPECT_EQ(indexStr, node["a"]["b"][ii].get());
         EXPECT_EQ(mapStr, node["a"]["b"][ii]["map"].get());
+        EXPECT_EQ(ii + 1, node["a"]["b"].size());
     }
 
     const Tree<std::string>& constNode = node;
