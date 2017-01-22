@@ -19,7 +19,7 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS input win pattern core PARENT_SCOPE)
+set(MOD_DEPS input win mem core PARENT_SCOPE)
 set(EXT_DEPS ${OIS} PARENT_SCOPE)
 set(TEST_DEPS win.ogre PARENT_SCOPE)
 set(APP_DEPS win.ogre win.qt gui.qt PARENT_SCOPE)

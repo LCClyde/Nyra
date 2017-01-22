@@ -26,7 +26,7 @@
 #include <SDL.h>
 #include <nyra/win/Window.h>
 #include <nyra/sdl/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -40,7 +40,7 @@ namespace sdl
  *         nyra interface for Windows.
  */
 class Window : public nyra::win::Window,
-        private pattern::GlobalDependency<nyra::sdl::GlobalHandler>
+        private mem::GlobalDependency<nyra::sdl::GlobalHandler>
 {
 public:
     /*

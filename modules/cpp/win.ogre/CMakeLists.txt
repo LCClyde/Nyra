@@ -19,4 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS win ogre pattern PARENT_SCOPE)
+set(MOD_DEPS win ogre mem PARENT_SCOPE)

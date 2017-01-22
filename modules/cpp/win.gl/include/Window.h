@@ -25,7 +25,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <nyra/win/Window.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/gl/GlobalHandler.h>
 
 namespace nyra
@@ -40,7 +40,7 @@ namespace gl
  *         nyra interface for Windows.
  */
 class Window : public nyra::win::Window,
-        private nyra::pattern::GlobalDependency<nyra::gl::GlobalHandler>
+        private nyra::mem::GlobalDependency<nyra::gl::GlobalHandler>
 {
 public:
     /*

@@ -24,7 +24,7 @@
 
 #include <nyra/gui/Gui.h>
 #include <nyra/gui/cegui/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -37,7 +37,7 @@ namespace cegui
  *  \brief A base class that holds a CEGUI Gui.
  */
 class Gui : public gui::Gui,
-        private pattern::GlobalDependency<GlobalHandler>
+        private mem::GlobalDependency<GlobalHandler>
 {
 public:
     /*

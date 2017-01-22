@@ -19,15 +19,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_PATTERN_GLOBAL_UPDATE_H__
-#define __NYRA_PATTERN_GLOBAL_UPDATE_H__
+#ifndef __NYRA_MEM_GLOBAL_UPDATE_H__
+#define __NYRA_MEM_GLOBAL_UPDATE_H__
 
 #include <unordered_set>
 #include <ostream>
 
 namespace nyra
 {
-namespace pattern
+namespace mem
 {
 /*
  *  \class GlobalUpdate

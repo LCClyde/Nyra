@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -24,33 +24,6 @@
 
 namespace
 {
-class TestNode
-{
-public:
-    TestNode() = default;
-
-    TestNode(const std::string& value) :
-        value(value)
-    {
-    }
-
-    bool operator==(const TestNode& other) const
-    {
-        return value == other.value;
-    }
-
-    std::string value;
-
-private:
-    NYRA_SERIALIZE()
-
-    template<class Archive>
-    void serialize(Archive& archive, const unsigned int version)
-    {
-        archive & value;
-    }
-};
-
 static std::string* globalParent = nullptr;
 static std::string globalChild;
 void onChildAddedFunc(std::string* parent, std::string& child)
@@ -72,9 +45,6 @@ TEST(Tree, Nodes)
     node["a"] = new std::string("The letter a");
     EXPECT_EQ("The letter a", node["a"].get());
 
-    node["a"] = new std::string("The letter a");
-    EXPECT_EQ("The letter a", node["a"].get());
-
     // Throw if you try to add unallocated nested nodes
     EXPECT_THROW(node["a"]["b"]["c"]["d"], std::runtime_error);
 
@@ -83,11 +53,23 @@ TEST(Tree, Nodes)
     node["a"]["b"]["c"]["d"] = new std::string("Nested");
     EXPECT_EQ("Nested", node["a"]["b"]["c"]["d"].get());
 
+    for (size_t ii = 0; ii < 10; ++ii)
+    {
+        const std::string indexStr = "Index: " + std::to_string(ii);
+        const std::string mapStr = "Map: " + std::to_string(ii);
+        node["a"]["b"][ii] = new std::string(indexStr);
+        node["a"]["b"][ii]["map"] = new std::string(mapStr);
+        EXPECT_EQ(indexStr, node["a"]["b"][ii].get());
+        EXPECT_EQ(mapStr, node["a"]["b"][ii]["map"].get());
+    }
+
     const Tree<std::string>& constNode = node;
     EXPECT_EQ("The letter a", constNode["a"].get());
+    EXPECT_EQ("Index: 1", constNode["a"]["b"][1].get());
 
     // Accessing a unknown node in a const node should throw
     EXPECT_THROW(constNode["a2"], std::runtime_error);
+    EXPECT_THROW(constNode["a"][3], std::runtime_error);
 }
 
 TEST(Tree, OnChild)
@@ -105,25 +87,6 @@ TEST(Tree, OnChild)
     node["a"]["b"] = new std::string("Testing B");
     EXPECT_EQ("Testing A", *globalParent);
     EXPECT_EQ("Testing B", globalChild);
-}
-
-TEST(Tree, Stdout)
-{
-    Tree<std::string> node;
-    EXPECT_EQ("{ }", test::stdout(node));
-
-    node["a"] = new std::string();
-    EXPECT_EQ("{ a : { } }", test::stdout(node));
-
-    node["b"] = new std::string();
-    node["c"] = new std::string();
-    node["a"]["d"] = new std::string();
-    node["a"]["e"] = new std::string();
-    node["a"]["g"] = new std::string();
-
-    // The order of the nodes cannot be known, so we just check the size
-    // of the string
-    EXPECT_EQ(static_cast<size_t>(63), test::stdout(node).size());
 }
 }
 }

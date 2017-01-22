@@ -24,7 +24,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -35,7 +35,7 @@ namespace gl
  *  \brief Handles the OpenGL global init and shutdown commands. All OpenGL
  *         classes should add a GlobalDependency to this class.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class GlobalHandler : public mem::GlobalHandler
 {
 public:
 private:

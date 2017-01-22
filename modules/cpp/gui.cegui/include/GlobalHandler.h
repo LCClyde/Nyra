@@ -23,7 +23,7 @@
 #define __NYRA_GUI_CEGUI_GLOBAL_HANDLER_H__
 
 #include <CEGUI/RendererModules/OpenGL/GLRenderer.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -36,7 +36,7 @@ namespace cegui
  *  \brief Handles the CEGUI global init and shutdown commands. All CEGUI
  *         classes should add a GlobalDependency to this class.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class GlobalHandler : public mem::GlobalHandler
 {
 public:
     /*

@@ -24,7 +24,7 @@
 
 #include <memory>
 #include <OgreRoot.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -35,7 +35,7 @@ namespace ogre
  *  \brief Handles the SDL global init and shutdown commands. All SDL classes
  *         should add a GlobalDependency to this class.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class GlobalHandler : public mem::GlobalHandler
 {
 public:
     /*

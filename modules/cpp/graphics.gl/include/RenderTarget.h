@@ -24,7 +24,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/gl/GlobalHandler.h>
 #include <nyra/graphics/RenderTarget.h>
 
@@ -39,7 +39,7 @@ namespace gl
  *  \brief Render target for OpenGL.
  */
 class RenderTarget : public graphics::RenderTarget,
-        private nyra::pattern::GlobalDependency<nyra::gl::GlobalHandler>
+        private nyra::mem::GlobalDependency<nyra::gl::GlobalHandler>
 {
 public:
     /*

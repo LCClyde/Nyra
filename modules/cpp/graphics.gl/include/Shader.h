@@ -24,7 +24,7 @@
 
 #include <string>
 #include <GL/glew.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/gl/GlobalHandler.h>
 
 namespace nyra
@@ -38,7 +38,7 @@ namespace gl
  *  \brief Compiles and holds an OpenGL shader.
  */
 class Shader :
-        private nyra::pattern::GlobalDependency<nyra::gl::GlobalHandler>
+        private nyra::mem::GlobalDependency<nyra::gl::GlobalHandler>
 {
 public:
     /*

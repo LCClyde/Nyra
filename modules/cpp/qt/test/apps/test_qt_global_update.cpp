@@ -31,7 +31,7 @@ namespace qt
 // in QT. Just make sure it doesn't throw.
 TEST(GlobalUpdate, Update)
 {
-    pattern::GlobalDependency<GlobalHandler> app;
+    mem::GlobalDependency<GlobalHandler> app;
     globalUpdate(app);
 }
 }

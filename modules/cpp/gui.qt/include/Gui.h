@@ -24,7 +24,7 @@
 
 #include <nyra/gui/Gui.h>
 #include <nyra/qt/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/win/qt/Window.h>
 #include <QWidget>
 
@@ -39,7 +39,7 @@ namespace qt
  *  \brief A base class that holds a Qt Gui.
  */
 class Gui : public gui::Gui,
-        private pattern::GlobalDependency<nyra::qt::GlobalHandler>
+        private mem::GlobalDependency<nyra::qt::GlobalHandler>
 {
 public:
     /*

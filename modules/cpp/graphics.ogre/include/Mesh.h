@@ -25,7 +25,7 @@
 #include <OgreManualObject.h>
 #include <nyra/graphics/Mesh.h>
 #include <nyra/ogre/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -38,7 +38,7 @@ namespace ogre
  *  \brief A class that represents a 3D model.
  */
 class Mesh : public graphics::Mesh,
-        private pattern::GlobalDependency<nyra::ogre::GlobalHandler>
+        private mem::GlobalDependency<nyra::ogre::GlobalHandler>
 {
 public:
     /*

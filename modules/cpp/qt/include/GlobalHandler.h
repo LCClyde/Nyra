@@ -24,7 +24,7 @@
 
 #include <memory>
 #include <QApplication>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -41,7 +41,7 @@ namespace qt
  *         seem unnecessary as its state is dependent on the state of
  *         Window objects.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class GlobalHandler : public mem::GlobalHandler
 {
 public:
     /*

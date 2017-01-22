@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/win/ogre/Window.h>
-#include <nyra/pattern/GlobalUpdate.h>
+#include <nyra/mem/GlobalUpdate.h>
 #include <OgreWindowEventUtilities.h>
 
 namespace nyra
@@ -87,7 +87,7 @@ void Window::load(const std::string& name,
 //===========================================================================//
 void Window::update()
 {
-    static pattern::GlobalUpdate updater;
+    static mem::GlobalUpdate updater;
     if (updater.tryUpdate(this))
     {
         Ogre::WindowEventUtilities::messagePump();

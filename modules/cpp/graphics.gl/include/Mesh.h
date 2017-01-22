@@ -24,7 +24,7 @@
 
 #include <GL/glew.h>
 #include <nyra/graphics/Mesh.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/gl/GlobalHandler.h>
 #include <nyra/graphics/gl/Shader.h>
 
@@ -39,7 +39,7 @@ namespace gl
  *  \brief A class that represents a 3D model.
  */
 class Mesh : public graphics::Mesh,
-        private nyra::pattern::GlobalDependency<nyra::gl::GlobalHandler>
+        private nyra::mem::GlobalDependency<nyra::gl::GlobalHandler>
 {
 public:
     /*

@@ -24,7 +24,7 @@
 
 #include <nyra/win/Window.h>
 #include <nyra/win/native/PosixGlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -38,7 +38,7 @@ namespace native
  *         nyra interface for Windows.
  */
 class WindowPosix : public win::Window,
-        private pattern::GlobalDependency<PosixGlobalHandler>
+        private mem::GlobalDependency<PosixGlobalHandler>
 {
 public:
     /*

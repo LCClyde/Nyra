@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -24,53 +24,114 @@
 
 #include <vector>
 #include <string>
-#include <nyra/mem/TreeNode.h>
+#include <unordered_map>
 #include <nyra/core/Event.h>
 
 namespace nyra
 {
 namespace mem
 {
-/*
- *  \class Tree
- *  \brief Class that can be used to create a tree of arbitrary objects. This
- *         is meant to be used with inheritance and can reset branch nodes
- *         to new classes efficiently.
- *
- *  \tparam TypeT The base class of the tree
- */
 template <typename TypeT>
 class Tree
 {
 public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default empty tree.
-     */
     Tree() :
-        mRoot(nullptr, onChildAdded)
+        mParent(nullptr),
+        mRoot(this)
     {
     }
 
+    Tree<TypeT>& operator[](const std::string& index)
+    {
+        validate();
+        expand(index);
+        return (*mMap[index]);
+    }
+
+    const Tree<TypeT>& operator[](const std::string& index) const
+    {
+        validate();
+        const auto iter = mMap.find(index);
+        if (iter == mMap.end())
+        {
+            throw std::runtime_error("Node: " + index + " does not exist.");
+        }
+        return *iter->second;
+    }
+
+    Tree<TypeT>& operator[](size_t index)
+    {
+        validate();
+        expand(index);
+        return *mList[index];
+    }
+
+    const Tree<TypeT>& operator[](size_t index) const
+    {
+        validate();
+
+        if (index >= mList.size())
+        {
+            throw std::runtime_error(
+                    "Index " + std::to_string(index) + " is out of bounds");
+        }
+
+        return *mList[index];
+    }
+
     /*
-     *  \func Index Operator
-     *  \brief Gets a node in the tree. If the node does not exist than the it
-     *         creates a NullT version.
+     *  \func get
+     *  \brief Gets the underlying object.
      *
+     *  \tparam RetT The return type of the object.
+     *  \return The object. This will be nullptr if it has never been
+     *          assigned.
      */
-    TreeNode<TypeT>& operator[](const std::string& index)
+    template <typename RetT = TypeT>
+    RetT& get()
     {
-        return mRoot[index];
+        RetT* ret = reinterpret_cast<RetT*>(mValue.get());
+
+        if (!ret)
+        {
+            throw std::runtime_error("Value has not been initialized");
+        }
+        return *ret;
     }
 
     /*
-     *  \func Index Operator
-     *  \brief Gets a node in the tree. If the node does not exist than this
-     *         will throw. Use the non-const version if you need to insert.
+     *  \func get
+     *  \brief Gets the underlying object.
+     *
+     *  \tparam RetT The return type of the object.
+     *  \return The object. This will be nullptr if it has never been
+     *          assigned.
      */
-    const TreeNode<TypeT>& operator[](const std::string& index) const
+    template <typename RetT = TypeT>
+    const RetT& get() const
     {
-        return mRoot[index];
+        RetT* ret = reinterpret_cast<RetT*>(mValue.get());
+
+        if (!ret)
+        {
+            throw std::runtime_error("Value has not been initialized");
+        }
+        return *ret;
+    }
+
+    /*
+     *  \func Assignment Operator
+     *  \brief Assigns a pointer to the node. The node will take ownership
+     *         of the pointer.
+     *
+     *  \param assignment The pointer to assign.
+     *  \return The node object.
+     */
+    Tree<TypeT>& operator=(TypeT* assignment)
+    {
+        mValue.reset(assignment);
+        childAdded();
+        return *this;
     }
 
     /*
@@ -81,36 +142,93 @@ public:
      */
     std::vector<std::string> keys() const
     {
-        return mRoot.keys();
+        std::vector<std::string> keys;
+        for (const auto& iter : mMap)
+        {
+            keys.push_back(iter.first);
+        }
+        return keys;
     }
 
-    /*
-     *  \var onChildAdded
-     *  \brief Event that is fired whenever a new child node is add anywhere
-     *         in the tree.
-     */
     core::Event<void(TypeT* parent, TypeT& child)> onChildAdded;
 
 private:
-    friend std::ostream& operator<<(std::ostream& os, const Tree<TypeT>& tree)
+    Tree(Tree<TypeT>* parent,
+         Tree<TypeT>* root) :
+        mParent(parent),
+        mRoot(root)
     {
-        const std::vector<std::string> keys = tree.keys();
-
-        if (keys.empty())
-        {
-            os << "{ }";
-        }
-        else
-        {
-            for (const std::string& key : keys)
-            {
-                os << "{ " << key << " : " << tree[key] << " }";
-            }
-        }
-        return os;
     }
 
-    TreeNode<TypeT> mRoot;
+    void childAdded()
+    {
+        mRoot->onChildAdded(
+                mParent ? mParent->mValue.get() : nullptr, *mValue.get());
+
+        // Loop through all the list children
+        for (size_t ii = 0; ii < mList.size(); ++ii)
+        {
+            if (mList[ii].get() && mList[ii]->mValue.get())
+            {
+                mList[ii]->mParent = this;
+                mRoot->onChildAdded(mValue.get(), (*mList[ii]->mValue.get()));
+            }
+        }
+
+        // Loop through all the map children
+        for (auto iter = mMap.begin(); iter != mMap.end(); ++iter)
+        {
+            if (iter->second.get() && iter->second.get()->mValue.get())
+            {
+                iter->second->mParent = this;
+                mRoot->onChildAdded(mValue.get(),
+                                    (*(iter->second->mValue.get())));
+            }
+        }
+    }
+
+    void expand(const std::string& index)
+    {
+        if (!(mMap[index].get()))
+        {
+            mMap[index].reset(new Tree<TypeT>(this, mRoot));
+        }
+    }
+
+    void expand(size_t index)
+    {
+        if (mList.size() <= index)
+        {
+            const size_t prevSize = mList.size();
+            mList.resize(index + 1);
+
+            for (size_t ii = prevSize; ii < mList.size(); ++ii)
+            {
+                mList[ii].reset(new Tree<TypeT>(this, mRoot));
+            }
+        }
+    }
+
+    void validate() const
+    {
+        // Do not allow creation of children nodes unless this is set.
+        if (!mValue.get() && mParent)
+        {
+            throw std::runtime_error(
+                    "Node is not set and cannot create children.");
+        }
+    }
+
+    typedef std::unordered_map<
+            std::string, std::shared_ptr<Tree<TypeT> > > Map;
+    typedef std::vector<std::shared_ptr<Tree<TypeT> > > List;
+
+    Map mMap;
+    List mList;
+    std::unique_ptr<TypeT> mValue;
+
+    Tree<TypeT>* mParent;
+    Tree<TypeT>* const mRoot;
 };
 }
 }

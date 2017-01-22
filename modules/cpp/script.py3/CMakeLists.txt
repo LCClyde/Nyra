@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS pattern script PARENT_SCOPE)
+set(MOD_DEPS mem script PARENT_SCOPE)
 set(EXT_DEPS ${PYTHON_LIBRARY} PARENT_SCOPE)

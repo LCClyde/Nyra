@@ -26,7 +26,7 @@
 #include <nyra/input/Keyboard.h>
 #include <nyra/win/Window.h>
 #include <nyra/input/ois/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -39,7 +39,7 @@ namespace ois
  *  \brief Class to represent user input from the Keyboard.
  */
 class Keyboard : public input::Keyboard,
-        private pattern::GlobalDependency<GlobalHandler>
+        private mem::GlobalDependency<GlobalHandler>
 {
 public:
     /*

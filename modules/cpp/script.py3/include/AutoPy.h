@@ -22,7 +22,7 @@
 #ifndef __NYRA_SCRIPT_PY3_AUTO_PY_H__
 #define __NYRA_SCRIPT_PY3_AUTO_PY_H__
 
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/script/py3/GlobalHandler.h>
 #include <Python.h>
 
@@ -38,7 +38,7 @@ namespace py3
  *         similar to an std::unique_ptr. It offers copy and move
  *         semantics.
  */
-class AutoPy : private nyra::pattern::GlobalDependency<
+class AutoPy : private nyra::mem::GlobalDependency<
         nyra::script::py3::GlobalHandler>
 {
 public:

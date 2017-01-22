@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS win pattern PARENT_SCOPE)
+set(MOD_DEPS win mem PARENT_SCOPE)
 set(EXT_DEPS ${X11_LIBRARIES} PARENT_SCOPE)

@@ -24,7 +24,7 @@
 
 #include <nyra/graphics/RenderTarget.h>
 #include <nyra/ogre/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <OgreRenderWindow.h>
 #include <OgreRectangle2D.h>
 
@@ -39,7 +39,7 @@ namespace ogre
  *  \brief Render target for Ogre.
  */
 class RenderTarget : public graphics::RenderTarget,
-        private pattern::GlobalDependency<nyra::ogre::GlobalHandler>
+        private mem::GlobalDependency<nyra::ogre::GlobalHandler>
 {
 public:
     /*

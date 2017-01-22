@@ -21,7 +21,7 @@
  */
 #include <nyra/gui/cegui/Gui.h>
 #include <nyra/gui/cegui/Widget.h>
-#include <nyra/pattern/GlobalUpdate.h>
+#include <nyra/mem/GlobalUpdate.h>
 #include <CEGUI/WindowManager.h>
 #include <CEGUI/widgets/FrameWindow.h>
 #include <iostream>
@@ -45,7 +45,7 @@ void Gui::update(double deltaTime)
 //===========================================================================//
 void Gui::render()
 {
-    static pattern::GlobalUpdate updater;
+    static mem::GlobalUpdate updater;
     if (updater.tryUpdate(this))
     {
         getGlobalInstance().getSystem()->renderAllGUIContexts();

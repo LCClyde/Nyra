@@ -20,16 +20,16 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/qt/GlobalUpdate.h>
-#include <nyra/pattern/GlobalUpdate.h>
+#include <nyra/mem/GlobalUpdate.h>
 
 namespace nyra
 {
 namespace qt
 {
 //===========================================================================//
-void globalUpdate(pattern::GlobalDependency<GlobalHandler>& qtResource)
+void globalUpdate(mem::GlobalDependency<GlobalHandler>& qtResource)
 {
-    static pattern::GlobalUpdate updater;
+    static mem::GlobalUpdate updater;
     if (updater.tryUpdate(&qtResource))
     {
         qtResource.getGlobalInstance().get()->processEvents();

@@ -24,7 +24,7 @@
 
 #include <unordered_map>
 #include <OIS/OISInputManager.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -41,7 +41,7 @@ namespace ois
  *         is running as it will be destroyed first and shutdown the devices
  *         under the hood.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class GlobalHandler : public mem::GlobalHandler
 {
 public:
     /*

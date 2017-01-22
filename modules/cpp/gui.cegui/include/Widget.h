@@ -25,7 +25,7 @@
 #include <nyra/gui/Widget.h>
 #include <CEGUI/Window.h>
 #include <nyra/gui/cegui/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -38,7 +38,7 @@ namespace cegui
  *  \brief A base class for CEGUI widgets.
  */
 class Widget : public virtual gui::Widget,
-        protected pattern::GlobalDependency<GlobalHandler>
+        protected mem::GlobalDependency<GlobalHandler>
 {
 public:
     /*

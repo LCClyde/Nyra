@@ -19,6 +19,6 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS gui pattern PARENT_SCOPE)
+set(MOD_DEPS gui mem PARENT_SCOPE)
 set(EXT_DEPS ${CEGUIBase} ${CEGUIOpenGLRenderer} PARENT_SCOPE)
 set(TEST_DEPS graphics.sfml win.sfml PARENT_SCOPE)

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,47 +19,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_PATTERN_SINGLETON_H__
-#define __NYRA_PATTERN_SINGLETON_H__
+#include <stdexcept>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
-namespace pattern
+namespace mem
 {
-/*
- *  \class Singleton
- *  \brief A wrapper to allow any class use the Singleton pattern. This
- *         should be used as a last resort or for 3rd party objects that
- *         enforce only a single instance. This class is meant to be abstract
- *         and never instantiated by itself.
- *
- *  \tparam T The class to create a Singleton object for.
- */
-template <typename T>
-class Singleton
+//===========================================================================//
+GlobalHandler::GlobalHandler() :
+    mHandles(0)
 {
-public:
-    /*
-     *  \func get
-     *  \brief Gets the underlying Singleton object
-     *
-     *  \return The Singleton.
-     */
-    static T& get()
+}
+
+//===========================================================================//
+void GlobalHandler::initialize()
+{
+    if (mHandles == 0)
     {
-        static T instance;
-        return instance;
+        initializeGlobal();
+    }
+    ++mHandles;
+}
+
+//===========================================================================//
+void GlobalHandler::shutdown()
+{
+    if (mHandles == 0)
+    {
+        throw std::runtime_error(
+            "Attempting to shutdown an uninitialized GlobalHandler\n");
     }
 
-private:
-    // This class should never be instantiated.
-    Singleton() = delete;
-    Singleton(const Singleton&) = delete;
-    Singleton(const Singleton&&) = delete;
-    Singleton& operator=(const Singleton&) = delete;
-    Singleton& operator=(const Singleton&&) = delete;
-    ~Singleton() = delete;
-};
+    --mHandles;
+
+    if (mHandles == 0)
+    {
+        shutdownGlobal();
+    }
+}
+
+//===========================================================================//
+std::ostream& operator<<(std::ostream& os, const GlobalHandler& handler)
+{
+    os << "Abstract Global Handler";
+    return os;
 }
 }
-#endif
+}

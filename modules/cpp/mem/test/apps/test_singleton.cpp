@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/pattern/Singleton.h>
+#include <nyra/mem/Singleton.h>
 
 namespace
 {
@@ -34,13 +34,13 @@ public:
 
     size_t count;
 
-    typedef nyra::pattern::Singleton<MockSingleton> Instance;
+    typedef nyra::mem::Singleton<MockSingleton> Instance;
 };
 }
 
 namespace nyra
 {
-namespace pattern
+namespace mem
 {
 TEST(Singleton, Singleton)
 {

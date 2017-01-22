@@ -24,7 +24,7 @@
 
 #include <nyra/gui/Widget.h>
 #include <nyra/qt/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <QWidget>
 
 namespace nyra
@@ -38,7 +38,7 @@ namespace qt
  *  \brief A base class for Qt widgets.
  */
 class Widget : public virtual gui::Widget,
-        protected pattern::GlobalDependency<nyra::qt::GlobalHandler>
+        protected mem::GlobalDependency<nyra::qt::GlobalHandler>
 {
 public:
     /*

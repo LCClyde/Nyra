@@ -25,7 +25,7 @@
 #include <memory>
 #include <QMainWindow>
 #include <nyra/win/Window.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/qt/GlobalHandler.h>
 #include <nyra/img/Image.h>
 
@@ -41,7 +41,7 @@ namespace qt
  *         nyra interface for Windows.
  */
 class Window : public nyra::win::Window,
-        private nyra::pattern::GlobalDependency<nyra::qt::GlobalHandler>
+        private nyra::mem::GlobalDependency<nyra::qt::GlobalHandler>
 {
 public:
     /*

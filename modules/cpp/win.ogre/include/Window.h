@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -25,7 +25,7 @@
 #include <OgreRenderWindow.h>
 #include <nyra/win/Window.h>
 #include <nyra/ogre/GlobalHandler.h>
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
@@ -49,7 +49,7 @@ namespace ogre
  *                  Instead use a Qt window.
  */
 class Window : public nyra::win::Window,
-        private pattern::GlobalDependency<nyra::ogre::GlobalHandler>
+        private mem::GlobalDependency<nyra::ogre::GlobalHandler>
 {
 public:
     Window();

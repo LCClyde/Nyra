@@ -22,7 +22,7 @@
 #ifndef __NYRA_QT_GLOBAL_UPDATE_H__
 #define __NYRA_QT_GLOBAL_UPDATE_H__
 
-#include <nyra/pattern/GlobalDependency.h>
+#include <nyra/mem/GlobalDependency.h>
 #include <nyra/qt/GlobalHandler.h>
 
 namespace nyra
@@ -35,7 +35,7 @@ namespace qt
  *
  *  \param qtResource A QT global dependency that needs to be updated.
  */
-void globalUpdate(pattern::GlobalDependency<GlobalHandler>& qtResource);
+void globalUpdate(mem::GlobalDependency<GlobalHandler>& qtResource);
 }
 }
 

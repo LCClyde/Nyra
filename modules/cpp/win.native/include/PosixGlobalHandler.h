@@ -23,7 +23,7 @@
 #define __NYRA_WIN_NATIVE_POSIX_GLOBAL_HANDLER_H__
 
 #include <X11/Xlib.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -35,7 +35,7 @@ namespace native
  *  \class PosixGlobalHandler
  *  \brief Holds the X11 Display server.
  */
-class PosixGlobalHandler : public pattern::GlobalHandler
+class PosixGlobalHandler : public mem::GlobalHandler
 {
 public:
     /*

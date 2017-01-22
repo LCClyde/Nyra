@@ -26,7 +26,7 @@
 namespace
 {
 //===========================================================================//
-class FindWindow : private nyra::pattern::GlobalDependency<
+class FindWindow : private nyra::mem::GlobalDependency<
         nyra::win::native::PosixGlobalHandler>
 {
 public:

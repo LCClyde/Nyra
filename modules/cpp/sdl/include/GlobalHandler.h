@@ -23,7 +23,7 @@
 #define __NYRA_SDL_GLOBAL_HANDLER_H__
 
 #include <SDL.h>
-#include <nyra/pattern/GlobalHandler.h>
+#include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
 {
@@ -34,7 +34,7 @@ namespace sdl
  *  \brief Handles the SDL global init and shutdown commands. All SDL classes
  *         should add a GlobalDependency to this class.
  */
-class GlobalHandler : public pattern::GlobalHandler
+class GlobalHandler : public mem::GlobalHandler
 {
 private:
     void initializeGlobal() override;
