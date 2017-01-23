@@ -164,6 +164,17 @@ public:
     }
 
     /*
+     *  \func valid
+     *  \brief Returns true if the node is properly set
+     *
+     *  \return true if the node is valid and you can call get().
+     */
+    bool valid() const
+    {
+        return mValue.get();
+    }
+
+    /*
      *  \func Assignment Operator
      *  \brief Assigns a pointer to the node. The node will take ownership
      *         of the pointer.

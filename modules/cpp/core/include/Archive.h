@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -73,7 +73,7 @@ NYRA_SERIALIZE() \
 BOOST_SERIALIZATION_SPLIT_MEMBER()
 
 /*
- *  \func writeArchive
+ *  \func write
  *  \brief Serializes an object to disk
  *
  *  \tparam The object type
@@ -82,9 +82,9 @@ BOOST_SERIALIZATION_SPLIT_MEMBER()
  *  \param type The archive formate type
  */
 template <typename T>
-void writeArchive(const T& data,
-                  const std::string& pathname,
-                  ArchiveType type = TEXT)
+void write(const T& data,
+           const std::string& pathname,
+           ArchiveType type = TEXT)
 {
     switch (type)
     {
@@ -113,19 +113,19 @@ void writeArchive(const T& data,
 }
 
 /*
- *  \func readArchive
+ *  \func read
  *  \brief Deserializes an object from disk. This version can be used
  *         on objects that can be assigned to.
  *
  *  \tparam T The object type
  *  \param pathname The file to read
  *  \param [OUTPUT] The data to load into
- *  \param type The archive formate type
+ *  \param type The archive format type
  */
 template <typename T>
-void readArchive(const std::string& pathname,
-                 T& data,
-                 ArchiveType type = TEXT)
+void read(const std::string& pathname,
+          T& data,
+          ArchiveType type = TEXT)
 {
     switch (type)
     {
@@ -154,20 +154,20 @@ void readArchive(const std::string& pathname,
 }
 
 /*
- *  \func readArchive
+ *  \func read
  *  \brief Deserializes an object from disk.
  *
  *  \tparam T The object type
  *  \param pathname The file to read
  *  \return The deserialzed object
- *  \param type The archive formate type
+ *  \param type The archive format type
  */
 template <typename T>
-T readArchive(const std::string& pathname,
-              ArchiveType type = TEXT)
+T read(const std::string& pathname,
+       ArchiveType type = TEXT)
 {
     T data;
-    readArchive(pathname, data, type);
+    read(pathname, data, type);
     return data;
 }
 }

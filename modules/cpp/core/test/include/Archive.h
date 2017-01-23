@@ -44,8 +44,8 @@ namespace test
 template <typename T>
 T archive(const T& input, const std::string& tempPathname = "temp")
 {
-    core::writeArchive<T>(input, tempPathname);
-    T output = core::readArchive<T>(tempPathname);
+    core::write<T>(input, tempPathname);
+    T output = core::read<T>(tempPathname);
     std::remove(tempPathname.c_str());
     return output;
 }

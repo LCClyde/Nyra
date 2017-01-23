@@ -217,11 +217,11 @@ TEST(Image, Archive)
     EXPECT_EQ(test::archive(imageRand), imageRand);
 
     // Test round trip with an actual 3rd party created png.
-    Image imageRoundTrip = core::readArchive<Image>(core::path::join(
+    Image imageRoundTrip = core::read<Image>(core::path::join(
             core::DATA_PATH, "textures/test_png.png"));
     EXPECT_EQ(test::archive(imageRoundTrip), imageRoundTrip);
 
-    EXPECT_ANY_THROW(core::readArchive<img::Image>("something_that_does_not_exist.png"));
+    EXPECT_ANY_THROW(core::read<img::Image>("something_that_does_not_exist.png"));
 }
 }
 }

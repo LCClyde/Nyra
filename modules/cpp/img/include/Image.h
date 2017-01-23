@@ -202,7 +202,7 @@ private:
 namespace core
 {
 /*
- *  \func writeArchive
+ *  \func write
  *  \brief Writes an image to file. This overrides the traditional calls to
  *         serialize to specialize this for png files.
  *
@@ -212,12 +212,12 @@ namespace core
  *         else
  */
 template <>
-void writeArchive<img::Image>(const img::Image& image,
-                              const std::string& pathname,
-                              core::ArchiveType type);
+void write<img::Image>(const img::Image& image,
+                       const std::string& pathname,
+                       core::ArchiveType type);
 
 /*
- *  \func readArchive
+ *  \func read
  *  \brief Reads an image to file. This overrides the traditional calls to
  *         serialize to specialize this for png files.
  *
@@ -227,9 +227,9 @@ void writeArchive<img::Image>(const img::Image& image,
  *         else
  */
 template <>
-void readArchive<img::Image>(const std::string& pathname,
-                             img::Image& image,
-                             core::ArchiveType type);
+void read<img::Image>(const std::string& pathname,
+                      img::Image& image,
+                      core::ArchiveType type);
 }
 }
 

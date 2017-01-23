@@ -53,7 +53,7 @@ TEST(Event, Call)
 
     // TODO: This works on Linux, it will probably be different on
     //       other platforms.
-    img::Image truth = core::readArchive<img::Image>(core::path::join(
+    img::Image truth = core::read<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_qt_label.png"));
     EXPECT_EQ(truth, window.getPixels());
 

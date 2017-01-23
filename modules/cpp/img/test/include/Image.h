@@ -45,7 +45,7 @@ namespace test
 inline bool compareImage(const img::Image& image,
                          const std::string& textureName)
 {
-    img::Image compare = core::readArchive<img::Image>(
+    img::Image compare = core::read<img::Image>(
             core::path::join(core::DATA_PATH, "textures/" + textureName));
     return image == compare;
 }

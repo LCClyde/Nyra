@@ -43,7 +43,7 @@ int main(int argc, char** argv)
         media::FileToName lut;
         if (core::path::exists(argv[1]))
         {
-            core::readArchive<media::FileToName>(argv[1], lut, core::XML);
+            core::read<media::FileToName>(argv[1], lut, core::XML);
         }
         else
         {
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 
         lut[filename] = argv[3];
 
-        core::writeArchive(lut, argv[1], core::XML);
+        core::write(lut, argv[1], core::XML);
     }
     catch (const std::exception& ex)
     {

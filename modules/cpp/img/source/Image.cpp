@@ -316,18 +316,18 @@ namespace core
 {
 //===========================================================================//
 template <>
-void writeArchive<img::Image>(const img::Image& image,
-                              const std::string& pathname,
-                              core::ArchiveType)
+void write<img::Image>(const img::Image& image,
+                       const std::string& pathname,
+                       core::ArchiveType)
 {
     PNGWriter(image, pathname);
 }
 
 //===========================================================================//
 template <>
-void readArchive<img::Image>(const std::string& pathname,
-                             img::Image& image,
-                              core::ArchiveType)
+void read<img::Image>(const std::string& pathname,
+                      img::Image& image,
+                      core::ArchiveType)
 {
     if (!core::path::exists(pathname))
     {

@@ -55,7 +55,7 @@ TEST(Event, Call)
     target.flush();
 
     // TODO: This looks incorrect. It needs to be fixed.
-    img::Image truth = core::readArchive<img::Image>(core::path::join(
+    img::Image truth = core::read<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_cegui_label.png"));
     EXPECT_EQ(truth, target.getPixels());
 }

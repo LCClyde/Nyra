@@ -43,7 +43,7 @@ int main(int argc, char** argv)
         media::NameToMediaFiles lut;
         if (core::path::exists(argv[1]))
         {
-            core::readArchive<media::NameToMediaFiles>(argv[1], lut, core::XML);
+            core::read<media::NameToMediaFiles>(argv[1], lut, core::XML);
         }
         else
         {
@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 
         lut[argv[2]] = game;
 
-        core::writeArchive(lut, argv[1], core::XML);
+        core::write(lut, argv[1], core::XML);
     }
     catch (const std::exception& ex)
     {

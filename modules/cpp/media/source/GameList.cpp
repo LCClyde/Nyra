@@ -43,10 +43,10 @@ GameList::GameList(const std::string& pathname,
             core::path::listDirectory(pathname);
     const std::string serialDir = core::path::join(mDataDir, "serial");
 
-    FileToName fileToName = core::readArchive<FileToName>(core::path::join(
+    FileToName fileToName = core::read<FileToName>(core::path::join(
             serialDir, mPlatform + "_file_to_name.xml"), core::XML);
 
-    NameToMediaFiles nameToMediaFiles = core::readArchive<NameToMediaFiles>(
+    NameToMediaFiles nameToMediaFiles = core::read<NameToMediaFiles>(
             core::path::join(serialDir, mPlatform + "_name_to_media_files.xml"),
             core::XML);
 

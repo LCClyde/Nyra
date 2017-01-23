@@ -73,7 +73,7 @@ TEST(Event, Call)
 
     // TODO: This works on Linux, it will probably be different on
     //       other platforms.
-    img::Image truth = core::readArchive<img::Image>(core::path::join(
+    img::Image truth = core::read<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_qt_slider_0_0.png"));
     EXPECT_EQ(truth, window.getPixels());
     EXPECT_NEAR(0.0, slider->getValue(), 0.000001);
@@ -85,7 +85,7 @@ TEST(Event, Call)
 
     // TODO: This works on Linux, it will probably be different on
     //       other platforms.
-    truth = core::readArchive<img::Image>(core::path::join(
+    truth = core::read<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_qt_slider_0_5.png"));
     EXPECT_EQ(truth, window.getPixels());
     EXPECT_NEAR(0.5, slider->getValue(), 0.000001);
@@ -97,7 +97,7 @@ TEST(Event, Call)
 
     // TODO: This works on Linux, it will probably be different on
     //       other platforms.
-    truth = core::readArchive<img::Image>(core::path::join(
+    truth = core::read<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_qt_slider_1_0.png"));
     EXPECT_EQ(truth, window.getPixels());
     EXPECT_NEAR(1.0, slider->getValue(), 0.000001);

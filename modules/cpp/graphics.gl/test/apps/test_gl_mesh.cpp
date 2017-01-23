@@ -56,7 +56,7 @@ TEST(OpenGLRenderTarget, Temp)
     mesh.render(target);
     target.flush();
 
-    img::Image image = core::readArchive<img::Image>(core::path::join(
+    img::Image image = core::read<img::Image>(core::path::join(
             core::DATA_PATH, "textures/test_gl_mesh.png"));
     EXPECT_EQ(image, target.getPixels());
 }

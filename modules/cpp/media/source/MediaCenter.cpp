@@ -30,7 +30,7 @@ namespace media
 {
 //===========================================================================//
 MediaCenter::MediaCenter(double scale) :
-    mPlatformToBinary(core::readArchive<PlatformToBinary>(
+    mPlatformToBinary(core::read<PlatformToBinary>(
             "/home/clyde/workspace/Nyra/media_data/serial/platform.xml",
             core::XML)),
     mPlatform("nes"),

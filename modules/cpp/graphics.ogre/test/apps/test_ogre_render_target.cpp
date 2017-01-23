@@ -59,7 +59,7 @@ TEST_F(TestOgreRenderTarget, Stdout)
         target.clear(img::Color(255, 0, 0));
         target.flush();
     }
-    core::writeArchive(target.getPixels(), "test.png");
+    core::write(target.getPixels(), "test.png");
 }*/
 }
 }
