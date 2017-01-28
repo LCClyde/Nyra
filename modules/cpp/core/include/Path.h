@@ -87,6 +87,21 @@ bool exists(const std::string& pathname);
  *         TODO: Add recurse and a directory flag when necessary.
  */
 std::vector<std::string> listDirectory(const std::string& pathname);
+
+/*
+ *  \func getExtension
+ *  \brief Returns the extension of a pathname. If the pathname does not
+ *         have an extension, an empty string is returned.
+ *
+ *  \param pathname The pathname to pull the extension.
+ *  \param iterations The maximum number of extensions to pull. If this is
+ *         set to 0 all extensions are pulled. For example to get foo.tar.gz
+ *         to return .tar.gz you need to set this to at least 2.
+ *  \return The extension with the leading period or an empty string if
+ *          there is no extension.
+ */
+std::string getExtension(const std::string& pathname,
+                         size_t iterations = 0);
 }
 }
 }

@@ -111,6 +111,20 @@ TEST(Path, ListDirectory)
     EXPECT_ANY_THROW(listDirectory(join(
             DATA_PATH, "misc/test_list_directory/foo")));
 }
+
+TEST(Path, Extension)
+{
+    EXPECT_EQ("", getExtension("."));
+    EXPECT_EQ(".txt", getExtension("test.txt"));
+    EXPECT_EQ(".txt", getExtension("/my/full/path/test.txt"));
+    EXPECT_EQ(".txt", getExtension("C:\\my\\full\\path\\test.txt"));
+    EXPECT_EQ(".txt", getExtension("/my/full.extra/path/test.txt"));
+    EXPECT_EQ("", getExtension("/my/full.extra/path/test"));
+    EXPECT_EQ(".tar.gz", getExtension("test.tar.gz"));
+    EXPECT_EQ(".gz", getExtension("test.tar.gz", 1));
+    EXPECT_EQ(".really.long.ext.foo.bar",
+              getExtension("test.really.long.ext.foo.bar"));
+}
 }
 }
 }

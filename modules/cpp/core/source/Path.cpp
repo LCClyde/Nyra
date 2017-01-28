@@ -32,6 +32,7 @@ namespace
 {
 //! TODO: Implement this for other platforms
 #ifdef NYRA_POSIX
+//===========================================================================//
 std::string getApplicationPath()
 {
     char buff[PATH_MAX];
@@ -41,6 +42,7 @@ std::string getApplicationPath()
     return find != std::string::npos ? ret.substr(0, find + 1) : ret;
 }
 #else
+//===========================================================================//
 std::string getApplicationPath()
 {
     throw std::runtime_error(
@@ -120,6 +122,27 @@ std::vector<std::string> listDirectory(const std::string& pathname)
     }
 
     return ret;
+}
+
+//===========================================================================//
+std::string getExtension(const std::string& pathname,
+                         size_t iterations)
+{
+    std::string extension;
+    std::string fullExtension;
+    boost::filesystem::path base = pathname;
+    size_t iter = 0;
+
+    do
+    {
+        extension = boost::filesystem::extension(base);
+        fullExtension = extension + fullExtension;
+        base = base.stem();
+        ++iter;
+    }
+    while (!extension.empty()  && (iter < iterations || !iterations));
+
+    return fullExtension;
 }
 }
 }
