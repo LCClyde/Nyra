@@ -117,6 +117,7 @@ TEST(XML, Stdout)
             "</main>\n";
 
     EXPECT_EQ(expected, results);
+    std::remove("xml_round_trip.xml");
 }
 }
 }
