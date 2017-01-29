@@ -43,7 +43,32 @@ namespace core
 std::string findAndReplace(std::string input,
                            const std::string& find,
                            const std::string& replace);
+
+/*
+ *  \func toString
+ *  \brief Converts a basic type to a string.
+ *
+ *  \tparam T The type to convert
+ *  \param value The value to convert
+ *  \return The string representation of the value.
+ */
+template<typename T>
+std::string toString(const T& value);
+
+/*
+ *  \func toType
+ *  \brief Converts a string to a type
+ *
+ *  \tparam T The desired type
+ *  \param s The string to covert
+ *  \return The value
+ *  \throw If the string cannot be converted.
+ */
+template<typename T>
+T toType(const std::string& s);
 }
 }
+
+#include <nyra/core/String.hpp>
 
 #endif

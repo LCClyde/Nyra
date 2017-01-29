@@ -26,6 +26,7 @@ namespace nyra
 {
 namespace core
 {
+//===========================================================================//
 TEST(String, FindAndReplace)
 {
     {
@@ -42,6 +43,34 @@ TEST(String, FindAndReplace)
     }
 }
 
+//===========================================================================//
+TEST(String, toString)
+{
+    EXPECT_EQ("Hello World!", toString("Hello World!"));
+    EXPECT_EQ("Hello World!", toString(std::string("Hello World!")));
+    EXPECT_EQ("42", toString(42));
+    EXPECT_EQ("42.234", toString(42.234f));
+    EXPECT_EQ("42.234567", toString(42.234567));
+    EXPECT_EQ("true", toString(true));
+    EXPECT_EQ("false", toString(false));
+}
+
+//===========================================================================//
+TEST(String, toType)
+{
+    EXPECT_EQ("Hello World!", toType<std::string>("Hello World!"));
+    EXPECT_EQ("Hello World!", toType<std::string>(std::string("Hello World!")));
+    EXPECT_EQ(42, toType<int>("42"));
+    EXPECT_FLOAT_EQ(42.234, toType<float>("42.234f"));
+    EXPECT_DOUBLE_EQ(42.234567, toType<double>("42.234567"));
+    EXPECT_FALSE(toType<bool>("False"));
+    EXPECT_TRUE(toType<bool>("True"));
+    EXPECT_FALSE(toType<bool>("false"));
+    EXPECT_TRUE(toType<bool>("true"));
+    EXPECT_FALSE(toType<bool>("0"));
+    EXPECT_TRUE(toType<bool>("1"));
+    EXPECT_ANY_THROW(toType<int>("foo"));
+}
 }
 }
 

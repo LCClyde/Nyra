@@ -19,67 +19,63 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <limits>
-#include <nyra/core/String.h>
+#ifndef __NYRA_CORE_STRING_HPP__
+#define __NYRA_CORE_STRING_HPP__
+
+#include <sstream>
 
 namespace nyra
 {
 namespace core
 {
 //===========================================================================//
-std::string findAndReplace(std::string input,
-                           const std::string& find,
-                           const std::string& replace)
+template<typename T>
+size_t getPrecision(const T& )
 {
-    size_t pos = 0;
-    while ((pos = input.find(find, pos)) != std::string::npos)
-    {
-         input.replace(pos, find.length(), replace);
-         pos += replace.length();
-    }
-    return input;
+    return 0;
 }
 
 //===========================================================================//
-template<> std::string toType<std::string>(const std::string& s)
+template<typename T>
+std::string toString(const T& value)
 {
-    return s;
+    std::ostringstream buf;
+    buf.precision(getPrecision(value));
+    buf << std::boolalpha << value;
+    return buf.str();
 }
 
 //===========================================================================//
-template<> bool toType<bool>(const std::string& s)
+template<typename T> T toType(const std::string& s)
 {
-    if (s == "true" || s == "True" || s == "1")
+    if (s.empty())
     {
-        return true;
-    }
-    else if (s == "false" || s == "False" || s == "0")
-    {
-        return false;
+        throw std::runtime_error("Cannot convert empty string");
     }
 
-    throw std::runtime_error(
-            "Unable to convert string to bool for string: " + s);
+    T value;
+
+    std::stringstream buf(s);
+    buf.precision(getPrecision(value));
+    buf >> value;
+
+    if (buf.fail())
+    {
+        throw std::runtime_error("Unable to covert string: " + s);
+    }
+
+    return value;
 }
 
 //===========================================================================//
-template<> size_t getPrecision(const float& )
-{
-    return std::numeric_limits<float>::digits10 + 1;
-}
+template<> bool toType<bool> (const std::string& s);
+template<> std::string toType<std::string> (const std::string& s);
 
 //===========================================================================//
-template<> size_t getPrecision(const double& )
-{
-    return std::numeric_limits<double>::digits10 + 1;
-}
-
-//===========================================================================//
-template<> size_t getPrecision(const long double& )
-{
-    return std::numeric_limits<long double>::digits10 + 1;
-}
+template<> size_t getPrecision(const float& type);
+template<> size_t getPrecision(const double& type);
+template<> size_t getPrecision(const long double& type);
 }
 }
 
-
+#endif
