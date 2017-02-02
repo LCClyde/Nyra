@@ -30,11 +30,11 @@ namespace
 std::string parseCommand(std::string command,
                          const std::string& pathname)
 {
-    command = nyra::core::findAndReplace(
+    command = nyra::core::str::findAndReplace(
             command, "{GAME}", pathname);
-    command = nyra::core::findAndReplace(
+    command = nyra::core::str::findAndReplace(
             command, "{DATA_PATH}", nyra::core::DATA_PATH);
-    command = nyra::core::findAndReplace(
+    command = nyra::core::str::findAndReplace(
             command, "{INSTALL_PATH}", nyra::core::INSTALL_PATH);
     return command;
 }

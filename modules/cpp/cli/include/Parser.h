@@ -68,7 +68,7 @@ public:
 
         if (boost::any_cast<std::string>(&mMap[index].value()))
         {
-            return core::toType<T>(mMap[index].as<std::string>());
+            return core::str::toType<T>(mMap[index].as<std::string>());
         }
         else
         {

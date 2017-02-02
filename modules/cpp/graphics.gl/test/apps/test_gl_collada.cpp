@@ -22,8 +22,9 @@
 #include <nyra/test/RenderTarget.h>
 #include <nyra/graphics/gl/RenderTarget.h>
 #include <nyra/graphics/gl/Mesh.h>
+#include <nyra/graphics/Collada.h>
 #include <nyra/win/gl/Window.h>
-#include <nyra/core/Path.h>
+#include <nyra/test/Image.h>
 
 namespace nyra
 {
@@ -33,33 +34,28 @@ namespace gl
 {
 TEST(OpenGLRenderTarget, Temp)
 {
-    win::gl::Window window("temp",
+    win::gl::Window window("Test OpenGL Collada",
                            math::Vector2U(256, 256),
                            math::Vector2I(200, 200));
     RenderTarget target(window);
-    std::vector<math::Vector3F> vertices;
-    vertices.push_back(math::Vector3F(0.5f,  0.5f, 0.0f));
-    vertices.push_back(math::Vector3F(0.5f, -0.5f, 0.0f));
-    vertices.push_back(math::Vector3F(-0.5f, -0.5f, 0.0f));
-    vertices.push_back(math::Vector3F(-0.5f, 0.5f, 0.0f));
-    std::vector<size_t> indices;
-    indices.push_back(0);
-    indices.push_back(1);
-    indices.push_back(3);
-    indices.push_back(1);
-    indices.push_back(2);
-    indices.push_back(3);
-    Mesh mesh(vertices, indices);
+
+    graphics::Collada collada(core::path::join(
+            core::DATA_PATH, "models/teapot.dae"));
+
+    float scale = 0.01f;
+    std::vector<math::Vector3F> vertices = collada.getVertices();
+    for (math::Vector3F& vert : vertices)
+    {
+        vert *= scale;
+    }
+    Mesh mesh(vertices, collada.getIndices());
 
     window.update();
     target.clear(img::Color(128, 128, 128));
     mesh.render(target);
     target.flush();
-
-    core::write<img::Image>(target.getPixels(), "test_gl_mesh.png");
-    img::Image image = core::read<img::Image>(core::path::join(
-            core::DATA_PATH, "textures/test_gl_mesh.png"));
-    EXPECT_EQ(image, target.getPixels());
+    EXPECT_TRUE(test::compareImage(target.getPixels(),
+                                   "test_gl_collada.png"));
 }
 }
 }

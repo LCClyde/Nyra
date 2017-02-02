@@ -20,46 +20,29 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/RenderTarget.h>
-#include <nyra/graphics/gl/RenderTarget.h>
-#include <nyra/graphics/gl/Mesh.h>
-#include <nyra/win/gl/Window.h>
-#include <nyra/core/Path.h>
+#include <nyra/graphics/ogre/RenderTarget.h>
+#include <nyra/graphics/ogre/Mesh.h>
+#include <nyra/test/Image.h>
+#include <nyra/graphics/Collada.h>
 
 namespace nyra
 {
 namespace graphics
 {
-namespace gl
+namespace ogre
 {
-TEST(OpenGLRenderTarget, Temp)
+TEST(RenderTarget, RenderSquare)
 {
-    win::gl::Window window("temp",
-                           math::Vector2U(256, 256),
-                           math::Vector2I(200, 200));
-    RenderTarget target(window);
-    std::vector<math::Vector3F> vertices;
-    vertices.push_back(math::Vector3F(0.5f,  0.5f, 0.0f));
-    vertices.push_back(math::Vector3F(0.5f, -0.5f, 0.0f));
-    vertices.push_back(math::Vector3F(-0.5f, -0.5f, 0.0f));
-    vertices.push_back(math::Vector3F(-0.5f, 0.5f, 0.0f));
-    std::vector<size_t> indices;
-    indices.push_back(0);
-    indices.push_back(1);
-    indices.push_back(3);
-    indices.push_back(1);
-    indices.push_back(2);
-    indices.push_back(3);
-    Mesh mesh(vertices, indices);
+    RenderTarget target(math::Vector2U(256, 256));
+    graphics::Collada collada(core::path::join(
+            core::DATA_PATH, "models/teapot.dae"));
+    Mesh mesh(collada.getVertices(), collada.getIndices());
 
-    window.update();
-    target.clear(img::Color(128, 128, 128));
+    target.clear(img::Color(128, 0, 128));
     mesh.render(target);
     target.flush();
 
-    core::write<img::Image>(target.getPixels(), "test_gl_mesh.png");
-    img::Image image = core::read<img::Image>(core::path::join(
-            core::DATA_PATH, "textures/test_gl_mesh.png"));
-    EXPECT_EQ(image, target.getPixels());
+    EXPECT_TRUE(test::compareImage(target.getPixels(), "test_ogre_collada.png"));
 }
 }
 }

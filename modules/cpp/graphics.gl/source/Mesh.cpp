@@ -90,6 +90,8 @@ void Mesh::initialize(const std::vector<math::Vector3F>& vertices,
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    mNumVerts = indices.size();
 }
 
 //===========================================================================//
@@ -97,7 +99,8 @@ void Mesh::render(RenderTarget& target)
 {
     glUseProgram(mShader.getNative());
     glBindVertexArray(mVectorArrayObject);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, mNumVerts, GL_UNSIGNED_INT, 0);
+    glScalef(0.01f, 0.01f, 0.01f);
     glBindVertexArray(0);
 }
 }

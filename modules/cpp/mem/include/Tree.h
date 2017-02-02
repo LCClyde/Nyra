@@ -105,7 +105,11 @@ public:
 
     /*
      *  \func Index operator
-     *  \brief Gets the node at an index.
+     *  \brief Gets the node at an index. This does have a specialized function
+     *         compared to the non-const version, in that if you pass in 0
+     *         and there is no list, it will return itself. This allows
+     *         you to loop over a 0 length tree. This will not work for the
+     *         non-const version because it creates a new element.
      *
      *  \param index The desired node
      *  \return The node.
@@ -113,6 +117,14 @@ public:
     const Tree<TypeT>& operator[](size_t index) const
     {
         validate();
+
+        // If the list is empty and index is 0, then we return ourselves.
+        // this allows us to loop over a single element without knowing
+        // if it really is a list.
+        if (index == 0 && mList.size() == 0)
+        {
+            return *this;
+        }
 
         if (index >= mList.size())
         {
@@ -206,14 +218,29 @@ public:
     }
 
     /*
-     *  \func size
-     *  \brief Gets the size of the list component.
+     *  \func actualSize
+     *  \brief Gets the real size of the list. The function "loopSize" will
+     *         return 1 even if the size is 0. This is because it allows you
+     *         to loop even when a list has not been created.
      *
-     *  \return The size of the list.
+     *  \return The actual size of the list
      */
     size_t size() const
     {
         return mList.size();
+    }
+
+    /*
+     *  \func size
+     *  \brief Gets the size of the list component. If the size is 0 this will
+     *         return 1. By doing this it allows you to loop through a single
+     *         element that would normally not be in the list.
+     *
+     *  \return The size of the list.
+     */
+    size_t loopSize() const
+    {
+        return std::max<size_t>(mList.size(), 1);
     }
 
     /*

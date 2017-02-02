@@ -26,6 +26,8 @@ namespace nyra
 {
 namespace core
 {
+namespace str
+{
 //===========================================================================//
 TEST(String, FindAndReplace)
 {
@@ -70,6 +72,32 @@ TEST(String, toType)
     EXPECT_FALSE(toType<bool>("0"));
     EXPECT_TRUE(toType<bool>("1"));
     EXPECT_ANY_THROW(toType<int>("foo"));
+}
+
+//===========================================================================//
+TEST(String, Split)
+{
+    {
+        const std::string string = "Hello World, how are you?";
+        const std::vector<std::string> expected =
+                {"Hello", "World,", "how", "are", "you?"};
+        EXPECT_EQ(expected, split(string));
+    }
+
+    {
+        const std::string string = "a,b,c,d,e,f,g,h";
+        const std::vector<std::string> expected =
+                {"a", "b", "c", "d", "e", "f", "g", "h"};
+        EXPECT_EQ(expected, split(string, ","));
+    }
+
+    {
+        const std::string string = "thissplitnowsplitworks";
+        const std::vector<std::string> expected =
+                {"this", "now", "works"};
+        EXPECT_EQ(expected, split(string, "split"));
+    }
+}
 }
 }
 }

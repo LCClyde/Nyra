@@ -28,6 +28,8 @@ namespace nyra
 {
 namespace core
 {
+namespace str
+{
 //===========================================================================//
 template<typename T>
 size_t getPrecision(const T& )
@@ -75,6 +77,7 @@ template<> std::string toType<std::string> (const std::string& s);
 template<> size_t getPrecision(const float& type);
 template<> size_t getPrecision(const double& type);
 template<> size_t getPrecision(const long double& type);
+}
 }
 }
 

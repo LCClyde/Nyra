@@ -61,8 +61,8 @@ public:
      *  \param position The desired position of the window
      */
     Window(const std::string& name,
-           const math::Vector2U& size,
-           const math::Vector2I& position);
+           const math::Vector2U& size = math::Vector2U(1280, 720),
+           const math::Vector2I& position = math::Vector2I(0, 0));
 
     /*
      *  \func load

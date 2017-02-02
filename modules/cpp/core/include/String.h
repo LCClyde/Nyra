@@ -23,10 +23,13 @@
 #define __NYRA_CORE_STRING_H__
 
 #include <string>
+#include <vector>
 
 namespace nyra
 {
 namespace core
+{
+namespace str
 {
 /*
  *  \func findAndReplace
@@ -66,6 +69,19 @@ std::string toString(const T& value);
  */
 template<typename T>
 T toType(const std::string& s);
+
+/*
+ *  \func split
+ *  \brief Splits a string by a delimiter
+ *
+ *  \param string The string to split
+ *  \param delim The delimiter to split by
+ *
+ *  \return A vector of the parts of the string.
+ */
+std::vector<std::string> split(const std::string& string,
+                               const std::string& delim = " ");
+}
 }
 }
 

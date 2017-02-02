@@ -35,7 +35,6 @@ void readTree(const ptree& boostTree,
               const std::string& nodeName,
               nyra::mem::Tree<std::string>& tree)
 {
-    //std::cout << nodeName << "\n";
     if (!boostTree.data().empty())
     {
         tree.get() = boostTree.data();

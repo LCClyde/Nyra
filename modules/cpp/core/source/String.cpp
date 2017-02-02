@@ -20,11 +20,14 @@
  * IN THE SOFTWARE.
  */
 #include <limits>
+#include <boost/algorithm/string.hpp>
 #include <nyra/core/String.h>
 
 namespace nyra
 {
 namespace core
+{
+namespace str
 {
 //===========================================================================//
 std::string findAndReplace(std::string input,
@@ -78,6 +81,25 @@ template<> size_t getPrecision(const double& )
 template<> size_t getPrecision(const long double& )
 {
     return std::numeric_limits<long double>::digits10 + 1;
+}
+
+//===========================================================================//
+std::vector<std::string> split(const std::string& string,
+                               const std::string& delim)
+{
+    std::vector<std::string> ret;
+
+    using namespace boost::algorithm;
+    typedef split_iterator<std::string::const_iterator> Iter;
+
+    for(Iter iter=make_split_iterator(string, first_finder(delim, is_equal()));
+        iter != Iter(); ++iter)
+    {
+        ret.push_back(boost::copy_range<std::string>(*iter));
+    }
+
+    return ret;
+}
 }
 }
 }

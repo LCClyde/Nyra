@@ -62,7 +62,7 @@ public:
     template <typename T>
     Option& setDefault(const T& default_)
     {
-        mDefault.reset(new std::string(core::toString(default_)));
+        mDefault.reset(new std::string(core::str::toString(default_)));
         return *this;
     }
 

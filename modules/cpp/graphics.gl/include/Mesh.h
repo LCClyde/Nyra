@@ -91,6 +91,7 @@ private:
     GLuint mVectorBufferObject;
     GLuint mVectorArrayObject;
     GLuint mElementBufferObject;
+    size_t mNumVerts;
 };
 }
 }

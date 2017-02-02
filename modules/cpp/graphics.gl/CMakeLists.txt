@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS gl graphics core PARENT_SCOPE)
+set(MOD_DEPS gl graphics img core PARENT_SCOPE)
 set(TEST_DEPS win.gl PARENT_SCOPE)
