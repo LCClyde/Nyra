@@ -25,8 +25,8 @@
 #include <nyra/graphics/RenderTarget.h>
 #include <nyra/ogre/GlobalHandler.h>
 #include <nyra/mem/GlobalDependency.h>
-#include <OgreRenderWindow.h>
-#include <OgreRectangle2D.h>
+#include <OGRE/OgreRenderWindow.h>
+#include <OGRE/OgreRectangle2D.h>
 
 namespace nyra
 {

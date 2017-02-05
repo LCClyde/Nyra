@@ -21,7 +21,7 @@
  */
 #include <nyra/win/ogre/Window.h>
 #include <nyra/mem/GlobalUpdate.h>
-#include <OgreWindowEventUtilities.h>
+#include <OGRE/OgreWindowEventUtilities.h>
 
 namespace nyra
 {

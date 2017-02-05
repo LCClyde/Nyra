@@ -22,7 +22,7 @@
 #ifndef __NYRA_SDL_GLOBAL_HANDLER_H__
 #define __NYRA_SDL_GLOBAL_HANDLER_H__
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <nyra/mem/GlobalHandler.h>
 
 namespace nyra
