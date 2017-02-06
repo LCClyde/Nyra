@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-sudo apt-get -y install build-essential cmake freeglut3 freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libglu1-mesa-dev libgl1-mesa-glx libgl1-mesa-dev libglfw3-dev libxmu-dev libxi-dev subversion mercurial libarchive-dev python3-dev libois-dev libsdl2-dev libsfml-dev yasm scons libfontconfig1-dev libfreetype6-dev libpng-dev libcairo2-dev libtiff5-dev libxaw7-dev libfreeimage-dev qt5-default
+sudo apt-get -y install build-essential cmake freeglut3 freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libglu1-mesa-dev libgl1-mesa-glx libgl1-mesa-dev libglfw3-dev libxmu-dev libxi-dev subversion mercurial libarchive-dev python3-dev libois-dev libsdl2-dev libsfml-dev yasm scons libfontconfig1-dev libfreetype6-dev libpng-dev libcairo2-dev libtiff5-dev libxaw7-dev libfreeimage-dev qt5-default libglm-dev libglfw-dev libglfw3-dev
 
 cd drivers
 cmake .
-make GoogleTest
-make OgreDeps
-make Ogre
-make Boost
-make BoostProcess
-make sfeMovie
-make GMTL
+#make GoogleTest
+#make OgreDeps
+#make Ogre
+#make Boost
+#make BoostProcess
+#make sfeMovie
+#make GMTL
 make CEGUI
 cd ..
 
