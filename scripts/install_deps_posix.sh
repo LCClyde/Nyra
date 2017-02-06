@@ -4,13 +4,13 @@ sudo apt-get -y install build-essential cmake freeglut3 freeglut3-dev libglew1.5
 
 cd drivers
 cmake .
-#make GoogleTest
-#make OgreDeps
-#make Ogre
-#make Boost
-#make BoostProcess
-#make sfeMovie
-#make GMTL
+make GoogleTest
+make OgreDeps
+make Ogre
+make Boost
+make BoostProcess
+make sfeMovie
+make GMTL
 make CEGUI
 cd ..
 
