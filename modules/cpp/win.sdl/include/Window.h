@@ -23,7 +23,7 @@
 #define __NYRA_WIN_SDL_WINDOW_H__
 
 #include <memory>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <nyra/win/Window.h>
 #include <nyra/sdl/GlobalHandler.h>
 #include <nyra/mem/GlobalDependency.h>

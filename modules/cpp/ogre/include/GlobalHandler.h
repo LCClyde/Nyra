@@ -23,7 +23,7 @@
 #define __NYRA_OGRE_GLOBAL_HANDLER_H__
 
 #include <memory>
-#include <OgreRoot.h>
+#include <OGRE/OgreRoot.h>
 #include <nyra/mem/GlobalHandler.h>
 
 namespace nyra

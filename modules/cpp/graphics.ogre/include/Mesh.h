@@ -22,7 +22,7 @@
 #ifndef __NYRA_GRAPHICS_OGRE_MESH_H__
 #define __NYRA_GRAPHICS_OGRE_MESH_H__
 
-#include <OgreManualObject.h>
+#include <OGRE/OgreManualObject.h>
 #include <nyra/graphics/Mesh.h>
 #include <nyra/ogre/GlobalHandler.h>
 #include <nyra/mem/GlobalDependency.h>

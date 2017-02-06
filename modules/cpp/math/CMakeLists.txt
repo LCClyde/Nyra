@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,9 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-ExternalProject_Add(
-    Ogre
-    PREFIX ${BUILD_DIR}
-    HG_REPOSITORY https://bitbucket.org/sinbad/ogre
-    HG_TAG v1-9
-    CMAKE_ARGS -DOGRE_DEPENDENCIES_DIR=../OgreDeps/ogredeps/ -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR})
+set(MOD_DEPS core PARENT_SCOPE)

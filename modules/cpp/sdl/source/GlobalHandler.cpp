@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/sdl/GlobalHandler.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 namespace
 {

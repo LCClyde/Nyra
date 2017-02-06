@@ -22,7 +22,7 @@
 #ifndef __NYRA_WIN_OGRE_WINDOW_H__
 #define __NYRA_WIN_OGRE_WINDOW_H__
 
-#include <OgreRenderWindow.h>
+#include <OGRE/OgreRenderWindow.h>
 #include <nyra/win/Window.h>
 #include <nyra/ogre/GlobalHandler.h>
 #include <nyra/mem/GlobalDependency.h>

@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  */
 #include <atomic>
-#include <OgreColourValue.h>
-#include <OgreHardwarePixelBuffer.h>
+#include <OGRE/OgreColourValue.h>
+#include <OGRE/OgreHardwarePixelBuffer.h>
 #include <nyra/graphics/ogre/RenderTarget.h>
 
 namespace

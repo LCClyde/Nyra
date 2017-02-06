@@ -23,7 +23,7 @@
 #define __NYRA_IMG_VECTOR_H__
 
 #include <memory>
-#include <cairo.h>
+#include <cairo/cairo.h>
 #include <nyra/img/Image.h>
 #include <nyra/math/Vector.h>
 #include <nyra/img/BlobInstruction.h>
