@@ -19,50 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_CONFIG_H__
-#define __NYRA_MEDIA_CONFIG_H__
+#ifndef __NYRA_MEDIA_PLATFORM_H__
+#define __NYRA_MEDIA_PLATFORM_H__
 
 #include <string>
-#include <nyra/json/JSON.h>
-#include <nyra/math/Vector2.h>
+#include <vector>
+#include <nyra/core/Archive.h>
 
 namespace nyra
 {
 namespace media
 {
 /*
- *  \class Config
- *  \brief Class that defines top level media center config options.
+ *  \class Platform
+ *  \brief Information about a single platform
  */
-struct Config
+struct Platform
 {
 public:
     /*
-     *  \func Constructor
-     *  \brief Sets up a default config.
+     *  \var name
+     *  \brief The name of the platform
      */
-    Config();
+    std::string name;
 
     /*
-     *  \var dataPath
-     *  \brief The location of the data directory
+     *  \var extensions
+     *  \brief A list of valid rom extensions
      */
-    std::string dataPath;
+    std::vector<std::string> extensions;
 
     /*
-     *  \var windowSize
-     *  \brief The size of the window client area
+     *  \var goodTool
+     *  \brief The name of the good tool used to verify the roms. If this
+     *         is empty, there is no good tool.
      */
-    math::Vector2U windowSize;
+    std::string goodTool;
 
     /*
-     *  \var DEFAULT_SIZE
-     *  \brief The default window size.
+     *  \var goodMerge
+     *  \brief The name of the good merge used to zip roms. If this is
+     *         empty, there is no good merge.
      */
-    const static math::Vector2U DEFAULT_SIZE;
+    std::string goodMerge;
 
 private:
-    friend std::ostream& operator<<(std::ostream& os, const Config& config);
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Platform& platform);
 };
 }
 
@@ -70,31 +73,31 @@ namespace core
 {
 /*
  *  \func write
- *  \brief Writes a Config to file.
+ *  \brief Writes a platform info to file.
  *
- *  \param config The config to save
+ *  \param platform The platform to save
  *  \param pathname The location to save to.
  *  \param type This will only write binary, even if you select something
  *         else
  */
 template <>
-void write<media::Config>(const media::Config& config,
-                          const std::string& pathname,
-                          core::ArchiveType type);
+void write<media::Platform>(const media::Platform& platform,
+                            const std::string& pathname,
+                            core::ArchiveType type);
 
 /*
  *  \func read
- *  \brief Reads a Config to file.
+ *  \brief Reads a platform info to file.
  *
  *  \param pathname The location to save to.
- *  \param config The config to load
+ *  \param platform The platform to load
  *  \param type This will only read binary, even if you select something
  *         else
  */
 template <>
-void read<media::Config>(const std::string& pathname,
-                         media::Config& config,
-                         core::ArchiveType type);
+void read<media::Platform>(const std::string& pathname,
+                           media::Platform& platform,
+                           core::ArchiveType type);
 }
 }
 
