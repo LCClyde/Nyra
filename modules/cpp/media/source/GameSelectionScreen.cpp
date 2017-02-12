@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/media/GameList.h>
+#include <nyra/media/GameSelectionScreen.h>
 #include <nyra/core/Path.h>
 #include <nyra/graphics/sfml/Sprite.h>
 #include <nyra/graphics/sfml/Video.h>
@@ -30,10 +30,10 @@ namespace nyra
 namespace media
 {
 //===========================================================================//
-GameList::GameList(const std::string& pathname,
-                   const Config& config,
-                   graphics::RenderTarget& target,
-                   input::Keyboard& keyboard) :
+GameSelectionScreen::GameSelectionScreen(const std::string& pathname,
+                                         const Config& config,
+                                         graphics::RenderTarget& target,
+                                         input::Keyboard& keyboard) :
     Screen(config, target, keyboard),
     mPlatform(core::path::split(pathname).back()),
     mVideo(new graphics::sfml::Video()),
@@ -72,7 +72,7 @@ GameList::GameList(const std::string& pathname,
 }
 
 //===========================================================================//
-void GameList::update(double deltaTime)
+void GameSelectionScreen::update(double deltaTime)
 {
     bool update = false;
     if (mKeyboard.getButtonPressed(input::KEY_RIGHT))
@@ -102,26 +102,26 @@ void GameList::update(double deltaTime)
 }
 
 //===========================================================================//
-void GameList::render()
+void GameSelectionScreen::render()
 {
     mVideo->render(mTarget);
     mBoxArt.render(mTarget);
 }
 
 //===========================================================================//
-void GameList::updateIndex()
+void GameSelectionScreen::updateIndex()
 {
     mBoxArt.updateIndex(mIndex);
 }
 
 //===========================================================================//
-float GameList::getSpacing(const graphics::Sprite& sprite) const
+float GameSelectionScreen::getSpacing(const graphics::Sprite& sprite) const
 {
     return (sprite.getSize().x() * sprite.getScale().x()) + 5;//mSpacing;
 }
 
 //===========================================================================//
-void GameList::playVideo()
+void GameSelectionScreen::playVideo()
 {
     mVideo->initialize(core::path::join(
             mConfig.dataPath,

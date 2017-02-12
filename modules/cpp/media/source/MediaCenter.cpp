@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/media/MediaCenter.h>
-#include <nyra/media/GameList.h>
+#include <nyra/media/GameSelectionScreen.h>
 #include <nyra/media/PlayGame.h>
 #include <nyra/core/Path.h>
 
@@ -68,7 +68,7 @@ void MediaCenter::update()
     case GAME_SELECT:
         if (mKeyboard.getButtonPressed(input::KEY_ENTER))
         {
-            openPlayGame(dynamic_cast<GameList*>(
+            openPlayGame(dynamic_cast<GameSelectionScreen*>(
                     mScreen.get())->getGame().pathname);
         }
         break;
@@ -86,7 +86,8 @@ void MediaCenter::openGameSelect()
 {
     const std::string romsList = core::path::join(core::path::join(
             mConfig.dataPath, "roms"), mPlatform);
-    mScreen.reset(new GameList(romsList, mConfig, mRenderTarget, mKeyboard));
+    mScreen.reset(new GameSelectionScreen(
+            romsList, mConfig, mRenderTarget, mKeyboard));
     mState = GAME_SELECT;
 }
 

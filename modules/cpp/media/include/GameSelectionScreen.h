@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MEDIA_GAME_LIST_H__
-#define __NYRA_MEDIA_GAME_LIST_H__
+#ifndef __NYRA_MEDIA_GAME_SELECTION_SCREEN_H__
+#define __NYRA_MEDIA_GAME_SELECTION_SCREEN_H__
 
 #include <string>
 #include <vector>
@@ -35,10 +35,10 @@ namespace nyra
 namespace media
 {
 /*
- *  \class GameList
+ *  \class GameSelectionScreen
  *  \brief Screen to list and select games
  */
-class GameList : public Screen
+class GameSelectionScreen : public Screen
 {
 public:
     /*
@@ -49,10 +49,10 @@ public:
      *  \param target The render target
      *  \param keyboard The keyboard for input
      */
-    GameList(const std::string& pathname,
-             const Config& config,
-             graphics::RenderTarget& target,
-             input::Keyboard& keyboard);
+    GameSelectionScreen(const std::string& pathname,
+                        const Config& config,
+                        graphics::RenderTarget& target,
+                        input::Keyboard& keyboard);
 
     /*
      *  \func update
