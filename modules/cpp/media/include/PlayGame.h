@@ -19,6 +19,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#ifndef __NYRA_MEDIA_PLAY_GAME_H__
+#define __NYRA_MEDIA_PLAY_GAME_H__
+
 #include <nyra/media/Screen.h>
 #include <nyra/media/Types.h>
 #include <nyra/process/BackgroundSubprocess.h>
@@ -46,6 +49,7 @@ public:
      */
     PlayGame(const GameCommandLine& commandLine,
              const std::string& pathname,
+             const Config& config,
              graphics::RenderTarget& target,
              input::Keyboard& keyboard);
 
@@ -68,3 +72,5 @@ private:
 };
 }
 }
+
+#endif

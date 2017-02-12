@@ -27,6 +27,8 @@
 #include <nyra/graphics/Video.h>
 #include <nyra/media/Game.h>
 #include <nyra/media/Screen.h>
+#include <nyra/media/GameListLayout.h>
+#include <nyra/media/BoxArtList.h>
 
 namespace nyra
 {
@@ -48,6 +50,7 @@ public:
      *  \param keyboard The keyboard for input
      */
     GameList(const std::string& pathname,
+             const Config& config,
              graphics::RenderTarget& target,
              input::Keyboard& keyboard);
 
@@ -81,17 +84,15 @@ private:
 
     float getSpacing(const graphics::Sprite& sprite) const;
 
-    void updatePosition(graphics::Sprite& sprite,
-                        float center) const;
-
     void playVideo();
 
     std::vector<Game> mGames;
     const std::string mPlatform;
-    const std::string mDataDir;
     std::unique_ptr<graphics::Video> mVideo;
     int64_t mIndex;
-    double mSpacing;
+    GameListLayout mLayout;
+    BoxArtList mBoxArt;
+
 };
 }
 }

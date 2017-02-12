@@ -89,6 +89,15 @@ TEST(Tree, OnChild)
     EXPECT_EQ("Testing A", *globalParent);
     EXPECT_EQ("Testing B", globalChild);
 }
+
+TEST(Tree, Has)
+{
+    Tree<std::string> tree;
+    tree["a"];
+
+    EXPECT_TRUE(tree.has("a"));
+    EXPECT_FALSE(tree.has("b"));
+}
 }
 }
 

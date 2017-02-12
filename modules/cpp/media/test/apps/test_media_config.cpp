@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,35 +19,46 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <iostream>
-#include <exception>
-#include <nyra/json/JSON.h>
-#include <nyra/cli/Parser.h>
-#include <nyra/media/MediaCenter.h>
 
-using namespace nyra;
+#include <nyra/test/Test.h>
+#include <nyra/media/Config.h>
+#include <nyra/core/Path.h>
 
-int main(int argc, char** argv)
+namespace nyra
 {
-    try
-    {
-        cli::Options opt("Runs the Media Center application");
-        opt.add("config", "Specify the application configuration file").
-                setDefault("config.json").setPositional();
-        cli::Parser options(opt, argc, argv);
+namespace media
+{
+TEST(Config, Defaults)
+{
+    Config config;
 
-        media::Config config = core::read<media::Config>(options.get("config"));
-        media::MediaCenter mediaCenter(config);
-        mediaCenter.run();
-    }
-    catch (const std::exception& ex)
-    {
-        std::cout << "STD Exception: " << ex.what() << std::endl;
-    }
-    catch (...)
-    {
-        std::cout << "Unknown Exception: System Error!" << std::endl;
-    }
-
-    return 0;
+    EXPECT_EQ(Config::DEFAULT_SIZE, config.windowSize);
+    EXPECT_EQ(core::DATA_PATH, config.dataPath);
 }
+
+TEST(Config, Archive)
+{
+    Config config;
+    const std::string expecedDataPath = "/home/user/data";
+    config.dataPath = expecedDataPath;
+    const math::Vector2U expectedWindowSize(1280, 720);
+    config.windowSize = expectedWindowSize;
+
+    Config archived = test::archive(config);
+    EXPECT_EQ(expectedWindowSize, archived.windowSize);
+    EXPECT_EQ(expecedDataPath, archived.dataPath);
+}
+
+TEST(Config, Stdout)
+{
+    Config config;
+    config.dataPath = "/home/user/config/";
+    const std::string expected =
+            "Data Path:    /home/user/config/\n"
+            "Window Size:  x=1920 y=1080";
+    EXPECT_EQ(test::stdout(config), expected);
+}
+}
+}
+
+NYRA_TEST()

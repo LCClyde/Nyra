@@ -29,13 +29,14 @@ namespace nyra
 namespace media
 {
 //===========================================================================//
-MediaCenter::MediaCenter(double scale) :
-    mPlatformToBinary(core::read<PlatformToBinary>(
-            "/home/clyde/workspace/Nyra/media_data/serial/platform.xml",
+MediaCenter::MediaCenter(const Config& config) :
+    mConfig(config),
+    mPlatformToBinary(core::read<PlatformToBinary>(core::path::join(
+            mConfig.dataPath, "serial/platform.xml"),
             core::XML)),
     mPlatform("nes"),
     mWindow("Media Center",
-            math::Vector2U(320 * scale, 240 * scale),
+            mConfig.windowSize,
             math::Vector2I(0, 0)),
     mRenderTarget(mWindow)
 {
@@ -83,9 +84,9 @@ void MediaCenter::update()
 //===========================================================================//
 void MediaCenter::openGameSelect()
 {
-    const std::string romsList = core::path::join(
-            "/home/clyde/workspace/Nyra/media_data/roms/", mPlatform);
-    mScreen.reset(new GameList(romsList, mRenderTarget, mKeyboard));
+    const std::string romsList = core::path::join(core::path::join(
+            mConfig.dataPath, "roms"), mPlatform);
+    mScreen.reset(new GameList(romsList, mConfig, mRenderTarget, mKeyboard));
     mState = GAME_SELECT;
 }
 
@@ -94,6 +95,7 @@ void MediaCenter::openPlayGame(const std::string& pathname)
 {
     mScreen.reset(new PlayGame(mPlatformToBinary[mPlatform],
                                pathname,
+                               mConfig,
                                mRenderTarget,
                                mKeyboard));
     mState = PLAYING_GAME;

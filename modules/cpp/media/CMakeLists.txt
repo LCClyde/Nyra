@@ -19,4 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS win.sfml graphics.sfml input.sfml process PARENT_SCOPE)
+set(MOD_DEPS win.sfml graphics.sfml input.sfml process json PARENT_SCOPE)
+set(APP_DEPS cli PARENT_SCOPE)

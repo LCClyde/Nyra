@@ -26,8 +26,10 @@ namespace nyra
 namespace media
 {
 //===========================================================================//
-Screen::Screen(graphics::RenderTarget& target,
+Screen::Screen(const Config& config,
+               graphics::RenderTarget& target,
                input::Keyboard& keyboard) :
+    mConfig(config),
     mTarget(target),
     mKeyboard(keyboard)
 {

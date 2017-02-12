@@ -46,6 +46,7 @@ TEST(Vector, Triangle)
              math::Vector2F(64.0f, 32.0f),
              Color(0, 255, 255),
              Color(255, 0, 255));
+    core::write(svg.getImage(), "test_triangle_svg.png");
     Image image = core::read<Image>(core::path::join(
             core::DATA_PATH, "textures/test_triangle_svg.png"));
     EXPECT_EQ(image, svg.getImage());
@@ -146,6 +147,7 @@ TEST(Vector, HelloWorld)
                  Color(0, 0, 255),
                  Color(255, 0, 0));
     }
+    core::write(svg.getImage(), "test_hello_world_svg.png");
     Image image = core::read<Image>(core::path::join(
             core::DATA_PATH, "textures/test_hello_world_svg.png"));
     EXPECT_EQ(image, svg.getImage());

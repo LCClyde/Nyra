@@ -202,6 +202,21 @@ public:
     }
 
     /*
+     *  \func Assignment Operator
+     *  \brief Assigns a reference to the node. The type must be copyable
+     *         to use this assignment.
+     *
+     *  \param assignment The object to assign.
+     *  \return The node object.
+     */
+    Tree<TypeT>& operator=(const TypeT& assignment)
+    {
+        mValue.reset(new TypeT(assignment));
+        childAdded();
+        return *this;
+    }
+
+    /*
      *  \func keys
      *  \brief Gets a list of keys for this node.
      *
@@ -241,6 +256,18 @@ public:
     size_t loopSize() const
     {
         return std::max<size_t>(mList.size(), 1);
+    }
+
+    /*
+     *  \func has
+     *  \brief Returns true if the index is a child node
+     *
+     *  \param index The index to check
+     *  \return true If the index is found.
+     */
+    bool has(const std::string& index) const
+    {
+        return mMap.find(index) != mMap.end();
     }
 
     /*

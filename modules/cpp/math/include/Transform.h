@@ -179,6 +179,17 @@ public:
     }
 
     /*
+     *  \func getScaledSize
+     *  \brief Gets the size of the object after being scaled
+     *
+     *  \return The scaled size of the object.
+     */
+    SizeT getScaledSize()
+    {
+        return mSize * mScale;
+    }
+
+    /*
      *  \func setPivot
      *  \brief Sets the pivot of the object. You must set the size for this
      *         to be meaningful. The pivot should be a 0.0 - 1.0 value.

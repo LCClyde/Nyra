@@ -99,6 +99,14 @@ TEST(Transform2D, Matrix)
     EXPECT_NE(expected, results);
 }
 
+TEST(Transform2D, ScaledSize)
+{
+    Transform2D transform;
+    transform.setSize(Vector2F(10.0f, 20.0f));
+    transform.setScale(Vector2F(2.0f, 3.0f));
+    EXPECT_EQ(math::Vector2F(20.0f, 60.0f), transform.getScaledSize());
+}
+
 TEST(Transform3D, Construction)
 {
     const Transform3D transform;
@@ -167,6 +175,14 @@ TEST(Transform3D, Matrix)
     // This should equal something crazy. Just make sure that the results
     // changed after adding a parent transform.
     EXPECT_NE(updatedResults, results);
+}
+
+TEST(Transform3D, ScaledSize)
+{
+    Transform3D transform;
+    transform.setSize(Vector3F(10.0f, 20.0f, 30.0f));
+    transform.setScale(Vector3F(2.0f, 3.0f, 0.5f));
+    EXPECT_EQ(math::Vector3F(20.0f, 60.0f, 15.0f), transform.getScaledSize());
 }
 }
 }

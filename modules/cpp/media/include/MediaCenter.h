@@ -27,6 +27,7 @@
 #include <nyra/media/Screen.h>
 #include <nyra/input/sfml/Keyboard.h>
 #include <nyra/media/Types.h>
+#include <nyra/media/Config.h>
 
 namespace nyra
 {
@@ -45,7 +46,7 @@ public:
      *
      *  \param scale Scales up or down the window
      */
-    MediaCenter(double scale);
+    MediaCenter(const Config& config);
 
     /*
      *  \func run
@@ -66,6 +67,7 @@ private:
         PLAYING_GAME
     };
 
+    Config mConfig;
     PlatformToBinary mPlatformToBinary;
     std::string mPlatform;
     win::sfml::Window mWindow;

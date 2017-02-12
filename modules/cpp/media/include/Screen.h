@@ -24,6 +24,7 @@
 
 #include <nyra/input/Keyboard.h>
 #include <nyra/graphics/RenderTarget.h>
+#include <nyra/media/Config.h>
 
 namespace nyra
 {
@@ -43,7 +44,8 @@ public:
      *  \param target The render target
      *  \param keyboard The keyboard for input
      */
-    Screen(graphics::RenderTarget& target,
+    Screen(const Config& config,
+           graphics::RenderTarget& target,
            input::Keyboard& keyboard);
 
     /*
@@ -67,6 +69,7 @@ public:
     virtual void render() = 0;
 
 protected:
+    const Config& mConfig;
     graphics::RenderTarget& mTarget;
     input::Keyboard& mKeyboard;
 };

@@ -19,62 +19,61 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <iostream>
-#include <nyra/media/PlayGame.h>
-#include <nyra/core/String.h>
+#include <nyra/media/Config.h>
 #include <nyra/core/Path.h>
-
-namespace
-{
-//===========================================================================//
-std::string parseCommand(std::string command,
-                         const std::string& pathname)
-{
-    command = nyra::core::str::findAndReplace(
-            command, "{GAME}", pathname);
-    command = nyra::core::str::findAndReplace(
-            command, "{DATA_PATH}", nyra::core::DATA_PATH);
-    command = nyra::core::str::findAndReplace(
-            command, "{INSTALL_PATH}", nyra::core::INSTALL_PATH);
-    return command;
-}
-
-//===========================================================================//
-std::vector<std::string> parseArguments(std::vector<std::string> args,
-                                        const std::string& pathname)
-{
-    for (size_t ii = 0; ii < args.size(); ++ii)
-    {
-        args[ii] = parseCommand(args[ii], pathname);
-    }
-    return args;
-}
-}
+#include <nyra/core/String.h>
 
 namespace nyra
 {
 namespace media
 {
 //===========================================================================//
-PlayGame::PlayGame(const GameCommandLine& commandLine,
-                   const std::string& pathname,
-                   const Config& config,
-                   graphics::RenderTarget& target,
-                   input::Keyboard& keyboard) :
-    Screen(config, target, keyboard),
-    mProcess(parseCommand(commandLine.binary, pathname),
-             parseArguments(commandLine.args, pathname))
+const math::Vector2U Config::DEFAULT_SIZE(1920, 1080);
+
+//===========================================================================//
+Config::Config() :
+    dataPath(core::DATA_PATH),
+    windowSize(DEFAULT_SIZE)
 {
 }
 
 //===========================================================================//
-void PlayGame::update(double delta)
+std::ostream& operator<<(std::ostream& os, const Config& config)
 {
+    os << "Data Path:    " << config.dataPath << "\n"
+       << "Window Size:  " << config.windowSize;
+    return os;
+}
+}
+
+namespace core
+{
+//===========================================================================//
+template <>
+void write<media::Config>(const media::Config& config,
+                          const std::string& pathname,
+                          core::ArchiveType type)
+{
+    json::JSON tree;
+    tree["data_path"] = config.dataPath;
+    tree["window_width"] = core::str::toString(config.windowSize.x());
+    tree["window_height"] = core::str::toString(config.windowSize.y());
+    core::write<json::JSON>(tree, pathname);
 }
 
 //===========================================================================//
-void PlayGame::render()
+template <>
+void read<media::Config>(const std::string& pathname,
+                         media::Config& config,
+                         core::ArchiveType type)
 {
+    json::JSON tree = core::read<json::JSON>(pathname);
+
+    config.dataPath = tree["data_path"].get();
+    config.windowSize.x() =
+            core::str::toType<size_t>(tree["window_width"].get());
+    config.windowSize.y() =
+            core::str::toType<size_t>(tree["window_height"].get());
 }
 }
 }

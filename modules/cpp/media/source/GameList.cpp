@@ -23,6 +23,7 @@
 #include <nyra/core/Path.h>
 #include <nyra/graphics/sfml/Sprite.h>
 #include <nyra/graphics/sfml/Video.h>
+#include <nyra/media/Config.h>
 
 namespace nyra
 {
@@ -30,18 +31,21 @@ namespace media
 {
 //===========================================================================//
 GameList::GameList(const std::string& pathname,
+                   const Config& config,
                    graphics::RenderTarget& target,
                    input::Keyboard& keyboard) :
-    Screen(target, keyboard),
+    Screen(config, target, keyboard),
     mPlatform(core::path::split(pathname).back()),
-    mDataDir(core::path::join(pathname, "../../")),
     mVideo(new graphics::sfml::Video()),
     mIndex(0),
-    mSpacing(5.0 * mTarget.getSize().x() / 320)
+    mLayout(core::read<GameListLayout>(
+            core::path::join(mConfig.dataPath,
+                             "serial/game_list_layout.json"))),
+    mBoxArt(mLayout, mGames)
 {
     const std::vector<std::string> gameFiles =
             core::path::listDirectory(pathname);
-    const std::string serialDir = core::path::join(mDataDir, "serial");
+    const std::string serialDir = core::path::join(mConfig.dataPath, "serial");
 
     FileToName fileToName = core::read<FileToName>(core::path::join(
             serialDir, mPlatform + "_file_to_name.xml"), core::XML);
@@ -49,8 +53,6 @@ GameList::GameList(const std::string& pathname,
     NameToMediaFiles nameToMediaFiles = core::read<NameToMediaFiles>(
             core::path::join(serialDir, mPlatform + "_name_to_media_files.xml"),
             core::XML);
-
-    const double maxWidth = target.getSize().x() / 9.0;
 
     for (size_t ii = 0; ii < gameFiles.size(); ++ii)
     {
@@ -61,10 +63,10 @@ GameList::GameList(const std::string& pathname,
         game.name = fileToName[game.filename];
         game.files = nameToMediaFiles[game.name];
         game.sprite.reset(new graphics::sfml::Sprite(core::path::join(
-                mDataDir, "textures/" + mPlatform + "/" + game.files.boxArtFile)));
-        game.sprite->setScale(maxWidth / game.sprite->getSize().x());
+                mConfig.dataPath, "textures/" + mPlatform + "/" + game.files.boxArtFile)));
     }
 
+    mBoxArt.resetLayout(mTarget.getSize());
     updateIndex();
     playVideo();
 }
@@ -103,57 +105,26 @@ void GameList::update(double deltaTime)
 void GameList::render()
 {
     mVideo->render(mTarget);
-    for (int64_t ii = mIndex - 4; ii < mIndex + 5; ++ii)
-    {
-        mGames[ii % mGames.size()].sprite->render(mTarget);
-    }
+    mBoxArt.render(mTarget);
 }
 
 //===========================================================================//
 void GameList::updateIndex()
 {
-    const float indexCenter = mTarget.getSize().x() / 2.0;
-
-    // Update the center sprite
-    updatePosition(*mGames[mIndex].sprite, indexCenter);
-
-    // Update the sprites to the left
-    float center = indexCenter - getSpacing(*mGames[mIndex].sprite);
-    for (int64_t ii = mIndex - 1; ii > mIndex - 5; --ii)
-    {
-        updatePosition(*mGames[ii % mGames.size()].sprite, center);
-        center -= getSpacing(*mGames[ii % mGames.size()].sprite);
-    }
-
-    center = indexCenter + getSpacing(*mGames[mIndex].sprite);
-    for (int64_t ii = mIndex + 1; ii < mIndex + 5; ++ii)
-    {
-        updatePosition(*mGames[ii % mGames.size()].sprite, center);
-        center += getSpacing(*mGames[ii % mGames.size()].sprite);
-    }
+    mBoxArt.updateIndex(mIndex);
 }
 
 //===========================================================================//
 float GameList::getSpacing(const graphics::Sprite& sprite) const
 {
-    return (sprite.getSize().x() * sprite.getScale().x()) + mSpacing;
-}
-
-//===========================================================================//
-void GameList::updatePosition(graphics::Sprite& sprite,
-                              float center) const
-{
-    static math::Transform2D ident;
-    sprite.setPosition(math::Vector2F(center,
-            mTarget.getSize().y() * (200.0f / 240.0f)));
-    sprite.updateTransform(ident);
+    return (sprite.getSize().x() * sprite.getScale().x()) + 5;//mSpacing;
 }
 
 //===========================================================================//
 void GameList::playVideo()
 {
     mVideo->initialize(core::path::join(
-            mDataDir,
+            mConfig.dataPath,
             "videos/" + mPlatform + "/" + mGames[mIndex].files.videoFile));
     mVideo->play();
     mVideo->setScale(mTarget.getSize().x() / mVideo->getSize().x());
