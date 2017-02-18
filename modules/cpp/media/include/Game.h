@@ -22,9 +22,9 @@
 #ifndef __NYRA_MEDIA_GAME_H__
 #define __NYRA_MEDIA_GAME_H__
 
+#include <vector>
 #include <string>
 #include <nyra/graphics/Sprite.h>
-#include <nyra/media/Types.h>
 
 namespace nyra
 {
@@ -41,7 +41,7 @@ public:
      *  \var sprite
      *  \brief Sprite to represent the game, usually box art.
      */
-    std::unique_ptr<graphics::Sprite> sprite;
+    std::shared_ptr<graphics::Sprite> sprite;
 
     /*
      *  \var name
@@ -50,23 +50,64 @@ public:
     std::string name;
 
     /*
-     *  \var pathname
-     *  \brief Pathname to the game
-     */
-    std::string pathname;
-
-    /*
      *  \var filename
      *  \brief The filename of the game (no directory)
      */
     std::string filename;
 
     /*
-     *  \var files
-     *  \brief Game specific files
+     *  \var boxArtFile
+     *  \brief The name of the box art
      */
-    GameMediaFiles files;
+    std::string boxArtFile;
+
+    /*
+     *  \var videoFile
+     *  \brief The name of the video file
+     */
+    std::string videoFile;
+
+    /*
+     *  \var zippedFiles
+     *  \brief The files contained within the file. If the file is not a
+     *         zip, this vector will be empty.
+     */
+    std::vector<std::string> zippedFiles;
+
+private:
+    friend std::ostream& operator<<(std::ostream& os, const Game& game);
 };
+}
+
+namespace core
+{
+/*
+ *  \func write
+ *  \brief Writes a list of Games to file.
+ *
+ *  \param games The list of games to save
+ *  \param pathname The location to save to.
+ *  \param type This will only write json, even if you select something
+ *         else
+ */
+template <>
+void write<std::vector<media::Game> >(const std::vector<media::Game>& games,
+                                      const std::string& pathname,
+                                      core::ArchiveType type);
+
+/*
+ *  \func read
+ *  \brief Reads a list of Games from file.
+ *
+ *  \param pathname The location to save to.
+ *  \param games The games to load
+ *  \param type This will only read json, even if you select something
+ *         else
+ */
+template <>
+void read<std::vector<media::Game> >(const std::string& pathname,
+                                     std::vector<media::Game>& games,
+                                     core::ArchiveType type);
 }
 }
 

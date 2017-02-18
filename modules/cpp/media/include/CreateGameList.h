@@ -19,53 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <unordered_map>
+#ifndef __NYRA_MEDIA_CREATE_GAME_LIST_H__
+#define __NYRA_MEDIA_CREATE_GAME_LIST_H__
+
 #include <string>
-#include <iostream>
-#include <exception>
-#include <nyra/core/Archive.h>
-#include <nyra/core/Path.h>
-#include <nyra/media/Types.h>
+#include <vector>
+#include <nyra/media/Game.h>
 
-using namespace nyra;
-
-int main(int argc, char** argv)
+namespace nyra
 {
-    try
-    {
-        if (argc < 5)
-        {
-            std::cout << "Usage: " << argv[0]
-                      << " <LUT> <platform> <binary> <args>\n";
-            return 1;
-        }
-
-        media::PlatformToBinary p2b;
-        if (core::path::exists(argv[1]))
-        {
-            core::read<media::PlatformToBinary>(argv[1], p2b, core::XML);
-        }
-        else
-        {
-            std::cout << argv[1] << " does not exist. It will be created.\n";
-        }
-
-        media::GameCommandLine cmd;
-        cmd.binary = argv[3];
-        cmd.args.push_back(argv[4]);
-        p2b[argv[2]] = cmd;
-
-        core::write(p2b, argv[1], core::XML);
-    }
-    catch (const std::exception& ex)
-    {
-        std::cout << "STD Exception: " << ex.what() << std::endl;
-    }
-    catch (...)
-    {
-        std::cout << "Unknown Exception: System Error!" << std::endl;
-    }
-
-    return 0;
+namespace media
+{
+/*
+ *  \func createGameList
+ *  \brief Creates a new game list.
+ *
+ *  \param dataPath The path to the data dir
+ *  \param platform The platform to build
+ *  \return The new game list.
+ */
+std::vector<Game> createGameList(const std::string& dataPath,
+                                 const std::string& platform);
+}
 }
 
+#endif

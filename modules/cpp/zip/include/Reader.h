@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_ZIP_ZIP_READER_H__
-#define __NYRA_ZIP_ZIP_READER_H__
+#ifndef __NYRA_ZIP_READER_H__
+#define __NYRA_ZIP_READER_H__
 
 #include <vector>
 #include <string>
@@ -32,10 +32,10 @@ namespace nyra
 namespace zip
 {
 /*
- *  \class ZipReader
+ *  \class Reader
  *  \brief Class for reading from zip files.
  */
-class ZipReader
+class Reader
 {
 public:
     /*
@@ -45,7 +45,7 @@ public:
      *  \param pathname The name of the file on disk
      *  \throw If the file does not exist or if it is not a zip file.
      */
-    ZipReader(const std::string& pathname);
+    Reader(const std::string& pathname);
 
     /*
      *  \func list

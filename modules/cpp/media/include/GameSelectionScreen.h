@@ -29,6 +29,7 @@
 #include <nyra/media/Screen.h>
 #include <nyra/media/GameListLayout.h>
 #include <nyra/media/BoxArtList.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
@@ -49,7 +50,7 @@ public:
      *  \param target The render target
      *  \param keyboard The keyboard for input
      */
-    GameSelectionScreen(const std::string& pathname,
+    GameSelectionScreen(const std::string& platform,
                         const Config& config,
                         graphics::RenderTarget& target,
                         input::Keyboard& keyboard);
@@ -79,15 +80,25 @@ public:
         return mGames[mIndex];
     }
 
+    /*
+     *  \func getGamePathname
+     *  \brief Gets the pathname to the game on disk
+     *
+     *  \return The pathname to the game.
+     */
+    const std::string getGamePathname() const
+    {
+        return core::path::join(mGamePath, mGames[mIndex].filename);
+    }
+
 private:
     void updateIndex();
 
-    float getSpacing(const graphics::Sprite& sprite) const;
-
     void playVideo();
 
-    std::vector<Game> mGames;
+    const std::string mGamePath;
     const std::string mPlatform;
+    std::vector<Game> mGames;
     std::unique_ptr<graphics::Video> mVideo;
     int64_t mIndex;
     GameListLayout mLayout;

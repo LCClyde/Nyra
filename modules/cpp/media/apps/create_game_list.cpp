@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2016 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,44 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <unordered_map>
-#include <string>
 #include <iostream>
 #include <exception>
-#include <nyra/core/Archive.h>
-#include <nyra/core/Path.h>
-#include <nyra/media/Types.h>
+#include <nyra/cli/Parser.h>
+#include <nyra/media/CreateGameList.h>
 
 using namespace nyra;
+
 
 int main(int argc, char** argv)
 {
     try
     {
-        if (argc < 5)
-        {
-            std::cout << "Usage: " << argv[0]
-                      << " <LUT> <Game Name> <Box Art> <Video>\n";
-            return 1;
-        }
+        cli::Options opt("Creates a rom list");
+        opt.add("platform", "Specify the target platform").setPositional();
+        opt.add("data", "Specify the data directory").setPositional();
+        cli::Parser options(opt, argc, argv);
 
-        media::NameToMediaFiles lut;
-        if (core::path::exists(argv[1]))
-        {
-            core::read<media::NameToMediaFiles>(argv[1], lut, core::XML);
-        }
-        else
-        {
-            std::cout << argv[1] << " does not exist. It will be created.\n";
-        }
+        const std::string platformName = options.get("platform");
+        const std::string dataDir = options.get("data");
 
-        media::GameMediaFiles game;
-        game.boxArtFile = core::path::split(argv[3]).back();
-        game.videoFile = core::path::split(argv[4]).back();
+        const std::vector<media::Game> games =
+                media::createGameList(dataDir, platformName);
 
-        lut[argv[2]] = game;
 
-        core::write(lut, argv[1], core::XML);
+        std::cout << "Writing games\n";
+        core::write(games, "games_nes.json");
     }
     catch (const std::exception& ex)
     {
@@ -69,4 +57,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-

@@ -42,12 +42,18 @@ endmacro()
 
 
 macro(BuildData data libname subdir)
-    get_filename_component(DATA_TYPE ${data} NAME)
     file(GLOB DATA_FILES ${data}/*)
 
     foreach(DATA_FILE ${DATA_FILES})
+        get_filename_component(DATA_TYPE ${data} NAME)
         get_filename_component(DATA_NAME ${DATA_FILE} NAME)
+        get_filename_component(DATA_DIR ${DATA_FILE} DIRECTORY)
+        get_filename_component(TOP_DIR ${DATA_DIR} NAME)
+        
+        # TODO: Replace with regex
         string(REPLACE . - DATA_TARGET_NAME ${DATA_NAME})
+        string(REPLACE " " - DATA_TARGET_NAME ${DATA_TARGET_NAME})
+        set(DATA_TARGET_NAME ${TOP_DIR}-${DATA_TARGET_NAME})
         add_custom_target(${DATA_TARGET_NAME}
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${DATA_FILE} ${CMAKE_INSTALL_PREFIX}/${subdir}/${DATA_TYPE}/${DATA_NAME})
@@ -56,8 +62,8 @@ macro(BuildData data libname subdir)
         if(IS_DIRECTORY ${DATA_FILE})
             BuildData(${DATA_FILE} ${DATA_TARGET_NAME} ${subdir}/${DATA_TYPE})
         endif()
-
     endforeach()
+    
 endmacro()
 
 macro(GetDeps pathname)

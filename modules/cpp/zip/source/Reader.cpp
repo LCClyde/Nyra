@@ -21,7 +21,7 @@
  */
 #include <stdexcept>
 #include <archive_entry.h>
-#include <nyra/zip/ZipReader.h>
+#include <nyra/zip/Reader.h>
 #include <nyra/zip/Verify.h>
 
 namespace
@@ -34,7 +34,7 @@ namespace nyra
 namespace zip
 {
 //===========================================================================//
-ZipReader::ZipReader(const std::string& pathname) :
+Reader::Reader(const std::string& pathname) :
     mPathname(pathname)
 {
     if (!verify(pathname))
@@ -44,7 +44,7 @@ ZipReader::ZipReader(const std::string& pathname) :
 }
 
 //===========================================================================//
-std::vector<std::string> ZipReader::list() const
+std::vector<std::string> Reader::list() const
 {
     archive* zipArchive = openArchive();
 
@@ -63,9 +63,9 @@ std::vector<std::string> ZipReader::list() const
 }
 
 //===========================================================================//
-std::string ZipReader::read(const std::string& pathname,
-                            size_t offset,
-                            size_t size) const
+std::string Reader::read(const std::string& pathname,
+                         size_t offset,
+                         size_t size) const
 {
     archive* zipArchive = openArchive();
     archive_entry* entry;
@@ -94,9 +94,9 @@ std::string ZipReader::read(const std::string& pathname,
 //===========================================================================//
 // TODO: Create a readImpl that can avoid this code duplication. For now
 //       the method is simple enough that I don't care.
-std::vector<uint8_t> ZipReader::readBinary(const std::string& pathname,
-                                           size_t offset,
-                                           size_t size) const
+std::vector<uint8_t> Reader::readBinary(const std::string& pathname,
+                                        size_t offset,
+                                        size_t size) const
 {
     archive* zipArchive = openArchive();
     archive_entry* entry;
@@ -123,7 +123,7 @@ std::vector<uint8_t> ZipReader::readBinary(const std::string& pathname,
 }
 
 //===========================================================================//
-archive* ZipReader::openArchive() const
+archive* Reader::openArchive() const
 {
     archive* zipArchive = archive_read_new();
     archive_read_support_filter_all(zipArchive);
@@ -133,7 +133,7 @@ archive* ZipReader::openArchive() const
 }
 
 //===========================================================================//
-void ZipReader::seek(size_t offset, archive* zipArchive) const
+void Reader::seek(size_t offset, archive* zipArchive) const
 {
     if (offset == 0)
     {

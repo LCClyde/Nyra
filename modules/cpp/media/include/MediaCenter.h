@@ -26,7 +26,6 @@
 #include <nyra/graphics/sfml/RenderTarget.h>
 #include <nyra/media/Screen.h>
 #include <nyra/input/sfml/Keyboard.h>
-#include <nyra/media/Types.h>
 #include <nyra/media/Config.h>
 
 namespace nyra
@@ -68,7 +67,6 @@ private:
     };
 
     Config mConfig;
-    PlatformToBinary mPlatformToBinary;
     std::string mPlatform;
     win::sfml::Window mWindow;
     graphics::sfml::RenderTarget mRenderTarget;

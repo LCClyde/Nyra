@@ -21,15 +21,15 @@
  */
 #include <stdexcept>
 #include <archive_entry.h>
-#include <nyra/zip/ZipWriter.h>
+#include <nyra/zip/Writer.h>
 
 namespace nyra
 {
 namespace zip
 {
 //===========================================================================//
-ZipWriter::ZipWriter(const std::string& pathname,
-                     Format format) :
+Writer::Writer(const std::string& pathname,
+               Format format) :
     mArchive(archive_write_new())
 {
     if (format == AUTO)
@@ -68,16 +68,16 @@ ZipWriter::ZipWriter(const std::string& pathname,
 }
 
 //===========================================================================//
-ZipWriter::~ZipWriter()
+Writer::~Writer()
 {
     archive_write_close(mArchive);
     archive_write_free(mArchive);
 }
 
 //===========================================================================//
-void ZipWriter::write(const std::string& pathname,
-                      const void* buffer,
-                      size_t size)
+void Writer::write(const std::string& pathname,
+                   const void* buffer,
+                   size_t size)
 {
     archive_entry* entry = archive_entry_new();
     archive_entry_set_pathname(entry, pathname.c_str());

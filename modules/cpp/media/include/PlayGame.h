@@ -23,13 +23,19 @@
 #define __NYRA_MEDIA_PLAY_GAME_H__
 
 #include <nyra/media/Screen.h>
-#include <nyra/media/Types.h>
 #include <nyra/process/BackgroundSubprocess.h>
 
 namespace nyra
 {
 namespace media
 {
+// TODO: Remove this.
+struct GameCommandLine
+{
+    std::string binary;
+    std::vector<std::string> args;
+};
+
 /*
  *  \class PlayGame
  *  \brief Screen that appears when a user is playing a game.

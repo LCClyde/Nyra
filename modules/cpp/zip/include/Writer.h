@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_ZIP_ZIP_WRITER_H__
-#define __NYRA_ZIP_ZIP_WRITER_H__
+#ifndef __NYRA_ZIP_WRITER_H__
+#define __NYRA_ZIP_WRITER_H__
 
 #include <string>
 #include <archive.h>
@@ -31,10 +31,10 @@ namespace nyra
 namespace zip
 {
 /*
- *  \class ZipWriter
+ *  \class Writer
  *  \brief Writes a zip file. All formats in zip/Types.h are supported.
  */
-class ZipWriter
+class Writer
 {
 public:
     /*
@@ -45,14 +45,14 @@ public:
      *  \param format The format of the zip. If this is set to AUTO it will
      *         try to determine the format from the pathname.
      */
-    ZipWriter(const std::string& pathname,
-              Format format = AUTO);
+    Writer(const std::string& pathname,
+           Format format = AUTO);
 
     /*
      *  \func Destructor
      *  \brief Closes the zip file.
      */
-    ~ZipWriter();
+    ~Writer();
 
     /*
      *  \func write

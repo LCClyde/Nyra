@@ -125,6 +125,21 @@ TEST(Path, Extension)
     EXPECT_EQ(".really.long.ext.foo.bar",
               getExtension("test.really.long.ext.foo.bar"));
 }
+
+TEST(Path, Base)
+{
+    EXPECT_EQ(".", getBase("."));
+    EXPECT_EQ("test", getBase("test.txt"));
+    EXPECT_EQ("test", getBase("/my/full/path/test.txt"));
+#ifdef NYRA_WIN32
+    EXPECT_EQ("test", getBase("C:\\my\\full\\path\\test.txt"));
+#endif
+    EXPECT_EQ("test", getBase("/my/full.extra/path/test.txt"));
+    EXPECT_EQ("test", getBase("/my/full.extra/path/test"));
+    EXPECT_EQ("test.tar", getBase("test.tar.gz"));
+    EXPECT_EQ("test.really.long.ext.foo",
+              getBase("test.really.long.ext.foo.bar"));
+}
 }
 }
 }

@@ -102,6 +102,15 @@ std::vector<std::string> listDirectory(const std::string& pathname);
  */
 std::string getExtension(const std::string& pathname,
                          size_t iterations = 0);
+
+/*
+ *  \func getBase
+ *  \brief Gets the base of the filename.
+ *
+ *  \param pathname The pathname of the file
+ *  \return The base name.
+ */
+std::string getBase(const std::string& pathname);
 }
 }
 }

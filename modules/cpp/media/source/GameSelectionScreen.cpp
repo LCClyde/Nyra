@@ -20,7 +20,6 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/media/GameSelectionScreen.h>
-#include <nyra/core/Path.h>
 #include <nyra/graphics/sfml/Sprite.h>
 #include <nyra/graphics/sfml/Video.h>
 #include <nyra/media/Config.h>
@@ -30,12 +29,17 @@ namespace nyra
 namespace media
 {
 //===========================================================================//
-GameSelectionScreen::GameSelectionScreen(const std::string& pathname,
+GameSelectionScreen::GameSelectionScreen(const std::string& platform,
                                          const Config& config,
                                          graphics::RenderTarget& target,
                                          input::Keyboard& keyboard) :
     Screen(config, target, keyboard),
-    mPlatform(core::path::split(pathname).back()),
+    mGamePath(core::path::join(mConfig.dataPath,
+                               "roms/" + mPlatform)),
+    mPlatform(platform),
+    mGames(core::read<std::vector<Game> >(
+            core::path::join(mConfig.dataPath,
+                             "serial/games_" + mPlatform + ".json"))),
     mVideo(new graphics::sfml::Video()),
     mIndex(0),
     mLayout(core::read<GameListLayout>(
@@ -43,29 +47,22 @@ GameSelectionScreen::GameSelectionScreen(const std::string& pathname,
                              "serial/game_list_layout.json"))),
     mBoxArt(mLayout, mGames)
 {
-    const std::vector<std::string> gameFiles =
-            core::path::listDirectory(pathname);
-    const std::string serialDir = core::path::join(mConfig.dataPath, "serial");
+    const std::string boxArtPath = core::path::join(
+            mConfig.dataPath, "textures/" + mPlatform);
 
-    FileToName fileToName = core::read<FileToName>(core::path::join(
-            serialDir, mPlatform + "_file_to_name.xml"), core::XML);
-
-    NameToMediaFiles nameToMediaFiles = core::read<NameToMediaFiles>(
-            core::path::join(serialDir, mPlatform + "_name_to_media_files.xml"),
-            core::XML);
-
-    for (size_t ii = 0; ii < gameFiles.size(); ++ii)
+    for (Game& game : mGames)
     {
-        mGames.push_back(Game());
-        Game& game = mGames.back();
-        game.pathname = core::path::join(pathname, gameFiles[ii]);
-        game.filename = gameFiles[ii];
-        game.name = fileToName[game.filename];
-        game.files = nameToMediaFiles[game.name];
-        game.sprite.reset(new graphics::sfml::Sprite(core::path::join(
-                mConfig.dataPath, "textures/" + mPlatform + "/" + game.files.boxArtFile)));
+        if (!game.boxArtFile.empty())
+        {
+            game.sprite.reset(new graphics::sfml::Sprite(
+                    core::path::join(boxArtPath, game.boxArtFile)));
+        }
+        else
+        {
+            game.sprite.reset(new graphics::sfml::Sprite(
+                    core::path::join(boxArtPath, "Dragon Warrior (USA).png")));
+        }
     }
-
     mBoxArt.resetLayout(mTarget.getSize());
     updateIndex();
     playVideo();
@@ -115,21 +112,23 @@ void GameSelectionScreen::updateIndex()
 }
 
 //===========================================================================//
-float GameSelectionScreen::getSpacing(const graphics::Sprite& sprite) const
-{
-    return (sprite.getSize().x() * sprite.getScale().x()) + 5;//mSpacing;
-}
-
-//===========================================================================//
 void GameSelectionScreen::playVideo()
 {
-    mVideo->initialize(core::path::join(
-            mConfig.dataPath,
-            "videos/" + mPlatform + "/" + mGames[mIndex].files.videoFile));
-    mVideo->play();
-    mVideo->setScale(mTarget.getSize().x() / mVideo->getSize().x());
-    mVideo->setPosition(mTarget.getSize() / 2);
-    mVideo->updateTransform(math::Transform2D());
+    std::cout << mGames[mIndex].name << "\n";
+    if (!mGames[mIndex].videoFile.empty())
+    {
+        mVideo->initialize(core::path::join(
+                mConfig.dataPath,
+                "videos/" + mPlatform + "/" + mGames[mIndex].videoFile));
+        mVideo->play();
+        mVideo->setScale(mTarget.getSize().x() / mVideo->getSize().x());
+        mVideo->setPosition(mTarget.getSize() / 2);
+        mVideo->updateTransform(math::Transform2D());
+    }
+    else
+    {
+        mVideo->stop();
+    }
 }
 }
 }

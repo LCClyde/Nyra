@@ -144,6 +144,12 @@ std::string getExtension(const std::string& pathname,
 
     return fullExtension;
 }
+
+//===========================================================================//
+std::string getBase(const std::string& pathname)
+{
+    return boost::filesystem::path(pathname).filename().stem().string();
+}
 }
 }
 }

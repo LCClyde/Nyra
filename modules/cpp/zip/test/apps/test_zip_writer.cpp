@@ -20,18 +20,18 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/zip/ZipWriter.h>
+#include <nyra/zip/Writer.h>
 #include <nyra/core/Path.h>
 
 namespace nyra
 {
 namespace zip
 {
-TEST(ZipWriter, Write)
+TEST(Writer, Write)
 {
-    EXPECT_ANY_THROW(ZipWriter("zip.txt"));
+    EXPECT_ANY_THROW(Writer("zip.txt"));
 
-    ZipWriter writer("test.tar.gz");
+    Writer writer("test.tar.gz");
 
     writer.write("test.txt", "Hello World!");
 

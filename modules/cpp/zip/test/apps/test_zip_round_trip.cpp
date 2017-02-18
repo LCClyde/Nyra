@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/zip/ZipWriter.h>
-#include <nyra/zip/ZipReader.h>
+#include <nyra/zip/Writer.h>
+#include <nyra/zip/Reader.h>
 
 namespace
 {
@@ -35,7 +35,7 @@ static const std::pair<std::string, std::vector<uint8_t> > FILE_3(
 
 void save(const std::string extension)
 {
-    nyra::zip::ZipWriter writer(BASE_NAME + extension);
+    nyra::zip::Writer writer(BASE_NAME + extension);
     writer.write(FILE_1.first, FILE_1.second);
     writer.write(FILE_2.first, FILE_2.second);
     writer.write(FILE_3.first, FILE_3.second.data(), FILE_3.second.size());
@@ -47,7 +47,7 @@ void read(const std::string extension,
           std::string& file2,
           std::vector<uint8_t>& file3)
 {
-    nyra::zip::ZipReader reader(BASE_NAME + extension);
+    nyra::zip::Reader reader(BASE_NAME + extension);
     list = reader.list();
     file1 = reader.read(FILE_1.first);
     file2 = reader.read(FILE_2.first);

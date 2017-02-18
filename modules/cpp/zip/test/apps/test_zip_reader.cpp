@@ -20,19 +20,19 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/zip/ZipReader.h>
+#include <nyra/zip/Reader.h>
 #include <nyra/core/Path.h>
 
 namespace nyra
 {
 namespace zip
 {
-TEST(ZipReader, Read)
+TEST(Reader, Read)
 {
-    EXPECT_ANY_THROW(ZipReader(core::path::join(
+    EXPECT_ANY_THROW(Reader(core::path::join(
             core::APPLICATION_PATH, "test_zip_reader")));
 
-    ZipReader reader(core::path::join(
+    Reader reader(core::path::join(
             core::DATA_PATH, "misc/test.tar.gz"));
 
     const std::vector<std::string> list = reader.list();
