@@ -121,8 +121,9 @@ void GameSelectionScreen::playVideo()
                 mConfig.dataPath,
                 "videos/" + mPlatform + "/" + mGames[mIndex].videoFile));
         mVideo->play();
-        mVideo->setScale(mTarget.getSize().x() / mVideo->getSize().x());
-        mVideo->setPosition(mTarget.getSize() / 2);
+        const double scale = mLayout.videoScale * mConfig.getMinScreenScale();
+        mVideo->setScale(scale);
+        mVideo->setPosition(mLayout.videoPosition * mConfig.getScreenScale());
         mVideo->updateTransform(math::Transform2D());
     }
     else

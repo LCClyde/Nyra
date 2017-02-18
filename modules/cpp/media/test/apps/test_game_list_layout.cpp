@@ -39,6 +39,9 @@ TEST(GameListLayout, Defaults)
     EXPECT_EQ(GameListLayout::HORIZONTAL, layout.boxLayout);
     EXPECT_GT(layout.boxPosition, 0.0);
     EXPECT_GT(layout.boxSpacing, 0.0);
+    EXPECT_GT(layout.videoPosition.x(), 0.0f);
+    EXPECT_GT(layout.videoPosition.y(), 0.0f);
+    EXPECT_GT(layout.videoScale, 0.0);
 }
 
 //===========================================================================//
@@ -49,12 +52,17 @@ TEST(GameListLayout, Archive)
     layout.boxLayout = GameListLayout::HORIZONTAL;
     layout.boxPosition = 250.0;
     layout.boxSpacing = 10.0;
+    layout.videoPosition.x() = 100.0f;
+    layout.videoPosition.y() = 200.0f;
+    layout.videoScale = 2.5;
 
     GameListLayout archived = test::archive(layout);
     EXPECT_EQ(layout.boxSize, archived.boxSize);
     EXPECT_EQ(layout.boxLayout, archived.boxLayout);
     EXPECT_EQ(layout.boxPosition, archived.boxPosition);
     EXPECT_EQ(layout.boxSpacing, archived.boxSpacing);
+    EXPECT_EQ(layout.videoPosition, archived.videoPosition);
+    EXPECT_EQ(layout.videoScale, archived.videoScale);
 
 }
 
@@ -66,12 +74,17 @@ TEST(GameListLayout, Stdout)
     layout.boxLayout = GameListLayout::HORIZONTAL;
     layout.boxPosition = 250.0;
     layout.boxSpacing = 10.0;
+    layout.videoPosition.x() = 100.0f;
+    layout.videoPosition.y() = 200.0f;
+    layout.videoScale = 2.5;
 
     const std::string expected =
-            "Box Size:      100\n"
-            "Box Layout:    HORIZONTAL\n"
-            "Box Position:  250\n"
-            "Box Spacing:   10";
+            "Box Size:        100\n"
+            "Box Layout:      HORIZONTAL\n"
+            "Box Position:    250\n"
+            "Box Spacing:     10\n"
+            "Video Position:  x=100 y=200\n"
+            "Video Scale:     2.5";
 
     EXPECT_EQ(test::stdout(layout), expected);
 }

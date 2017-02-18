@@ -28,6 +28,7 @@ namespace nyra
 {
 namespace media
 {
+//===========================================================================//
 TEST(Config, Defaults)
 {
     Config config;
@@ -36,6 +37,7 @@ TEST(Config, Defaults)
     EXPECT_EQ(core::DATA_PATH, config.dataPath);
 }
 
+//===========================================================================//
 TEST(Config, Archive)
 {
     Config config;
@@ -49,6 +51,19 @@ TEST(Config, Archive)
     EXPECT_EQ(expecedDataPath, archived.dataPath);
 }
 
+//===========================================================================//
+TEST(Config, Scales)
+{
+    Config config;
+    config.windowSize.x() = Config::DEFAULT_SIZE.x() / 2.0;
+    config.windowSize.y() = Config::DEFAULT_SIZE.y() / 4.0;
+
+    EXPECT_EQ(math::Vector2F(0.5f, 0.25f), config.getScreenScale());
+    EXPECT_EQ(0.5f, config.getMaxScreenScale());
+    EXPECT_EQ(0.25f, config.getMinScreenScale());
+}
+
+//===========================================================================//
 TEST(Config, Stdout)
 {
     Config config;

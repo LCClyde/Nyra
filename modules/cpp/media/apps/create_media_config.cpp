@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 
         if (options.isSet("data"))
         {
-            config["data"] = new std::string(options.get("data"));
+            config["data_path"] = new std::string(options.get("data"));
         }
 
         if (options.isSet("win-size"))

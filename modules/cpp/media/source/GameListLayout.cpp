@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/media/GameListLayout.h>
+#include <nyra/json/JSON.h>
 #include <nyra/core/String.h>
 
 namespace
@@ -61,20 +62,24 @@ namespace media
 {
 //===========================================================================//
 GameListLayout::GameListLayout() :
-    boxSize(200.0),
+    boxSize(250.0),
     boxLayout(HORIZONTAL),
-    boxPosition(800.0),
-    boxSpacing(10.0)
+    boxPosition(850.0),
+    boxSpacing(20.0),
+    videoPosition(990, 400),
+    videoScale(3.0)
 {
 }
 
 //===========================================================================//
 std::ostream& operator<<(std::ostream& os, const GameListLayout& layout)
 {
-    os << "Box Size:      " << layout.boxSize << "\n"
-       << "Box Layout:    " << layoutToString(layout.boxLayout) << "\n"
-       << "Box Position:  " << layout.boxPosition << "\n"
-       << "Box Spacing:   " << layout.boxSpacing;
+    os << "Box Size:        " << layout.boxSize << "\n"
+       << "Box Layout:      " << layoutToString(layout.boxLayout) << "\n"
+       << "Box Position:    " << layout.boxPosition << "\n"
+       << "Box Spacing:     " << layout.boxSpacing << "\n"
+       << "Video Position:  " << layout.videoPosition << "\n"
+       << "Video Scale:     " << layout.videoScale;
     return os;
 }
 }
@@ -92,6 +97,14 @@ void write<media::GameListLayout>(const media::GameListLayout& layout,
     tree["box_layout"] = layoutToString(layout.boxLayout);
     tree["box_position"] =
             core::str::toString(layout.boxPosition);
+    tree["box_spacing"] =
+            core::str::toString(layout.boxSpacing);
+    tree["video_position_x"] =
+            core::str::toString(layout.videoPosition.x());
+    tree["video_position_y"] =
+            core::str::toString(layout.videoPosition.y());
+    tree["video_scale"] =
+            core::str::toString(layout.videoScale);
     core::write<json::JSON>(tree, pathname);
 }
 
@@ -122,11 +135,24 @@ void read<media::GameListLayout>(const std::string& pathname,
                 tree["box_position"].get());
     }
 
-
     if (tree.has("box_spacing"))
     {
         layout.boxSpacing = core::str::toType<double>(
                 tree["box_spacing"].get());
+    }
+
+    if (tree.has("video_position_x") && tree.has("video_position_y"))
+    {
+        layout.videoPosition.x() = core::str::toType<float>(
+                tree["video_position_x"].get());
+        layout.videoPosition.y() = core::str::toType<float>(
+                tree["video_position_y"].get());
+    }
+
+    if (tree.has("video_scale"))
+    {
+        layout.videoScale = core::str::toType<double>(
+                tree["video_scale"].get());
     }
 }
 }

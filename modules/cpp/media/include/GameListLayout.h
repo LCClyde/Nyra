@@ -22,7 +22,7 @@
 #ifndef __NYRA_MEDIA_GAME_LIST_LAYOUT_H__
 #define __NYRA_MEDIA_GAME_LIST_LAYOUT_H__
 
-#include <nyra/json/JSON.h>
+#include <nyra/math/Vector2.h>
 
 namespace nyra
 {
@@ -74,6 +74,18 @@ public:
      *  \brief The spacing between each box in normalized pixels.
      */
     double boxSpacing;
+
+    /*
+     *  \var videoPosition
+     *  \brief The video position in pixels on the DEFAULT_SIZE
+     */
+    math::Vector2F videoPosition;
+
+    /*
+     *  \var videoScale
+     *  \brief The video scale.
+     */
+    double videoScale;
 
 private:
     friend std::ostream& operator<<(std::ostream& os,

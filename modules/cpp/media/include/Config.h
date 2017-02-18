@@ -61,6 +61,43 @@ public:
      */
     const static math::Vector2U DEFAULT_SIZE;
 
+    /*
+     *  \func getScreenScale
+     *  \brief Gets the screen scale compared to the DEFAULT SIZE
+     *
+     *  \return The screen scale in each dimension
+     */
+    math::Vector2F getScreenScale() const
+    {
+        return math::Vector2F(
+                static_cast<float>(windowSize.x()) / DEFAULT_SIZE.x(),
+                static_cast<float>(windowSize.y()) / DEFAULT_SIZE.y());
+    }
+
+    /*
+     *  \func getMinScreenScale
+     *  \brief Gets the min screen scale between each dimension
+     *
+     *  \return The min screen scale
+     */
+    double getMinScreenScale() const
+    {
+        const math::Vector2F scale = getScreenScale();
+        return std::min(scale.x(), scale.y());
+    }
+
+    /*
+     *  \func getMaxScreenScale
+     *  \brief Gets the max screen scale between each dimension
+     *
+     *  \return The max screen scale
+     */
+    double getMaxScreenScale() const
+    {
+        const math::Vector2F scale = getScreenScale();
+        return std::max(scale.x(), scale.y());
+    }
+
 private:
     friend std::ostream& operator<<(std::ostream& os, const Config& config);
 };
@@ -84,7 +121,7 @@ void write<media::Config>(const media::Config& config,
 
 /*
  *  \func read
- *  \brief Reads a Config to file.
+ *  \brief Reads a Config from file.
  *
  *  \param pathname The location to save to.
  *  \param config The config to load
