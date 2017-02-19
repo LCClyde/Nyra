@@ -111,6 +111,22 @@ std::string getExtension(const std::string& pathname,
  *  \return The base name.
  */
 std::string getBase(const std::string& pathname);
+
+/*
+ *  \func makeDirectory
+ *  \brief Creates a directory recursively.
+ *
+ *  \param path The path to create the directory at.
+ */
+void makeDirectory(const std::string& path);
+
+/*
+ *  \func removeAll
+ *  \brief Removes all contents in the path. This deletes the entire tree.
+ *
+ *  \param path The path to delete.
+ */
+void removeAll(const std::string& path);
 }
 }
 }

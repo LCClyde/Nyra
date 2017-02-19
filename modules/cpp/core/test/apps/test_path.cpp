@@ -25,6 +25,7 @@
 
 namespace
 {
+//===========================================================================//
 bool openBinary(const std::string& path,
                 const std::string& binary)
 {
@@ -38,6 +39,7 @@ namespace nyra
 {
 namespace core
 {
+//===========================================================================//
 TEST(Path, Constants)
 {
     EXPECT_TRUE(openBinary(APPLICATION_PATH, "test_path"));
@@ -48,6 +50,7 @@ TEST(Path, Constants)
 
 namespace path
 {
+//===========================================================================//
 TEST(Path, Split)
 {
     std::vector<std::string> expected;
@@ -77,6 +80,7 @@ TEST(Path, Split)
     EXPECT_EQ(split("C://foo/bar/baz.txt"), expected);
 }
 
+//===========================================================================//
 TEST(Path, Join)
 {
     EXPECT_EQ(join("/foo/bar", "baz"), "/foo/bar/baz");
@@ -84,6 +88,7 @@ TEST(Path, Join)
     EXPECT_EQ(join("foo/bar", "../../../baz"), "../baz");
 }
 
+//===========================================================================//
 TEST(Path, Exists)
 {
     EXPECT_TRUE(exists(join(APPLICATION_PATH, "test_path")));
@@ -92,6 +97,7 @@ TEST(Path, Exists)
                  "hopefully_this_application_never_exists")));
 }
 
+//===========================================================================//
 TEST(Path, ListDirectory)
 {
     const std::vector<std::string> dir = listDirectory(join(
@@ -112,6 +118,7 @@ TEST(Path, ListDirectory)
             DATA_PATH, "misc/test_list_directory/foo")));
 }
 
+//===========================================================================//
 TEST(Path, Extension)
 {
     EXPECT_EQ("", getExtension("."));
@@ -126,6 +133,7 @@ TEST(Path, Extension)
               getExtension("test.really.long.ext.foo.bar"));
 }
 
+//===========================================================================//
 TEST(Path, Base)
 {
     EXPECT_EQ(".", getBase("."));
@@ -139,6 +147,30 @@ TEST(Path, Base)
     EXPECT_EQ("test.tar", getBase("test.tar.gz"));
     EXPECT_EQ("test.really.long.ext.foo",
               getBase("test.really.long.ext.foo.bar"));
+}
+
+//===========================================================================//
+TEST(Path, MkRmDir)
+{
+    const std::string topDir = join(INSTALL_PATH, "test_mk_rm_dir");
+    const std::string dir = join(topDir, "/foo/bar/baz");
+
+    // Make sure the dir does not exist
+    if (exists(dir))
+    {
+        throw std::runtime_error(
+                "Cannot test MkRmDir because " + dir + " already exists");
+    }
+
+    makeDirectory(dir);
+
+    EXPECT_TRUE(exists(topDir));
+    EXPECT_TRUE(exists(dir));
+
+    removeAll(topDir);
+
+    EXPECT_FALSE(exists(topDir));
+    EXPECT_FALSE(exists(dir));
 }
 }
 }

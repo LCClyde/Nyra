@@ -150,6 +150,18 @@ std::string getBase(const std::string& pathname)
 {
     return boost::filesystem::path(pathname).filename().stem().string();
 }
+
+//===========================================================================//
+void makeDirectory(const std::string& path)
+{
+    boost::filesystem::create_directories(path);
+}
+
+//===========================================================================//
+void removeAll(const std::string& path)
+{
+    boost::filesystem::remove_all(path);
+}
 }
 }
 }
