@@ -69,6 +69,7 @@ find_package(GLUT REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(CURL REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
