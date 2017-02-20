@@ -60,5 +60,22 @@ std::vector<uint8_t> readBinaryFile(const std::string& pathname)
 
     return ret;
 }
+
+//===========================================================================//
+std::string readFile(const std::string& pathname)
+{
+    const size_t bufferSize = getFileSize(pathname);
+
+    if (bufferSize == 0)
+    {
+        return "";
+    }
+
+    std::ifstream stream(pathname);
+    std::string buffer(bufferSize, '\0');
+    stream.read(&buffer[0], bufferSize);
+
+    return buffer;
+}
 }
 }

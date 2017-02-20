@@ -152,6 +152,33 @@ std::string getBase(const std::string& pathname)
 }
 
 //===========================================================================//
+std::string getDirectory(const std::string& pathname)
+{
+    boost::filesystem::path boostPath(pathname);
+
+    if (boost::filesystem::is_directory(boostPath))
+    {
+        return pathname;
+    }
+
+    const std::string path = boostPath.parent_path().string();
+    return path.empty() ? "." : path + "/";
+}
+
+//===========================================================================//
+std::string getFilename(const std::string& pathname)
+{
+    boost::filesystem::path boostPath(pathname);
+
+    if (boost::filesystem::is_directory(boostPath))
+    {
+        return "";
+    }
+
+    return boostPath.filename().string();
+}
+
+//===========================================================================//
 void makeDirectory(const std::string& path)
 {
     boost::filesystem::create_directories(path);

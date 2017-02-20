@@ -150,6 +150,25 @@ TEST(Path, Base)
 }
 
 //===========================================================================//
+TEST(Path, GetDirectory)
+{
+    EXPECT_EQ(".", getDirectory("."));
+    EXPECT_EQ(APPLICATION_PATH, getDirectory(
+            join(APPLICATION_PATH, "test_path")));
+    EXPECT_EQ(APPLICATION_PATH, APPLICATION_PATH);
+    EXPECT_EQ("/my/full/path/", getDirectory("/my/full/path/test.txt"));
+}
+
+//===========================================================================//
+TEST(Path, GetFilename)
+{
+    EXPECT_EQ("", getFilename("."));
+    EXPECT_EQ("test_path", getFilename(join(APPLICATION_PATH, "test_path")));
+    EXPECT_EQ("", getFilename(APPLICATION_PATH));
+    EXPECT_EQ("test.txt", getFilename("/my/full/path/test.txt"));
+}
+
+//===========================================================================//
 TEST(Path, MkRmDir)
 {
     const std::string topDir = join(INSTALL_PATH, "test_mk_rm_dir");

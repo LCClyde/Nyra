@@ -113,6 +113,26 @@ std::string getExtension(const std::string& pathname,
 std::string getBase(const std::string& pathname);
 
 /*
+ *  \func getDirectory
+ *  \brief Gets the directory from a pathname. If the pathname is a directory
+ *         it will return pathname. If the return would be empty, it returns
+ *         "." as the directory.
+ *
+ *  \param pathname The pathname to extract from
+ *  \return The directory of the pathname
+ */
+std::string getDirectory(const std::string& pathname);
+
+/*
+ *  \func getFilename
+ *  \brief Gets the filename from a pathname
+ *
+ *  \param pathname The pathname to extract from
+ *  \return The filename of the pathname
+ */
+std::string getFilename(const std::string& pathname);
+
+/*
  *  \func makeDirectory
  *  \brief Creates a directory recursively.
  *

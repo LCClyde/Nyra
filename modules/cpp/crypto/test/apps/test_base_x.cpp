@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/crypto/Base64.h>
+#include <nyra/crypto/BaseX.h>
 
 namespace nyra
 {

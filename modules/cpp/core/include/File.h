@@ -46,6 +46,15 @@ size_t getFileSize(const std::string& pathname);
  *  \return The bytes in the binary.
  */
 std::vector<uint8_t> readBinaryFile(const std::string& pathname);
+
+/*
+ *  \func readFile
+ *  \brief Reads the entire file into a string.
+ *
+ *  \param pathname The full pathname of the file.
+ *  \return The contents of the file.
+ */
+std::string readFile(const std::string& pathname);
 }
 }
 

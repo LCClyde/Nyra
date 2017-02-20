@@ -22,6 +22,7 @@
 #ifndef __NYRA_NET_BROWSER_H__
 #define __NYRA_NET_BROWSER_H__
 
+#include <random>
 #include <string>
 #include <nyra/net/GlobalHandler.h>
 #include <nyra/mem/GlobalDependency.h>
@@ -30,6 +31,9 @@ namespace nyra
 {
 namespace net
 {
+
+typedef std::pair<std::string, std::string> Param;
+
 /*
  *  \class Browser
  *  \brief Mimics a browser to interact with the web.
@@ -37,6 +41,11 @@ namespace net
 class Browser: private mem::GlobalDependency<GlobalHandler>
 {
 public:
+
+    Browser(size_t cacheTime = 0,
+            const std::string& cacheDir = "cache",
+            size_t cacheRandom = 1);
+
     /*
      *  \func get
      *  \brief Does the equivalent of a HTTP GET call.
@@ -44,7 +53,21 @@ public:
      *  \param url The target URL
      *  \return The results of the call
      */
-    std::string get(const std::string& url) const;
+    std::string get(const std::string& url,
+                    const std::vector<Param>& params = std::vector<Param>());
+
+private:
+    std::string getCached(const std::string& url) const;
+
+    void cacheURL(const std::string& url,
+                  const std::string& contents);
+
+    std::string getCachePathname(const std::string& url) const;
+
+    const size_t mCacheTime;
+    const std::string mCacheDir;
+    std::mt19937 mGenerator;
+    std::uniform_int_distribution<size_t> mCacheRandom;
 };
 }
 }

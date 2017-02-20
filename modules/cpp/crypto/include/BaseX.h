@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_CRYPTO_BASE_64_H__
-#define __NYRA_CRYPTO_BASE_64_H__
+#ifndef __NYRA_CRYPTO_BASE_X_H__
+#define __NYRA_CRYPTO_BASE_X_H__
 
 #include <string>
 
@@ -29,20 +29,34 @@ namespace nyra
 namespace crypto
 {
 /*
- *  \func sha1
- *  \brief Performs SHA-1 hashing on a buffer.
+ *  \func base64Encode
+ *  \brief Performs base 64 encoding on a buffer.
  *
- *  \param buffer The buffer to hash
+ *  \param buffer The buffer to encode
  *  \size The size of the buffer
- *  \return The hash in hexidecimal form.
+ *  \return The encoded buffer.
  */
 std::string base64Encode(const void* buffer, size_t size);
 
+/*
+ *  \func base64Encode
+ *  \brief Performs base 64 encoding on a buffer.
+ *
+ *  \param buffer The buffer to encode
+ *  \return The encoded buffer.
+ */
 inline std::string base64Encode(const std::string& buffer)
 {
     return base64Encode(buffer.c_str(), buffer.size());
 }
 
+/*
+ *  \func base64Decode
+ *  \brief Performs base 64 decoding on a buffer.
+ *
+ *  \param buffer The buffer to decode
+ *  \return The decoded buffer.
+ */
 std::string base64Decode(const std::string& buffer);
 }
 }

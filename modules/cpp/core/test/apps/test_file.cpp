@@ -27,17 +27,17 @@ namespace nyra
 {
 namespace core
 {
+//===========================================================================//
 TEST(File, FileSize)
 {
-    const std::string pathname = nyra::core::path::join(
-        nyra::core::DATA_PATH, "docs/test_binary.bin");
+    const std::string pathname = path::join(DATA_PATH, "docs/test_binary.bin");
     EXPECT_EQ(static_cast<size_t>(12), getFileSize(pathname));
 }
 
+//===========================================================================//
 TEST(File, Binary)
 {
-    const std::string pathname = nyra::core::path::join(
-        nyra::core::DATA_PATH, "docs/test_binary.bin");
+    const std::string pathname = path::join(DATA_PATH, "docs/test_binary.bin");
     const std::vector<uint8_t> binary(readBinaryFile(pathname));
     EXPECT_EQ('h', binary[0]);
     EXPECT_EQ('e', binary[1]);
@@ -51,7 +51,14 @@ TEST(File, Binary)
     EXPECT_EQ('l', binary[9]);
     EXPECT_EQ('d', binary[10]);
     EXPECT_EQ('\n', binary[11]);
+}
 
+//===========================================================================//
+TEST(File, Read)
+{
+    const std::string pathname = path::join(DATA_PATH, "docs/test_binary.bin");
+    const std::string ascii = readFile(pathname);
+    EXPECT_EQ("hello world\n", ascii);
 }
 }
 }

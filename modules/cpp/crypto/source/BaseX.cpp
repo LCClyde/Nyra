@@ -24,7 +24,7 @@
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
-#include <nyra/crypto/Base64.h>
+#include <nyra/crypto/BaseX.h>
 
 namespace
 {
