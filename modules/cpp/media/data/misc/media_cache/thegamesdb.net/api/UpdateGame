@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>140</id>
+<GameTitle>Super Mario Bros.</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/13/1985</ReleaseDate>
+<Overview>Do you have what it takes to save the Mushroom Princess?  You’ll have to think fast and move even faster to complete this quest!  The Mushroom Princess is being held captive by the evil Koopa tribe of turtles.  It’s up to you to rescue her from the clutches of the Koopa King before time runs out.  But it won’t be easy.  To get to the Princess, you’ll have to climb mountains, cross seas, avoid bottomless pits, fight off turtle soldiers and a host of black magic traps that only a Koopa King can devise.  It’s another non-stop adventure from the Super Mario Bros.!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=7qirrV8w5SQ</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Actors>N/A</Actors>
+<Rating>7.9048</Rating><Similar><SimilarCount>2</SimilarCount><Game><id>29571</id><PlatformId>18</PlatformId></Game><Game><id>41643</id><PlatformId>34</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-1.jpg</original>
+<thumb>fanart/thumb/140-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-10.jpg</original>
+<thumb>fanart/thumb/140-10.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-11.jpg</original>
+<thumb>fanart/thumb/140-11.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-12.jpg</original>
+<thumb>fanart/thumb/140-12.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-13.jpg</original>
+<thumb>fanart/thumb/140-13.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-14.jpg</original>
+<thumb>fanart/thumb/140-14.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-2.jpg</original>
+<thumb>fanart/thumb/140-2.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-3.jpg</original>
+<thumb>fanart/thumb/140-3.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-4.jpg</original>
+<thumb>fanart/thumb/140-4.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-5.jpg</original>
+<thumb>fanart/thumb/140-5.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-7.jpg</original>
+<thumb>fanart/thumb/140-7.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-8.jpg</original>
+<thumb>fanart/thumb/140-8.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-9.jpg</original>
+<thumb>fanart/thumb/140-9.jpg</thumb>
+</fanart>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/140-2.jpg">boxart/original/back/140-2.jpg</boxart>
+<boxart side="front" width="709" height="1000" thumb="boxart/thumb/original/front/140-1.jpg">boxart/original/front/140-1.jpg</boxart>
+<banner width="760" height="140">graphical/140-g.jpg</banner><banner width="760" height="140">graphical/140-g2.jpg</banner><banner width="760" height="140">graphical/140-g3.jpg</banner><screenshot>
+<original width="256" height="232">screenshots/140-1.jpg</original>
+<thumb>screenshots/thumb/140-1.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="159">clearlogo/140.png</clearlogo></Images>
+</Game>
+</Data>

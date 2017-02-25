@@ -1,0 +1,1538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Data>
+<baseImgUrl>http://thegamesdb.net/banners/</baseImgUrl>
+<Game>
+<id>41394</id>
+<GameTitle>Super Mario Bros. IV</GameTitle>
+<AlternateTitles><title>Mario 4</title><title>Mario Armadillo</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>05/01/1991</ReleaseDate>
+<Overview>An evil armadillo, has made a spell to kidnap the princess. The world of mushrooms and the real world merge.
+Mario bewitched by armadillo evil, has to restore the worlds and rescue Peach, before the worlds collapse.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=kSeUaHBRvlk</Youtube>
+<Publisher>Pirate Nes</Publisher>
+<Developer>Pirate Nes</Developer>
+<Rating>5</Rating><Images>
+<boxart side="front" width="800" height="893" thumb="boxart/thumb/original/front/41394-1.jpg">boxart/original/front/41394-1.jpg</boxart>
+<screenshot>
+<original width="259" height="194">screenshots/41394-1.jpg</original>
+<thumb>screenshots/thumb/41394-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>37312</id>
+<GameTitle>Vs. Super Mario Bros.</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>06/14/1986</ReleaseDate>
+<Overview>Vs. Super Mario Bros., is nearly a separate game in its own right. This game, one of several made for Nintendo's NES-based arcade cabinet, the Nintendo Vs. Unisystem (and its variant, Nintendo Vs. Dualsystem), is based on Super Mario Bros., and has an identical format. This game is harder than the original Super Mario Bros., with fewer warp zones and power-ups, and more enemies. The stages are different; the early stages are subtly different, with small differences like the omission of 1-up mushrooms and other hidden items, narrower platforms and more dangerous enemies, but six later stages are changed entirely. Many of these later, changed stages reappeared in the 1986 game, Super Mario Bros. 2 (Japan).
+
+The plot is the same as the original Super Mario Bros., featuring Mario (or Luigi) setting out on a quest to free Princess Toadstool from the evil Bowser and restore the fallen kingdom of the Mushroom People.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=NcRHqfBhTh4</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>12844</id><PlatformId>23</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/37312-1.jpg</original>
+<thumb>fanart/thumb/37312-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/37312-1.jpg">boxart/original/back/37312-1.jpg</boxart>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/37312-1.jpg">boxart/original/front/37312-1.jpg</boxart>
+<screenshot>
+<original width="256" height="224">screenshots/37312-1.jpg</original>
+<thumb>screenshots/thumb/37312-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="256" height="240">screenshots/37312-2.jpg</original>
+<thumb>screenshots/thumb/37312-2.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="63">clearlogo/37312.png</clearlogo></Images>
+</Game>
+<Game>
+<id>171</id>
+<GameTitle>Super Mario Bros. 2</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>10/01/1988</ReleaseDate>
+<Overview>Mario’s back!  Bigger and badder than before!  This time it’s a fierce action-packed battle to free the land of Subcon from the curse of the evil Wart.  It’s up to you, along with Mario, Luigi, Toad and the Princess, to fight your way through bizarre multi-level worlds and find him!  This time you’ve got a brand new kind of power - plucking power - and now anything you find can be a weapon.  But beware!  You’ve never seen creatures like these!  Shyguys and Tweeters!  Ninji and Beezos!  And you’ve never had an adventure like this!  Only cunning and speed can save you now…</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Action</genre><genre>Adventure</genre><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=D-HFSrOdjuM</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Rating>6.75</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-1.jpg</original>
+<thumb>fanart/thumb/171-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-10.jpg</original>
+<thumb>fanart/thumb/171-10.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-2.jpg</original>
+<thumb>fanart/thumb/171-2.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-3.jpg</original>
+<thumb>fanart/thumb/171-3.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-5.jpg</original>
+<thumb>fanart/thumb/171-5.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-6.jpg</original>
+<thumb>fanart/thumb/171-6.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-7.jpg</original>
+<thumb>fanart/thumb/171-7.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-8.jpg</original>
+<thumb>fanart/thumb/171-8.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/171-9.jpg</original>
+<thumb>fanart/thumb/171-9.jpg</thumb>
+</fanart>
+<boxart side="front" width="1528" height="2100" thumb="boxart/thumb/original/front/171-1.png">boxart/original/front/171-1.png</boxart>
+<banner width="760" height="140">graphical/171-g.jpg</banner><screenshot>
+<original width="256" height="232">screenshots/171-1.jpg</original>
+<thumb>screenshots/thumb/171-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="512" height="480">screenshots/171-2.jpg</original>
+<thumb>screenshots/thumb/171-2.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="1280" height="720">screenshots/171-3.jpg</original>
+<thumb>screenshots/thumb/171-3.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="1280" height="720">screenshots/171-4.jpg</original>
+<thumb>screenshots/thumb/171-4.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="1280" height="720">screenshots/171-5.jpg</original>
+<thumb>screenshots/thumb/171-5.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="1280" height="720">screenshots/171-6.jpg</original>
+<thumb>screenshots/thumb/171-6.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="1280" height="720">screenshots/171-7.jpg</original>
+<thumb>screenshots/thumb/171-7.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="1280" height="720">screenshots/171-8.jpg</original>
+<thumb>screenshots/thumb/171-8.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="300">clearlogo/171.png</clearlogo></Images>
+</Game>
+<Game>
+<id>112</id>
+<GameTitle>Super Mario Bros. 3</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>10/23/1988</ReleaseDate>
+<Overview>Fight monsters and mini-bosses, avoid ghosts and the burning sun.  Make your way through water and quicksand.  Dodge cannon balls and bullets and rescue the King’s wand!
+
+In Super Mario Bros. 3 there are more warps, more chances at extra lives, and new special suits!  The raccoon suit lets you fly and knock out blocks.  The frog suit helps you out-swim the deadly fish.  There are suits for every occasion!
+
+Store up flowers and mushrooms to use later on.  Play game-show type bonus rounds!  Go back to that last screen and get a mushroom!  Pause to take a break, then continue where you left off!
+
+Super Mario Bros. 3 is fun to play alone, or team up with a buddy to prolong the adventure!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=Rj5R5cIH5Zc</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo EAD</Developer>
+<Actors>N/A</Actors>
+<Rating>7.8947</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-1.jpg</original>
+<thumb>fanart/thumb/112-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-10.jpg</original>
+<thumb>fanart/thumb/112-10.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-11.jpg</original>
+<thumb>fanart/thumb/112-11.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-12.jpg</original>
+<thumb>fanart/thumb/112-12.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-2.jpg</original>
+<thumb>fanart/thumb/112-2.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-3.jpg</original>
+<thumb>fanart/thumb/112-3.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-4.jpg</original>
+<thumb>fanart/thumb/112-4.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-5.jpg</original>
+<thumb>fanart/thumb/112-5.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-6.jpg</original>
+<thumb>fanart/thumb/112-6.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-7.jpg</original>
+<thumb>fanart/thumb/112-7.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/112-8.jpg</original>
+<thumb>fanart/thumb/112-8.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1280" height="720">fanart/original/112-9.jpg</original>
+<thumb>fanart/thumb/112-9.jpg</thumb>
+</fanart>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/112-1.jpg">boxart/original/back/112-1.jpg</boxart>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/112-2.jpg">boxart/original/front/112-2.jpg</boxart>
+<banner width="760" height="140">graphical/112-g.jpg</banner><banner width="760" height="140">graphical/112-g2.jpg</banner><screenshot>
+<original width="256" height="232">screenshots/112-1.jpg</original>
+<thumb>screenshots/thumb/112-1.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="248">clearlogo/112.png</clearlogo></Images>
+</Game>
+<Game>
+<id>140</id>
+<GameTitle>Super Mario Bros.</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/13/1985</ReleaseDate>
+<Overview>Do you have what it takes to save the Mushroom Princess?  You’ll have to think fast and move even faster to complete this quest!  The Mushroom Princess is being held captive by the evil Koopa tribe of turtles.  It’s up to you to rescue her from the clutches of the Koopa King before time runs out.  But it won’t be easy.  To get to the Princess, you’ll have to climb mountains, cross seas, avoid bottomless pits, fight off turtle soldiers and a host of black magic traps that only a Koopa King can devise.  It’s another non-stop adventure from the Super Mario Bros.!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=7qirrV8w5SQ</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Actors>N/A</Actors>
+<Rating>7.9048</Rating><Similar><SimilarCount>2</SimilarCount><Game><id>29571</id><PlatformId>18</PlatformId></Game><Game><id>41643</id><PlatformId>34</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-1.jpg</original>
+<thumb>fanart/thumb/140-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-10.jpg</original>
+<thumb>fanart/thumb/140-10.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-11.jpg</original>
+<thumb>fanart/thumb/140-11.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-12.jpg</original>
+<thumb>fanart/thumb/140-12.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-13.jpg</original>
+<thumb>fanart/thumb/140-13.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-14.jpg</original>
+<thumb>fanart/thumb/140-14.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-2.jpg</original>
+<thumb>fanart/thumb/140-2.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-3.jpg</original>
+<thumb>fanart/thumb/140-3.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-4.jpg</original>
+<thumb>fanart/thumb/140-4.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-5.jpg</original>
+<thumb>fanart/thumb/140-5.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-7.jpg</original>
+<thumb>fanart/thumb/140-7.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-8.jpg</original>
+<thumb>fanart/thumb/140-8.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/140-9.jpg</original>
+<thumb>fanart/thumb/140-9.jpg</thumb>
+</fanart>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/140-2.jpg">boxart/original/back/140-2.jpg</boxart>
+<boxart side="front" width="709" height="1000" thumb="boxart/thumb/original/front/140-1.jpg">boxart/original/front/140-1.jpg</boxart>
+<banner width="760" height="140">graphical/140-g.jpg</banner><banner width="760" height="140">graphical/140-g2.jpg</banner><banner width="760" height="140">graphical/140-g3.jpg</banner><screenshot>
+<original width="256" height="232">screenshots/140-1.jpg</original>
+<thumb>screenshots/thumb/140-1.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="159">clearlogo/140.png</clearlogo></Images>
+</Game>
+<Game>
+<id>42444</id>
+<GameTitle>Super Mario Bros IV Armadillo</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>05/01/2009</ReleaseDate>
+<Overview>An evil armadillo, has made a spell to kidnap the princess. The world of mushrooms and the real world merge.
+Mario bewitched by armadillo evil, has to restore the worlds and rescue Peach, before the worlds collapse</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Jagaimo</Publisher>
+<Developer>Jagaimo</Developer>
+<Images>
+<boxart side="front" width="800" height="893" thumb="boxart/thumb/original/front/42444-1.jpg">boxart/original/front/42444-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>41266</id>
+<GameTitle>Super Mario Bros. 3Mix</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<Overview>Super Mario Bros. 3Mix is a large-scale hack that changes and adds lots of features to Super Mario Bros. 3, and pays homage to many past and future Mario titles, while attempting to remain faithful in spirit to the look and feel of Super Mario Bros. 3.
+
+All new levels, new songs, play as Mario, Luigi, or Toad, new power-ups, enemies and more!</Overview>
+<Players>1</Players><Co-op>No</Co-op>
+<Images>
+<boxart side="front" width="226" height="323" thumb="boxart/thumb/original/front/41266-1.jpg">boxart/original/front/41266-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>41502</id>
+<GameTitle>Super Mario Bros. Adventure</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/2004</ReleaseDate>
+<Overview>As of 2006, this is hailed as one of the greatest NES hacks of all time. This Super Mario Brothers 3 hack changes the game right down to the core by tweaking the actual game engine itself! 
+
+Aside from the ‘typical’ graphics and text changes, this hack alters musical melodies, a full line up of all new levels, new power ups, new abilities for Mario, and even new enemies! When I say new, I’m not talking about changed graphics; I’m talking about completely new power ups and monsters. Money mushrooms, invisible Mario, time stopping potions, Kuribo shoes in any level that don’t disappear, shy guys that create projectiles, heat seeking bullet bills, and others are just the beginning of the changes made to this game. 
+
+On top of that, you have random weather patterns on every stage, boss battles on every stage, and infinite lives, so your coins go to more useful purposes. They will be used to buy items from Toad’s house and get some level exits to appear. Let’s not forget stored, and switchable, power ups such as those found in Super Mario World! 
+
+This description really doesn’t do this hack justice. It’s certainly impressive to say the least. Just download it and try it out! It’s definitely one of the most advanced SMB3 hacks to date and pretty darn fun as well!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Rating>7</Rating><Images>
+<boxart side="front" width="427" height="600" thumb="boxart/thumb/original/front/41502-1.png">boxart/original/front/41502-1.png</boxart>
+<screenshot>
+<original width="480" height="448">screenshots/41502-1.jpg</original>
+<thumb>screenshots/thumb/41502-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>6410</id>
+<GameTitle>Super Mario Bros. - Duck Hunt</GameTitle>
+<AlternateTitles><title>Action Set Double Game Pak</title><title>Duck Hunt</title><title>Super Mario Bros.</title><title>Super Mario Bros. / Duck Hunt</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/26/1988</ReleaseDate>
+<Overview>Double the fun on one Game Pak - use the light gun for Duck Hunt and the controllers for Super Mario Bros. 
+
+Take aim, fire and score! It's DUCK HUNT! Your trusty hunting dog wades into the marshes to flush out your prey. Your fingers tighten around your Zapper light gun. Suddenly, there's a duck in the air! You've only got three shots to bag this duck, and if you miss, even your dog laughs at you! But become a sharp-shooter, and you'll progress to the next round where two ducks fly up at the same time. And then you're on to the ultimate challenge: Clay Shooting. Where you'll compete in a wild clay-pigeon shooting contest! Play DUCK HUNT and discover you can have lots of laughs and be challenged at the same time.
+
+Do you have what it takes to save the Mushroom Princess? You'll have to think fast and move even faster to complete this quest! The Mushroom Princess is being held captive by the evil Koopa tribe of turtles. It's up to you to rescue her from the clutches of the Koopa King before time runs out. But it won't be easy. To get to the princess you'll have to climb mountains, cross seas, avoid bottomless pits, fight of turtle soldiers and a host of black magic traps that only a Koopa King can devise. It's another non-stop adventure from the SUPER MARIO BROS.!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Shooter</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Rating>7.25</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/6410-1.jpg</original>
+<thumb>fanart/thumb/6410-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="320" height="466" thumb="boxart/thumb/original/back/6410-1.jpg">boxart/original/back/6410-1.jpg</boxart>
+<boxart side="front" width="1535" height="2100" thumb="boxart/thumb/original/front/6410-1.png">boxart/original/front/6410-1.png</boxart>
+<banner width="760" height="140">graphical/6410-g.jpg</banner><banner width="760" height="140">graphical/6410-g2.jpg</banner><banner width="760" height="140">graphical/6410-g3.jpg</banner><screenshot>
+<original width="1024" height="768">screenshots/6410-1.jpg</original>
+<thumb>screenshots/thumb/6410-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>19890</id>
+<GameTitle>Super Mario Bros./Tetris/Nintendo World Cup</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1988</ReleaseDate>
+<Overview>Super Mario Bros. / Tetris / Nintendo World Cup is a Miscellaneous game, developed and published by Nintendo, which was released in Europe in 1988. It is highly uncommon outside the PAL-region, although it is not valuable amongst collectors. This cartridge is exotic to North American gamers and not more worth than a few bucks for Europeans.</Overview>
+<Genres><genre>Action</genre><genre>Platform</genre><genre>Puzzle</genre><genre>Sports</genre></Genres><Players>4+</Players><Co-op>Yes</Co-op>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Images>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/19890-1.jpg">boxart/original/front/19890-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>17616</id>
+<GameTitle>Super Mario Bros. - Duck Hunt - World Class Track Meet</GameTitle>
+<AlternateTitles><title>Super Mario Bros. / Duck Hunt / World Class Track Meet</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/01/1990</ReleaseDate>
+<Overview>Combo cart containing several of Nintendo's most beloved classics. Super Mario Bros. stars "Jump Man" himself, Mario, along with his brother Luigi, and takes players through more than 30 colorful levels of varied theme and design, all of them packed with cute, stylized enemies like the goombas and a wide array of platforms and obstacles. Duck Hunt has you man a gun and use well-timed button presses to shoot down ducks as they fly across the screen. The third game, the sports competition World Class Track Meet supports the Power Pad accessory.</Overview>
+<Genres><genre>Platform</genre><genre>Shooter</genre><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=sFMjC7zP5MM</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Rating>7.6667</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/17616-1.jpg</original>
+<thumb>fanart/thumb/17616-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="300" height="411" thumb="boxart/thumb/original/back/17616-1.jpg">boxart/original/back/17616-1.jpg</boxart>
+<boxart side="front" width="428" height="688" thumb="boxart/thumb/original/front/17616-1.jpg">boxart/original/front/17616-1.jpg</boxart>
+<screenshot>
+<original width="260" height="226">screenshots/17616-1.jpg</original>
+<thumb>screenshots/thumb/17616-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>189</id>
+<GameTitle>Mario Bros.</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>06/01/1983</ReleaseDate>
+<Overview>Mario and Luigi are doing some underground plumbing when all sorts of weird creatures come flying out of the pipes. Turtles, crabs - even fighterflies - attack the helpless Mario Bros. It's up to you to kick, punch, and knock out these sewer pests before time runs out! But beware. Just when you think you got rid of them, they come back for more! Play against the computer, or with a friend - either way, this is one underground classic you'll want to play time and time again!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Action</genre><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=https://www.youtube.com/watch?v=ly8DofqCuOs</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Rating>8.5</Rating><Similar><SimilarCount>5</SimilarCount><Game><id>16258</id><PlatformId>23</PlatformId></Game><Game><id>5309</id><PlatformId>22</PlatformId></Game><Game><id>5178</id><PlatformId>26</PlatformId></Game><Game><id>21047</id><PlatformId>27</PlatformId></Game><Game><id>6395</id><PlatformId>40</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/189-1.jpg</original>
+<thumb>fanart/thumb/189-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/189-2.jpg</original>
+<thumb>fanart/thumb/189-2.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/189-4.jpg</original>
+<thumb>fanart/thumb/189-4.jpg</thumb>
+</fanart>
+<boxart side="front" width="1532" height="2100" thumb="boxart/thumb/original/front/189-1.jpg">boxart/original/front/189-1.jpg</boxart>
+<banner width="760" height="140">graphical/189-g.jpg</banner><clearlogo width="400" height="103">clearlogo/189.png</clearlogo></Images>
+</Game>
+<Game>
+<id>40973</id>
+<GameTitle>Extra Mario Bros</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>10/06/2005</ReleaseDate>
+<Overview>New maps, new graphics, new enemies, new powerups, new physics, new final boss. It’s inspired by Metroid and in fact, some tiles are imported directly from it. It’s practically a new game.</Overview>
+<ESRB>EC - Early Childhood</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>ATA</Publisher>
+<Developer>ATA</Developer>
+<Images>
+<boxart side="front" width="637" height="928" thumb="boxart/thumb/original/front/40973-1.png">boxart/original/front/40973-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>26507</id>
+<GameTitle>Super Luigi Bros.</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>02/13/2013</ReleaseDate>
+<Overview>This hack was created to celebrate the entire year of Luigi. It was intended to be released on the last day of the Year of Luigi and created well in advance, but poor Luigi was pipped to the post again by himself this time, when Nintendo announced his upcoming game in NES Remix 2. This hack is different to Nintendo’s recently announced Super Luigi Bros. Luigi will not jump higher than he originally felt like and he will not traverse the stages in reverse. All coin blocks now bear a commemorative 30th anniversary badge and Player Two is adorned in classic Luigi’s blue overalls. The title screen is also slightly different. Despite Luigi’s best efforts, picking up a power flower will still attribute fire Mario’s palette.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>2</Players><Co-op>Yes</Co-op>
+<Publisher>Romhacking.net</Publisher>
+<Developer>L___E___T</Developer>
+<Images>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/26507-1.jpg">boxart/original/front/26507-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>37310</id>
+<GameTitle>Super Mario USA</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/14/1992</ReleaseDate>
+<Overview>Mario’s back! Bigger and badder than before! This time it’s a fierce action-packed battle to free the land of Subcon from the curse of the evil Wart. It’s up to you, along with Mario, Luigi, Toad and the Princess, to fight your way through bizarre multi-level worlds and find him! This time you’ve got a brand new kind of power - plucking power - and now anything you find can be a weapon. But beware! You’ve never seen creatures like these! Shyguys and Tweeters! Ninji and Beezos! And you’ve never had an adventure like this! Only cunning and speed can save you now…</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=Ysu5FoRiT0Y</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/37310-1.jpg</original>
+<thumb>fanart/thumb/37310-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/37310-1.jpg">boxart/original/back/37310-1.jpg</boxart>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/37310-1.jpg">boxart/original/front/37310-1.jpg</boxart>
+<screenshot>
+<original width="256" height="240">screenshots/37310-1.jpg</original>
+<thumb>screenshots/thumb/37310-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="256" height="240">screenshots/37310-2.jpg</original>
+<thumb>screenshots/thumb/37310-2.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="160">clearlogo/37310.png</clearlogo></Images>
+</Game>
+<Game>
+<id>42440</id>
+<GameTitle>Super Mario All Stars</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>10/06/2015</ReleaseDate>
+<Overview>An Infidelity Hack Game from well-known Super Mario All Star game, but adapted for Nes.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Adventure</genre><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Infidelity</Publisher>
+<Developer>Infidelity</Developer>
+<Images>
+<boxart side="front" width="800" height="893" thumb="boxart/thumb/original/front/42440-1.jpg">boxart/original/front/42440-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>26476</id>
+<GameTitle>Super Mario Kart</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/2005</ReleaseDate>
+<Overview>This is a Chinese hack of R.C. Pro-AM. The Super Mario GoKart Park is open for tons of racing fun! Hit the track with Mario, Luigi, Yoshi and the Princess. Get tough and lock fenders with Donkey Kong, Jr. and Bowser. Even Toad and Koopa Troopa will mix it up in an all-out quest for the Gold Cup!</Overview>
+<Genres><genre>Racing</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Developer>Rare, rareware</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>41</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<boxart side="front" width="350" height="479" thumb="boxart/thumb/original/front/26476-1.jpg">boxart/original/front/26476-1.jpg</boxart>
+<clearlogo width="400" height="130">clearlogo/26476.png</clearlogo></Images>
+</Game>
+<Game>
+<id>26601</id>
+<GameTitle>Super Mario World</GameTitle>
+<AlternateTitles><title>スーパーマリオワールド</title><title>超级马里奥世界</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1995</ReleaseDate>
+<Overview>Super Mario World is a bootleg port of the SNES launch title of the same name, developed by Hummer Team and released in 1995. This is one of the more well-known examples of pirate ports to the NES, as it comparatively manages to retain most of the elements that defined the SNES original without sacrificing too much quality.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>JY Company</Publisher>
+<Developer>Hummer Team</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>136</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<boxart side="front" width="350" height="479" thumb="boxart/thumb/original/front/26601-1.png">boxart/original/front/26601-1.png</boxart>
+<clearlogo width="400" height="200">clearlogo/26601.png</clearlogo></Images>
+</Game>
+<Game>
+<id>41501</id>
+<GameTitle>Super Mario Fantasy Adventure</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>04/13/2013</ReleaseDate>
+<Overview>Many years ago there was a very cool hack called “Mario Fantasy Adventure”, which was apparently originally made by Acmlm. However, while there was some awesome music and graphic work done on the hack, the hack was unfinished and the changes only lasted up until the first temple. 
+
+This hack continues the Mario Fantasy Adventure and changes the characters, monsters, and other graphics through the entire game. Every monster and weapon has been modified. 
+
+The character classes have also been completed (there were 2 Toads and 2 Peachs). You now pick from: Mario, Luigi, Yoshi, Toad, Peach and Daisy and they all have corresponding class upgrades as well.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Role-Playing</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Nintendo</Publisher>
+<Developer>Square,squaresoft</Developer>
+<Rating>7</Rating><Images>
+<boxart side="front" width="500" height="555" thumb="boxart/thumb/original/front/41501-1.jpg">boxart/original/front/41501-1.jpg</boxart>
+<screenshot>
+<original width="256" height="240">screenshots/41501-1.jpg</original>
+<thumb>screenshots/thumb/41501-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>344</id>
+<GameTitle>Dr. Mario</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/27/1990</ReleaseDate>
+<Overview>A puzzle game similar to Tetris, Dr. Mario features Nintendo mascot Mario as a doctor. Gameplay consists of dropping two-sided vitamin capsules into a playing field 8 blocks wide by 16 blocks high resembling a medicine bottle, populated by viruses of three colors</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Puzzle</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=https://www.youtube.com/watch?v=3ziH6tVJwEU</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Nintendo</Developer>
+<Actors>N/A</Actors>
+<Rating>6.6</Rating><Similar><SimilarCount>2</SimilarCount><Game><id>31870</id><PlatformId>23</PlatformId></Game><Game><id>3178</id><PlatformId>4</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/344-1.jpg</original>
+<thumb>fanart/thumb/344-1.jpg</thumb>
+</fanart>
+<fanart>
+<original width="1920" height="1080">fanart/original/344-2.jpg</original>
+<thumb>fanart/thumb/344-2.jpg</thumb>
+</fanart>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/344-2.jpg">boxart/original/back/344-2.jpg</boxart>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/344-2.jpg">boxart/original/front/344-2.jpg</boxart>
+<banner width="760" height="140">graphical/344-g.jpg</banner><banner width="760" height="140">graphical/344-g2.jpg</banner><screenshot>
+<original width="1920" height="1080">screenshots/344-1.jpg</original>
+<thumb>screenshots/thumb/344-1.jpg</thumb>
+</screenshot>
+<clearlogo width="400" height="60">clearlogo/344.png</clearlogo></Images>
+</Game>
+<Game>
+<id>42471</id>
+<GameTitle>Mario Kun</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<Overview>Version Hack of Moai Kun.</Overview>
+<Co-op>No</Co-op>
+<Images>
+<boxart side="front" width="168" height="298" thumb="boxart/thumb/original/front/42471-1.png">boxart/original/front/42471-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>41743</id>
+<GameTitle>Mario &amp; Yoshi</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/17/1992</ReleaseDate>
+<Overview>An airborne puzzle invasion! It's raining Goombas, Bloobers and Boo Buddies! You have to help Mario cope with the airborne invasion! As the critters fall, catch them on trays. Switch and shuffle to save the day! Stack two of a kind and they both disappear. Or, capture the whole bunch in-between egg shells. When the egg shells match, out hatches Yoshi and up goes your score! The action heats up as the characters fall faster and faster. If your piles get too high, the game is over. Choose your difficulty level and play for a high score or challenge a friend in a head-to-head hatch-off! If you like Dr. Mario, but you're ready for a whole new kind of challenge, you'll love this quick-shuffle action puzzle game!</Overview>
+<Genres><genre>Puzzle</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=JAQ96HL1YlU</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Game Freak</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>38049</id><PlatformId>4</PlatformId></Game></Similar><Images>
+<boxart side="front" width="495" height="704" thumb="boxart/thumb/original/front/41743-1.jpg">boxart/original/front/41743-1.jpg</boxart>
+<screenshot>
+<original width="640" height="398">screenshots/41743-1.jpg</original>
+<thumb>screenshots/thumb/41743-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>42462</id>
+<GameTitle>Mario Lotery</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<Overview>Gameplay footage from a miserable NES bootleg featuring Fortran, a bizarre Mario rip-off who gambles on fruit.</Overview>
+<Genres><genre>Puzzle</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Images>
+<boxart side="front" width="480" height="360" thumb="boxart/thumb/original/front/42462-1.jpg">boxart/original/front/42462-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>1780</id>
+<GameTitle>Mario is Missing!</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/01/1993</ReleaseDate>
+<Overview>Don't look now, but Bowser's back, and this time he's in your world! But where is that mastermind of reptilian trouble doing his dastardly deeds? And what has he done with Mario? Welcome to Mario is Missing! Take a trek with your travel agent, Luigi, and see the world! Track down troublesome turtles. Figure out where in the world you are, and what on earth happened to Mario. If your grasp of geography is good enough, you'll get the goods, stomp the hoods, and grab Mario out of Bowser's ghastly guest house. A learning adventure that the whole family can share! This is no Koopa-stomping mayhem. It's a fun way to learn about our world!</Overview>
+<Genres><genre>Puzzle</genre><genre>Strategy</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Software Toolworks</Publisher>
+<Developer>Radical Ent.</Developer>
+<Rating>7.125</Rating><Similar><SimilarCount>1</SimilarCount><Game><id>2831</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/1780-1.jpg</original>
+<thumb>fanart/thumb/1780-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1536" height="2100" thumb="boxart/thumb/original/back/1780-1.jpg">boxart/original/back/1780-1.jpg</boxart>
+<boxart side="front" width="1538" height="2096" thumb="boxart/thumb/original/front/1780-2.jpg">boxart/original/front/1780-2.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>1811</id>
+<GameTitle>Mario's Time Machine</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>06/01/1994</ReleaseDate>
+<Overview>YOU AND MARIO MAKE QUITE A PAIR. Especially when you're battling the common enemy: Bowser.
+
+Seems Bowser's sneaky Koopas have been, throughout time, stealing objects belonging to famous people who, without these valuable objects, wouldn't have been able to help and inspire mankinds.
+
+But Mario is on to Bowser and his crew. He's persuaded the greatest minds in the world to build him a time machine - so that you and he can go anywhere in the world, during and century, in order to find those precious objects and return them to their rightful owners.
+
+You'll visit Cleopatra in the Alexandria of 48 B.C., Plato in the Athens of 369 B.C. and even Thomas Edison in New Jersey in 1879.
+
+So get ready for an incredible, easy-to-take adventure. Not only will you help the human race, but you'll meet the most famous people who ever lived. And you'll travel all over the globe and back, back, back into history. WHAT A TRIP!
+
+Grab your backpack for the learning adventure of your life!</Overview>
+<Genres><genre>Puzzle</genre><genre>Strategy</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Software Toolworks</Publisher>
+<Developer>Radical Entertainment</Developer>
+<Rating>5</Rating><Similar><SimilarCount>1</SimilarCount><Game><id>3840</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/1811-2.jpg</original>
+<thumb>fanart/thumb/1811-2.jpg</thumb>
+</fanart>
+<boxart side="back" width="1533" height="2100" thumb="boxart/thumb/original/back/1811-1.jpg">boxart/original/back/1811-1.jpg</boxart>
+<boxart side="front" width="1533" height="2100" thumb="boxart/thumb/original/front/1811-1.jpg">boxart/original/front/1811-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>1456</id>
+<GameTitle>Super C</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>04/01/1990</ReleaseDate>
+<Overview>After losing a confrontation against Super Commandos Mad Dog and Scorpion, the juices of destruction drip from the spiked tongue of the vile alien warmonger - Red Falcon. Now, he's coming back stronger than ever, with a sinister plan that includes having his intergalactic warriors seep into the brains of the U.S. Army. To support his disguised forces of doom, he's recruited Jagger Froid, a demented alien from the Black Hole Galaxy. He's also shuttled in The Babula Destructoid Mechanism with its Beam of Death. With torrential terror about to rain down upon civilization, Earth's only hope rests with you, Scorpion, and your pal, the Dogster. And if your spread guns, lasers, flame throwers and mega shells fail to destroy Red Falcon's eight levels of terror, including radioactive lava fields, it's all over but for the shouting, the screaming and the cries from a disintegrating world!</Overview>
+<Genres><genre>Action</genre><genre>Adventure</genre></Genres><Players>2</Players><Publisher>Konami</Publisher>
+<Developer>Konami</Developer>
+<Rating>7.3333</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/1456-1.jpg</original>
+<thumb>fanart/thumb/1456-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1540" height="2100" thumb="boxart/thumb/original/back/1456-1.jpg">boxart/original/back/1456-1.jpg</boxart>
+<boxart side="front" width="1528" height="2100" thumb="boxart/thumb/original/front/1456-1.jpg">boxart/original/front/1456-1.jpg</boxart>
+<screenshot>
+<original width="800" height="700">screenshots/1456-1.jpg</original>
+<thumb>screenshots/thumb/1456-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-2.jpg</original>
+<thumb>screenshots/thumb/1456-2.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-3.jpg</original>
+<thumb>screenshots/thumb/1456-3.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-4.jpg</original>
+<thumb>screenshots/thumb/1456-4.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-5.jpg</original>
+<thumb>screenshots/thumb/1456-5.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-6.jpg</original>
+<thumb>screenshots/thumb/1456-6.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-7.jpg</original>
+<thumb>screenshots/thumb/1456-7.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="800" height="700">screenshots/1456-8.jpg</original>
+<thumb>screenshots/thumb/1456-8.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>42871</id>
+<GameTitle>Super 42 in 1</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>05/05/1992</ReleaseDate>
+<Overview>Multi-game cartridge.</Overview>
+<Players>2</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=sLbAlZlo5zw</Youtube>
+<Images>
+<boxart side="front" width="298" height="206" thumb="boxart/thumb/original/front/42871-1.png">boxart/original/front/42871-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>26502</id>
+<GameTitle>Super Contra 7</GameTitle>
+<AlternateTitles><title>超级战魂</title><title>Super Fighting Spirit</title><title>New Contra</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1996</ReleaseDate>
+<Overview>Super Contra 7 is a pirate based off the Contra series. It is possibly a hack of either Contra or Super C, given that the engine appears to be a modified version of the Contra engine.</Overview>
+<Genres><genre>Action</genre><genre>Shooter</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>E.S.C</Publisher>
+<Developer>Fuzhou Waixing Computer Science &amp; Technology</Developer>
+<Images>
+<boxart side="front" width="640" height="912" thumb="boxart/thumb/original/front/26502-1.jpg">boxart/original/front/26502-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>28365</id>
+<GameTitle>Super Painter</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>02/14/2015</ReleaseDate>
+<Overview>Super Painter is a puzzle platform game in which the player tries to paint the tiles and make it to the exit while avoiding evil cats.</Overview>
+<Genres><genre>Platform</genre><genre>Puzzle</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>RetroSouls</Publisher>
+<Developer>RetroSouls</Developer>
+<Images>
+<boxart side="front" width="256" height="224" thumb="boxart/thumb/original/front/28365-1.png">boxart/original/front/28365-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>28366</id>
+<GameTitle>Super PakPak</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/04/2010</ReleaseDate>
+<Overview>Super PakPak is a 2-4 player Spacewar!/Thrust/Gravity force style game for Nintendo Entertainment System and Famicom. It was programmed in a few weeks in 2010, and was submitted as an official entry for the Assembly Summer 2010 Game Development competition (Ranked 7th out of 19) in Helsinki, Finland.</Overview>
+<Genres><genre>Shooter</genre></Genres><Players>4+</Players><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=o5kFEW5MqIM</Youtube>
+<Publisher>AOH Games</Publisher>
+<Developer>AOH Games</Developer>
+<Images>
+<boxart side="front" width="480" height="360" thumb="boxart/thumb/original/front/28366-1.jpg">boxart/original/front/28366-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>29001</id>
+<GameTitle>Super Bat Puncher</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>06/06/2011</ReleaseDate>
+<Overview>Super Bat Puncher is similar in style to Cave Story with an added gameplay element of weapon-based platforming. Using your trusty boxing glove, you're able to launch yourself between platforms horizontally from a single punch towards the nearest wall.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>2</Players><Co-op>Yes</Co-op>
+<Publisher>miau</Publisher>
+<Developer>miau</Developer>
+<Images>
+<boxart side="front" width="128" height="187" thumb="boxart/thumb/original/front/29001-1.jpg">boxart/original/front/29001-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27289</id>
+<GameTitle>Super Rugby</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/27/1989</ReleaseDate>
+<Overview>Super Rugby is a Sports game, developed by Zap and published by TSS, which was released in Japan in 1989.</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>TSS</Publisher>
+<Developer>Zap</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>40080</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<boxart side="front" width="300" height="207" thumb="boxart/thumb/original/front/27289-1.jpg">boxart/original/front/27289-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27288</id>
+<GameTitle>Super Arabian</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/25/1985</ReleaseDate>
+<Overview>Super Arabian is an Action game, developed and published by SunSoft, which was released in Japan in 1985.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>SunSoft</Publisher>
+<Developer>SunSoft</Developer>
+<Images>
+<boxart side="front" width="300" height="206" thumb="boxart/thumb/original/front/27288-1.jpg">boxart/original/front/27288-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27201</id>
+<GameTitle>Super Maruo</GameTitle>
+<AlternateTitles><title>スーパーマルオ</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/31/1986</ReleaseDate>
+<Overview>Super Maruo is an unlicensed game released in Japan in 1986. Although very rare, this game is the first unlicensed Famicom game and the first unlicensed adult Famicom game as well. Despite the name, it has no relation to Mario at all.</Overview>
+<Genres><genre>Action</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Showa Tsusho</Publisher>
+<Developer>Showa Tsusho</Developer>
+<Images>
+<boxart side="front" width="210" height="338" thumb="boxart/thumb/original/front/27201-1.png">boxart/original/front/27201-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>27301</id>
+<GameTitle>Super Pinball</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>08/23/1988</ReleaseDate>
+<Overview>Super Pinball is a NES pinball sim, providing six inter-connected tables for the player to explore and get high scores on. The overall goal of the game is to actually find and collect certain Mahjong pieces to complete a winning hand, but the Mahjong game itself has little to do with the actual gameplay besides providing a winning condition.
+
+The game was published by Coconuts Japan, a company best known for publishing the Pachio-kun pachinko games. Pachio-kun himself makes a brief cameo on Super Pinball's title screen.</Overview>
+<Genres><genre>Sports</genre></Genres><Players>4+</Players><Co-op>No</Co-op>
+<Publisher>Coconuts Japan</Publisher>
+<Developer>Soft Machine</Developer>
+<Images>
+<boxart side="front" width="279" height="400" thumb="boxart/thumb/original/front/27301-1.jpg">boxart/original/front/27301-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27686</id>
+<GameTitle>Super Boogerman</GameTitle>
+<AlternateTitles><title>Boogerman</title><title>Boogerman: A Pick and Flick Adventure</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/17/1997</ReleaseDate>
+<Overview>He thinks he's a hero, but he's snot! He's mean. He's green. And he nose how to pick a fight! He's BOOGERMAN, as slick as he is deep, and he's on a pick 'n' flick adventure to save the world. He's stretched to the limit of blowing away the vile slimebags who are bent on sticking it to Planet Earth, any way, every way, and everywhere they can. You're his first pick to help him rescue the whole world before it's flushed down the toilet. Join the flick-or-be-flicked race to pull the plug on the Booger Meister and his gang of filthy stinkers who aren't afraid to fight dirty... because yours is the only finger which can wipe 'em out!
+
+Super Boogerman is an unofficial NES port of Boogerman: A Pick and Flick Adventure</Overview>
+<Genres><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Super Game</Publisher>
+<Developer>Super Game</Developer>
+<Images>
+<boxart side="front" width="1213" height="1820" thumb="boxart/thumb/original/front/27686-1.jpg">boxart/original/front/27686-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>2125</id>
+<GameTitle>Super Turrican</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/22/1993</ReleaseDate>
+<Overview>The lost colony of Alterra is a completely man-made lifeworld abandoned long ago in a nearby galaxy. Alterra is actually five colonies in one. Each self-contained habitat has been separately bio-engineered by a powerful ecosystem generation network known as a Multiple Organism Unit Link. MORGUL, for short. Early colonists used MORGUL to render Alterra inhabitable. But a cataclysmic quake severed all system interface functions, and MORGUL murderously rebelled. The few colonists lucky enough to escape told a grim tale of a higher intelligence gone berserk.
+
+For generations, mankind sought a return to Alterra. Finally, genetic science created a saviour: Turrican, a mutant warrior, bio-engineered for the task of planetary reclamation. In the meantime, MORGUL has diligently twisted Alterran life forms to his brutal, destructive purposes. Thus, Turrican's challenges consist in eliminating hostile organisms from Alterra's five multi-level worlds and, finally, destroying the three faces of MORGUL.</Overview>
+<Genres><genre>Action</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Imagineer</Publisher>
+<Developer>Rainbow Arts</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>6177</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<boxart side="front" width="350" height="495" thumb="boxart/thumb/original/front/2125-1.jpg">boxart/original/front/2125-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>2123</id>
+<GameTitle>Super Sprint</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1989</ReleaseDate>
+<Overview>Super Sprint is a racing game for one or two players. Gameplay is from an overhead view of the racetrack. The racetracks start simple and gradually get more complicated, and may also feature obstacles ranging from traffic cones to tornadoes. Occasionally wrenches will appear in the roadway, and when collected they can be used after a race to power up your car with better tires, better acceleration or a higher top speed.</Overview>
+<Genres><genre>Racing</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Tengen</Publisher>
+<Developer>Atari</Developer>
+<Rating>10</Rating><Similar><SimilarCount>1</SimilarCount><Game><id>36237</id><PlatformId>23</PlatformId></Game></Similar><Images>
+<boxart side="back" width="1530" height="2100" thumb="boxart/thumb/original/back/2123-1.jpg">boxart/original/back/2123-1.jpg</boxart>
+<boxart side="front" width="1521" height="2100" thumb="boxart/thumb/original/front/2123-1.jpg">boxart/original/front/2123-1.jpg</boxart>
+<clearlogo width="400" height="58">clearlogo/2123.png</clearlogo></Images>
+</Game>
+<Game>
+<id>2122</id>
+<GameTitle>Super Pitfall</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1986</ReleaseDate>
+<Overview>Pitfall Harry returns to adventuring in this "Super" sequel to Pitfall! and Pitfall II: Lost Caverns. Harry’s mission: to recover the famed Raj Diamond, and also to rescue his niece Rhonda and loyal lion sidekick, Quickclaw.
+
+Now armed with a gun, Harry must navigate some 270 screens of 8-bit action-platforming. Valuable items will be collected along the way to aid your quest, but beware: dangers also abound, from snakes and spiders to falling rocks and boiling lava!</Overview>
+<Genres><genre>Action</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Activision</Publisher>
+<Developer>Micronics</Developer>
+<Rating>8.2</Rating><Images>
+<boxart side="back" width="640" height="910" thumb="boxart/thumb/original/back/2122-1.jpg">boxart/original/back/2122-1.jpg</boxart>
+<boxart side="front" width="350" height="495" thumb="boxart/thumb/original/front/2122-1.jpg">boxart/original/front/2122-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>2121</id>
+<GameTitle>Super Jeopardy!</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/01/1991</ReleaseDate>
+<Overview>Super Jeopardy! is based on the popular Jeopardy! TV game show. In this digital incarnation, 4 players compete at answering reverse trivia questions in trademark Jeopardy! fashion-- i.e., the host provides the answer and a player has to provide the questions. As many of 4 human players can participate, with the remaining slots filled by the computer. Competition takes place in quarter-final, semi-final, and final round modes.</Overview>
+<Genres><genre>Puzzle</genre></Genres><Players>4+</Players><Co-op>No</Co-op>
+<Publisher>GameTek</Publisher>
+<Developer>Imagineering</Developer>
+<Images>
+<boxart side="back" width="1540" height="2100" thumb="boxart/thumb/original/back/2121-1.jpg">boxart/original/back/2121-1.jpg</boxart>
+<boxart side="front" width="1526" height="2100" thumb="boxart/thumb/original/front/2121-1.jpg">boxart/original/front/2121-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>42438</id>
+<GameTitle>Super chinese 2</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>05/28/1989</ReleaseDate>
+<Overview>Little Ninja Brothers is the first game in the Super Chinese series to feature role-playing video game elements, an addition to the series that would continue into the other games.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Action</genre><genre>Fighting</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Culture Brain</Publisher>
+<Developer>Culture Brain</Developer>
+<Images>
+<boxart side="front" width="224" height="400" thumb="boxart/thumb/original/front/42438-1.jpg">boxart/original/front/42438-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>42437</id>
+<GameTitle>Super Chinese</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>06/23/1984</ReleaseDate>
+<Overview>Monsters have taken Princess Min-Min captive and have stolen the 10 treasures of the nameless land the game takes place in, leaving everything in sorrow. Kung-fu Masters Jacky and Lee return from training and must set out to rescue the princess and find the treasures.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Action</genre><genre>Fighting</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Namcot</Publisher>
+<Developer>Nihon Game</Developer>
+<Images>
+<boxart side="front" width="192" height="263" thumb="boxart/thumb/original/front/42437-1.jpg">boxart/original/front/42437-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>11770</id>
+<GameTitle>Super Cars</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>02/01/1991</ReleaseDate>
+<Overview>Super Cars is a Racing game, developed by Gremlin Graphics and published by Electro Brain, which was released in 1991.</Overview>
+<Genres><genre>Racing</genre></Genres><Co-op>No</Co-op>
+<Publisher>Electro Brain</Publisher>
+<Developer>Gremlin Graphics</Developer>
+<Similar><SimilarCount>1</SimilarCount><Game><id>41896</id><PlatformId>4911</PlatformId></Game></Similar><Images>
+<boxart side="front" width="400" height="550" thumb="boxart/thumb/original/front/11770-1.jpg">boxart/original/front/11770-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>40867</id>
+<GameTitle>Super Chinese 3</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>03/01/1991</ReleaseDate>
+<Overview>Super Chinese 3 is a Role-Playing game, published by Culture Brain, which was released in Japan in 1991.
+
+Final Famicom game in the series.</Overview>
+<Genres><genre>Role-Playing</genre></Genres><Co-op>No</Co-op>
+<Publisher>Culture Brain</Publisher>
+<Images>
+<boxart side="front" width="640" height="450" thumb="boxart/thumb/original/front/40867-1.jpg">boxart/original/front/40867-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>382</id>
+<GameTitle>Super Spy Hunter</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1991</ReleaseDate>
+<Overview>The Super Spy Hunter has a super spy car. It's actually a well-armed car that can turn into a boat or a plane at opportune times. The action is fast vertical scrolling as the vehicle faces all manner of powerful vehicle threats from a well-funded terrorist enemy -- cars, trucks, helicopters, etc. Luckily, there are many powerups to collect along the way, both defensive and offensive.</Overview>
+<Genres><genre>Action</genre></Genres><Co-op>No</Co-op>
+<Publisher>Suncorp</Publisher>
+<Developer>Tokai</Developer>
+<Images>
+<boxart side="back" width="1000" height="1416" thumb="boxart/thumb/original/back/382-1.jpg">boxart/original/back/382-1.jpg</boxart>
+<boxart side="front" width="1000" height="1416" thumb="boxart/thumb/original/front/382-1.jpg">boxart/original/front/382-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>1905</id>
+<GameTitle>Tecmo Super Bowl</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/01/1991</ReleaseDate>
+<Overview>The teams, the players, and the halftime shows are ready for the ultimate football season, and you're in control. From the first pre-season game to the playoffs, it's your call, your skill, and your team. Can you get to and win the Super Bowl? Tecmo Super Bowl is the only football game to feature onside kicks, blocked passes and kicks, fumbles, pitchout to the running back, player injuries, time-outs, and much, much more! For 1 or 2 players. All 28 NFL teams! Four running plays, four passing plays. Team stats and data. Create your own Pro Bowl. Coach Mode, where you call the plays!</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Tecmo</Publisher>
+<Developer>Tecmo</Developer>
+<Rating>10</Rating><Similar><SimilarCount>3</SimilarCount><Game><id>4655</id><PlatformId>18</PlatformId></Game><Game><id>13559</id><PlatformId>10</PlatformId></Game><Game><id>6250</id><PlatformId>6</PlatformId></Game></Similar><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/1905-1.jpg</original>
+<thumb>fanart/thumb/1905-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1540" height="2100" thumb="boxart/thumb/original/back/1905-1.jpg">boxart/original/back/1905-1.jpg</boxart>
+<boxart side="front" width="1526" height="2100" thumb="boxart/thumb/original/front/1905-1.jpg">boxart/original/front/1905-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>2120</id>
+<GameTitle>Super Glove Ball</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>10/01/1990</ReleaseDate>
+<Overview>Your shuttle commander has been trapped in a dimensional maze in space, and you must use your glove to throw an energy ball at the walls in order to advance.
+
+The walls in each maze room you encounter are filled with blocks. Using your Power Glove, you have to entirely break down a wall before being allowed to advance to the next room.</Overview>
+<Genres><genre>Action</genre></Genres><Co-op>No</Co-op>
+<Publisher>Mattel</Publisher>
+<Developer>Rare</Developer>
+<Images>
+<boxart side="back" width="1536" height="2100" thumb="boxart/thumb/original/back/2120-1.jpg">boxart/original/back/2120-1.jpg</boxart>
+<boxart side="front" width="1524" height="2100" thumb="boxart/thumb/original/front/2120-1.jpg">boxart/original/front/2120-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>2124</id>
+<GameTitle>Super Team Games</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>11/01/1988</ReleaseDate>
+<Overview>Super Team Games is a side scrolling game where two players compete in races on an obstacle course. The game utilizes the Nintendo Power Pad; to control your on screen character you will need to run in place on the Power Pad to make your character run, and actually jump to make him jump. In the basic game you need to run and jump your way to the finish line as fast as possible. Some additional game variations are available, such as the belly bump ball (you need to roll a giant ball through the obstacle course by running into it), the crab walk (make it to the finish line walking like a crab!), the water cross (water is found on the track; if you mistime your jump and land in the water you need to swim to get out costing you valuable time), the bubble run (racing through the course inside a giant bubble), or the skateboard race. Several cooperative games are included as well, including a tug of war, relay race, and six legged race.</Overview>
+<Genres><genre>Action</genre><genre>Racing</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Bandai</Publisher>
+<Developer>Sonata</Developer>
+<Images>
+<boxart side="front" width="350" height="495" thumb="boxart/thumb/original/front/2124-1.jpg">boxart/original/front/2124-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27299</id>
+<GameTitle>Super Dyna'mix Badminton</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>08/26/1988</ReleaseDate>
+<Overview>Super Dyna'mix Badminton is the first game for the Famicom to cover the sport of badminton. It was created by the developer/publisher team Pax Softnica and Vap Inc., previously behind Super Real Baseball '88.
+
+The game is depicted by a side-view, more commonly associated with volleyball video games than tennis video games, the latter favoring a viewpoint from behind one of the competitors. This comparison is also true for the sport of badminton itself, which has a similar focus on performing hard-to-counter spike attacks close to the net in order to score points. Because of the irregular flight path of a shuttlecock, the player needs to focus more on its shadow than the projectile itself in order to play effectively.
+
+Though the game has options for both male and female characters every character sprite is the same androgynous black-haired person. The only real change is that games are shorter for female competitors as they would be in real life. The game also allows for four different "coats" on the main menu - as these change the venue the competitors are playing in, this is presumably a mistranslation of "courts".</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Vap</Publisher>
+<Developer>Pax Softonica</Developer>
+<Images>
+<boxart side="front" width="300" height="206" thumb="boxart/thumb/original/front/27299-1.jpg">boxart/original/front/27299-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>1458</id>
+<GameTitle>Super Spike V'Ball</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>02/01/1990</ReleaseDate>
+<Overview>Warm up with a few exercise games then face contenders in the American Circuit. For the ultimate challenge play against the best in the World Cup. Jump and block opponent's spikes, dive to dig a cross court spike, or set one up for a smash that only the best player can return. Kabooom! Your Super Spike blasts your opponent off his feet! "X" marks the spot so you can track the ball. Pick players with speed, strong defense, or killer offense. Your quick reflexes and competitive spirit complete the team. Play against the computer, by yourself or challenge a friend. With the NES Satellite or the NES Four Score any combination of one to four can play - even two vs. two! Now you can play on sand courts from Daytona to Los Angeles. Face off international teams in Hawaii or challenge the hot Navy team aboard an aircraft carrier. Watch the sand fly! Hear the applause. Soak up the rays! It's Super Spike V'Ball for World Class fun!</Overview>
+<Genres><genre>Sports</genre></Genres><Players>4+</Players><Co-op>No</Co-op>
+<Publisher>Nintendo</Publisher>
+<Developer>Technos Japan</Developer>
+<Rating>7.3333</Rating><Images>
+<boxart side="back" width="1540" height="2100" thumb="boxart/thumb/original/back/1458-1.jpg">boxart/original/back/1458-1.jpg</boxart>
+<boxart side="front" width="1528" height="2100" thumb="boxart/thumb/original/front/1458-1.jpg">boxart/original/front/1458-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>1457</id>
+<GameTitle>Super Dodge Ball</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>06/01/1989</ReleaseDate>
+<Overview>This ain't elementary school and it sure as heck ain't gym class.  This is Super Dodge Ball.  Control your team of six players to pummel the opposing team into submission using only the ball and your team's unique skills.  Each player has his own special attacks and each team has their own unique attributes.</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Publisher>Sony Imagesoft</Publisher>
+<Developer>Technos</Developer>
+<Similar><SimilarCount>2</SimilarCount><Game><id>21018</id><PlatformId>23</PlatformId></Game><Game><id>10471</id><PlatformId>24</PlatformId></Game></Similar><Images>
+<boxart side="back" width="1532" height="2100" thumb="boxart/thumb/original/back/1457-1.jpg">boxart/original/back/1457-1.jpg</boxart>
+<boxart side="front" width="1534" height="2100" thumb="boxart/thumb/original/front/1457-1.jpg">boxart/original/front/1457-1.jpg</boxart>
+<clearlogo width="400" height="215">clearlogo/1457.png</clearlogo></Images>
+</Game>
+<Game>
+<id>31004</id>
+<GameTitle>Super Rescue Solbrain</GameTitle>
+<AlternateTitles><title>特救指令ソルブレイン </title><title>Tokkyū Shirei Soruburein</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1991</ReleaseDate>
+<Co-op>No</Co-op>
+<Publisher>Angel</Publisher>
+<Developer>Natsume</Developer>
+<Images>
+<boxart side="back" width="400" height="277" thumb="boxart/thumb/original/back/31004-1.jpg">boxart/original/back/31004-1.jpg</boxart>
+<boxart side="front" width="401" height="588" thumb="boxart/thumb/original/front/31004-1.jpg">boxart/original/front/31004-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>37504</id>
+<GameTitle>Super Robin Hood</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>11/01/1985</ReleaseDate>
+<Overview>You are Robin Hood. Your quest is to run through The Sheriff of Nottingham's castle and rescue Maid Marion. The game starts out with you already in the castle.  
+
+The game is a relatively simple platformer. Gameplay involves running up and down ladders, jumping onto moving platforms and killing static crossbow wielding guards with your Bow and Arrows. 
+
+Killing the guards is made into a simple timing based effort as you duck under their arrows and fire your own back using your only weapon, Robins trusty Bow and Arrow.
+ 
+You also collect hearts, which allow you to complete the game by earning the love of Maid Marion and rescuing her from the clutches of the evil Sheriff. Collecting keys activates the various moving lifts that are present in many of the games rooms.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Camerica</Publisher>
+<Developer>Codemasters</Developer>
+<Similar><SimilarCount>2</SimilarCount><Game><id>39497</id><PlatformId>4914</PlatformId></Game><Game><id>26163</id><PlatformId>4913</PlatformId></Game></Similar><Images>
+<boxart side="front" width="426" height="586" thumb="boxart/thumb/original/front/37504-1.jpg">boxart/original/front/37504-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27298</id>
+<GameTitle>Super Black Onyx</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>04/14/1988</ReleaseDate>
+<Overview>Super Black Onyx (スーパーブラックオニキス?) is an RPG developed by Bullet Proof Software for the Famicom and published in Japan in 1988. It is an expanded version of the game The Black Onyx, which includes the ability to cast spells, more monsters, and a larger dungeon to explore. It also enhances the presentation of the graphics beyond what was standard for the computer versions at the time, and simplified the controls to be played with a control pad.</Overview>
+<Genres><genre>Role-Playing</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Bullet Proof Software</Publisher>
+<Developer>Bullet Proof Software</Developer>
+<Images>
+<boxart side="front" width="593" height="413" thumb="boxart/thumb/original/front/27298-1.jpg">boxart/original/front/27298-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>19359</id>
+<GameTitle>Super Lode Runner II</GameTitle>
+<AlternateTitles><title>Super Lode Runner 2</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<Overview>The second compilation of levels from Irem's Lode Runner Arcade series. Developed for the Famicom Disk System, it was never released outside of Japan.
+Irem created four Arcade versions of the original Lode Runner, each with a unique set of levels as well as added features like a co-operative mode for two players. For the FDS home versions, Irem compiled several levels from each of these Arcade versions onto one disk. Super Lode Runner II has fewer single-player levels than its predecessor, but contains more co-op levels to make up for it.</Overview>
+<Co-op>No</Co-op>
+<Images>
+<boxart side="front" width="271" height="299" thumb="boxart/thumb/original/front/19359-1.jpg">boxart/original/front/19359-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>11933</id>
+<GameTitle>Talking Super Jeopardy!</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1990</ReleaseDate>
+<Co-op>No</Co-op>
+<Publisher>GameTek</Publisher>
+<Developer>IJE Inc</Developer>
+<Images>
+<boxart side="front" width="400" height="550" thumb="boxart/thumb/original/front/11933-1.jpg">boxart/original/front/11933-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>40869</id>
+<GameTitle>Super Momotarou Dentetsu</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>03/20/1992</ReleaseDate>
+<Overview>A train-based boardgame for the PC Engine, Famicom, and Game Boy.
+
+Super Momotarou Dentetsu is a train and conveyance-based board game with financial elements that features Hudson's Momotarou character, based on the Japanese folklore hero of the same name. It is the second game in the Momotarou Dentetsu series and the first to be released on a 16-bit console - the PC Engine - hence the "Super" in the title. Several years after its PC Engine release, Super Momotarou Detetsu was also released on the Nintendo Famicom and Game Boy. It received a sequel in Super Momotarou Dentetsu II and a large number of successors.
+
+The goal of the game is to travel the map and acquire territory through business deals, similar to Monopoly or Itadaki Street. Players have to contend with each other for limited resources, as well as CPU threats like the God of Poverty.</Overview>
+<Genres><genre>Strategy</genre></Genres><Co-op>No</Co-op>
+<Publisher>Hudson</Publisher>
+<Developer>Hudson</Developer>
+<Images>
+<boxart side="front" width="276" height="396" thumb="boxart/thumb/original/front/40869-1.jpg">boxart/original/front/40869-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27306</id>
+<GameTitle>Super Star Pro Wrestling</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/09/1989</ReleaseDate>
+<Overview>Super Star Pro Wrestling is a 1989 Japanese professional wrestling, or puroresu, game made by Nihon Bussan and published by Pony Canyon for the Nintendo Famicom system. Released December 9, 1989, the game features play for both one- and two-player modes. It was released a year later in the United States as WCW Wrestling on the Nintendo Entertainment System, with different wrestlers.
+
+The game featured several puroresu legends of the era, including Giant Baba, Antonio Inoki, and Stan Hansen. There are some inaccuracies in the game, mainly with the birthdates of some of the wrestlers, and Big Van Vader's hometown and date of birth are not listed in order to protect his gimmick. The only two wrestlers to appear in both Super Star Pro Wrestling and WCW Wrestling are Road Warrior Hawk and Road Warrior Animal.</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Pony Canyon</Publisher>
+<Developer>Nichibutsu</Developer>
+<Images>
+<boxart side="front" width="300" height="207" thumb="boxart/thumb/original/front/27306-1.jpg">boxart/original/front/27306-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27302</id>
+<GameTitle>Super Real Baseball '88</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/30/1988</ReleaseDate>
+<Overview>Super Real Baseball '88 (スーパーリアル ベースボール '88?) is a baseball game developed by Pax Softonica for the Famicom and published in Japan by Vap in 1988. After Namco excited the market for baseball games with the release of Pro Yakyuu Family Stadium, many other companies attempted to meet the demand for more baseball games.
+
+This title differentiated itself from other baseball games by obtaining permission from the Professional Baseball Organization of Japan to use the official names of the 12 Japanese baseball teams and their players. This was a groundbreaking feature at the time. It was also the first game to depict an existing stadium with it's actual name, the Tokyo Dome, which had just opened shortly before the game's release. Outfielder and first baseman Warren Cromartie, formerly with the Montreal Expos, and playing for the Yomiuri Giants at the time, was chosen to help promote the game.
+
+To further distinguish the game, the developers chose to use a more realistic approach when depicting the players on the field, as opposed to the more cartoonish look utilized by Pro Yakyuu Family Stadium and many other baseball games. Additionally, the view remains fairly close to the ball after the batter hits the ball, as opposed to zooming out to a bird's eye view of the field. Despite these changes, and efforts to promote the game, it was considered very difficult to play, as it employed rather complex controls for batting, pitching, and fielding that were not easy for many players to perform.</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Vap</Publisher>
+<Developer>Pax Softonica</Developer>
+<Images>
+<boxart side="front" width="424" height="600" thumb="boxart/thumb/original/front/27302-1.jpg">boxart/original/front/27302-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>26617</id>
+<GameTitle>J. League Super Top Players</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>04/22/1994</ReleaseDate>
+<Overview>The game itself is interesting, with ten teams to choose from, and multiple game modes including an actual tournament or penalty kick practicing.
+
+For the PK Battle modes, each player must select a different team. He must then scan a player card (not a team card), and then that player will have a chance to kick a penalty kick (if it is his turn). For all other modes, the player must scan a team card and that will be the team that he will play as for the game(s). The main mode of play is the J.LEAGUE mode, of course. It is set up in a season/tournament setting, with 18 games per team. There are ten teams total in this version of J.League, and they are randomly sorted to play against a different team each day. The games are split into two periods with three minutes (3:00) apiece. Prior to starting a game, the player can choose the formation of his eleven active players, from one of three layouts that he can see on the small screen (4-4-2, 4-3-3, or 3-5-2).</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Bandai</Publisher>
+<Developer>TOSE</Developer>
+<Images>
+<boxart side="front" width="257" height="387" thumb="boxart/thumb/original/front/26617-1.jpg">boxart/original/front/26617-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>24722</id>
+<GameTitle>Dai-2-Ji Super Robot Taisen</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/19/1991</ReleaseDate>
+<Overview>Dai-2-Ji Super Robot Taisen is a Strategy game, developed by WinkySoft and published by Banpresto, which was released in Japan in 1991.</Overview>
+<ESRB>T - Teen</ESRB>
+<Genres><genre>Strategy</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Banpresto</Publisher>
+<Developer>WinkySoft</Developer>
+<Images>
+<boxart side="front" width="640" height="438" thumb="boxart/thumb/original/front/24722-1.jpg">boxart/original/front/24722-1.jpg</boxart>
+<screenshot>
+<original width="256" height="224">screenshots/24722-1.jpg</original>
+<thumb>screenshots/thumb/24722-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="256" height="224">screenshots/24722-2.jpg</original>
+<thumb>screenshots/thumb/24722-2.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>41987</id>
+<GameTitle>Tecmo Super Bowl 2017</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/08/2016</ReleaseDate>
+<Overview>Tecmo Super Bowl is the greatest sports video game of all time. Now, 25 years after TSB made 8-Bit legends of Bo Jackson and Lawrence Taylor, TecmoBowl.org proudly announces the release of Tecmo Super Bowl 2017. This site's 10th yearly iteration updates Tecmo's NES classic with up-to-date rosters, graphics, schedules and play books for all 32 NFL squads.  Additionally, you can now check the defensive conditions of your players.
+
+Playable on multiple platforms and operating systems via NES emulation software, Tecmo Super Bowl 2017 brings Nintendo's bone-crunching classic to today's computers and handheld devices.
+
+Will offenses fear Von Miller like they feared Lawrence Taylor? Who is the more deadly play-caller: Aaron Rodgers or Dan Marino? Will Todd Gurley live up to the hype? Loaded into an NES Emulator, Tecmo Super Bowl 2017 will make legends for the next 25 years.</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>TecmoBowl.org</Publisher>
+<Developer>TecmoBowl.org</Developer>
+<Rating>10</Rating><Images>
+<boxart side="front" width="495" height="693" thumb="boxart/thumb/original/front/41987-1.png">boxart/original/front/41987-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>42565</id>
+<GameTitle>Tecmo Super Bowl Gold</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>08/23/2016</ReleaseDate>
+<Overview>Tecmo Super Bowl Gold is a modded "Legends" ROM of Tecmo Super Bowl.
+
+Each team is comprised of the greatest players in franchise history, whether it's based on talent, records, or the impact they left on the team (Players like Tim Tebow and Kordell Stewart are included for the latter reasons).  In addition to the team rosters, the All-Pro rosters have been edited to contain the greatest players in the history of the National Football League.
+
+http://tecmobowl.org/files/file/497-tecmo-super-bowl-gold/</Overview>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Developer>Baron von Lector</Developer>
+<Images>
+<boxart side="front" width="906" height="893" thumb="boxart/thumb/original/front/42565-1.jpg">boxart/original/front/42565-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>42602</id>
+<GameTitle>Tecmo Super Bowl 2016</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/09/2015</ReleaseDate>
+<Overview>Tecmo Super Bowl is the greatest sports video game of all time. Now, 24 years after TSB made 8-Bit legends of Bo Jackson and Lawrence Taylor, TecmoBowl.org proudly announces the release of Tecmo Super Bowl 2016. This site's 9th yearly iteration updates Tecmo's NES classic with up-to-date rosters, graphics, schedules and play books for all 32 NFL squads.  Additionally, you can now check the defensive conditions of your players.
+
+Playable on multiple platforms and operating systems via NES emulation software, Tecmo Super Bowl 2016 brings Nintendo's bone-crunching classic to today's computers and handheld devices.
+
+Will offenses fear Richard Sherman like they feared Ronnie Lott? Who is the more deadly play-caller: Aaron Rodgers or Dan Marino? Will Marshawn Lynch live up to the hype? Loaded into an NES Emulator, Tecmo Super Bowl 2016 will make legends for the next 23 years.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Sports</genre></Genres><Players>2</Players><Co-op>No</Co-op>
+<Publisher>Tecmobowl.org</Publisher>
+<Developer>Tecmobowl.org</Developer>
+<Rating>10</Rating><Images>
+<boxart side="front" width="300" height="420" thumb="boxart/thumb/original/front/42602-1.png">boxart/original/front/42602-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>10942</id>
+<GameTitle>Captain Tsubasa II: Super Striker</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>07/20/1990</ReleaseDate>
+<Overview>Captain Tsubasa II: Super Striker is a Soccer Sim game, developed and published by Tecmo, which was released in Japan in 1990.</Overview>
+<Players>1</Players><Co-op>No</Co-op>
+<Rating>5.5</Rating><Images>
+<boxart side="back" width="217" height="150" thumb="boxart/thumb/original/back/10942-1.jpg">boxart/original/back/10942-1.jpg</boxart>
+<boxart side="front" width="600" height="413" thumb="boxart/thumb/original/front/10942-1.jpg">boxart/original/front/10942-1.jpg</boxart>
+<screenshot>
+<original width="256" height="224">screenshots/10942-1.jpg</original>
+<thumb>screenshots/thumb/10942-1.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="256" height="224">screenshots/10942-2.jpg</original>
+<thumb>screenshots/thumb/10942-2.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="256" height="224">screenshots/10942-3.jpg</original>
+<thumb>screenshots/thumb/10942-3.jpg</thumb>
+</screenshot>
+<screenshot>
+<original width="506" height="442">screenshots/10942-4.jpg</original>
+<thumb>screenshots/thumb/10942-4.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>26383</id>
+<GameTitle>Astro Fang: Super Machine</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>10/26/1990</ReleaseDate>
+<Overview>Astro Fang: Super Machine (アストロ・ファング Asutoro Fangu) is a Family Computer video game that was released for an exclusively Japanese market in 1990.
+
+Somewhere in the galaxy lies the planet RS-121 – a desolate planet that has suffered terrible disasters which made life impossible.
+
+Only one construction still remains on the planet – a highway called the Black Line. It is said than an ancient legend is somehow connected to this highway. Players must knock enemies off the road by using missiles before they can knock him off the same highway. Automobile repair shops can be found where cars can be repaired and re-supplied with much-needed weapons. The playable vehicle resembles a 1982 DeLorean DMC-12 while the unplayable enemy vehicles resemble dune buggies.
+
+The game has an infinite amount of continues and a meter appears on the bottom left-hand side of the screen to remind how close the player is to achieving the goal.</Overview>
+<Genres><genre>Racing</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>A-Wave</Publisher>
+<Developer>Soft Machine</Developer>
+<Images>
+<boxart side="front" width="300" height="207" thumb="boxart/thumb/original/front/26383-1.jpg">boxart/original/front/26383-1.jpg</boxart>
+<screenshot>
+<original width="256" height="240">screenshots/26383-1.jpg</original>
+<thumb>screenshots/thumb/26383-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>27305</id>
+<GameTitle>Super Xevious: GUMP no Nazo</GameTitle>
+<AlternateTitles><title>Super Xevious: GAMP no Nazo</title><title>Super Xevious</title></AlternateTitles><PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/19/1986</ReleaseDate>
+<Overview>Super Xevious: GUMP no Nazo (スーパーゼビウス ガンプの謎?) is a video game released for the Family Computer and the Nintendo VS. System.
+
+The only way to progress through the game is to solve challenging riddles in each stage, each one more difficult than the last. Unless the player solves the riddle completely and meets certain criteria, the stage repeats over and over, thus making it harder to complete the game.</Overview>
+<Genres><genre>Shooter</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Namco</Publisher>
+<Developer>TOSE</Developer>
+<Images>
+<boxart side="front" width="874" height="1280" thumb="boxart/thumb/original/front/27305-1.png">boxart/original/front/27305-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>41335</id>
+<GameTitle>Super Pitfall: 30th Anniversary Edition</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>09/05/2016</ReleaseDate>
+<Overview>The Super Pitfall 30th Anniversary Edition is a ROM hack made by nesrocks for the NES game Super Pitfall originally programmed by micronics and released for the famicom first in 1986. It works on a NES and emulators, powerpaks, etc!
+
+The hack aims to update the game to be more enjoyable today with revised game design and improved graphics, while trying to maintain the original concept and feel of exploration intact. I have tried to keep the level design the same too, otherwise it just wouldn’t be the same game. There are just a few differences here and there, see if you can spot them.
+
+-Completely new graphics
+-Completely new songs
+-Items are not invisible anymore
+-Warps are now doors you can enter
+-The HUD shows important item collection progress
+-Some bugs have been fixed
+    Improved performance</Overview>
+<Genres><genre>Action</genre><genre>Adventure</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Romhacking.net</Publisher>
+<Developer>Bit Ink Studios</Developer>
+<Images>
+<boxart side="front" width="1129" height="1534" thumb="boxart/thumb/original/front/41335-1.jpg">boxart/original/front/41335-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>2794</id>
+<GameTitle>Ivan "Ironman" Stewart's Super Off Road</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>04/01/1990</ReleaseDate>
+<Overview>Grab the wheel and hit the gas! For the first time ever, race up to 4 players simultaneously with Ivan "Ironman" Stewart's Super Off-Road. Based on the #1 arcade game, this all-out dirt-grinding race is now available for the NES. Watch out for the mud holes, jumps and other obstacles on the 8 different Stadium tracks. From match-offs to spin-outs, Super Off-Road is as close to genuine short-course racing as you can get!</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Racing</genre></Genres><Players>4+</Players><Co-op>No</Co-op>
+<Publisher>Tradewest</Publisher>
+<Developer>Rare Ltd.</Developer>
+<Rating>8</Rating><Images>
+<fanart>
+<original width="1920" height="1080">fanart/original/2794-1.jpg</original>
+<thumb>fanart/thumb/2794-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="1540" height="2100" thumb="boxart/thumb/original/back/2794-1.jpg">boxart/original/back/2794-1.jpg</boxart>
+<boxart side="front" width="1528" height="2100" thumb="boxart/thumb/original/front/2794-1.jpg">boxart/original/front/2794-1.jpg</boxart>
+<banner width="760" height="140">graphical/2794-g.jpg</banner><clearlogo width="400" height="250">clearlogo/2794.png</clearlogo></Images>
+</Game>
+<Game>
+<id>314</id>
+<GameTitle>Super Spike V-Ball &amp; Nintendo World Cup</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>02/01/1990</ReleaseDate>
+<Overview>2 in 1 game. Super Spike V'Ball / Nintendo World Cup was a pack-in game included with the Nintendo Entertainment System Sports Set. The package included a standard NES console, four game controllers, and the Four Score Multiplayer Adapter. The cart included two games developed by Technos: # Super Spike V'Ball, a two-on-two beach volleyball game where you played on a tournament, ending with the world championship. The game supported up to four players on one match at a time; # Nintendo World Cup, a soccer game where you (and a friend) chose to represent a team and played several matches until you won the World Cup. The game featured little to no rules, which means that you could hit your opponents as much as you want, without fear of the Ref getting in the way. Both games were compatible with the included Four Score NES multiplayer adapter.</Overview>
+<ESRB>E - Everyone</ESRB>
+<Genres><genre>Sports</genre></Genres><Co-op>No</Co-op>
+<Youtube>http://www.youtube.com/watch?v=unbaUXyVymA</Youtube>
+<Publisher>Nintendo</Publisher>
+<Developer>Technos</Developer>
+<Images>
+<fanart>
+<original width="1280" height="720">fanart/original/314-1.jpg</original>
+<thumb>fanart/thumb/314-1.jpg</thumb>
+</fanart>
+<boxart side="back" width="300" height="411" thumb="boxart/thumb/original/back/314-1.png">boxart/original/back/314-1.png</boxart>
+<boxart side="front" width="350" height="495" thumb="boxart/thumb/original/front/314-1.jpg">boxart/original/front/314-1.jpg</boxart>
+<screenshot>
+<original width="259" height="194">screenshots/314-1.jpg</original>
+<thumb>screenshots/thumb/314-1.jpg</thumb>
+</screenshot>
+</Images>
+</Game>
+<Game>
+<id>26885</id>
+<GameTitle>Ganso Saiyuuki: Super Monkey Daibouken</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>11/21/1986</ReleaseDate>
+<Overview>Sun Wukong must assist the Buddhist monk Xuanzang with his task of collecting some sūtras as they make the treacherous voyage from China to India. Other guardians can be asked to join the adventuring party after meeting up with them. Most of the storyline in this video game is based on the Chinese novel Journey to the West. Players can enter a code that allows them to return to any stage at any time.</Overview>
+<Genres><genre>Action</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Vap</Publisher>
+<Developer>Vap</Developer>
+<Images>
+<boxart side="front" width="299" height="205" thumb="boxart/thumb/original/front/26885-1.jpg">boxart/original/front/26885-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>27304</id>
+<GameTitle>Super Star Force: Jikūreki no Himitsu</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>11/11/1986</ReleaseDate>
+<Overview>Super Star Force: Jikūreki no Himitsu (スーパースターフォース 時空暦の秘密?, lit. "Secrets of the Space-Time Calendar") is a video game developed and published by Tecmo on November 11, 1986 for the Family Computer only in Japan.
+
+The game was featured in episode 111 (14th Season) of GameCenter CX.
+
+While this video game was originally assigned by Hudson Soft to be the publisher, Tecmo (then known as Tehkan) decided to both develop and publish the game as they were the official copyright owners</Overview>
+<Genres><genre>Shooter</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Tecmo</Publisher>
+<Developer>Tecmo</Developer>
+<Images>
+<boxart side="front" width="406" height="281" thumb="boxart/thumb/original/front/27304-1.png">boxart/original/front/27304-1.png</boxart>
+</Images>
+</Game>
+<Game>
+<id>26503</id>
+<GameTitle>Super Donkey Kong: Banana Boat</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>01/01/1998</ReleaseDate>
+<Overview>Super Donkey Kong - Xiang Jiao Chuan is a Donkey Kong Country pirate for the Famicom based off Donkey Kong Country on the SNES.</Overview>
+<Genres><genre>Platform</genre></Genres><Players>1</Players><Co-op>No</Co-op>
+<Publisher>Liang Yi Productions</Publisher>
+<Developer>Chengdu Tai Jing Da Dong Computer</Developer>
+<Images>
+<boxart side="front" width="640" height="912" thumb="boxart/thumb/original/front/26503-1.jpg">boxart/original/front/26503-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>40621</id>
+<GameTitle>Nishimura Kyoutarou Mystery: Super Express Satsujin Jiken</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>03/02/1992</ReleaseDate>
+<Overview>Nishimura Kyoutarou Mystery: Super Express Satsujin Jiken is an Adventure game, developed by TOSE and published by Irem, which was released in Japan in 1990.</Overview>
+<Genres><genre>Adventure</genre></Genres><Co-op>No</Co-op>
+<Publisher>Irem</Publisher>
+<Developer>TOSE</Developer>
+<Images>
+<boxart side="front" width="167" height="242" thumb="boxart/thumb/original/front/40621-1.jpg">boxart/original/front/40621-1.jpg</boxart>
+</Images>
+</Game>
+<Game>
+<id>40868</id>
+<GameTitle>Super Mogura Tataki!! Pokkun Mogura</GameTitle>
+<PlatformId>7</PlatformId>
+<Platform>Nintendo Entertainment System (NES)</Platform>
+<ReleaseDate>12/08/1989</ReleaseDate>
+<Overview>Super Mogura Tataki!! Pokkun Mogura is a Miscellaneous game, published by IGS, which was released in Japan in 1989.</Overview>
+<Genres><genre>Action</genre></Genres><Co-op>No</Co-op>
+<Publisher>IGS</Publisher>
+<Images>
+<boxart side="front" width="304" height="191" thumb="boxart/thumb/original/front/40868-1.jpg">boxart/original/front/40868-1.jpg</boxart>
+</Images>
+</Game>
+</Data>

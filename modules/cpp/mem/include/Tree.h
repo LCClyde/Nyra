@@ -333,6 +333,8 @@ private:
         }
     }
 
+    // TOOD: We should be allowed to set children nodes even if nothing is set.
+    //       To do this, we need a smarter onChildAdded system.
     void validate() const
     {
         // Do not allow creation of children nodes unless this is set.

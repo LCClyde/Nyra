@@ -32,12 +32,11 @@ namespace
 {
 //===========================================================================//
 void readTree(const ptree& boostTree,
-              const std::string& nodeName,
               nyra::mem::Tree<std::string>& tree)
 {
     if (!boostTree.data().empty())
     {
-        tree.get() = boostTree.data();
+        tree = boostTree.data();
     }
 
     std::unordered_map<std::string, std::vector<ptree::const_iterator> > posMap;
@@ -50,17 +49,24 @@ void readTree(const ptree& boostTree,
     {
         if (iter->second.size() == 1)
         {
-            tree[iter->first] = new std::string();
-            readTree(iter->second[0]->second,
-                     iter->first, tree[iter->first]);
+            const ptree& newBoostTree = iter->second[0]->second;
+
+            // If the name is empty, then this is a single list item
+            if (iter->first.empty())
+            {
+                tree[0] = "";
+                readTree(newBoostTree, tree[0]);
+            }
+
+            tree[iter->first] = "";
+            readTree(newBoostTree, tree[iter->first]);
         }
         else
         {
             for (size_t ii = 0; ii < iter->second.size(); ++ii)
             {
-                tree[ii] = new std::string();
-                readTree(iter->second[ii]->second,
-                         iter->first, tree[ii]);
+                tree[ii] = "";
+                readTree(iter->second[ii]->second, tree[ii]);
             }
         }
     }
@@ -142,7 +148,7 @@ void read<json::JSON>(const std::string& pathname,
 {
     ptree boostTree;
     read_json(pathname, boostTree);
-    readTree(boostTree, "", tree);
+    readTree(boostTree, tree);
 }
 }
 }

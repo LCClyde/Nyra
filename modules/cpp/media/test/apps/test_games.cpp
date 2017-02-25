@@ -32,7 +32,13 @@ bool compare(const nyra::media::Game& g1, const nyra::media::Game& g2)
            g1.filename == g2.filename &&
            g1.boxArtFile == g2.boxArtFile &&
            g1.videoFile == g2.videoFile &&
-           g1.zippedFiles == g2.zippedFiles;
+           g1.zippedFiles == g2.zippedFiles &&
+           g1.gamesDb.id == g2.gamesDb.id &&
+           g1.gamesDb.rating == g2.gamesDb.rating &&
+           g1.gamesDb.youtube == g2.gamesDb.youtube &&
+           g1.gamesDb.boxArt == g2.gamesDb.boxArt &&
+           g1.gamesDb.fanArt == g2.gamesDb.fanArt &&
+           g1.gamesDb.bannerArt == g2.gamesDb.bannerArt;
 }
 }
 
@@ -63,8 +69,23 @@ TEST(Game, Archive)
     game.boxArtFile = "mario.png";
     games.push_back(game);
 
-    const std::vector<std::string> zips = {"a", "b", "c"};
-    game.zippedFiles = zips;
+    game.zippedFiles = {"a"};
+    games.push_back(game);
+
+    game.zippedFiles = {"a", "b", "c"};
+    games.push_back(game);
+
+    game.gamesDb.id = "140";
+    game.gamesDb.youtube = "youtube";
+    game.gamesDb.rating = 8.5;
+    game.gamesDb.fanArt = {"f1"};
+
+    // Makes sure looping is correct for 1 or 0 sized art vectors
+    games.push_back(game);
+
+    game.gamesDb.boxArt = {"b1", "b2", "b3"};
+    game.gamesDb.fanArt = {"f1", "f2", "f3", "f4"};
+    game.gamesDb.bannerArt = {"bn1", "bn2"};
     games.push_back(game);
 
     const std::vector<Game> archived = test::archive(games);
@@ -86,7 +107,7 @@ TEST(Game, Stdout)
     game.boxArtFile = "mario.png";
     game.zippedFiles = {"a", "b", "c"};
 
-    const std::string expected =
+    std::string expected =
             "Name: Mario\n"
             "Filename: mario.bin\n"
             "Box Art: mario.png\n"
@@ -95,6 +116,33 @@ TEST(Game, Stdout)
             "    a\n"
             "    b\n"
             "    c";
+
+    EXPECT_EQ(expected, test::stdout(game));
+
+    game.gamesDb.id = "140";
+    game.gamesDb.youtube = "youtube";
+    game.gamesDb.rating = 8.5;
+    game.gamesDb.boxArt = {"b1", "b2", "b3"};
+    game.gamesDb.fanArt = {"f1", "f2", "f3", "f4"};
+    game.gamesDb.bannerArt = {"bn1", "bn2"};
+
+    expected +=
+            "\nGamesDb Data:\n"
+            "    ID:       140\n"
+            "    Rating:   8.5\n"
+            "    YouTube:  youtube\n"
+            "    Fan Art:\n"
+            "         f1\n"
+            "         f2\n"
+            "         f3\n"
+            "         f4\n"
+            "    Box Art:\n"
+            "         b1\n"
+            "         b2\n"
+            "         b3\n"
+            "    Banner:\n"
+            "         bn1\n"
+            "         bn2";
 
     EXPECT_EQ(expected, test::stdout(game));
 }

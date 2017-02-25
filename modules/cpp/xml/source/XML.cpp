@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <fstream>
+#include <iostream>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <nyra/xml/XML.h>
@@ -119,8 +120,8 @@ void writeTree(const nyra::mem::Tree<nyra::xml::Element>& tree,
                     tempTree.put("<xmlattr>." + iter->first, iter->second);
                 }
 
-                boostTree.add_child(key, tempTree);
                 writeTree(tree[key][ii], tempTree);
+                boostTree.add_child(key, tempTree);
             }
         }
     }
@@ -131,6 +132,17 @@ namespace nyra
 {
 namespace xml
 {
+//===========================================================================//
+XML::XML(const std::string& xmlString)
+{
+    std::stringstream ss;
+    ss << xmlString;
+
+    ptree boostTree;
+    read_xml(ss, boostTree, xml_parser::trim_whitespace);
+    readTree(boostTree, "", *this);
+}
+
 //===========================================================================//
 std::ostream& operator<<(std::ostream& os, const XML& tree)
 {

@@ -129,7 +129,7 @@ std::string Browser::get(const std::string& url,
     }
 
     // Cache results
-    cacheURL(url, readBuffer);
+    cacheURL(encoded, readBuffer);
 
     return readBuffer;
 }

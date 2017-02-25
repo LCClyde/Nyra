@@ -31,7 +31,10 @@ namespace nyra
 {
 namespace net
 {
-
+/*
+ *  \type Param
+ *  \brief Holds a key value pair for url parameters
+ */
 typedef std::pair<std::string, std::string> Param;
 
 /*
@@ -41,7 +44,17 @@ typedef std::pair<std::string, std::string> Param;
 class Browser: private mem::GlobalDependency<GlobalHandler>
 {
 public:
-
+    /*
+     *  \func Constructor
+     *  \brief Creates the browser
+     *
+     *  \param cacheTime The time to set for the caching in days. If a value
+     *         of 0 is used, no cache is ever done.
+     *  \param cacheDir The directory to cache files to.
+     *  \param cacheRandom An extra random factor to add to the cache
+     *         time in days. This helps spread out the cache misses
+     *         over a larger period.
+     */
     Browser(size_t cacheTime = 0,
             const std::string& cacheDir = "cache",
             size_t cacheRandom = 1);
@@ -51,6 +64,8 @@ public:
      *  \brief Does the equivalent of a HTTP GET call.
      *
      *  \param url The target URL
+     *  \param params The URL parameters. These do not need to be
+     *         percent encoded.
      *  \return The results of the call
      */
     std::string get(const std::string& url,

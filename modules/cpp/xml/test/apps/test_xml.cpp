@@ -25,22 +25,29 @@
 
 namespace
 {
+//===========================================================================//
+static const std::string XML_STRING =
+        "<main>\n"
+        "    main text\n"
+        "    <filename>/home/user/xml.xml</filename>\n"
+        "    <modules>\n"
+        "        <module type='graphics'>opengl"
+        "            <nested>1</nested>\n"
+        "        </module>\n"
+        "        <module type='window'>opengl\n"
+        "            <nested>2</nested>\n"
+        "        </module>\n"
+        "        <module type='window'>posix\n"
+        "            <nested>3</nested>\n"
+        "        </module>\n"
+        "    </modules>\n"
+        "    <debugLevel>2</debugLevel>\n"
+        "</main>\n";
+//===========================================================================//
 void writeFile()
 {
-    const std::string xmlString =
-            "<main>\n"
-            "    main text\n"
-            "    <filename>/home/user/xml.xml</filename>\n"
-            "    <modules>\n"
-            "        <module type='graphics'>opengl</module>\n"
-            "        <module type='window'>opengl</module>\n"
-            "        <module type='window'>posix</module>\n"
-            "    </modules>\n"
-            "    <debugLevel>2</debugLevel>\n"
-            "</main>\n";
-
     std::ofstream stream("xml_round_trip.xml");
-    stream << xmlString;
+    stream << XML_STRING;
     stream.close();
 }
 }
@@ -49,6 +56,7 @@ namespace nyra
 {
 namespace xml
 {
+//===========================================================================//
 TEST(XML, RoundTrip)
 {
     writeFile();
@@ -70,6 +78,9 @@ TEST(XML, RoundTrip)
     EXPECT_EQ("window",
               read["main"]["modules"]["module"][2].get().attributes["type"]);
     EXPECT_EQ("2", read["main"]["debugLevel"].get().text);
+    EXPECT_EQ("1", read["main"]["modules"]["module"][0]["nested"].get().text);
+    EXPECT_EQ("2", read["main"]["modules"]["module"][1]["nested"].get().text);
+    EXPECT_EQ("3", read["main"]["modules"]["module"][2]["nested"].get().text);
 
     core::write<XML>(read, "xml_round_trip.xml");
     XML write = core::read<XML>("xml_round_trip.xml");
@@ -89,8 +100,36 @@ TEST(XML, RoundTrip)
     EXPECT_EQ("window",
               write["main"]["modules"]["module"][2].get().attributes["type"]);
     EXPECT_EQ("2", write["main"]["debugLevel"].get().text);
+    EXPECT_EQ("1", write["main"]["modules"]["module"][0]["nested"].get().text);
+    EXPECT_EQ("2", write["main"]["modules"]["module"][1]["nested"].get().text);
+    EXPECT_EQ("3", write["main"]["modules"]["module"][2]["nested"].get().text);
 }
 
+//===========================================================================//
+TEST(XML, FromString)
+{
+    XML read(XML_STRING);
+
+    EXPECT_EQ("main text", read["main"].get().text);
+    EXPECT_EQ("/home/user/xml.xml", read["main"]["filename"].get().text);
+    EXPECT_EQ(static_cast<size_t>(3),
+              read["main"]["modules"]["module"].size());
+    EXPECT_EQ("opengl", read["main"]["modules"]["module"][0].get().text);
+    EXPECT_EQ("graphics",
+              read["main"]["modules"]["module"][0].get().attributes["type"]);
+    EXPECT_EQ("opengl", read["main"]["modules"]["module"][1].get().text);
+    EXPECT_EQ("window",
+              read["main"]["modules"]["module"][1].get().attributes["type"]);
+    EXPECT_EQ("posix", read["main"]["modules"]["module"][2].get().text);
+    EXPECT_EQ("window",
+              read["main"]["modules"]["module"][2].get().attributes["type"]);
+    EXPECT_EQ("2", read["main"]["debugLevel"].get().text);
+    EXPECT_EQ("1", read["main"]["modules"]["module"][0]["nested"].get().text);
+    EXPECT_EQ("2", read["main"]["modules"]["module"][1]["nested"].get().text);
+    EXPECT_EQ("3", read["main"]["modules"]["module"][2]["nested"].get().text);
+}
+
+//===========================================================================//
 TEST(XML, Stdout)
 {
     writeFile();

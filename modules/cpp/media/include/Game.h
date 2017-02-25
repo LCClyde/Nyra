@@ -30,6 +30,7 @@ namespace nyra
 {
 namespace media
 {
+
 /*
  *  \class Game
  *  \brief Struct to hold game information.
@@ -37,6 +38,54 @@ namespace media
 struct Game
 {
 public:
+    /*
+     *  \class GamesDb
+     *  \brief Holds onto TheGamesDb.net information.
+     */
+    struct GamesDb
+    {
+        GamesDb();
+
+        /*
+         *  \var id
+         *  \brief The identification for the game
+         */
+        std::string id;
+
+        /*
+         *  \var rating
+         *  \brief The user rating from 0-10
+         */
+        double rating;
+
+        /*
+         *  \var youtube
+         *  \brief Link to a youtube video of the game
+         */
+        std::string youtube;
+
+        /*
+         *  \var fanArt
+         *  \brief A list of available fan art.
+         */
+        std::vector<std::string> fanArt;
+        /*
+         *  \var boxArt
+         *  \brief A list of available box art.
+         */
+        std::vector<std::string> boxArt;
+
+        /*
+         *  \var baannerArt
+         *  \brief A list of available banner art.
+         */
+        std::vector<std::string> bannerArt;
+
+    private:
+        friend std::ostream& operator<<(std::ostream& os,
+                                        const GamesDb& game);
+    };
+
     /*
      *  \var sprite
      *  \brief Sprite to represent the game, usually box art.
@@ -73,6 +122,8 @@ public:
      *         zip, this vector will be empty.
      */
     std::vector<std::string> zippedFiles;
+
+    GamesDb gamesDb;
 
 private:
     friend std::ostream& operator<<(std::ostream& os, const Game& game);

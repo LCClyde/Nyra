@@ -35,6 +35,9 @@ void writeFile()
         "    {\n"
         "        \"text\": \"main text\",\n"
         "        \"filename\": \"/home/user/xml.xml\",\n"
+        "        \"small_list\": [\n"
+        "            \"value\"\n"
+        "        ],\n"
         "        \"modules\":\n"
         "        {\n"
         "            \"module\":\n"
@@ -75,11 +78,15 @@ TEST(JSON, RoundTrip)
 {
     writeFile();
 
-    JSON read = core::read<JSON>(PATHNAME);
+    const JSON read = core::read<JSON>(PATHNAME);
     std::remove(PATHNAME.c_str());
 
     EXPECT_EQ("main text", read["main"]["text"].get());
     EXPECT_EQ("/home/user/xml.xml", read["main"]["filename"].get());
+    EXPECT_EQ("", read["main"]["small_list"].get());
+    EXPECT_EQ(static_cast<size_t>(1), read["main"]["small_list"].size());
+    EXPECT_EQ("value", read["main"]["small_list"][0].get());
+
     EXPECT_EQ(static_cast<size_t>(3),
               read["main"]["modules"]["module"].size());
     EXPECT_EQ("opengl", read["main"]["modules"]["module"][0]["text"].get());
@@ -102,25 +109,29 @@ TEST(JSON, RoundTrip)
     JSON write = core::read<JSON>(PATHNAME);
     std::remove(PATHNAME.c_str());
 
-    EXPECT_EQ("main text", read["main"]["text"].get());
-    EXPECT_EQ("/home/user/xml.xml", read["main"]["filename"].get());
+    EXPECT_EQ("main text", write["main"]["text"].get());
+    EXPECT_EQ("/home/user/xml.xml", write["main"]["filename"].get());
+    EXPECT_EQ("", write["main"]["small_list"].get());
+    EXPECT_EQ(static_cast<size_t>(1), write["main"]["small_list"].size());
+    EXPECT_EQ("value", write["main"]["small_list"][0].get());
+
     EXPECT_EQ(static_cast<size_t>(3),
-              read["main"]["modules"]["module"].size());
-    EXPECT_EQ("opengl", read["main"]["modules"]["module"][0]["text"].get());
+            write["main"]["modules"]["module"].size());
+    EXPECT_EQ("opengl", write["main"]["modules"]["module"][0]["text"].get());
     EXPECT_EQ("graphics",
-              read["main"]["modules"]["module"][0]["type"].get());
-    EXPECT_EQ("opengl", read["main"]["modules"]["module"][1]["text"].get());
+            write["main"]["modules"]["module"][0]["type"].get());
+    EXPECT_EQ("opengl", write["main"]["modules"]["module"][1]["text"].get());
     EXPECT_EQ("window",
-              read["main"]["modules"]["module"][1]["type"].get());
-    EXPECT_EQ("posix", read["main"]["modules"]["module"][2]["text"].get());
+            write["main"]["modules"]["module"][1]["type"].get());
+    EXPECT_EQ("posix", write["main"]["modules"]["module"][2]["text"].get());
     EXPECT_EQ("window",
-              read["main"]["modules"]["module"][2]["type"].get());
-    EXPECT_EQ("2", read["main"]["debugLevel"].get());
+              write["main"]["modules"]["module"][2]["type"].get());
+    EXPECT_EQ("2", write["main"]["debugLevel"].get());
     EXPECT_EQ(static_cast<size_t>(3),
-              read["main"]["array"].size());
-    EXPECT_EQ("1", read["main"]["array"][0].get());
-    EXPECT_EQ("2", read["main"]["array"][1].get());
-    EXPECT_EQ("3", read["main"]["array"][2].get());
+              write["main"]["array"].size());
+    EXPECT_EQ("1", write["main"]["array"][0].get());
+    EXPECT_EQ("2", write["main"]["array"][1].get());
+    EXPECT_EQ("3", write["main"]["array"][2].get());
 }
 
 TEST(JSON, Stdout)

@@ -37,6 +37,21 @@ namespace xml
  */
 class XML : public mem::Tree<Element>
 {
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates an empty XML document
+     */
+    XML() = default;
+
+    /*
+     *  \func Constructor
+     *  \brief Creates an XML from an XML string in memory
+     *
+     *  \param xmlString the XML to parse.
+     */
+    XML(const std::string& xmlString);
+
 private:
     friend std::ostream& operator<<(std::ostream& os, const XML& tree);
 };
