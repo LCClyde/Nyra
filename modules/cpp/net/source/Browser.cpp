@@ -128,6 +128,17 @@ std::string Browser::get(const std::string& url,
         throw std::runtime_error("Failed to get contents of: " + url);
     }
 
+    long httpCode = 0;
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
+
+    // Fail if the code is not 200 (Success) or 0, which occurs when
+    // a local file is browsed.
+    if (httpCode != 200 && httpCode != 0)
+    {
+        throw std::runtime_error(
+                "HTTP Get failed: " + core::str::toString(httpCode));
+    }
+
     // Cache results
     cacheURL(encoded, readBuffer);
 

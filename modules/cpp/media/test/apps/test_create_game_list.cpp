@@ -31,7 +31,8 @@ namespace media
 //===========================================================================//
 TEST(CreateGameList, Create)
 {
-    std::vector<Game> games = createGameList(core::DATA_PATH, "mtest");
+    std::vector<Game> games =
+            createGameList(core::DATA_PATH, "mtest", true);
 
     bool found[3] = {false, false, false};
 

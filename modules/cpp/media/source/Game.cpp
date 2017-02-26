@@ -28,6 +28,12 @@ namespace nyra
 namespace media
 {
 //===========================================================================//
+Game::Game() :
+    rating(0.0)
+{
+}
+
+//===========================================================================//
 Game::GamesDb::GamesDb() :
     rating(0.0)
 {
@@ -78,10 +84,11 @@ std::ostream& operator<<(std::ostream& os, const Game::GamesDb& game)
 //===========================================================================//
 std::ostream& operator<<(std::ostream& os, const Game& game)
 {
-    os << "Name: " << game.name << "\n"
+    os << "Name:     " << game.name << "\n"
+       << "Rating:   " << game.rating << "\n"
        << "Filename: " << game.filename << "\n"
-       << "Box Art: " << game.boxArtFile << "\n"
-       << "Video: " << game.videoFile;
+       << "Box Art:  " << game.boxArtFile << "\n"
+       << "Video:    " << game.videoFile;
 
     if (!game.zippedFiles.empty())
     {
@@ -119,6 +126,7 @@ void write<std::vector<media::Game> >(const std::vector<media::Game>& games,
         tree["games"][ii]["filename"] = games[ii].filename;
         tree["games"][ii]["box_art"] = games[ii].boxArtFile;
         tree["games"][ii]["video"] = games[ii].videoFile;
+        tree["games"][ii]["rating"] = core::str::toString(games[ii].rating);
 
         if (!games[ii].zippedFiles.empty())
         {
@@ -185,6 +193,8 @@ void read<std::vector<media::Game> >(const std::string& pathname,
         game.filename = tree["games"][ii]["filename"].get();
         game.boxArtFile = tree["games"][ii]["box_art"].get();
         game.videoFile = tree["games"][ii]["video"].get();
+        game.rating = core::str::toType<double>(
+                tree["games"][ii]["rating"].get());
 
         if (tree["games"][ii].has("zip"))
         {

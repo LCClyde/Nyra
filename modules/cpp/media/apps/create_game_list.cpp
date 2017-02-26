@@ -23,6 +23,7 @@
 #include <exception>
 #include <nyra/cli/Parser.h>
 #include <nyra/media/CreateGameList.h>
+#include <nyra/core/Path.h>
 
 using namespace nyra;
 
@@ -34,17 +35,21 @@ int main(int argc, char** argv)
         cli::Options opt("Creates a rom list");
         opt.add("platform", "Specify the target platform").setPositional();
         opt.add("data", "Specify the data directory").setPositional();
+        opt.add("disable-games-db", "Disable TheGamesDb lookup").setIsFlag();
         cli::Parser options(opt, argc, argv);
 
         const std::string platformName = options.get("platform");
         const std::string dataDir = options.get("data");
+        const bool disableGamesDb = options.get<bool>("disable-games-db");
 
         const std::vector<media::Game> games =
-                media::createGameList(dataDir, platformName);
+                media::createGameList(dataDir, platformName, disableGamesDb);
 
 
         std::cout << "Writing games\n";
-        core::write(games, "games_nes.json");
+        const std::string outPathname = core::path::join(
+                dataDir, "serial/games_" + platformName + ".json");
+        core::write(games, outPathname);
     }
     catch (const std::exception& ex)
     {

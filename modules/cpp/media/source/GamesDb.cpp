@@ -24,7 +24,6 @@
 #include <nyra/media/GamesDb.h>
 #include <nyra/xml/XML.h>
 #include <nyra/core/String.h>
-
 namespace nyra
 {
 namespace media
@@ -50,13 +49,16 @@ std::string GamesDb::getId(const std::string& name,
         params.push_back(net::Param("platform", platform));
     }
 
-    xml::XML results(mBrowser->get(url, params));
+    const xml::XML results(mBrowser->get(url, params));
 
-    for (size_t ii = 0; ii < results["Data"]["Game"].loopSize(); ++ii)
+    if (results.has("Data") && results["Data"].has("Game"))
     {
-        if (results["Data"]["Game"][ii]["GameTitle"].get().text == name)
+        for (size_t ii = 0; ii < results["Data"]["Game"].loopSize(); ++ii)
         {
-            return results["Data"]["Game"][ii]["id"].get().text;
+            if (results["Data"]["Game"][ii]["GameTitle"].get().text == name)
+            {
+                return results["Data"]["Game"][ii]["id"].get().text;
+            }
         }
     }
 
@@ -77,7 +79,7 @@ void GamesDb::updateGame(const std::string& id,
     std::vector<net::Param> params;
     params.push_back(net::Param("id", id));
 
-    xml::XML results(mBrowser->get(url, params));
+    const xml::XML results(mBrowser->get(url, params));
 
     const std::string baseURL = results["Data"]["baseImgUrl"].get().text;
 

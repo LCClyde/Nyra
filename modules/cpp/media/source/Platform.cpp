@@ -19,6 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <iostream>
 #include <nyra/media/Platform.h>
 #include <nyra/core/String.h>
 #include <nyra/json/JSON.h>
@@ -56,6 +57,15 @@ std::ostream& operator<<(std::ostream& os, const Platform& platform)
        << "Extensions:  " << extensions << "\n"
        << "GoodTool:    " << platform.goodTool << "\n"
        << "GoodMerge:   " << platform.goodMerge;
+
+    if (!platform.gamesDbPlatforms.empty())
+    {
+        os << "\nTheGamesDb Platforms:";
+        for (const std::string& plat : platform.gamesDbPlatforms)
+        {
+            os << "\n    " << plat;
+        }
+    }
     return os;
 }
 }
@@ -73,6 +83,16 @@ void write<media::Platform>(const media::Platform& platform,
     tree["extensions"] = extensionsToString(platform.extensions);
     tree["good_tool"] = platform.goodTool;
     tree["good_merge"] = platform.goodMerge;
+
+    if (!platform.gamesDbPlatforms.empty())
+    {
+        tree["games_db_platforms"] = "";
+
+        for (size_t ii = 0; ii < platform.gamesDbPlatforms.size(); ++ii)
+        {
+            tree["games_db_platforms"][ii] = platform.gamesDbPlatforms[ii];
+        }
+    }
     write<json::JSON>(tree, pathname);
 }
 
@@ -87,6 +107,15 @@ void read<media::Platform>(const std::string& pathname,
     platform.extensions = core::str::split(tree["extensions"].get(), ",");
     platform.goodTool = tree["good_tool"].get();
     platform.goodMerge = tree["good_merge"].get();
+
+    if (tree.has("games_db_platforms"))
+    {
+        for (size_t ii = 0; ii < tree["games_db_platforms"].loopSize(); ++ii)
+        {
+            platform.gamesDbPlatforms.push_back(
+                    tree["games_db_platforms"][ii].get());
+        }
+    }
 }
 }
 }

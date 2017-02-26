@@ -36,10 +36,12 @@ namespace media
  *
  *  \param dataPath The path to the data dir
  *  \param platform The platform to build
+ *  \param disableGamesDb Disables the Games Db lookup.
  *  \return The new game list.
  */
 std::vector<Game> createGameList(const std::string& dataPath,
-                                 const std::string& platform);
+                                 const std::string& platform,
+                                 bool disableGamesDb);
 }
 }
 

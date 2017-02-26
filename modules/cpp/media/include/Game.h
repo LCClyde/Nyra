@@ -39,6 +39,12 @@ struct Game
 {
 public:
     /*
+     *  \func Constructor
+     *  \brief Sets up a default Game object.
+     */
+    Game();
+
+    /*
      *  \class GamesDb
      *  \brief Holds onto TheGamesDb.net information.
      */
@@ -123,6 +129,16 @@ public:
      */
     std::vector<std::string> zippedFiles;
 
+    /*
+     *  \var rating
+     *  \brief The aggregated rating of the game from 0 - 100
+     */
+    double rating;
+
+    /*
+     *  \var gamesDb
+     *  \brief TheGamesDb.net information.
+     */
     GamesDb gamesDb;
 
 private:

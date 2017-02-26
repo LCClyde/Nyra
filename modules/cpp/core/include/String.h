@@ -81,6 +81,18 @@ T toType(const std::string& s);
  */
 std::vector<std::string> split(const std::string& string,
                                const std::string& delim = " ");
+
+
+/*
+ *  \func endsWith
+ *  \brief Checks is a string ends with a value
+ *
+ *  \param input The string to check
+ *  \param end The ending to check for
+ *  \return True if the string ends with "end"
+ */
+bool endsWith(const std::string& input,
+              const std::string& end);
 }
 }
 }

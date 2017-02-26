@@ -63,6 +63,12 @@ public:
      */
     std::string goodMerge;
 
+    /*
+     *  \var gamesDbPlatforms
+     *  \brief A list of TheGamesDb.net platform names supported.
+     */
+    std::vector<std::string> gamesDbPlatforms;
+
 private:
     friend std::ostream& operator<<(std::ostream& os,
                                     const Platform& platform);

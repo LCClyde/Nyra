@@ -98,6 +98,15 @@ TEST(String, Split)
         EXPECT_EQ(expected, split(string, "split"));
     }
 }
+
+//===========================================================================//
+TEST(String, EndsWith)
+{
+    EXPECT_TRUE(endsWith("Hello World", "World"));
+    EXPECT_TRUE(endsWith("Hello World", "Hello World"));
+    EXPECT_FALSE(endsWith("Hello World", "Hello"));
+    EXPECT_FALSE(endsWith("Hello World", "Hello World!"));
+}
 }
 }
 }

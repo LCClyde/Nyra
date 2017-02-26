@@ -64,7 +64,7 @@ public:
      */
     Tree<TypeT>& operator[](const std::string& index)
     {
-        validate();
+        validate(index);
         expand(index);
         return (*mMap[index]);
     }
@@ -78,7 +78,7 @@ public:
      */
     const Tree<TypeT>& operator[](const std::string& index) const
     {
-        validate();
+        validate(index);
         const auto iter = mMap.find(index);
         if (iter == mMap.end())
         {
@@ -98,7 +98,7 @@ public:
      */
     Tree<TypeT>& operator[](size_t index)
     {
-        validate();
+        validate(std::to_string(index));
         expand(index);
         return *mList[index];
     }
@@ -116,7 +116,7 @@ public:
      */
     const Tree<TypeT>& operator[](size_t index) const
     {
-        validate();
+        validate(std::to_string(index));
 
         // If the list is empty and index is 0, then we return ourselves.
         // this allows us to loop over a single element without knowing
@@ -335,13 +335,13 @@ private:
 
     // TOOD: We should be allowed to set children nodes even if nothing is set.
     //       To do this, we need a smarter onChildAdded system.
-    void validate() const
+    void validate(const std::string& id) const
     {
         // Do not allow creation of children nodes unless this is set.
         if (!mValue.get() && mParent)
         {
             throw std::runtime_error(
-                    "Node is not set and cannot create children.");
+                    "Node " + id + " is not set and cannot create children.");
         }
     }
 

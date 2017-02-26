@@ -100,6 +100,18 @@ std::vector<std::string> split(const std::string& string,
 
     return ret;
 }
+
+//===========================================================================//
+bool endsWith(const std::string& input,
+              const std::string& end)
+{
+    if (end.size() > input.size())
+    {
+        return false;
+    }
+
+    return std::equal(end.rbegin(), end.rend(), input.rbegin());
+}
 }
 }
 }

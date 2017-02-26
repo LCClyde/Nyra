@@ -29,6 +29,7 @@ namespace
 bool compare(const nyra::media::Game& g1, const nyra::media::Game& g2)
 {
     return g1.name == g2.name &&
+           g1.rating == g2.rating &&
            g1.filename == g2.filename &&
            g1.boxArtFile == g2.boxArtFile &&
            g1.videoFile == g2.videoFile &&
@@ -55,6 +56,7 @@ TEST(Game, Archive)
     games.push_back(game);
 
     game.name = "Mario";
+    game.rating = 7.25;
     game.filename = "mario.bin";
 
     games.push_back(game);
@@ -101,6 +103,7 @@ TEST(Game, Stdout)
 {
     Game game;
     game.name = "Mario";
+    game.rating = 7.25;
     game.filename = "mario.bin";
     game.boxArtFile = "mario.png";
     game.videoFile = "mario.mp4";
@@ -108,10 +111,11 @@ TEST(Game, Stdout)
     game.zippedFiles = {"a", "b", "c"};
 
     std::string expected =
-            "Name: Mario\n"
+            "Name:     Mario\n"
+            "Rating:   7.25\n"
             "Filename: mario.bin\n"
-            "Box Art: mario.png\n"
-            "Video: mario.mp4\n"
+            "Box Art:  mario.png\n"
+            "Video:    mario.mp4\n"
             "Zipped Files:\n"
             "    a\n"
             "    b\n"

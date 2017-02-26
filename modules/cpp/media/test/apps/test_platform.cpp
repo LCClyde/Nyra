@@ -36,12 +36,14 @@ TEST(Platform, Archive)
     platform.extensions = {".nes", ".unf", ".unif"};
     platform.goodTool = "GoodNES.exe";
     platform.goodMerge = "NES 3.14";
+    platform.gamesDbPlatforms = {"NES", "SNES"};
 
     Platform archived = test::archive(platform);
     EXPECT_EQ(platform.name, archived.name);
     EXPECT_EQ(platform.extensions, archived.extensions);
     EXPECT_EQ(platform.goodTool, archived.goodTool);
     EXPECT_EQ(platform.goodMerge, archived.goodMerge);
+    EXPECT_EQ(platform.gamesDbPlatforms, archived.gamesDbPlatforms);
 }
 
 //===========================================================================//
@@ -52,13 +54,16 @@ TEST(Platform, Stdout)
     platform.extensions = {".nes", ".unf", ".unif"};
     platform.goodTool = "GoodNES.exe";
     platform.goodMerge = "NES 3.14";
+    platform.gamesDbPlatforms = {"NES", "SNES"};
 
     const std::string expected =
             "Name:        Nintendo Entertainment System\n"
             "Extensions:  .nes,.unf,.unif\n"
             "GoodTool:    GoodNES.exe\n"
-            "GoodMerge:   NES 3.14";
-
+            "GoodMerge:   NES 3.14\n"
+            "TheGamesDb Platforms:\n"
+            "    NES\n"
+            "    SNES";
 
     EXPECT_EQ(test::stdout(platform), expected);
 }

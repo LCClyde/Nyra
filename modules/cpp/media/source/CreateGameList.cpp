@@ -19,17 +19,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <algorithm>
+#include <limits>
 #include <nyra/media/CreateGameList.h>
 #include <nyra/core/Path.h>
 #include <nyra/media/Platform.h>
 #include <nyra/zip/Reader.h>
 #include <nyra/zip/Verify.h>
 #include <nyra/core/String.h>
+#include <nyra/media/GamesDb.h>
+#include <nyra/core/Time.h>
 
 namespace
 {
 //===========================================================================//
 typedef std::unordered_map<std::string, std::string> FileMap;
+const static size_t RETRIES = 15;
+const static size_t WAIT_TIME = 16000;
+
+//===========================================================================//
+bool sortGame(const nyra::media::Game &a, const nyra::media::Game &b)
+{
+    return a.rating > b.rating;
+}
 
 //===========================================================================//
 bool isValid(const std::string& file,
@@ -49,7 +61,7 @@ bool isValid(const std::string& file,
 std::string getName(const std::string& file)
 {
     // TODO: Replace with regex
-    const std::vector<std::string> parts = nyra::core::str::split(
+    std::vector<std::string> parts = nyra::core::str::split(
             nyra::core::path::getBase(file));
 
     std::string name = parts[0];
@@ -58,20 +70,35 @@ std::string getName(const std::string& file)
     {
         if (parts[ii][0] == '(' || parts[ii][0] == '[')
         {
-            return name;
+            break;
         }
 
-        if (ii > 0)
+        name += " " + parts[ii];
+    }
+
+    // Split at " - ". This is used instead of a colon
+    parts = nyra::core::str::split(name, " - ");
+
+    for (size_t ii = 0; ii < parts.size(); ++ii)
+    {
+        if (nyra::core::str::endsWith(parts[ii], ", The"))
         {
-            name += " ";
+            parts[ii] = "The " + name.substr(0, parts[ii].size() - 5);
         }
+    }
 
-        name += parts[ii];
+    // Re-assemble, replacing the first instance of " - " with a colon
+    name = parts[0];
+
+    for (size_t ii = 1; ii < parts.size(); ++ii)
+    {
+        name += ": " + parts[ii];
     }
 
     return name;
 }
 
+//===========================================================================//
 FileMap getFileMap(const std::string& path)
 {
     std::unordered_map<std::string, std::string> ret;
@@ -92,7 +119,8 @@ namespace media
 {
 //===========================================================================//
 std::vector<Game> createGameList(const std::string& dataPath,
-                                 const std::string& platformName)
+                                 const std::string& platformName,
+                                 bool disableGamesDb)
 {
     // Make sure there is a rom dir
     const std::string romsDir =
@@ -127,6 +155,7 @@ std::vector<Game> createGameList(const std::string& dataPath,
 
     for (const std::string& potentialRom : potentialRoms)
     {
+        std::cout << "Looking at: " << potentialRom << "\n";
         const std::string fullpath(core::path::join(romsDir, potentialRom));
         std::vector<std::string> verifiedZips;
         if (zip::verify(fullpath))
@@ -163,6 +192,98 @@ std::vector<Game> createGameList(const std::string& dataPath,
             games.push_back(game);
         }
     }
+
+    if (!disableGamesDb)
+    {
+        std::shared_ptr<net::Browser> browser(new net::Browser(
+                265, core::path::join(dataPath, "cache"), 100));
+        GamesDb gamesDb(browser);
+
+        for (Game& game : games)
+        {
+            std::cout << "Checking: " << game.name << "\n";
+            std::string id;
+
+            for (size_t ii = 0; ii < RETRIES; ++ii)
+            {
+                try
+                {
+                    for (size_t jj = 0;
+                         jj < platform.gamesDbPlatforms.size();
+                         ++jj)
+                    {
+                        if (!id.empty())
+                        {
+                            break;
+                        }
+
+                        id = gamesDb.getId(
+                                game.name, platform.gamesDbPlatforms[jj]);
+                    }
+
+                    break;
+                }
+                catch (const std::exception& ex)
+                {
+                    if (ii == RETRIES - 1)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        std::cout << "Retry on failure: " << ex.what() << "\n";
+                        core::sleep(WAIT_TIME);
+                    }
+                }
+            }
+
+
+            for (size_t ii = 0; ii < RETRIES; ++ii)
+            {
+                try
+                {
+                    gamesDb.updateGame(id, game.gamesDb);
+                    break;
+                }
+                catch (const std::exception& ex)
+                {
+                    if (ii == RETRIES - 1)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        std::cout << "Retry on failure: " << ex.what() << "\n";
+                        core::sleep(WAIT_TIME);
+                    }
+                }
+            }
+
+            if (id.empty())
+            {
+                std::cout << "Could not find game info on: " << game.name << "\n";
+            }
+        }
+    }
+
+    // Aggregate ratings
+    double minRating = std::numeric_limits<double>::max();
+    double maxRating = 0.0;
+    for (const Game& game : games)
+    {
+        minRating = std::min(minRating, game.gamesDb.rating);
+        maxRating = std::max(maxRating, game.gamesDb.rating);
+    }
+
+    const double deltaRating = maxRating - minRating;
+
+    for (Game& game : games)
+    {
+        game.rating = (game.gamesDb.rating) / deltaRating;
+        game.rating *= 100.0;
+    }
+
+    std::sort(games.begin(), games.end(), sortGame);
 
     return games;
 }
