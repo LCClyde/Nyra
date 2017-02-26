@@ -19,10 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <thread>
 #include <nyra/media/GameSelectionScreen.h>
-#include <nyra/graphics/sfml/Sprite.h>
 #include <nyra/graphics/sfml/Video.h>
 #include <nyra/media/Config.h>
+#include <nyra/media/BoxArtLoader.h>
 
 namespace nyra
 {
@@ -45,24 +46,10 @@ GameSelectionScreen::GameSelectionScreen(const std::string& platform,
     mLayout(core::read<GameListLayout>(
             core::path::join(mConfig.dataPath,
                              "serial/game_list_layout.json"))),
-    mBoxArt(mLayout, mGames)
+    mBoxArt(mLayout, mGames),
+    mBoxArtLoaderThread(BoxArtLoader(mGames, core::path::join(
+            mConfig.dataPath, "textures/" + mPlatform)))
 {
-    const std::string boxArtPath = core::path::join(
-            mConfig.dataPath, "textures/" + mPlatform);
-
-    for (Game& game : mGames)
-    {
-        if (!game.boxArtFile.empty())
-        {
-            game.sprite.reset(new graphics::sfml::Sprite(
-                    core::path::join(boxArtPath, game.boxArtFile)));
-        }
-        else
-        {
-            game.sprite.reset(new graphics::sfml::Sprite(
-                    core::path::join(boxArtPath, "Dragon Warrior (USA).png")));
-        }
-    }
     mBoxArt.resetLayout(mTarget.getSize());
     updateIndex();
     playVideo();

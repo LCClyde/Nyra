@@ -95,6 +95,8 @@ private:
                                 double direction,
                                 double& position);
 
+    void scaleIndex(size_t index, double screenScale);
+
     double getScreenScale() const;
 
     const math::Transform2D mParent;

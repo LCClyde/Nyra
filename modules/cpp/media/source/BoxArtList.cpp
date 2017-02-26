@@ -40,22 +40,31 @@ BoxArtList::BoxArtList(const GameListLayout& layout,
 void BoxArtList::resetLayout(const math::Vector2U& size)
 {
     mSize = size;
-    const double screenScale = getScreenScale();
-    for (size_t ii = 0; ii < mGames.size(); ++ii)
+}
+
+//===========================================================================//
+void BoxArtList::scaleIndex(size_t index,
+                            double screenScale)
+{
+    // Wait for the sprite to show up
+    while (!mGames[index].sprite.get())
     {
-        const double spriteSize = mLayout.boxLayout ==
-                GameListLayout::HORIZONTAL ?
-                        mGames[ii].sprite->getSize().y() :
-                        mGames[ii].sprite->getSize().x();
-        const double spriteScale =
-                mLayout.boxSize / spriteSize;
-        mGames[ii].sprite->setScale(spriteScale * screenScale);
     }
+
+    const double spriteSize = mLayout.boxLayout ==
+            GameListLayout::HORIZONTAL ?
+                    mGames[index].sprite->getSize().y() :
+                    mGames[index].sprite->getSize().x();
+    const double spriteScale =
+            mLayout.boxSize / spriteSize;
+    mGames[index].sprite->setScale(spriteScale * screenScale);
 }
 
 //===========================================================================//
 void BoxArtList::updateIndex(size_t index)
 {
+    scaleIndex(index, getScreenScale());
+
     if (mLayout.boxLayout == GameListLayout::HORIZONTAL)
     {
         updateIndexImpl(index, mSize.x() / 2.0,
@@ -129,6 +138,7 @@ void BoxArtList::updatePosition(size_t ii,
                                 double direction,
                                 double& position)
 {
+    scaleIndex(ii, screenScale);
     if (mLayout.boxLayout == GameListLayout::HORIZONTAL)
     {
         updatePositionHorizontal(ii, screenScale, direction, position);

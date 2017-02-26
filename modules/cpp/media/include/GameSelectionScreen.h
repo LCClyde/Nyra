@@ -24,6 +24,7 @@
 
 #include <string>
 #include <vector>
+#include <thread>
 #include <nyra/graphics/Video.h>
 #include <nyra/media/Game.h>
 #include <nyra/media/Screen.h>
@@ -103,6 +104,7 @@ private:
     int64_t mIndex;
     GameListLayout mLayout;
     BoxArtList mBoxArt;
+    std::thread mBoxArtLoaderThread;
 
 };
 }
