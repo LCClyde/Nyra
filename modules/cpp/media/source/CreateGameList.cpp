@@ -21,6 +21,7 @@
  */
 #include <algorithm>
 #include <limits>
+#include <regex>
 #include <nyra/media/CreateGameList.h>
 #include <nyra/core/Path.h>
 #include <nyra/media/Platform.h>
@@ -29,6 +30,7 @@
 #include <nyra/core/String.h>
 #include <nyra/media/GamesDb.h>
 #include <nyra/core/Time.h>
+#include <nyra/media/GameTokens.h>
 
 namespace
 {
@@ -111,6 +113,17 @@ FileMap getFileMap(const std::string& path)
 
     return ret;
 }
+
+//===========================================================================//
+struct GameSort
+{
+    inline bool operator() (const std::string& s1,
+                            const std::string& s2)
+    {
+        return (nyra::media::GameTokens(s1) <
+                nyra::media::GameTokens(s2));
+    }
+};
 }
 
 namespace nyra
@@ -169,6 +182,8 @@ std::vector<Game> createGameList(const std::string& dataPath,
                     verifiedZips.push_back(zippedFile);
                 }
             }
+
+            std::sort(verifiedZips.begin(), verifiedZips.end(), GameSort());
         }
 
         if (!verifiedZips.empty() || isValid(fullpath, platform.extensions))
