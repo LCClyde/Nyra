@@ -27,6 +27,8 @@
 #include <nyra/media/Screen.h>
 #include <nyra/input/sfml/Keyboard.h>
 #include <nyra/media/Config.h>
+#include <nyra/media/Platform.h>
+#include <nyra/media/Game.h>
 
 namespace nyra
 {
@@ -58,7 +60,7 @@ private:
 
     void openGameSelect();
 
-    void openPlayGame(const std::string& pathname);
+    void openPlayGame(const Game& game);
 
     enum State
     {
@@ -67,7 +69,7 @@ private:
     };
 
     Config mConfig;
-    std::string mPlatform;
+    Platform mPlatform;
     win::sfml::Window mWindow;
     graphics::sfml::RenderTarget mRenderTarget;
     input::sfml::Keyboard mKeyboard;

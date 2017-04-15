@@ -24,6 +24,8 @@
 
 #include <nyra/media/Screen.h>
 #include <nyra/process/BackgroundSubprocess.h>
+#include <nyra/media/Platform.h>
+#include <nyra/media/Game.h>
 
 namespace nyra
 {
@@ -53,8 +55,8 @@ public:
      *  \param target The render target
      *  \param keyboard The keyboard for input
      */
-    PlayGame(const GameCommandLine& commandLine,
-             const std::string& pathname,
+    PlayGame(const Platform& platform,
+             const Game& games,
              const Config& config,
              graphics::RenderTarget& target,
              input::Keyboard& keyboard);

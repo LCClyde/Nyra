@@ -23,12 +23,12 @@
 #include <nyra/media/PlayGame.h>
 #include <nyra/core/String.h>
 #include <nyra/core/Path.h>
+#include <nyra/zip/Reader.h>
 
 namespace
 {
 //===========================================================================//
-std::string parseCommand(std::string command,
-                         const std::string& pathname)
+std::string replaceKeywords(const std::string& input)
 {
     command = nyra::core::str::findAndReplace(
             command, "{GAME}", pathname);
@@ -37,6 +37,18 @@ std::string parseCommand(std::string command,
     command = nyra::core::str::findAndReplace(
             command, "{INSTALL_PATH}", nyra::core::INSTALL_PATH);
     return command;
+}
+
+//===========================================================================//
+std::string parseCommand(const std::string& romPath,
+                         const std::string& command,
+                         const nyra::media::Game& game,
+                         size_t index)
+{
+    if (!game.zippedFiles.empty())
+    {
+        nyra::zip::Reader reader(core::path::join(romPath, game.filename));
+    }
 }
 
 //===========================================================================//
@@ -56,14 +68,14 @@ namespace nyra
 namespace media
 {
 //===========================================================================//
-PlayGame::PlayGame(const GameCommandLine& commandLine,
-                   const std::string& pathname,
+PlayGame::PlayGame(const Platform& platform,
+                   const Game& game,
                    const Config& config,
                    graphics::RenderTarget& target,
                    input::Keyboard& keyboard) :
     Screen(config, target, keyboard),
-    mProcess(parseCommand(commandLine.binary, pathname),
-             parseArguments(commandLine.args, pathname))
+    mProcess(parseCommand(platform.commandLine, ""),
+             parseArguments(platform.commandArgs, ""))
 {
 }
 

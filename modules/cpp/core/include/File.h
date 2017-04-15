@@ -55,6 +55,19 @@ std::vector<uint8_t> readBinaryFile(const std::string& pathname);
  *  \return The contents of the file.
  */
 std::string readFile(const std::string& pathname);
+
+void writeFile(const std::string& contents,
+               const std::string& pathname);
+
+void writeBinary(const void* contents,
+                 size_t size,
+                 const std::string& pathname);
+
+void writeBinary(const std::vector<uint8_t>& contents,
+                 const std::string& pathname)
+{
+    writeBinary(contents.data(), contents.size(), pathname);
+}
 }
 }
 

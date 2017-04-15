@@ -31,7 +31,8 @@ namespace media
 //===========================================================================//
 MediaCenter::MediaCenter(const Config& config) :
     mConfig(config),
-    mPlatform("nes"),
+    mPlatform(core::read<Platform>(core::path::join(
+            config.dataPath, "serial/platform_nes.json"))),
     mWindow("Media Center",
             mConfig.windowSize,
             math::Vector2I(0, 0)),
@@ -66,7 +67,7 @@ void MediaCenter::update()
         if (mKeyboard.getButtonPressed(input::KEY_ENTER))
         {
             openPlayGame(dynamic_cast<GameSelectionScreen*>(
-                    mScreen.get())->getGamePathname());
+                    mScreen.get())->getGame());
         }
         break;
     case PLAYING_GAME:
@@ -82,15 +83,15 @@ void MediaCenter::update()
 void MediaCenter::openGameSelect()
 {
     mScreen.reset(new GameSelectionScreen(
-            mPlatform, mConfig, mRenderTarget, mKeyboard));
+            mPlatform.keyName, mConfig, mRenderTarget, mKeyboard));
     mState = GAME_SELECT;
 }
 
 //===========================================================================//
-void MediaCenter::openPlayGame(const std::string& pathname)
+void MediaCenter::openPlayGame(const Game& game)
 {
-    mScreen.reset(new PlayGame(GameCommandLine(),
-                               pathname,
+    mScreen.reset(new PlayGame(mPlatform,
+                               game,
                                mConfig,
                                mRenderTarget,
                                mKeyboard));

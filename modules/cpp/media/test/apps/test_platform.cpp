@@ -33,10 +33,13 @@ TEST(Platform, Archive)
 {
     Platform platform;
     platform.name = "Nintendo Entertainment System";
+    platform.keyName = "nes";
     platform.extensions = {".nes", ".unf", ".unif"};
     platform.goodTool = "GoodNES.exe";
     platform.goodMerge = "NES 3.14";
     platform.gamesDbPlatforms = {"NES", "SNES"};
+    platform.commandLine = "play";
+    platform.commandArgs = {"{GAME}", "--fullscreen"};
 
     Platform archived = test::archive(platform);
     EXPECT_EQ(platform.name, archived.name);
@@ -51,16 +54,24 @@ TEST(Platform, Stdout)
 {
     Platform platform;
     platform.name = "Nintendo Entertainment System";
+    platform.keyName = "nes";
     platform.extensions = {".nes", ".unf", ".unif"};
     platform.goodTool = "GoodNES.exe";
     platform.goodMerge = "NES 3.14";
     platform.gamesDbPlatforms = {"NES", "SNES"};
+    platform.commandLine = "play";
+    platform.commandArgs = {"{GAME}", "--fullscreen"};
 
     const std::string expected =
-            "Name:        Nintendo Entertainment System\n"
-            "Extensions:  .nes,.unf,.unif\n"
-            "GoodTool:    GoodNES.exe\n"
-            "GoodMerge:   NES 3.14\n"
+            "Name:          Nintendo Entertainment System\n"
+            "Key Name:      nes\n"
+            "Extensions:    .nes,.unf,.unif\n"
+            "GoodTool:      GoodNES.exe\n"
+            "GoodMerge:     NES 3.14\n"
+            "Command Line:  play\n"
+            "Command Line Arguments:\n"
+            "    {GAME}\n"
+            "    --fullscreen\n"
             "TheGamesDb Platforms:\n"
             "    NES\n"
             "    SNES";

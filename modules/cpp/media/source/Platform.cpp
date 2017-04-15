@@ -53,10 +53,18 @@ namespace media
 std::ostream& operator<<(std::ostream& os, const Platform& platform)
 {
     std::string extensions = extensionsToString(platform.extensions);
-    os << "Name:        " << platform.name << "\n"
-       << "Extensions:  " << extensions << "\n"
-       << "GoodTool:    " << platform.goodTool << "\n"
-       << "GoodMerge:   " << platform.goodMerge;
+    os << "Name:          " << platform.name << "\n"
+       << "Key Name:      " << platform.keyName << "\n"
+       << "Extensions:    " << extensions << "\n"
+       << "GoodTool:      " << platform.goodTool << "\n"
+       << "GoodMerge:     " << platform.goodMerge << "\n"
+       << "Command Line:  " << platform.commandLine << "\n"
+       << "Command Line Arguments:";
+
+    for (const std::string& arg : platform.commandArgs)
+    {
+        os << "\n    " << arg;
+    }
 
     if (!platform.gamesDbPlatforms.empty())
     {
@@ -80,9 +88,17 @@ void write<media::Platform>(const media::Platform& platform,
 {
     json::JSON tree;
     tree["name"] = platform.name;
+    tree["key_name"] = platform.keyName;
     tree["extensions"] = extensionsToString(platform.extensions);
     tree["good_tool"] = platform.goodTool;
     tree["good_merge"] = platform.goodMerge;
+    tree["command_line"] = platform.commandLine;
+    tree["command_args"] = "";
+
+    for (size_t ii = 0; ii < platform.commandArgs.size(); ++ii)
+    {
+        tree["command_args"][ii] = platform.commandArgs[ii];
+    }
 
     if (!platform.gamesDbPlatforms.empty())
     {
@@ -104,9 +120,16 @@ void read<media::Platform>(const std::string& pathname,
 {
     const json::JSON tree = read<json::JSON>(pathname);
     platform.name = tree["name"].get();
+    platform.keyName = tree["key_name"].get();
     platform.extensions = core::str::split(tree["extensions"].get(), ",");
     platform.goodTool = tree["good_tool"].get();
     platform.goodMerge = tree["good_merge"].get();
+    platform.commandLine = tree["command_line"].get();
+
+    for (size_t ii = 0; ii < tree["command_args"].loopSize(); ++ii)
+    {
+        platform.commandArgs.push_back(tree["command_args"][ii].get());
+    }
 
     if (tree.has("games_db_platforms"))
     {

@@ -44,6 +44,12 @@ public:
     std::string name;
 
     /*
+     *  \var keyName
+     *  \brief The abbreviated name used throughout the frontend.
+     */
+    std::string keyName;
+
+    /*
      *  \var extensions
      *  \brief A list of valid rom extensions
      */
@@ -68,6 +74,18 @@ public:
      *  \brief A list of TheGamesDb.net platform names supported.
      */
     std::vector<std::string> gamesDbPlatforms;
+
+    /*
+     *  \var commnadLine
+     *  \brief The command line to run when playing a game
+     */
+    std::string commandLine;
+
+    /*
+     *  \var commandArgs
+     *  \brief The arguments to pass to the command line when playing a game
+     */
+    std::vector<std::string> commandArgs;
 
 private:
     friend std::ostream& operator<<(std::ostream& os,
