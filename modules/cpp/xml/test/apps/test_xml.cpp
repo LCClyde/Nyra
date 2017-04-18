@@ -42,7 +42,8 @@ static const std::string XML_STRING =
         "        </module>\n"
         "    </modules>\n"
         "    <debugLevel>2</debugLevel>\n"
-        "</main>\n";
+        "</main>\n"
+        "<ack>Success</ack>\n";
 //===========================================================================//
 void writeFile()
 {
@@ -81,6 +82,7 @@ TEST(XML, RoundTrip)
     EXPECT_EQ("1", read["main"]["modules"]["module"][0]["nested"].get().text);
     EXPECT_EQ("2", read["main"]["modules"]["module"][1]["nested"].get().text);
     EXPECT_EQ("3", read["main"]["modules"]["module"][2]["nested"].get().text);
+    EXPECT_EQ("Success", read["ack"].get().text);
 
     core::write<XML>(read, "xml_round_trip.xml");
     XML write = core::read<XML>("xml_round_trip.xml");
@@ -103,6 +105,7 @@ TEST(XML, RoundTrip)
     EXPECT_EQ("1", write["main"]["modules"]["module"][0]["nested"].get().text);
     EXPECT_EQ("2", write["main"]["modules"]["module"][1]["nested"].get().text);
     EXPECT_EQ("3", write["main"]["modules"]["module"][2]["nested"].get().text);
+    EXPECT_EQ("Success", write["ack"].get().text);
 }
 
 //===========================================================================//
@@ -127,6 +130,7 @@ TEST(XML, FromString)
     EXPECT_EQ("1", read["main"]["modules"]["module"][0]["nested"].get().text);
     EXPECT_EQ("2", read["main"]["modules"]["module"][1]["nested"].get().text);
     EXPECT_EQ("3", read["main"]["modules"]["module"][2]["nested"].get().text);
+    EXPECT_EQ("Success", read["ack"].get().text);
 }
 
 //===========================================================================//

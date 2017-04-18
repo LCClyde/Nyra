@@ -136,7 +136,8 @@ std::string Browser::get(const std::string& url,
     if (httpCode != 200 && httpCode != 0)
     {
         throw std::runtime_error(
-                "HTTP Get failed: " + core::str::toString(httpCode));
+                "HTTP Get failed: " + core::str::toString(httpCode) +
+                        "\n\n" + readBuffer);
     }
 
     // Cache results

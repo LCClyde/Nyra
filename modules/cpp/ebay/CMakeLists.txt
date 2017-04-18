@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS core PARENT_SCOPE)
-set(EXT_DEPS ${Boost_PROGRAM_OPTIONS_LIBRARY} PARENT_SCOPE)
+set(MOD_DEPS net xml PARENT_SCOPE)
+set(APP_DEPS cli PARENT_SCOPE)
