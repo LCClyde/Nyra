@@ -20,34 +20,32 @@
  * IN THE SOFTWARE.
  */
 #include <iostream>
-#include <nyra/ebay/Ebay.h>
+#include <exception>
+#include <nyra/cli/Parser.h>
+#include <nyra/net/Email.h>
 
+using namespace nyra;
 
-namespace nyra
+int main(int argc, char** argv)
 {
-namespace ebay
-{
-//===========================================================================//
-Ebay::Ebay(const std::string& appId) :
-    mAppId(appId),
-    mBrowser(30, "./ebay_cache")
-{
-}
+    try
+    {
+        /*cli::Options opt("Does a keyword search of Ebay");
+        opt.add("id", "Your API ID").setPositional();
+        opt.add("keywords", "Your search term").setPositional();
+        cli::Parser options(opt, argc, argv);*/
 
-//===========================================================================//
-SearchResults Ebay::search(const std::string& keywords) const
-{
-    const std::string url =
-            "http://svcs.ebay.com/services/search/FindingService/v1";
-    std::vector<net::Param> params;
-    params.push_back(net::Param("OPERATION-NAME", "findItemsByKeywords"));
-    params.push_back(net::Param("SERVICE-VERSION", "1.0.0"));
-    params.push_back(net::Param("SECURITY-APPNAME", mAppId));
-    params.push_back(net::Param("RESPONSE-DATA-FORMAT", "XML"));
-    params.push_back(net::Param("REST-PAYLOAD", ""));
-    params.push_back(net::Param("keywords", keywords));
+        net::Email email;
+        email.send();
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "STD Exception: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown Exception: System Error!" << std::endl;
+    }
 
-    return getSearchResults(mBrowser.get(url, params));
-}
-}
+    return 0;
 }

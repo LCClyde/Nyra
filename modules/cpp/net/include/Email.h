@@ -19,35 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <iostream>
-#include <nyra/ebay/Ebay.h>
+#ifndef __NYRA_NET_EMAIL_H__
+#define __NYRA_NET_EMAIL_H__
 
+#include <string>
+#include <nyra/net/GlobalHandler.h>
+#include <nyra/mem/GlobalDependency.h>
 
 namespace nyra
 {
-namespace ebay
+namespace net
 {
-//===========================================================================//
-Ebay::Ebay(const std::string& appId) :
-    mAppId(appId),
-    mBrowser(30, "./ebay_cache")
+/*
+ *  \class Browser
+ *  \brief Mimics a browser to interact with the web.
+ */
+class Email: private mem::GlobalDependency<GlobalHandler>
 {
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates the browser
+     *
+     *  \param cacheTime The time to set for the caching in days. If a value
+     *         of 0 is used, no cache is ever done.
+     *  \param cacheDir The directory to cache files to.
+     *  \param cacheRandom An extra random factor to add to the cache
+     *         time in days. This helps spread out the cache misses
+     *         over a larger period.
+     */
+    Email();
+
+    /*
+     *  \func get
+     *  \brief Does the equivalent of a HTTP GET call.
+     *
+     *  \param url The target URL
+     *  \param params The URL parameters. These do not need to be
+     *         percent encoded.
+     *  \return The results of the call
+     */
+    void send() const;
+};
+}
 }
 
-//===========================================================================//
-SearchResults Ebay::search(const std::string& keywords) const
-{
-    const std::string url =
-            "http://svcs.ebay.com/services/search/FindingService/v1";
-    std::vector<net::Param> params;
-    params.push_back(net::Param("OPERATION-NAME", "findItemsByKeywords"));
-    params.push_back(net::Param("SERVICE-VERSION", "1.0.0"));
-    params.push_back(net::Param("SECURITY-APPNAME", mAppId));
-    params.push_back(net::Param("RESPONSE-DATA-FORMAT", "XML"));
-    params.push_back(net::Param("REST-PAYLOAD", ""));
-    params.push_back(net::Param("keywords", keywords));
-
-    return getSearchResults(mBrowser.get(url, params));
-}
-}
-}
+#endif

@@ -20,4 +20,4 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 set(MOD_DEPS mem PARENT_SCOPE)
-set(EXT_DEPS ${CURL_LIBRARIES} PARENT_SCOPE)
+set(EXT_DEPS ${CURL_LIBRARIES} ${QuickMail} PARENT_SCOPE)
