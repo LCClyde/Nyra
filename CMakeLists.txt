@@ -63,6 +63,8 @@ find_library(CEGUIOpenGLRenderer NAMES CEGUIOpenGLRenderer-0 PATHS ${CMAKE_LIBRA
 find_library(Cairo NAMES cairo PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(sfeMovie NAMES sfeMovie PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_library(OIS NAMES OIS PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(LibNoise NAMES noise PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+find_library(FastNoise NAMES FastNoise PATHS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 find_package(PythonLibs 3 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

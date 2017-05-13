@@ -77,6 +77,36 @@ public:
     Image(const math::Vector2U& size);
 
     /*
+     *  \func Constuctor
+     *  \brief Creates an image from a functor that can supply
+     *         a value from an x, y coordinate.
+     *
+     *  \param functor The functor object that supplies the information
+     *  \param size The size of the final image
+     *  \param min The min value returned from the functor
+     *  \param max The max value returned from the functor
+     */
+    template <typename T>
+    Image(const T& functor,
+          const math::Vector2U& size,
+          double min,
+          double max)
+    {
+        resize(size);
+        const double diff = max - min;
+
+        for (size_t y = 0; y < mSize.y(); ++y)
+        {
+            const size_t idx = y * mSize.x();
+            for (size_t x = 0; x < mSize.x(); ++x)
+            {
+                const uint8_t pixel = (functor(x, y) - min) / diff * 255;
+                mPixels[idx + x] = Color(pixel, pixel, pixel, 255);
+            }
+        }
+    }
+
+    /*
      *  \func resize
      *  \brief Resizes an image. The contents are not update and should be
      *         considered invalid after resizing.

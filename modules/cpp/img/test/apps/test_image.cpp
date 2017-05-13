@@ -24,6 +24,26 @@
 #include <nyra/core/Archive.h>
 #include <nyra/core/Path.h>
 
+namespace
+{
+class IncPixel
+{
+public:
+    IncPixel() :
+        mValue(0)
+    {
+    }
+
+    double operator()(double x, double y) const
+    {
+        return static_cast<double>(mValue++);
+    }
+
+private:
+    mutable uint8_t mValue;
+};
+}
+
 namespace nyra
 {
 namespace img
@@ -85,6 +105,13 @@ TEST(Image, Constructor)
     for (size_t ii = 0; ii < size.product(); ++ii)
     {
         EXPECT_EQ(img3(ii), colors[ii]);
+    }
+
+    IncPixel incer;
+    Image imgFunc(incer, size, 0, 255);
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        std::cout << imgFunc(ii) << "\n";
     }
 }
 

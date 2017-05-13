@@ -1,0 +1,11 @@
+--- FastNoise.h	2017-05-12 19:48:35.850674291 -0400
++++ FastNoise.diff.h	2017-05-13 09:30:37.888671950 -0400
+@@ -30,7 +30,7 @@
+ #define FASTNOISE_H
+ 
+ // Uncomment the line below to use doubles throughout FastNoise instead of floats
+-//#define FN_USE_DOUBLES
++#define FN_USE_DOUBLES
+ 
+ #ifdef FN_USE_DOUBLES
+ typedef double FN_DECIMAL;

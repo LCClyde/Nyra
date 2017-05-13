@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,5 +19,18 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS core math img PARENT_SCOPE)
-set(EXT_DEPS ${FastNoise} PARENT_SCOPE)
+ExternalProject_Add(
+    FastNoise
+    PREFIX ${BUILD_DIR}
+    GIT_REPOSITORY https://github.com/Auburns/FastNoise.git
+    GIT_TAG 0.3.1
+    BUILD_IN_SOURCE 1
+    UPDATE_COMMAND ""
+    PATCH_COMMAND patch <SOURCE_DIR>/FastNoise.h < ${CMAKE_BINARY_DIR}/FastNoise/patch.diff
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND g++ -std=c++11 -fPIC FastNoise.cpp -shared -o libFastNoise.so
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy
+        <SOURCE_DIR>/FastNoise.h ${INCLUDE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy
+        <BINARY_DIR>/${CMAKE_SHARED_LIBRARY_PREFIX}FastNoise${CMAKE_SHARED_LIBRARY_SUFFIX}
+        ${LIB_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}FastNoise${CMAKE_SHARED_LIBRARY_SUFFIX})

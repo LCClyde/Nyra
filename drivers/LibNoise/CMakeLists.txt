@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2016 Clyde Stanfield
+#  Copyright (c) 2017 Clyde Stanfield
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -19,5 +19,8 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS core math img PARENT_SCOPE)
-set(EXT_DEPS ${FastNoise} PARENT_SCOPE)
+ExternalProject_Add(
+    LibNoise
+    PREFIX ${BUILD_DIR}
+    GIT_REPOSITORY https://github.com/qknight/libnoise.git
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR})
