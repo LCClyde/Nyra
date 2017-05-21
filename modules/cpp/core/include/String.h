@@ -76,7 +76,6 @@ T toType(const std::string& s);
  *
  *  \param string The string to split
  *  \param delim The delimiter to split by
- *
  *  \return A vector of the parts of the string.
  */
 std::vector<std::string> split(const std::string& string,
@@ -93,6 +92,15 @@ std::vector<std::string> split(const std::string& string,
  */
 bool endsWith(const std::string& input,
               const std::string& end);
+
+/*
+ *  \func lower
+ *  \brief Makes a string all lowercase.
+ *
+ *  \param input The input string
+ *  \return The string without any capital letters.
+ */
+std::string lower(const std::string& input);
 }
 }
 }

@@ -107,6 +107,12 @@ TEST(String, EndsWith)
     EXPECT_FALSE(endsWith("Hello World", "Hello"));
     EXPECT_FALSE(endsWith("Hello World", "Hello World!"));
 }
+
+//===========================================================================//
+TEST(String, Lower)
+{
+    EXPECT_EQ("abcde123-poplp", lower("AbCdE123-PoPlp"));
+}
 }
 }
 }

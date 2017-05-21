@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <limits>
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <nyra/core/String.h>
 
@@ -111,6 +112,14 @@ bool endsWith(const std::string& input,
     }
 
     return std::equal(end.rbegin(), end.rend(), input.rbegin());
+}
+
+//===========================================================================//
+std::string lower(const std::string& input)
+{
+    std::string ret = input;
+    std::transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
+    return ret;
 }
 }
 }
