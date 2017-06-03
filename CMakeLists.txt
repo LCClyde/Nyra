@@ -118,3 +118,10 @@ foreach (DIR ${MODULES_DIRS})
     endif()
 endforeach()
 
+set(TUT_DIR ${CMAKE_BINARY_DIR}/tutorials)
+file(GLOB IND_TUTS RELATIVE ${TUT_DIR} ${TUT_DIR}/*)
+foreach (DIR ${IND_TUTS})
+    BuildTut(${DIR} ${TUT_DIR}/${DIR})
+endforeach()
+
+

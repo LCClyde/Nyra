@@ -25,6 +25,7 @@
 #include <X11/Intrinsic.h>
 #include <X11/extensions/XTest.h>
 #include <nyra/win/native/KeyboardPosix.h>
+#include <nyra/core/Time.h>
 
 namespace
 {
@@ -55,6 +56,10 @@ void setKeyPosixKeyCodes(Display* display)
                 XKeysymToKeycode(display, XStringToKeysym("space"));
         KEY_CODES[static_cast<size_t>(nyra::input::KEY_ENTER)] =
                 XKeysymToKeycode(display, XK_Return);
+        KEY_CODES[static_cast<size_t>(nyra::input::KEY_LEFT_SHIFT)] =
+                XKeysymToKeycode(display, XK_Shift_L);
+        KEY_CODES[static_cast<size_t>(nyra::input::KEY_RIGHT_SHIFT)] =
+                XKeysymToKeycode(display, XK_Shift_R);
     }
 }
 }
@@ -66,27 +71,28 @@ namespace win
 namespace native
 {
 //===========================================================================//
-void KeyboardPosix::setKeyDown(input::KeyCode code)
+void KeyboardPosix::setKeyDown(input::KeyCode code) const
 {
     setKey(code, true);
 }
 
 //===========================================================================//
-void KeyboardPosix::setKeyReleased(input::KeyCode code)
+void KeyboardPosix::setKeyReleased(input::KeyCode code) const
 {
     setKey(code, false);
 }
 
 //===========================================================================//
-void KeyboardPosix::press(input::KeyCode code)
+void KeyboardPosix::press(input::KeyCode code) const
 {
-    setKeyReleased(code);
     setKeyDown(code);
+    core::sleep(100);
     setKeyReleased(code);
 }
 
 //===========================================================================//
-void KeyboardPosix::setKey(input::KeyCode code, bool set)
+void KeyboardPosix::setKey(input::KeyCode code,
+                           bool set) const
 {
     Display* display = getGlobalInstance().get();
     setKeyPosixKeyCodes(display);
@@ -99,6 +105,7 @@ void KeyboardPosix::setKey(input::KeyCode code, bool set)
     }
 
     XTestFakeKeyEvent(display, modcode, set, 0);
+    XFlush(display);
 }
 }
 }

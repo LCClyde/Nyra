@@ -19,55 +19,48 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_NATIVE_KEYBOARD_POSIX_H__
-#define __NYRA_WIN_NATIVE_KEYBOARD_POSIX_H__
+#ifndef __NYRA_POKE_SIMULATOR_H__
+#define __NYRA_POKE_SIMULATOR_H__
 
-#include <nyra/input/Keyboard.h>
-#include <nyra/win/native/PosixGlobalHandler.h>
-#include <nyra/mem/GlobalDependency.h>
+#include <string>
+#include <memory>
+#include <nyra/win/native/Keyboard.h>
+#include <nyra/win/native/Desktop.h>
+#include <nyra/process/BackgroundSubprocess.h>
+#include <nyra/math/Vector2.h>
 
 namespace nyra
 {
-namespace win
+namespace poke
 {
-namespace native
-{
-/*
- *  \class KeyboardPosix
- *  \brief Handles simulating input for a Posix keyboard.
- */
-class KeyboardPosix :
-        private mem::GlobalDependency<PosixGlobalHandler>
+class Simulator
 {
 public:
-    /*
-     *  \func setKeyDown
-     *  \brief Sets the key to the down state
-     *
-     *  \param code The keycode
-     */
-    void setKeyDown(input::KeyCode code) const;
+    Simulator(const std::string& binaryPathname,
+              const std::string& gamePathname);
 
-    /*
-     *  \func setKeyReleased
-     *  \brief Sets the key to the up state
-     *
-     *  \param code The keycode
-     */
-    void setKeyReleased(input::KeyCode code) const;
+    void pressStart() const;
 
-    /*
-     *  \func press
-     *  \brief Simulates a key press
-     *
-     *  \param code The keycode
-     */
-    void press(input::KeyCode code) const;
+    void pressA() const;
+
+    void pressB() const;
+
+    void saveAll() const;
+
+    img::Image screenshot() const
+    {
+        return screenshot(math::Vector2U(0, 0), mScreenSize);
+    }
+
+    img::Image screenshot(const math::Vector2U& offset,
+                          const math::Vector2U& size) const;
 
 private:
-    void setKey(input::KeyCode code, bool set) const;
+    std::unique_ptr<process::BackgroundSubprocess> mProc;
+    win::native::Keyboard mKeyboard;
+    win::native::Desktop mDesktop;
+    math::Vector2U mScreenSize;
 };
-}
 }
 }
 

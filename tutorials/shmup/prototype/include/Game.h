@@ -19,56 +19,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_NATIVE_KEYBOARD_POSIX_H__
-#define __NYRA_WIN_NATIVE_KEYBOARD_POSIX_H__
+#ifndef __SHMUP_GAME_H__
+#define __SHMUP_GAME_H__
 
-#include <nyra/input/Keyboard.h>
-#include <nyra/win/native/PosixGlobalHandler.h>
-#include <nyra/mem/GlobalDependency.h>
+#include <SFML/Graphics.hpp>
+#include <LevelJungle.h>
 
-namespace nyra
-{
-namespace win
-{
-namespace native
-{
-/*
- *  \class KeyboardPosix
- *  \brief Handles simulating input for a Posix keyboard.
- */
-class KeyboardPosix :
-        private mem::GlobalDependency<PosixGlobalHandler>
+class Game
 {
 public:
-    /*
-     *  \func setKeyDown
-     *  \brief Sets the key to the down state
-     *
-     *  \param code The keycode
-     */
-    void setKeyDown(input::KeyCode code) const;
+    Game();
 
-    /*
-     *  \func setKeyReleased
-     *  \brief Sets the key to the up state
-     *
-     *  \param code The keycode
-     */
-    void setKeyReleased(input::KeyCode code) const;
-
-    /*
-     *  \func press
-     *  \brief Simulates a key press
-     *
-     *  \param code The keycode
-     */
-    void press(input::KeyCode code) const;
+    void run();
 
 private:
-    void setKey(input::KeyCode code, bool set) const;
+    sf::RenderWindow mWindow;
+    LevelJungle mLevelJungle;
 };
-}
-}
-}
 
 #endif

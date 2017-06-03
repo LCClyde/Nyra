@@ -148,3 +148,36 @@ macro(BuildApps libname pathname outdir)
             endforeach()
         endif()
 endmacro()
+
+
+macro(BuildTut TUT DIR)
+    file(GLOB SUB_TUTS RELATIVE ${DIR} ${DIR}/*)
+    foreach (SUB_TUT ${SUB_TUTS})
+        set(SUB_PATH ${DIR}/${SUB_TUT})
+            
+        # Build the exe
+        if (IS_DIRECTORY ${SUB_PATH})
+            set (PREV_INSTALL ${CMAKE_INSTALL_PREFIX})
+            set (CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/tutorials/${TUT}/${SUB_TUT})
+            set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX})
+
+            file(GLOB SOURCES ${SUB_PATH}/source/*)
+            set(TARGET ${TUT}-${SUB_TUT})
+            add_executable(${TARGET} ${SUB_PATH}/main.cpp ${SOURCES})
+            target_include_directories(${TARGET} PUBLIC ${SUB_PATH}/include)
+            target_link_libraries(${TARGET} ${SFMLGraphics} ${SFMLWindow} ${SFMLSystem})
+            set_target_properties(${TARGET} PROPERTIES OUTPUT_NAME game)
+            
+            if (IS_DIRECTORY ${SUB_PATH}/data)
+                file(GLOB DATA_DIRS ${SUB_PATH}/data/*)
+                foreach(DATA_DIR ${DATA_DIRS})
+                    BuildData(${DATA_DIR} ${TARGET} data)
+                endforeach()
+            endif()
+            set (CMAKE_INSTALL_PREFIX ${PREV_INSTALL})
+        endif()
+        
+        
+    
+    endforeach()
+endmacro()

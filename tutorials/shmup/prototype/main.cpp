@@ -19,56 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_WIN_NATIVE_KEYBOARD_POSIX_H__
-#define __NYRA_WIN_NATIVE_KEYBOARD_POSIX_H__
+#include "Game.h"
 
-#include <nyra/input/Keyboard.h>
-#include <nyra/win/native/PosixGlobalHandler.h>
-#include <nyra/mem/GlobalDependency.h>
-
-namespace nyra
+int main()
 {
-namespace win
-{
-namespace native
-{
-/*
- *  \class KeyboardPosix
- *  \brief Handles simulating input for a Posix keyboard.
- */
-class KeyboardPosix :
-        private mem::GlobalDependency<PosixGlobalHandler>
-{
-public:
-    /*
-     *  \func setKeyDown
-     *  \brief Sets the key to the down state
-     *
-     *  \param code The keycode
-     */
-    void setKeyDown(input::KeyCode code) const;
-
-    /*
-     *  \func setKeyReleased
-     *  \brief Sets the key to the up state
-     *
-     *  \param code The keycode
-     */
-    void setKeyReleased(input::KeyCode code) const;
-
-    /*
-     *  \func press
-     *  \brief Simulates a key press
-     *
-     *  \param code The keycode
-     */
-    void press(input::KeyCode code) const;
-
-private:
-    void setKey(input::KeyCode code, bool set) const;
-};
+    Game game;
+    game.run();
+    return 0;
 }
-}
-}
-
-#endif
