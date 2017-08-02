@@ -19,29 +19,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#ifndef __SHMUP_MATH_H__
+#define __SHMUP_MATH_H__
 
-#include <Actor.h>
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include <SFML/Graphics.hpp>
 
-class Bullet : public Actor
-{
-public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
+static constexpr double pi = M_PI;
 
-    const float getDamage() const
-    {
-        return mDamage;
-    }
+void normalize(sf::Vector2f& vec);
 
-private:
-    const float mDamage;
-};
+float magnitude(const sf::Vector2f& vec);
+
+sf::Vector2f rotate(const sf::Vector2f& vec, float degrees);
 
 #endif

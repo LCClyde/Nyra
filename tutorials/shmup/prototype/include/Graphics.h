@@ -19,29 +19,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#ifndef __SHMUP_GRAPHICS_H__
+#define __SHMUP_GRAPHICS_H__
 
-#include <Actor.h>
+#include <SFML/Graphics.hpp>
+#include <Camera.h>
 
-class Bullet : public Actor
+class Graphics
 {
 public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
+    Graphics();
 
-    const float getDamage() const
+    sf::Window& getWindow()
     {
-        return mDamage;
+        return mWindow;
     }
 
 private:
-    const float mDamage;
+    Camera mCamera;
+    Camera mUI;
+    sf::Window mWindow;
 };
 
 #endif

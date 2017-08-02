@@ -19,29 +19,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#ifndef __SHMUP_ENEMY_SINE_H__
+#define __SHMUP_ENEMY_SINE_H__
 
-#include <Actor.h>
+#include <Ship.h>
 
-class Bullet : public Actor
+class EnemySine : public Ship
 {
 public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
-
-    const float getDamage() const
-    {
-        return mDamage;
-    }
+    EnemySine(float x, float y);
 
 private:
-    const float mDamage;
+    void updateImpl(float delta) override;
+
+    float fire() override;
+
+    float mTotalTime;
+    const float mDefaultY;
+    const float mAmplitude;
+    const float mFrequency;
 };
 
 #endif

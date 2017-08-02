@@ -19,29 +19,60 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#include <Ship.h>
 
-#include <Actor.h>
-
-class Bullet : public Actor
-{
-public:
-    Bullet(const std::string& pathname,
+//===========================================================================//
+Ship::Ship(const std::string& filename,
            int rows,
            int columns,
            float x,
            float y,
-           float rotation,
-           float damage);
+           float rotation) :
+    Actor(filename, rows, columns, x, y, rotation),
+    mShootDelay(0.0f),
+    mPrevTime(0.0f),
+    mState(OFF_SCREEN)
+{
+}
 
-    const float getDamage() const
+//===========================================================================//
+void Ship::update(float delta)
+{
+    switch (mState)
     {
-        return mDamage;
+    case OFF_SCREEN:
+        Actor::updateOnScreen();
+
+        if (isOnScreen())
+        {
+            setState(ACTIVE);
+        }
+        break;
+    case ACTIVE:
+        if (!isOnScreen())
+        {
+            setState(DEAD);
+        }
+
+        updateImpl(delta);
+
+        mPrevTime += delta;
+        if (mPrevTime >= mShootDelay)
+        {
+            mShootDelay = fire();
+            mPrevTime = 0.0f;
+        }
+
+        Actor::update(delta);
+        break;
+
+    case DEAD:
+        break;
     }
+}
 
-private:
-    const float mDamage;
-};
-
-#endif
+//===========================================================================//
+void Ship::hit()
+{
+    hide();
+}

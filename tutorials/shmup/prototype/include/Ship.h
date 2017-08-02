@@ -19,29 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#ifndef __SHMUP_SHIP_H__
+#define __SHMUP_SHIP_H__
 
+#include <vector>
+#include <memory>
 #include <Actor.h>
 
-class Bullet : public Actor
+class Ship : public Actor
 {
 public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
-
-    const float getDamage() const
+    enum State
     {
-        return mDamage;
+        OFF_SCREEN,
+        ACTIVE,
+        DEAD
+    };
+
+    Ship(const std::string& filename,
+         int rows,
+         int columns,
+         float x,
+         float y,
+         float rotation);
+
+    virtual ~Ship() = default;
+
+    void update(float delta);
+
+    void setState(State state)
+    {
+        mState = state;
     }
 
+    virtual void hit();
+
 private:
-    const float mDamage;
+    virtual void updateImpl(float delta) = 0;
+
+    virtual float fire() = 0;
+
+    float mShootDelay;
+    float mPrevTime;
+    State mState;
 };
 
 #endif

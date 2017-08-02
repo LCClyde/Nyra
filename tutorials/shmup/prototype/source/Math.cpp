@@ -19,29 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#include <Math.h>
 
-#include <Actor.h>
-
-class Bullet : public Actor
+void normalize(sf::Vector2f& vec)
 {
-public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
-
-    const float getDamage() const
+    float length = magnitude(vec);
+    if (length == 0.0f)
     {
-        return mDamage;
+        return;
     }
+    vec /= length;
+}
 
-private:
-    const float mDamage;
-};
+float magnitude(const sf::Vector2f& vec)
+{
+    return std::sqrt(vec.x * vec.x + vec.y * vec.y);
+}
 
-#endif
+sf::Vector2f rotate(const sf::Vector2f& vec, float degrees)
+{
+    const float radians = degrees * (pi / 180.0f);
+    sf::Vector2f ret;
+    ret.x = vec.x * std::cos(radians) - vec.y * std::sin(radians);
+    ret.y = vec.x * std::sin(radians) + vec.y * std::cos(radians);
+    return ret;
+}

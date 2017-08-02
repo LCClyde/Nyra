@@ -19,29 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#ifndef __SHMUP_TEXTURE_H__
+#define __SHMUP_TEXTURE_H__
 
-#include <Actor.h>
+#include <string>
+#include <SFML/Graphics.hpp>
 
-class Bullet : public Actor
+class Texture
 {
 public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
+    Texture(const std::string& filename);
 
-    const float getDamage() const
+    sf::Texture& getTexture()
     {
-        return mDamage;
+        return *mTexture;
     }
 
+    bool isPixel(unsigned int x,
+                 unsigned int y) const;
+
 private:
-    const float mDamage;
+    sf::Texture* mTexture;
+    sf::Image* mImage;
 };
 
 #endif

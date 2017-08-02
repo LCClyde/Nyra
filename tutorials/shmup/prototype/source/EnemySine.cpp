@@ -19,29 +19,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __SHMUP_BULLET_H__
-#define __SHMUP_BULLET_H__
+#include <EnemySine.h>
+#include <Math.h>
+#include <Level.h>
 
-#include <Actor.h>
-
-class Bullet : public Actor
+EnemySine::EnemySine(float x, float y):
+    Ship("enemy_01.png", 3, 1, x, y, 180.0f),
+    mTotalTime(0.0f),
+    mDefaultY(y),
+    mAmplitude(100.0f),
+    mFrequency(4.0f)
 {
-public:
-    Bullet(const std::string& pathname,
-           int rows,
-           int columns,
-           float x,
-           float y,
-           float rotation,
-           float damage);
+    addAnimation("idle", 1, 1, 1.0f);
+    playAnimation("idle");
+}
 
-    const float getDamage() const
-    {
-        return mDamage;
-    }
+void EnemySine::updateImpl(float delta)
+{
+    mTotalTime += delta;
+    sf::Vector2f position = getSprite().getPosition();
+    position.x -= 200.0f * delta;
+    position.y = std::sin(mTotalTime * pi * mFrequency) * mAmplitude + mDefaultY;
+    getSprite().setPosition(position);
+}
 
-private:
-    const float mDamage;
-};
-
-#endif
+float EnemySine::fire()
+{
+    Level::spawnBullet(new Bullet("bullet_simple.png",
+                                  1, 1,
+                                  getSprite().getPosition().x,
+                                  getSprite().getPosition().y,
+                                  180.0f,
+                                  1.0f),
+                       sf::Vector2f(500.0f, 0.0f),
+                       false);
+    return 0.25;
+}
