@@ -70,8 +70,8 @@ public:
     math::Vector2F getScreenScale() const
     {
         return math::Vector2F(
-                static_cast<float>(windowSize.x()) / DEFAULT_SIZE.x(),
-                static_cast<float>(windowSize.y()) / DEFAULT_SIZE.y());
+                static_cast<float>(windowSize.x) / DEFAULT_SIZE.x,
+                static_cast<float>(windowSize.y) / DEFAULT_SIZE.y);
     }
 
     /*
@@ -83,7 +83,7 @@ public:
     double getMinScreenScale() const
     {
         const math::Vector2F scale = getScreenScale();
-        return std::min(scale.x(), scale.y());
+        return std::min(scale.x, scale.y);
     }
 
     /*
@@ -95,7 +95,7 @@ public:
     double getMaxScreenScale() const
     {
         const math::Vector2F scale = getScreenScale();
-        return std::max(scale.x(), scale.y());
+        return std::max(scale.x, scale.y);
     }
 
 private:

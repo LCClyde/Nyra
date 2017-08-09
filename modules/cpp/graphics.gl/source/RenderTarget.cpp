@@ -58,13 +58,13 @@ void RenderTarget::initialize(const math::Vector2U& size)
 void RenderTarget::resize(const math::Vector2U& size)
 {
     mSize = size;
-    const double aspectRatio = static_cast<double>(mSize.x()) / mSize.y();
+    const double aspectRatio = static_cast<double>(mSize.x) / mSize.y;
     const double fieldOfView = 60.0;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(fieldOfView, aspectRatio, 0.1, 1000.0);
-    glViewport(0, 0, mSize.x(), mSize.y());
+    glViewport(0, 0, mSize.x, mSize.y);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -92,9 +92,9 @@ void RenderTarget::flush()
 //===========================================================================//
 img::Image RenderTarget::getPixels() const
 {
-    std::vector<uint8_t> pixels(4 * mSize.x() * mSize.y());
+    std::vector<uint8_t> pixels(4 * mSize.x * mSize.y);
     glPixelStorei(GL_PACK_ALIGNMENT, 4);
-    glReadPixels(0, 0, mSize.x(), mSize.y(), GL_RGBA,
+    glReadPixels(0, 0, mSize.x, mSize.y, GL_RGBA,
                  GL_UNSIGNED_BYTE, &pixels[0]);
     return img::Image(pixels.data(), mSize, img::Image::RGBA);
 }

@@ -194,7 +194,7 @@ public:
      */
     void setSize(const math::Vector2U& size) override
     {
-        mWindow->resize(size.x(), size.y());
+        mWindow->resize(size.x, size.y);
     }
 
     /*
@@ -206,7 +206,7 @@ public:
      */
     void setPosition(const math::Vector2I& position) override
     {
-        mWindow->move(position.x(), position.y());
+        mWindow->move(position.x, position.y);
     }
 
     /*

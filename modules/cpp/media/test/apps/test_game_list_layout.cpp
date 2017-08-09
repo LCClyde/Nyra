@@ -39,8 +39,8 @@ TEST(GameListLayout, Defaults)
     EXPECT_EQ(GameListLayout::HORIZONTAL, layout.boxLayout);
     EXPECT_GT(layout.boxPosition, 0.0);
     EXPECT_GT(layout.boxSpacing, 0.0);
-    EXPECT_GT(layout.videoPosition.x(), 0.0f);
-    EXPECT_GT(layout.videoPosition.y(), 0.0f);
+    EXPECT_GT(layout.videoPosition.x, 0.0f);
+    EXPECT_GT(layout.videoPosition.y, 0.0f);
     EXPECT_GT(layout.videoScale, 0.0);
 }
 
@@ -52,8 +52,8 @@ TEST(GameListLayout, Archive)
     layout.boxLayout = GameListLayout::HORIZONTAL;
     layout.boxPosition = 250.0;
     layout.boxSpacing = 10.0;
-    layout.videoPosition.x() = 100.0f;
-    layout.videoPosition.y() = 200.0f;
+    layout.videoPosition.x = 100.0f;
+    layout.videoPosition.y = 200.0f;
     layout.videoScale = 2.5;
 
     GameListLayout archived = test::archive(layout);
@@ -74,8 +74,8 @@ TEST(GameListLayout, Stdout)
     layout.boxLayout = GameListLayout::HORIZONTAL;
     layout.boxPosition = 250.0;
     layout.boxSpacing = 10.0;
-    layout.videoPosition.x() = 100.0f;
-    layout.videoPosition.y() = 200.0f;
+    layout.videoPosition.x = 100.0f;
+    layout.videoPosition.y = 200.0f;
     layout.videoScale = 2.5;
 
     const std::string expected =

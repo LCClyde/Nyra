@@ -189,7 +189,7 @@ private:
                                     const Matrix<TypeT, Rows, Cols>& matrix)
     {
         const Vector2U size = matrix.getSize();
-        for (size_t ii = 0; ii < size.y(); ++ii)
+        for (size_t ii = 0; ii < size.y; ++ii)
         {
             if (ii == 0)
             {
@@ -200,7 +200,7 @@ private:
                 os << " ";
             }
             os << "[";
-            for (size_t jj = 0; jj < size.x(); ++jj)
+            for (size_t jj = 0; jj < size.x; ++jj)
             {
                 if (jj != 0)
                 {
@@ -209,7 +209,7 @@ private:
                 os << matrix(ii, jj);
             }
             os << "]";
-            if (ii < size.y() - 1)
+            if (ii < size.y - 1)
             {
                 os << ",\n";
             }

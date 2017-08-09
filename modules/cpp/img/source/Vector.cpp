@@ -29,14 +29,14 @@ namespace img
 //===========================================================================//
 Vector::Vector(const math::Vector2U& size) :
     mSize(size),
-    mStride(cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, size.x())),
-    mPixels(new unsigned char[mStride * size.y()]),
+    mStride(cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, size.x)),
+    mPixels(new unsigned char[mStride * size.y]),
     mSurface(cairo_image_surface_create_for_data(
-            mPixels.get(), CAIRO_FORMAT_ARGB32, size.x(), size.y(), mStride)),
+            mPixels.get(), CAIRO_FORMAT_ARGB32, size.x, size.y, mStride)),
     mCairo(cairo_create(mSurface))
 {
     // Clear out the buffer
-    memset(mPixels.get(), 0, mStride * size.y());
+    memset(mPixels.get(), 0, mStride * size.y);
 }
 
 //============================================================================//
@@ -75,8 +75,8 @@ void Vector::draw(const std::vector<BlobInstruction>& blob,
     }
 
     cairo_move_to(mCairo,
-                  position.x() + blob[0].point.x(),
-                  position.y() + blob[0].point.y());
+                  position.x + blob[0].point.x,
+                  position.y + blob[0].point.y);
 
     // Draw all the other elements
     for (size_t ii = 1; ii < blob.size(); ++ii)
@@ -89,18 +89,18 @@ void Vector::draw(const std::vector<BlobInstruction>& blob,
 
         case BlobInstruction::LINE:
             cairo_line_to(mCairo,
-                          position.x() + blob[ii].point.x(),
-                          position.y() + blob[ii].point.y());
+                          position.x + blob[ii].point.x,
+                          position.y + blob[ii].point.y);
             break;
 
         case BlobInstruction::CURVE:
             cairo_curve_to(mCairo,
-                           position.x() + blob[ii].bezier1.x(),
-                           position.y() + blob[ii].bezier1.y(),
-                           position.x() + blob[ii].bezier2.x(),
-                           position.y() + blob[ii].bezier2.y(),
-                           position.x() + blob[ii].point.x(),
-                           position.y() + blob[ii].point.y());
+                           position.x + blob[ii].bezier1.x,
+                           position.y + blob[ii].bezier1.y,
+                           position.x + blob[ii].bezier2.x,
+                           position.y + blob[ii].bezier2.y,
+                           position.x + blob[ii].point.x,
+                           position.y + blob[ii].point.y);
             break;
         };
     }

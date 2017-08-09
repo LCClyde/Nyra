@@ -192,7 +192,7 @@ public:
      */
     void setSize(const math::Vector2U& size) override
     {
-        mWindow->setSize(sf::Vector2u(size.x(), size.y()));
+        mWindow->setSize(sf::Vector2u(size.x, size.y));
     }
 
     /*
@@ -206,7 +206,7 @@ public:
      */
     void setPosition(const math::Vector2I& position) override
     {
-        mWindow->setPosition(sf::Vector2i(position.x(), position.y()));
+        mWindow->setPosition(sf::Vector2i(position.x, position.y));
     }
 
 private:

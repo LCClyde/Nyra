@@ -112,8 +112,8 @@ img::Image Simulator::screenshot(const math::Vector2U& offset,
                                  const math::Vector2U& size) const
 {
     return mDesktop.getPixels(
-            math::Vector2I(95 + offset.x(),
-                           103 + offset.y()),
+            math::Vector2I(95 + offset.x,
+                           103 + offset.y),
             size);
 }
 }

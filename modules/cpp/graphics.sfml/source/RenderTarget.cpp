@@ -68,7 +68,7 @@ math::Vector2U RenderTarget::getSize() const
 //===========================================================================//
 void RenderTarget::resize(const math::Vector2U& size)
 {
-    mTexture->create(size.x(), size.y());
+    mTexture->create(size.x, size.y);
     mSprite->setTexture(mTexture->getTexture(), true);
 
     // Set the window as the active render target. This allows external

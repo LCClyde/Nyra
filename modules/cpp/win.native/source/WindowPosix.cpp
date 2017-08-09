@@ -58,10 +58,10 @@ void WindowPosix::load(const std::string& name,
     const int screen = getGlobalInstance().getScreen();
     mWindow = XCreateSimpleWindow(display,
                                   RootWindow(display, screen),
-                                  position.x(),
-                                  position.y(),
-                                  size.x(),
-                                  size.y(),
+                                  position.x,
+                                  position.y,
+                                  size.x,
+                                  size.y,
                                   1,
                                   BlackPixel(display, screen),
                                   WhitePixel(display, screen));
@@ -139,8 +139,8 @@ void WindowPosix::setName(const std::string& name)
 void WindowPosix::setSize(const math::Vector2U& size)
 {
     XWindowChanges changes;
-    changes.width = size.x();
-    changes.height = size.y();
+    changes.width = size.x;
+    changes.height = size.y;
 
     XConfigureWindow(getGlobalInstance().get(),
                      mWindow,
@@ -152,8 +152,8 @@ void WindowPosix::setSize(const math::Vector2U& size)
 void WindowPosix::setPosition(const math::Vector2I& position)
 {
     XWindowChanges changes;
-    changes.x = position.x();
-    changes.y = position.y();
+    changes.x = position.x;
+    changes.y = position.y;
 
     XConfigureWindow(getGlobalInstance().get(),
                      mWindow,

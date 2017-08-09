@@ -36,8 +36,8 @@ Mouse::Mouse(const win::Window& window) :
     // TODO: This should register itself with the window to change extents
     //       if they do change.
     const OIS::MouseState& mouseState = mMouse.getMouseState();
-    mouseState.width  = window.getSize().x();
-    mouseState.height = window.getSize().y();
+    mouseState.width  = window.getSize().x;
+    mouseState.height = window.getSize().y;
 }
 
 //===========================================================================//

@@ -44,8 +44,8 @@ int main(int argc, char** argv)
         graphics::sfml::Video video(argv[1]);
         video.setPosition(windowSize / 2);
         float scale = std::min(
-                static_cast<float>(windowSize.x()) / video.getSize().x(),
-                static_cast<float>(windowSize.y()) / video.getSize().y());
+                static_cast<float>(windowSize.x) / video.getSize().x,
+                static_cast<float>(windowSize.y) / video.getSize().y);
         video.setScale(scale);
         video.updateTransform(math::Transform2D());
         video.play();

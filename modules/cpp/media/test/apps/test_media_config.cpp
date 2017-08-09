@@ -54,9 +54,17 @@ TEST(Config, Archive)
 //===========================================================================//
 TEST(Config, Scales)
 {
+    std::cout << Config::DEFAULT_SIZE << "\n";
     Config config;
-    config.windowSize.x() = Config::DEFAULT_SIZE.x() / 2.0;
-    config.windowSize.y() = Config::DEFAULT_SIZE.y() / 4.0;
+    std::cout << Config::DEFAULT_SIZE << "\n";
+    config.windowSize.x = Config::DEFAULT_SIZE.x / 2.0;
+    std::cout << Config::DEFAULT_SIZE << "\n";
+    config.windowSize.y = Config::DEFAULT_SIZE.y / 4.0;
+    std::cout << config.windowSize << "\n";
+    std::cout << Config::DEFAULT_SIZE << "\n";
+    std::cout << config.getScreenScale() << "\n";
+    std::cout << Config::DEFAULT_SIZE << "\n";
+    std::cout << (float)config.windowSize.x / Config::DEFAULT_SIZE.x << "\n";
 
     EXPECT_EQ(math::Vector2F(0.5f, 0.25f), config.getScreenScale());
     EXPECT_EQ(0.5f, config.getMaxScreenScale());

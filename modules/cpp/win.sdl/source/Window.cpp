@@ -54,10 +54,10 @@ void Window::load(const std::string& name,
                   const math::Vector2I& position)
 {
     mWindow = SDL_CreateWindow(name.c_str(),
-                               position.x(),
-                               position.y(),
-                               size.x(),
-                               size.y(),
+                               position.x,
+                               position.y,
+                               size.x,
+                               size.y,
                                SDL_WINDOW_SHOWN);
 }
 

@@ -53,8 +53,8 @@ void BoxArtList::scaleIndex(size_t index,
 
     const double spriteSize = mLayout.boxLayout ==
             GameListLayout::HORIZONTAL ?
-                    mGames[index].sprite->getSize().y() :
-                    mGames[index].sprite->getSize().x();
+                    mGames[index].sprite->getSize().y :
+                    mGames[index].sprite->getSize().x;
     const double spriteScale =
             mLayout.boxSize / spriteSize;
     mGames[index].sprite->setScale(spriteScale * screenScale);
@@ -67,13 +67,13 @@ void BoxArtList::updateIndex(size_t index)
 
     if (mLayout.boxLayout == GameListLayout::HORIZONTAL)
     {
-        updateIndexImpl(index, mSize.x() / 2.0,
-                        mGames[index].sprite->getScaledSize().x());
+        updateIndexImpl(index, mSize.x / 2.0,
+                        mGames[index].sprite->getScaledSize().x);
     }
     else
     {
-        updateIndexImpl(index, mSize.y() / 2.0,
-                        mGames[index].sprite->getScaledSize().y());
+        updateIndexImpl(index, mSize.y / 2.0,
+                        mGames[index].sprite->getScaledSize().y);
     }
 }
 
@@ -127,9 +127,9 @@ double BoxArtList::getScreenScale() const
 {
     if (mLayout.boxLayout == GameListLayout::HORIZONTAL)
     {
-        return static_cast<double>(mSize.y()) / Config::DEFAULT_SIZE.y();
+        return static_cast<double>(mSize.y) / Config::DEFAULT_SIZE.y;
     }
-    return static_cast<double>(mSize.x()) / Config::DEFAULT_SIZE.x();
+    return static_cast<double>(mSize.x) / Config::DEFAULT_SIZE.x;
 }
 
 //===========================================================================//
@@ -155,7 +155,7 @@ void BoxArtList::updatePositionHorizontal(size_t ii,
                                           double direction,
                                           double& position)
 {
-    const double halfSize = mGames[ii].sprite->getScaledSize().x() / 2.0;
+    const double halfSize = mGames[ii].sprite->getScaledSize().x / 2.0;
     position += (halfSize * direction);
     mGames[ii].sprite->setPosition(math::Vector2F(
             position, mLayout.boxPosition * screenScale));
@@ -170,7 +170,7 @@ void BoxArtList::updatePositionVertical(size_t ii,
                                         double direction,
                                         double& position)
 {
-    const double halfSize = mGames[ii].sprite->getScaledSize().y() / 2.0;
+    const double halfSize = mGames[ii].sprite->getScaledSize().y / 2.0;
     position += (halfSize * direction);
     mGames[ii].sprite->setPosition(math::Vector2F(
             mLayout.boxPosition * screenScale, position));

@@ -20,68 +20,69 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/win/native/Desktop.h>
+#include <nyra/mem/Buffer2D.h>
 
 namespace nyra
 {
-namespace win
+namespace mem
 {
-namespace native
+TEST(Buffer2D, Buffer2D)
 {
-TEST(Desktop, Size)
-{
-    Desktop desktop;
-    const math::Vector2U size = desktop.getSize();
+    math::Vector2U size(128, 256);
+    mem::Buffer2D<size_t> buf1(size);
+    EXPECT_EQ(size, buf1.getSize());
 
-    // Just make sure we get non zero
-    EXPECT_NE(static_cast<size_t>(0), size.x);
-    EXPECT_NE(static_cast<size_t>(0), size.y);
-}
-
-TEST(Desktop, Screenshot)
-{
-    Desktop desktop;
-    const math::Vector2U size = desktop.getSize();
-    const img::Image screenshot = desktop.getPixels();
-
-    EXPECT_EQ(size, screenshot.getSize());
-
-    size_t numZero = 0;
     for (size_t ii = 0; ii < size.product(); ++ii)
     {
-        const img::Color& color = screenshot(ii);
-        if (color.r == 0 && color.g == 0 && color.b == 0)
+        EXPECT_EQ(static_cast<size_t>(0), buf1(ii));
+    }
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        buf1(ii) = ii;
+        EXPECT_EQ(ii, buf1(ii));
+    }
+
+    for (size_t x = 0; x < size.x; ++x)
+    {
+        for (size_t y = 0; y < size.y; ++y)
         {
-            ++numZero;
+            EXPECT_EQ(y * size.x + x, buf1(x, y));
         }
     }
 
-    // Make sure we got some content back
-    EXPECT_NE(size.product(), numZero);
-}
-
-TEST(Desktop, ParitalScreenshot)
-{
-    Desktop desktop;
-    const math::Vector2I offset(200, 100);
-    const math::Vector2U size(256, 128);
-    const img::Image screenshot = desktop.getPixels(offset, size);
-
-    EXPECT_EQ(size, screenshot.getSize());
-
-    size_t numZero = 0;
-    for (size_t ii = 0; ii < size.product(); ++ii)
+    for (size_t x = 0; x < size.x; ++x)
     {
-        const img::Color& color = screenshot(ii);
-        if (color.r == 0 && color.g == 0 && color.b == 0)
+        for (size_t y = 0; y < size.y; ++y)
         {
-            ++numZero;
+            buf1(x, y) = x * y;
+            EXPECT_EQ(x * y, buf1(x, y));
         }
     }
 
-    // Make sure we got some content back
-    EXPECT_NE(size.product(), numZero);
-}
+    mem::Buffer2D<size_t> buf2(
+            {{1, 2, 3, 4, 5, 6},
+             {7, 8, 9, 10, 11, 12},
+             {13, 14, 15, 16, 17, 18}});
+
+    size.x = 6;
+    size.y = 3;
+    EXPECT_EQ(size, buf2.getSize());
+    EXPECT_EQ(size.y, buf2.getNumRows());
+    EXPECT_EQ(size.x, buf2.getNumCols());
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        EXPECT_EQ(ii + 1, buf2(ii));
+    }
+
+    for (size_t x = 0; x < size.x; ++x)
+    {
+        for (size_t y = 0; y < size.y; ++y)
+        {
+            EXPECT_EQ(y * size.x + x + 1, buf2(x, y));
+        }
+    }
 }
 }
 }

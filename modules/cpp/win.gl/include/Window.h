@@ -202,7 +202,7 @@ public:
      */
     void setSize(const math::Vector2U& size) override
     {
-        glfwSetWindowSize(mWindow, size.x(), size.y());
+        glfwSetWindowSize(mWindow, size.x, size.y);
     }
 
     /*
@@ -214,7 +214,7 @@ public:
      */
     void setPosition(const math::Vector2I& position) override
     {
-        glfwSetWindowPos(mWindow, position.x(), position.y());
+        glfwSetWindowPos(mWindow, position.x, position.y);
     }
 
 private:

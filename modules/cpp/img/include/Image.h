@@ -95,10 +95,10 @@ public:
         resize(size);
         const double diff = max - min;
 
-        for (size_t y = 0; y < mSize.y(); ++y)
+        for (size_t y = 0; y < mSize.y; ++y)
         {
-            const size_t idx = y * mSize.x();
-            for (size_t x = 0; x < mSize.x(); ++x)
+            const size_t idx = y * mSize.x;
+            for (size_t x = 0; x < mSize.x; ++x)
             {
                 const uint8_t pixel = (functor(x, y) - min) / diff * 255;
                 mPixels[idx + x] = Color(pixel, pixel, pixel, 255);
@@ -182,7 +182,7 @@ public:
      */
     inline const Color& operator()(size_t row, size_t col) const
     {
-        return mPixels[row * mSize.x() + col];
+        return mPixels[row * mSize.x + col];
     }
 
     /*
@@ -197,7 +197,7 @@ public:
      */
     Color& operator()(size_t row, size_t col)
     {
-        return mPixels[row * mSize.x() + col];
+        return mPixels[row * mSize.x + col];
     }
 
     /*

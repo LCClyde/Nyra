@@ -31,21 +31,41 @@ TEST(Vector2, Construction)
     // x, y construction should assign values
     {
         const Vector2F vecF(5.67f, 1.23f);
-        EXPECT_EQ(vecF.x(), 5.67f);
-        EXPECT_EQ(vecF.y(), 1.23f);
+        EXPECT_EQ(vecF.x, 5.67f);
+        EXPECT_EQ(vecF.y, 1.23f);
         const Vector2D vecD(5.67f, 1.23f);
-        EXPECT_EQ(vecD.x(), 5.67f);
-        EXPECT_EQ(vecD.y(), 1.23f);
+        EXPECT_EQ(vecD.x, 5.67f);
+        EXPECT_EQ(vecD.y, 1.23f);
         const Vector2I vecI(-345, 987);
-        EXPECT_EQ(vecI.x(), -345);
-        EXPECT_EQ(vecI.y(), 987);
+        EXPECT_EQ(vecI.x, -345);
+        EXPECT_EQ(vecI.y, 987);
         const Vector2U VecU(246, 357);
-        EXPECT_EQ(VecU.x(), static_cast<size_t>(246));
-        EXPECT_EQ(VecU.y(), static_cast<size_t>(357));
+        EXPECT_EQ(VecU.x, static_cast<size_t>(246));
+        EXPECT_EQ(VecU.y, static_cast<size_t>(357));
         const Vector2F vec(1.5f);
-        EXPECT_EQ(1.5f, vec.x());
-        EXPECT_EQ(1.5f, vec.y());
+        EXPECT_EQ(1.5f, vec.x);
+        EXPECT_EQ(1.5f, vec.y);
     }
+}
+
+TEST(Vector2, Constructor)
+{
+    const Vector2F foo(1280, 720);
+    Vector2F bar(foo);
+    bar.x = foo.x / 2;
+    bar.y = foo.y / 2;
+    EXPECT_EQ(static_cast<size_t>(1280), foo.x);
+    EXPECT_EQ(static_cast<size_t>(720), foo.y);
+    EXPECT_EQ(static_cast<size_t>(640), bar.x);
+    EXPECT_EQ(static_cast<size_t>(360), bar.y);
+
+    bar.x = 12.9f;
+    bar.y = 13.4f;
+    const Vector2U baz(bar);
+    EXPECT_EQ(12.9f, bar.x);
+    EXPECT_EQ(13.4f, bar.y);
+    EXPECT_EQ(12, baz.x);
+    EXPECT_EQ(13, baz.y);
 }
 
 TEST(Vector2, Archive)

@@ -60,8 +60,8 @@ void Window::load(const std::string& name,
                   const math::Vector2U& size,
                   const math::Vector2I& position)
 {
-    mWindow->create(sf::VideoMode(size.x(), size.y()), name);
-    mWindow->setPosition(sf::Vector2i(position.x(), position.y()));
+    mWindow->create(sf::VideoMode(size.x, size.y), name);
+    mWindow->setPosition(sf::Vector2i(position.x, position.y));
     mName = name;
 }
 

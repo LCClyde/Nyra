@@ -40,8 +40,8 @@ img::Image DesktopPosix::getPixels(const math::Vector2I& offset,
     XImage* image;
     image = XGetImage(display,
                       RootWindow(display, screen),
-                      offset.x(), offset.y(),
-                      size.x(), size.y(),
+                      offset.x, offset.y,
+                      size.x, size.y,
                       AllPlanes, XYPixmap);
 
     nyra::img::Image ret(size);
@@ -49,9 +49,9 @@ img::Image DesktopPosix::getPixels(const math::Vector2I& offset,
     const uint64_t greenMask = image->green_mask;
     const uint64_t blueMask = image->blue_mask;
 
-    for (size_t y = 0; y < size.y(); ++y)
+    for (size_t y = 0; y < size.y; ++y)
     {
-        for (size_t x = 0; x < size.x(); ++x)
+        for (size_t x = 0; x < size.x; ++x)
         {
             const uint64_t pixel = XGetPixel(image,x,y);
             const uint8_t blue = pixel & blueMask;

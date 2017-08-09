@@ -67,8 +67,8 @@ void Window::load(const std::string& name,
                   const math::Vector2I& position)
 {
     mName = name;
-    mWindow = glfwCreateWindow(size.x(),
-                               size.y(),
+    mWindow = glfwCreateWindow(size.x,
+                               size.y,
                                name.c_str(),
                                nullptr,
                                nullptr);

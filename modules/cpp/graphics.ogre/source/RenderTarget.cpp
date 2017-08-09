@@ -113,8 +113,8 @@ void RenderTarget::initialize(const math::Vector2U& size)
         "RenderTexture_" + std::to_string(mID),
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         Ogre::TEX_TYPE_2D,
-        size.x(),
-        size.y(),
+        size.x,
+        size.y,
         0,
         Ogre::PF_R8G8B8,
         Ogre::TU_RENDERTARGET);

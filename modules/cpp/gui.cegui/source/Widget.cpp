@@ -42,16 +42,16 @@ Widget::~Widget()
 void Widget::setSize(const math::Vector2F& size)
 {
     mWidget.setSize(CEGUI::USize(
-            CEGUI::UDim(0.0f, size.x()),
-            CEGUI::UDim(0.0f, size.y())));
+            CEGUI::UDim(0.0f, size.x),
+            CEGUI::UDim(0.0f, size.y)));
 }
 
 //===========================================================================//
 void Widget::setPosition(const math::Vector2F& position)
 {
     mWidget.setPosition(CEGUI::UVector2(
-            CEGUI::UDim(0.0f, position.x()),
-            CEGUI::UDim(0.0f, position.y())));
+            CEGUI::UDim(0.0f, position.x),
+            CEGUI::UDim(0.0f, position.y)));
 }
 
 //===========================================================================//

@@ -19,58 +19,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/gui/qt/Widget.h>
+#include <nyra/math/Polynomial.h>
+#include <cmath>
 
 namespace nyra
 {
-namespace gui
-{
-namespace qt
+namespace math
 {
 //===========================================================================//
-Widget::Widget(QWidget& widget) :
-    mWidget(widget)
+Polynomial::Polynomial(size_t order) :
+    mCoefficients(order + 1)
 {
+}
+//===========================================================================//
+void Polynomial::set(size_t order, double x)
+{
+    if (mCoefficients.size() < order + 1)
+    {
+        mCoefficients.resize(order + 1, 0.0);
+    }
+
+    mCoefficients[order] = x;
 }
 
 //===========================================================================//
-Widget::~Widget()
+double Polynomial::operator()(double x) const
 {
+    double ret = 0.0;
+
+    for (size_t ii = 0; ii < mCoefficients.size(); ++ii)
+    {
+        ret += std::pow(x, ii) * mCoefficients[ii];
+    }
+
+    return ret;
 }
 
 //===========================================================================//
-void Widget::setSize(const math::Vector2F& size)
+std::ostream& operator<<(std::ostream& os, const Polynomial& poly)
 {
-    mWidget.resize(size.x, size.y);
-}
+    os << "y = ";
 
-//===========================================================================//
-void Widget::setPosition(const math::Vector2F& position)
-{
-    mWidget.move(position.x, position.y);
-}
-
-//===========================================================================//
-math::Vector2F Widget::getPosition() const
-{
-    return math::Vector2I(mWidget.x(),
-                          mWidget.y());
-}
-
-//===========================================================================//
-math::Vector2F Widget::getSize() const
-{
-
-    return math::Vector2U(mWidget.geometry().width(),
-                          mWidget.geometry().height());
-}
-
-//===========================================================================//
-void Widget::addChild(gui::Widget& child)
-{
-    reinterpret_cast<QWidget*>(child.getNative())->setParent(&mWidget);
-    reinterpret_cast<QWidget*>(child.getNative())->show();
-}
+    for (int64_t ii = static_cast<int64_t>(poly.getOrder()); ii >= 0; --ii)
+    {
+        os << poly.getCoefficient(ii);
+        if (ii > 0)
+        {
+            os << "x^" << ii << " + ";
+        }
+    }
+    return os;
 }
 }
 }

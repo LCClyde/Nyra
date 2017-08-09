@@ -61,8 +61,8 @@ public:
     PNGWriter(const nyra::img::Image& image,
               const std::string& pathname)
     {
-        const size_t width = image.getSize().x();
-        const size_t height = image.getSize().y();
+        const size_t width = image.getSize().x;
+        const size_t height = image.getSize().y;
 
         mFile = fopen (pathname.c_str(), "wb");
         mPNG = png_create_write_struct(

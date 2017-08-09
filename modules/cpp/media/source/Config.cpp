@@ -56,8 +56,8 @@ void write<media::Config>(const media::Config& config,
 {
     json::JSON tree;
     tree["data_path"] = config.dataPath;
-    tree["window_width"] = core::str::toString(config.windowSize.x());
-    tree["window_height"] = core::str::toString(config.windowSize.y());
+    tree["window_width"] = core::str::toString(config.windowSize.x);
+    tree["window_height"] = core::str::toString(config.windowSize.y);
     core::write<json::JSON>(tree, pathname);
 }
 
@@ -70,9 +70,9 @@ void read<media::Config>(const std::string& pathname,
     json::JSON tree = core::read<json::JSON>(pathname);
 
     config.dataPath = tree["data_path"].get();
-    config.windowSize.x() =
+    config.windowSize.x =
             core::str::toType<size_t>(tree["window_width"].get());
-    config.windowSize.y() =
+    config.windowSize.y =
             core::str::toType<size_t>(tree["window_height"].get());
 }
 }

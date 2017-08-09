@@ -23,6 +23,7 @@
 #define __NYRA_MATH_VECTOR_2_H__
 
 #include <nyra/math/Vector.h>
+#include <iostream>
 
 namespace nyra
 {
@@ -43,7 +44,11 @@ public:
      *  \func Constructor
      *  \brief Creates a default Vector2
      */
-    Vector2() = default;
+    Vector2() :
+        x(this->mVec[0]),
+        y(this->mVec[1])
+    {
+    }
 
     /*
      *  \func Constructor
@@ -51,10 +56,11 @@ public:
      *
      *  \param value The desired starting value.
      */
-    Vector2(const TypeT& value)
+    Vector2(const TypeT& value) :
+        Vector2()
     {
-        this->x() = value;
-        this->y() = value;
+        x = value;
+        y = value;
     }
 
     /*
@@ -64,10 +70,11 @@ public:
      *  \param x The desired x value
      *  \param y The desired y value
      */
-    Vector2(const TypeT& x, const TypeT& y)
+    Vector2(const TypeT& x, const TypeT& y) :
+        Vector2()
     {
-        this->x() = x;
-        this->y() = y;
+        this->x = x;
+        this->y = y;
     }
 
     /*
@@ -78,61 +85,60 @@ public:
      *  \param vector The vector to copy
      */
     template <typename OtherT>
-    Vector2(const Vector<OtherT, 2>& vector)
+    Vector2(const Vector<OtherT, 2>& vector) :
+        Vector2()
     {
-        x() = static_cast<TypeT>(vector[0]);
-        y() = static_cast<TypeT>(vector[1]);
+        x = static_cast<TypeT>(vector[0]);
+        y = static_cast<TypeT>(vector[1]);
     }
 
     /*
-     *  \func x
-     *  \brief Represents the first element of the vector.
+     *  \func Constructor
+     *  \brief Creates a Vector2 from another Vector of the same type. This is
+     *         necessary because the templated version does not replace the default.
      *
-     *  \return The x value
+     *  \param vector The vector to copy
      */
-    TypeT& x()
+    Vector2(const Vector2<TypeT>& vector) :
+        Vector2()
     {
-        return (*this)[0];
+        x = vector.x;
+        y = vector.y;
     }
 
     /*
-     *  \func x
-     *  \brief Represents the first element of the vector.
+     *  \func Assignment Operator
+     *  \brief Assigns one vector to another
      *
-     *  \return The x value
+     *  \param other The vector to assign
+     *  \return The assigned vector
      */
-    const TypeT& x() const
+    Vector2<TypeT>& operator=(const Vector2<TypeT>& other)
     {
-        return (*this)[0];
+        x = other.x;
+        y = other.y;
+        return *this;
     }
 
     /*
-     *  \func y
-     *  \brief Represents the second element of the vector.
-     *
-     *  \return The y value
+     *  \var x
+     *  \brief The x axis. By convention this can also mean either
+     *         columns or width.
      */
-    TypeT& y()
-    {
-        return (*this)[1];
-    }
+    TypeT& x;
 
     /*
-     *  \func y
-     *  \brief Represents the second element of the vector.
-     *
-     *  \return The y value
+     *  \var y
+     *  \brief The y axis. By convention this can also mean either
+     *         rows or height.
      */
-    const TypeT& y() const
-    {
-        return (*this)[1];
-    }
+    TypeT& y;
 
 private:
     friend std::ostream& operator<<(std::ostream& os,
                                     const Vector2<TypeT>& vector)
     {
-        os << "x=" << vector.x() << " y=" << vector.y();
+        os << "x=" << vector.x << " y=" << vector.y;
         return os;
     }
 };

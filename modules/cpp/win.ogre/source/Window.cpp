@@ -68,8 +68,8 @@ void Window::load(const std::string& name,
 {
     Ogre::NameValuePairList misc;
     misc["title"] = name.c_str();
-    misc["left"] = std::to_string(position.x()).c_str();
-    misc["top"] = std::to_string(position.y()).c_str();
+    misc["left"] = std::to_string(position.x).c_str();
+    misc["top"] = std::to_string(position.y).c_str();
     mName = name;
 
     // This ensures that every window has a unique ID outside of its title.
@@ -78,8 +78,8 @@ void Window::load(const std::string& name,
 
     mWindow = getGlobalInstance().getRoot()->createRenderWindow(
             ("Window: " + std::to_string(winId)).c_str(),
-            size.x(),
-            size.y(),
+            size.x,
+            size.y,
             false,
             &misc);
 }

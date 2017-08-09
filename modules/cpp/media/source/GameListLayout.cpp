@@ -100,9 +100,9 @@ void write<media::GameListLayout>(const media::GameListLayout& layout,
     tree["box_spacing"] =
             core::str::toString(layout.boxSpacing);
     tree["video_position_x"] =
-            core::str::toString(layout.videoPosition.x());
+            core::str::toString(layout.videoPosition.x);
     tree["video_position_y"] =
-            core::str::toString(layout.videoPosition.y());
+            core::str::toString(layout.videoPosition.y);
     tree["video_scale"] =
             core::str::toString(layout.videoScale);
     core::write<json::JSON>(tree, pathname);
@@ -143,9 +143,9 @@ void read<media::GameListLayout>(const std::string& pathname,
 
     if (tree.has("video_position_x") && tree.has("video_position_y"))
     {
-        layout.videoPosition.x() = core::str::toType<float>(
+        layout.videoPosition.x = core::str::toType<float>(
                 tree["video_position_x"].get());
-        layout.videoPosition.y() = core::str::toType<float>(
+        layout.videoPosition.y = core::str::toType<float>(
                 tree["video_position_y"].get());
     }
 
