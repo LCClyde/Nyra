@@ -58,6 +58,16 @@ namespace nyra
 namespace core
 {
 //===========================================================================//
+TEST(Random, NormalAccessors)
+{
+    RandomNormal<int32_t> r(10.0, 5.0, 0, 20);
+    EXPECT_EQ(10.0, r.getMean());
+    EXPECT_EQ(5.0, r.getStandardDeviation());
+    EXPECT_EQ(0, r.getMin());
+    EXPECT_EQ(20, r.getMax());
+}
+
+//===========================================================================//
 TEST(Random, UniformSeed)
 {
     RandomUniform<double> s0(0);

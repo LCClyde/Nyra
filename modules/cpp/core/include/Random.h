@@ -129,6 +129,50 @@ public:
     }
 
     /*
+     *  \func getMean
+     *  \brief Gets the mean of the distribution
+     *
+     *  \return The mean
+     */
+    double getMean() const
+    {
+        return mDistribution.mean();
+    }
+
+    /*
+     *  \func getStandardDeviation
+     *  \brief Gets the standard deviation of the distribution
+     *
+     *  \return The stadard deviation
+     */
+    double getStandardDeviation() const
+    {
+        return mDistribution.stddev();
+    }
+
+    /*
+     *  \func getMin
+     *  \brief Gets the min value of the distribution
+     *
+     *  \return The min
+     */
+    TypeT getMin() const
+    {
+        return mMin;
+    }
+
+    /*
+     *  \func getMax
+     *  \brief Gets the max value of the distribution
+     *
+     *  \return The max
+     */
+    TypeT getMax() const
+    {
+        return mMax;
+    }
+
+    /*
      *  \func Functor
      *  \brief Gets a single value from the distribution
      *

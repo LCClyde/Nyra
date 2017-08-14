@@ -29,6 +29,9 @@ namespace game
 namespace tstrat
 {
 //===========================================================================//
+core::RandomNormal<int16_t> Stats::mDefaultDistribution(50.0, 15.0, 0, 100);
+
+//===========================================================================//
 Stats::Stats() :
     movement(0),
     agility(0),

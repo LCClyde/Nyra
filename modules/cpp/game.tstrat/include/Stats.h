@@ -24,6 +24,7 @@
 
 #include <stdint.h>
 #include <nyra/core/Archive.h>
+#include <nyra/core/Random.h>
 
 namespace nyra
 {
@@ -128,6 +129,18 @@ public:
      */
     int16_t resolve;
 
+    /*
+     *  \func getDefaultDistribution
+     *  \brief Gets the default stat distribution randomizer.
+     *
+     *  \return The distribution
+     */
+    static
+    const core::RandomNormal<int16_t>& getDefaultDistribution()
+    {
+        return mDefaultDistribution;
+    }
+
 private:
     NYRA_SERIALIZE()
 
@@ -151,6 +164,8 @@ private:
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Stats& stats);
+
+    static core::RandomNormal<int16_t> mDefaultDistribution;
 };
 }
 }

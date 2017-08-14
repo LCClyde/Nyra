@@ -20,3 +20,4 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 set(MOD_DEPS game PARENT_SCOPE)
+set(APP_DEPS process PARENT_SCOPE)
