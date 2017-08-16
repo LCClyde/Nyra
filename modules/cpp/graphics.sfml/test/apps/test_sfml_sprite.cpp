@@ -24,6 +24,7 @@
 #include <nyra/graphics/sfml/Sprite.h>
 #include <nyra/core/Path.h>
 #include <nyra/img/Color.h>
+#include <nyra/test/Image.h>
 
 namespace nyra
 {
@@ -47,6 +48,7 @@ TEST(SFMLSprite, Render)
     sprite.render(target);
     target.flush();
     core::read(basePathname + ".png", expected);
+    core::write(target.getPixels(), "expected.png");
     EXPECT_EQ(target.getPixels(), expected);
 
     sprite.setRotation(180.0);
@@ -76,6 +78,25 @@ TEST(SFMLSprite, Render)
     target.flush();
     core::read(basePathname + "_transformed.png", expected);
     EXPECT_EQ(target.getPixels(), expected);
+}
+
+TEST(SFMLSprite, Rect)
+{
+    RenderTarget target(math::Vector2U(512, 512));
+    const std::string basePathname = core::path::join(
+            core::DATA_PATH, "textures/test_frame_animation");
+    Sprite sprite(basePathname + ".png");
+    sprite.setRect(math::Vector2U(64, 0), math::Vector2U(128, 128));
+
+    // Center the sprite in the middle of the screen
+    sprite.setPosition(math::Vector2F(256.0f, 256.0f));
+
+    sprite.updateTransform(math::Transform2D());
+    target.clear(img::Color::GRAY);
+    sprite.render(target);
+    target.flush();
+    EXPECT_TRUE(test::compareImage(
+            target.getPixels(), "test_frame_animation_rect.png"));
 }
 }
 }

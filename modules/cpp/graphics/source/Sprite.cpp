@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,48 +19,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_SPRITE_H__
-#define __NYRA_GRAPHICS_SPRITE_H__
-
-#include <nyra/graphics/Renderable.h>
-#include <nyra/math/Transform.h>
+#include <nyra/graphics/Sprite.h>
 
 namespace nyra
 {
 namespace graphics
 {
-/*
- *  \class Sprite
- *  \brief Class for rendering images to a render target.
- */
-class Sprite : public Renderable<math::Transform2D>
+//===========================================================================//
+void Sprite::setRect(const math::Vector2U& offset,
+                     const math::Vector2U& extents)
 {
-public:
-    /*
-     *  \func Destructor
-     *  \brief Here for proper inheritance.
-     */
-    virtual ~Sprite() = default;
-
-    /*
-     *  \func load
-     *  \brief Loads a Sprite from a texture on disk.
-     *
-     *  \param texture The name of the texture.
-     */
-    virtual void load(const std::string& texture) = 0;
-
-    /*
-     *  \func setRect
-     *  \brief Sets the visible portion of the sprite.
-     *
-     *  \param offset The offset in the x and y direction in pixels
-     *  \param extents The size of the image x is width, y is height.
-     */
-    virtual void setRect(const math::Vector2U& offset,
-                         const math::Vector2U& extents);
-};
+    throw std::runtime_error("Set Rect is not implemented.");
 }
 }
-
-#endif
+}

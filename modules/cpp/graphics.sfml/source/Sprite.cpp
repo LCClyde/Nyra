@@ -47,7 +47,8 @@ void Sprite::load(const std::string& texture)
     mSprite.reset(new sf::Sprite());
     mTexture = resource[texture];
     mSprite->setTexture(mTexture->get());
-    setSize(math::Vector2U(mTexture->get().getSize().x,
+    setRect(math::Vector2U(),
+            math::Vector2U(mTexture->get().getSize().x,
                            mTexture->get().getSize().y));
 }
 
@@ -61,6 +62,16 @@ void Sprite::render(graphics::RenderTarget& target)
     dynamic_cast<graphics::sfml::RenderTarget&>(
             target).get().draw(*mSprite, transform);
 }
+
+//===========================================================================//
+void Sprite::setRect(const math::Vector2U& offset,
+                     const math::Vector2U& extents)
+{
+    mSprite->setTextureRect(sf::IntRect(
+            offset.x, offset.y, extents.x, extents.y));
+    setSize(math::Vector2U(extents));
+}
+
 }
 }
 }
