@@ -47,7 +47,7 @@ public:
      */
     Buffer2D(const math::Vector2U& size) :
         mSize(size),
-        mBuffer(size.product(), 0)
+        mBuffer(size.product())
     {
     }
 

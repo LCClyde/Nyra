@@ -34,11 +34,22 @@ namespace graphics
 /*
  *  \class TileMap
  *  \brief Class for rendering tiles.
+ *
+ *  \tparam The Sprite class to use. This makes this class generic for any
+ *          graphics engine.
  */
 template <typename SpriteT>
 class TileMap : public Renderable<math::Transform2D>
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a tilemap
+     *
+     *  \param spritePathname The pathname for the base sprite map
+     *  \param tiles The frame index for each tile
+     *  \param tileSize The size of each tile in pixels.
+     */
     TileMap(const std::string& spritePathname,
             const mem::Buffer2D<size_t>& tiles,
             const math::Vector2U tileSize) :
@@ -47,25 +58,42 @@ public:
         mTileSize(tileSize)
     {
         const math::Vector2F pivot(0.0f, 0.0f);
+        const math::Vector2U textureSize(SpriteT(spritePathname).getSize());
+        const math::Vector2U tilesInImage(textureSize.x / mTileSize.x,
+                                          textureSize.y / mTileSize.y);
         for (size_t row = 0; row < mTiles.getNumRows(); ++row)
         {
             for (size_t col = 0; col < mTiles.getNumCols(); ++col)
             {
+                const size_t idRow = mTiles(col, row) / tilesInImage.x;
+                const size_t idCol = mTiles(col, row) % tilesInImage.x;
                 mSprites(col, row).load(spritePathname);
                 mSprites(col, row).setPivot(pivot);
-                mSprites(col, row).setPivot(math::Vector2F(
+                mSprites(col, row).setFrame(math::Vector2U(
+                        mTileSize.x * idCol,
+                        mTileSize.y * idRow),
+                        mTileSize);
+                mSprites(col, row).setPosition(math::Vector2F(
                         mTileSize.x * col,
                         mTileSize.y * row));
+                mSprites(col, row).updateTransform(*this);
             }
         }
     }
+
     /*
      *  \func render
      *  \brief Renders to the screen
      *
      *  \param target The target to render to
      */
-    void render(graphics::RenderTarget& target) override;
+    void render(graphics::RenderTarget& target) override
+    {
+        for (size_t ii = 0; ii < mSprites.getSize().product(); ++ii)
+        {
+            mSprites(ii).render(target);
+        }
+    }
 
 private:
     mem::Buffer2D<size_t> mTiles;

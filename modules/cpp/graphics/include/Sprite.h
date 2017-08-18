@@ -51,14 +51,14 @@ public:
     virtual void load(const std::string& texture) = 0;
 
     /*
-     *  \func setRect
+     *  \func setFrame
      *  \brief Sets the visible portion of the sprite.
      *
      *  \param offset The offset in the x and y direction in pixels
      *  \param extents The size of the image x is width, y is height.
      */
-    virtual void setRect(const math::Vector2U& offset,
-                         const math::Vector2U& extents);
+    virtual void setFrame(const math::Vector2U& offset,
+                          const math::Vector2U& extents);
 };
 }
 }

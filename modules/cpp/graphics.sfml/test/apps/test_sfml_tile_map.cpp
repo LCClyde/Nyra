@@ -19,17 +19,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/graphics/Sprite.h>
+#include <nyra/test/Test.h>
+#include <nyra/graphics/sfml/RenderTarget.h>
+#include <nyra/graphics/sfml/Sprite.h>
+#include <nyra/graphics/TileMap.h>
+#include <nyra/core/Path.h>
+#include <nyra/img/Color.h>
+#include <nyra/test/Image.h>
 
 namespace nyra
 {
 namespace graphics
 {
-//===========================================================================//
-void Sprite::setFrame(const math::Vector2U& offset,
-                      const math::Vector2U& extents)
+namespace sfml
 {
-    throw std::runtime_error("Set Frame is not implemented.");
+TEST(SFMLTileMap, Rect)
+{
+    RenderTarget target(math::Vector2U(512, 512));
+
+    mem::Buffer2D<size_t> tiles({{0, 1, 2, 3, 3, 2, 1, 0},
+                                 {3, 2, 1, 0, 0, 1, 2, 3},
+                                 {0, 0, 0, 0, 0, 0, 0, 0},
+                                 {1, 1, 1, 1, 1, 1, 1, 1},
+                                 {2, 2, 2, 2, 2, 2, 2, 2}});
+    const std::string pathname = core::path::join(
+            core::DATA_PATH, "textures/test_frame_animation.png");
+    TileMap<Sprite> tileMap(pathname, tiles, math::Vector2U(64, 128));
+
+    target.clear(img::Color::GRAY);
+    tileMap.render(target);
+    target.flush();
+    EXPECT_TRUE(test::compareImage(
+            target.getPixels(), "test_tile_map.png"));
 }
 }
 }
+}
+
+NYRA_TEST()

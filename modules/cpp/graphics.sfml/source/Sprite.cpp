@@ -47,9 +47,9 @@ void Sprite::load(const std::string& texture)
     mSprite.reset(new sf::Sprite());
     mTexture = resource[texture];
     mSprite->setTexture(mTexture->get());
-    setRect(math::Vector2U(),
-            math::Vector2U(mTexture->get().getSize().x,
-                           mTexture->get().getSize().y));
+    setFrame(math::Vector2U(),
+             math::Vector2U(mTexture->get().getSize().x,
+                            mTexture->get().getSize().y));
 }
 
 //===========================================================================//
@@ -64,8 +64,8 @@ void Sprite::render(graphics::RenderTarget& target)
 }
 
 //===========================================================================//
-void Sprite::setRect(const math::Vector2U& offset,
-                     const math::Vector2U& extents)
+void Sprite::setFrame(const math::Vector2U& offset,
+                      const math::Vector2U& extents)
 {
     mSprite->setTextureRect(sf::IntRect(
             offset.x, offset.y, extents.x, extents.y));

@@ -80,13 +80,13 @@ TEST(SFMLSprite, Render)
     EXPECT_EQ(target.getPixels(), expected);
 }
 
-TEST(SFMLSprite, Rect)
+TEST(SFMLSprite, Frame)
 {
     RenderTarget target(math::Vector2U(512, 512));
     const std::string basePathname = core::path::join(
             core::DATA_PATH, "textures/test_frame_animation");
     Sprite sprite(basePathname + ".png");
-    sprite.setRect(math::Vector2U(64, 0), math::Vector2U(128, 128));
+    sprite.setFrame(math::Vector2U(64, 0), math::Vector2U(128, 128));
 
     // Center the sprite in the middle of the screen
     sprite.setPosition(math::Vector2F(256.0f, 256.0f));

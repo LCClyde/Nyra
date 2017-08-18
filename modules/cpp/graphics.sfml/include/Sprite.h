@@ -40,6 +40,8 @@ namespace sfml
 class Sprite : public nyra::graphics::Sprite
 {
 public:
+    Sprite() = default;
+
     Sprite(const std::string& texture);
 
     /*
@@ -59,14 +61,14 @@ public:
     void render(graphics::RenderTarget& target) override;
 
     /*
-     *  \func setRect
+     *  \func setFrame
      *  \brief Sets the visible portion of the sprite.
      *
      *  \param offset The offset in the x and y direction in pixels
      *  \param extents The size of the image x is width, y is height.
      */
-    void setRect(const math::Vector2U& offset,
-                 const math::Vector2U& extents) override;
+    void setFrame(const math::Vector2U& offset,
+                  const math::Vector2U& extents) override;
 
 private:
     std::shared_ptr<Texture> mTexture;
