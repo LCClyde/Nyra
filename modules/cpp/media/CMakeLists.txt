@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS win.sfml graphics.sfml input.sfml process json zip net PARENT_SCOPE)
+set(MOD_DEPS win.sfml graphics.sfml input.sfml process json zip net img PARENT_SCOPE)
 set(APP_DEPS cli PARENT_SCOPE)

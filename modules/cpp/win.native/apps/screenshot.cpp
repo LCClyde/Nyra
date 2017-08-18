@@ -25,7 +25,6 @@
 #include <nyra/core/Archive.h>
 #include <nyra/img/Image.h>
 #include <nyra/cli/Parser.h>
-#include <nyra/media/CreateGameList.h>
 
 using namespace nyra;
 
