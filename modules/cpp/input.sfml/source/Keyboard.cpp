@@ -29,6 +29,11 @@ namespace input
 namespace sfml
 {
 //===========================================================================//
+Keyboard::Keyboard(const win::Window& window)
+{
+}
+
+//===========================================================================//
 void Keyboard::update()
 {
     mKeyBits[KEY_1] = sf::Keyboard::isKeyPressed(sf::Keyboard::Num1);

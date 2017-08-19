@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS game PARENT_SCOPE)
+set(MOD_DEPS game graphics.sfml input.sfml win.sfml PARENT_SCOPE)
 set(APP_DEPS process PARENT_SCOPE)

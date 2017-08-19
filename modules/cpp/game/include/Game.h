@@ -22,7 +22,7 @@
 #ifndef __NYRA_GAME_GAME_H__
 #define __NYRA_GAME_GAME_H__
 
-#include <nyra/game/GameOptions.h>
+#include <nyra/game/Options.h>
 
 namespace nyra
 {
@@ -46,7 +46,7 @@ public:
      *
      *  \param options A nested struct of game options.
      */
-    Game(const GameOptions& options) :
+    Game(const Options& options) :
         mOptions(options),
         mWindow(mOptions.window.name,
                 mOptions.window.size,
@@ -75,7 +75,7 @@ public:
     }
 
 private:
-    const GameOptions mOptions;
+    const Options mOptions;
     typename GameT::Window::Window mWindow;
     typename GameT::Graphics::RenderTarget mTarget;
     typename GameT::Input::Mouse mMouse;

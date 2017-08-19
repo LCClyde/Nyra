@@ -19,11 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_INPUT_SFML_KEYBOARD_H__
-#define __NYRA_INPUT_SFML_KEYBOARD_H__
+#ifndef __NYRA_INPUT_SFML_MOUSE_H__
+#define __NYRA_INPUT_SFML_MOUSE_H__
 
-#include <nyra/win/Window.h>
-#include <nyra/input/Keyboard.h>
+#include <nyra/input/Mouse.h>
+#include <nyra/win/sfml/Window.h>
 
 namespace nyra
 {
@@ -32,36 +32,52 @@ namespace input
 namespace sfml
 {
 /*
- *  \class Keyboard
- *  \brief Class to represent user input from the Keyboard. The SFML Keyboard
- *         does not support as many keys as the OIS keyboard, but it does
- *         not require a focused window to function.
+ *  \class Mouse
+ *  \brief Class to represent user input from the Mouse.
  */
-class Keyboard : public input::Keyboard
+class Mouse : public input::Mouse
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Sets up the internal structure of the Keyboard.
+     *  \brief Sets up the Mouse object.
+     *
+     *  \param window The window associated with this Mouse. This must
+     *         be and SFML window.
      */
-    Keyboard() = default;
+    Mouse(const win::Window& window);
 
     /*
-     *  \func Constructor
-     *  \brief Sets up the internal structure of the Keyboard. The window
-     *         is not used for SFML. It is only needed to satisfy the interface
-     *
-     *  \param window An SFML window.
-     */
-    Keyboard(const win::Window& window);
-    /*
      *  \func update
-     *  \brief Updates the button values for the keyboard.
+     *  \brief Must be called to update mouse information.
      */
     void update() override;
 
+    /*
+     *  \func getPosition
+     *  \brief Gets the position of the mouse relative to the window
+     *         associated with the device.
+     */
+    math::Vector2F getPosition() const override;
+
+    /*
+     *  \func getDelta
+     *  \brief Gets the change in position of the position of the mouse
+     *         since the last update.
+     */
+    math::Vector2F getDelta() const override;
+
+    /*
+     *  \func getScroll
+     *  \brief Gets the change in the scroll value since the last update.
+     *         TODO: This does not work.
+     */
+    float getScroll() const override;
+
 private:
-    std::bitset<input::KEY_MAX> mKeyBits;
+    const win::sfml::Window& mWindow;
+    math::Vector2F mPosition;
+    math::Vector2F mDelta;
 };
 }
 }

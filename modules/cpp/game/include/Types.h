@@ -19,13 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GAME_GAME_TYPES_H__
-#define __NYRA_GAME_GAME_TYPES_H__
-
-#include <nyra/win/ogre/Window.h>
-#include <nyra/graphics/ogre/RenderTarget.h>
-#include <nyra/input/ois/Mouse.h>
-#include <nyra/input/ois/Keyboard.h>
+#ifndef __NYRA_GAME_TYPES_H__
+#define __NYRA_GAME_TYPES_H__
 
 namespace nyra
 {
@@ -87,33 +82,6 @@ struct GameType
     typedef GraphicsT Graphics;
     typedef InputTypeT Input;
 };
-
-/*
- *  \type OgreWindow
- *  \brief Window Type for Ogre Windows.
- */
-typedef WindowType<win::ogre::Window> OgreWindow;
-
-/*
- *  \type OgreGraphics
- *  \brief Graphics Type for Ogre Graphics.
- */
-typedef GraphicsType<graphics::ogre::RenderTarget> OgreGraphics;
-
-/*
- *  \type OISInput
- *  \brief Input Type for OIS Input.
- */
-typedef InputType<input::ois::Mouse,
-                  input::ois::Keyboard> OISInput;
-
-/*
- *  \type OgreGame
- *  \brief Default GameType for all 3D Ogre based games.
- */
-typedef GameType<OgreWindow,
-                 OgreGraphics,
-                 OISInput> OgreGame;
 }
 }
 

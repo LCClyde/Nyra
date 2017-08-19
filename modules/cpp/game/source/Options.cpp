@@ -19,15 +19,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Game.h>
-#include <nyra/game/GameTypes.h>
-#include <nyra/game/GameOptions.h>
+#include <nyra/game/Options.h>
 
-int main()
+namespace nyra
 {
-    nyra::game::GameOptions options;
-    nyra::game::Game<nyra::game::OgreGame> game(options);
-    game.run();
+namespace game
+{
+//===========================================================================//
+WindowOptions::WindowOptions() :
+    name("Nyra"),
+    size(1280, 720),
+    position(0, 0)
+{
+}
 
-    return 0;
+//===========================================================================//
+GraphicsOptions::GraphicsOptions() :
+    clearColor(img::Color::BLACK)
+{
+}
+}
 }

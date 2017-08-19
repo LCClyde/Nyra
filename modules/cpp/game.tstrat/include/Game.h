@@ -19,24 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/GameOptions.h>
+#ifndef __NYRA_GAME_TSTRAT_GAME_H__
+#define __NYRA_GAME_TSTRAT_GAME_H__
+
+#include <nyra/win/sfml/Window.h>
+#include <nyra/graphics/sfml/RenderTarget.h>
+#include <nyra/input/sfml/Mouse.h>
+#include <nyra/input/sfml/Keyboard.h>
+#include <nyra/game/Game.h>
+#include <nyra/game/GameTypes.h>
 
 namespace nyra
 {
 namespace game
 {
-//===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1280, 720),
-    position(0, 0)
+namespace tstrat
 {
+typedef game::WindowType<win::sfml::Window> WindowType;
+typedef game::GraphicsType<graphics::sfml::RenderTarget> GraphicsType;
+typedef game::InputType<input::sfml::Mouse,
+                        input::sfml::Keyboard> InputType;
+typedef game::GameType<WindowType,
+                       GraphicsType,
+                       InputType> GameType;
+typedef game::Game<GameType> Game;
+}
+}
 }
 
-//===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::BLACK)
-{
-}
-}
-}
+#endif

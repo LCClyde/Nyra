@@ -19,8 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GAME_GAME_OPTIONS_H__
-#define __NYRA_GAME_GAME_OPTIONS_H__
+#ifndef __NYRA_GAME_OPTIONS_H__
+#define __NYRA_GAME_OPTIONS_H__
 
 #include <string>
 #include <nyra/math/Vector2.h>
@@ -82,10 +82,10 @@ struct GraphicsOptions
 };
 
 /*
- *  \class GameOptions
+ *  \class Options
  *  \brief The top level game options.
  */
-struct GameOptions
+struct Options
 {
     /*
      *  \var window

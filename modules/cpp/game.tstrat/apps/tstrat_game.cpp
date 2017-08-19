@@ -19,52 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_INPUT_SFML_KEYBOARD_H__
-#define __NYRA_INPUT_SFML_KEYBOARD_H__
+#include <iostream>
+#include <exception>
+#include <nyra/game/tstrat/Game.h>
+#include <nyra/game/Options.h>
 
-#include <nyra/win/Window.h>
-#include <nyra/input/Keyboard.h>
+int main(int argc, char** argv)
+{
+    try
+    {
+        nyra::game::Options options;
+        nyra::game::tstrat::Game game(options);
+        game.run();
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "STD Exception: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown Exception: System Error!" << std::endl;
+    }
 
-namespace nyra
-{
-namespace input
-{
-namespace sfml
-{
-/*
- *  \class Keyboard
- *  \brief Class to represent user input from the Keyboard. The SFML Keyboard
- *         does not support as many keys as the OIS keyboard, but it does
- *         not require a focused window to function.
- */
-class Keyboard : public input::Keyboard
-{
-public:
-    /*
-     *  \func Constructor
-     *  \brief Sets up the internal structure of the Keyboard.
-     */
-    Keyboard() = default;
-
-    /*
-     *  \func Constructor
-     *  \brief Sets up the internal structure of the Keyboard. The window
-     *         is not used for SFML. It is only needed to satisfy the interface
-     *
-     *  \param window An SFML window.
-     */
-    Keyboard(const win::Window& window);
-    /*
-     *  \func update
-     *  \brief Updates the button values for the keyboard.
-     */
-    void update() override;
-
-private:
-    std::bitset<input::KEY_MAX> mKeyBits;
-};
+    return 0;
 }
-}
-}
-
-#endif
