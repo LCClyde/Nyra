@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/py3/Variable.h>
+#include <iostream>
 
 namespace nyra
 {
@@ -67,10 +68,7 @@ std::string Variable::getString() const
 //===========================================================================//
 std::string Variable::toString() const
 {
-    AutoPy function(PyObject_GetAttrString(mData.get(), "__str__"));
-    AutoPy call(PyObject_CallObject(function.get(), nullptr));
-    return std::string(PyBytes_AsString(call.get()),
-                       PyBytes_Size(call.get()));
+    return mData.toString();
 }
 }
 }

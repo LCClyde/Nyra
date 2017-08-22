@@ -113,6 +113,22 @@ public:
         return mObject;
     }
 
+    /*
+     *  \func steal
+     *  \brief Takes ownership of the PyObject from the AutoPy.
+     *
+     *  \return The PyObject. You are now responsible for it.
+     */
+    PyObject* steal();
+
+    /*
+     *  \func toString
+     *  \brief Gets the python __str__ representation of the object
+     *
+     *  \return The string equivalent of __str__()
+     */
+    std::string toString() const;
+
 private:
     void release();
 

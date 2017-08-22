@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to
@@ -19,46 +19,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/script/py3/Variable.h>
-#include <nyra/test/Test.h>
-#include <nyra/test/Variable.h>
+#ifndef __NYRA_SCRIPT_INCLUDE_H__
+#define __NYRA_SCRIPT_INCLUDE_H__
 
 namespace nyra
 {
 namespace script
 {
-namespace py3
+/*
+ *  \class Include
+ *  \brief Generic base class for setting the equivalent of a #include. This
+ *         allows each script to specify the location of var/funcs. This
+ *         class is very implementation dependent.
+ */
+class Include
 {
-class TestVariable : public test::Variable<Variable>
-{
+public:
+    /*
+     *  \func Destructor
+     *  \brief Necessary for inheritance.
+     */
+    virtual ~Include() = default;
 };
-
-TEST_F(TestVariable, GetSet)
-{
-    EXPECT_EQ(expectedInt8, int8());
-    EXPECT_EQ(expectedUInt8, uint8());
-    EXPECT_EQ(expectedInt16, int16());
-    EXPECT_EQ(expectedUInt16, uint16());
-    EXPECT_EQ(expectedInt32, int32());
-    EXPECT_EQ(expectedUInt32, uint32());
-    EXPECT_EQ(expectedInt64, int64());
-    EXPECT_EQ(expectedUInt64, uint64());
-    EXPECT_EQ(expectedFloat, floatPres());
-    EXPECT_EQ(expectedDouble, doublePres());
-    EXPECT_EQ(expectedString, string());
-}
-
-TEST_F(TestVariable, Stdout)
-{
-    EXPECT_EQ(expectedIntOut, stdoutInt());
-
-    // This can fail because of precision, seeing how this is just a
-    // mock, it doesn't really matter. Just remove some precision.
-    EXPECT_EQ(expectedFloatOut, stdoutFloat().substr(0, 6));
-    EXPECT_EQ("b'" + expectedStringOut + "'", stdoutString());
-}
-}
 }
 }
 
-NYRA_TEST()
+#endif

@@ -84,12 +84,32 @@ void AutoPy::reset(PyObject* object)
 }
 
 //===========================================================================//
+PyObject* AutoPy::steal()
+{
+    PyObject* ret = mObject;
+    mObject = nullptr;
+    return ret;
+}
+
+//===========================================================================//
 void AutoPy::release()
 {
     if (mObject)
     {
         Py_XDECREF(mObject);
     }
+}
+
+//===========================================================================//
+std::string AutoPy::toString() const
+{
+    if (!mObject)
+    {
+        return "";
+    }
+
+    AutoPy string(PyObject_Str(mObject));
+    return std::string(PyUnicode_AsUTF8(string.get()));
 }
 }
 }

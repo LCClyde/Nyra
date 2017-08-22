@@ -36,8 +36,62 @@ namespace py3
  *  \brief Class that represents a variable that can translate to
  *         Python 3.x
  */
-class Variable : public nyra::script::Variable
+class Variable : public script::Variable
 {
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates an empty variable
+     */
+    Variable() = default;
+
+    /*
+     *  \func Constructor
+     *  \brief Creates a variable from a value
+     *
+     *  \tparam TypeT The variable type
+     *  \param t The value to set
+     */
+    template <typename TypeT>
+    Variable(const TypeT& t)
+    {
+        set<TypeT>(t);
+    }
+
+    /*
+     *  \func getNative
+     *  \brief Gets the underlying PyObject
+     *
+     *  \return The PyObject
+     */
+    PyObject* getNative() const
+    {
+        return mData.get();
+    }
+
+    /*
+     *  \func setNative
+     *  \brief Sets the underlying PyObject
+     *
+     *  \param The PyObject
+     */
+    void setNative(PyObject* object)
+    {
+        mData.reset(object);
+    }
+
+    /*
+     *  \func getAutoPy
+     *  \brief Gets the underlying AutoPy. This is necessary for specialized
+     *         functionality such as setting tuples which steal a ref.
+     *
+     *  \return The AutoPy
+     */
+    AutoPy& getAutoPy()
+    {
+        return mData;
+    }
+
 private:
     void setInt(int64_t value) override;
 

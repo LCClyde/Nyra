@@ -23,6 +23,8 @@
 #define __NYRA_SCRIPT_VARIABLE_H__
 
 #include <string>
+#include <memory>
+#include <vector>
 
 namespace nyra
 {
@@ -97,6 +99,9 @@ private:
 
     virtual std::string toString() const = 0;
 };
+
+typedef std::unique_ptr<Variable> VariablePtr;
+typedef std::initializer_list<Variable*> VariableList;
 }
 }
 
