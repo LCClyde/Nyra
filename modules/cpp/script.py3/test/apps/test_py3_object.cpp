@@ -20,9 +20,8 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/py3/Include.h>
-#include <nyra/script/py3/Function.h>
 #include <nyra/script/py3/Variable.h>
-#include <nyra/script/py3/Variable.h>
+#include <nyra/script/py3/Object.h>
 #include <nyra/test/Test.h>
 
 namespace nyra
@@ -34,20 +33,16 @@ namespace py3
 TEST(Py3Function, Print)
 {
     Include include("test_python");
-    Function function(include, "multiply");
-    Variable a(5);
-    Variable b(3);
-    VariablePtr result1(function(a, b));
-    EXPECT_EQ(15, result1->get<int32_t>());
-
-    // Run again just in case
-    VariablePtr result2(function(a, b));
-    EXPECT_EQ(15, result2->get<int32_t>());
-
-    Variable c(10);
-    Variable d(20);
-    VariablePtr result(function(c, d));
-    EXPECT_EQ(200, result->get<int32_t>());
+    Object object(include, "SampleClass");
+    Variable a(2);
+    EXPECT_EQ(20, (*object.function("multiply_value"))(a)->get<int32_t>());
+    EXPECT_EQ(40, (*object.function("multiply_value"))(a)->get<int32_t>());
+    EXPECT_EQ(80, (*object.function("multiply_value"))(a)->get<int32_t>());
+    EXPECT_EQ(80, object.variable("value")->get<int32_t>());
+    object.variable("value")->set(5);
+    EXPECT_EQ(5, object.variable("value")->get<int32_t>());
+    EXPECT_EQ(10, (*object.function("multiply_value"))(a)->get<int32_t>());
+    EXPECT_EQ(10, object.variable("value")->get<int32_t>());
 }
 }
 }

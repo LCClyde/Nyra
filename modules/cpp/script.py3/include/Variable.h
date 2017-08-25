@@ -24,6 +24,7 @@
 
 #include <nyra/script/Variable.h>
 #include <nyra/script/py3/AutoPy.h>
+#include <nyra/script/Include.h>
 
 namespace nyra
 {
@@ -59,6 +60,26 @@ public:
     }
 
     /*
+     *  \func Constructor
+     *  \brief Creates a variable from an include and a name
+     *
+     *  \param include The include module
+     *  \param name The name of the variable
+     */
+    Variable(const script::Include& include,
+             const std::string& name);
+
+    /*
+     *  \func Constructor
+     *  \brief Creates a variable from a PyObject and a name
+     *
+     *  \param pyObject The base object
+     *  \param name The name of the variable
+     */
+    Variable(const AutoPy& pyObject,
+             const std::string& name);
+
+    /*
      *  \func getNative
      *  \brief Gets the underlying PyObject
      *
@@ -87,7 +108,7 @@ public:
      *
      *  \return The AutoPy
      */
-    AutoPy& getAutoPy()
+    const AutoPy& getAutoPy() const
     {
         return mData;
     }
@@ -107,7 +128,13 @@ private:
 
     std::string toString() const override;
 
+    void setVar();
+
+    AutoPy getVar() const;
+
     AutoPy mData;
+    const std::string mName;
+    AutoPy mParent;
 };
 }
 }

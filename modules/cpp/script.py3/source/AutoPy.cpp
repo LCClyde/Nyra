@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/py3/AutoPy.h>
+#include <iostream>
 
 namespace nyra
 {
@@ -62,7 +63,6 @@ AutoPy& AutoPy::operator=(const AutoPy& other)
 }
 
 //===========================================================================//
-
 AutoPy& AutoPy::operator=(AutoPy&& other)
 {
     mObject = other.mObject;
@@ -84,11 +84,11 @@ void AutoPy::reset(PyObject* object)
 }
 
 //===========================================================================//
-PyObject* AutoPy::steal()
+PyObject* AutoPy::steal() const
 {
-    PyObject* ret = mObject;
-    mObject = nullptr;
-    return ret;
+    // We add an extra ref count for the object that is going to steal this.
+    Py_INCREF(mObject);
+    return mObject;
 }
 
 //===========================================================================//

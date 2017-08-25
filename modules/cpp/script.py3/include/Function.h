@@ -39,6 +39,9 @@ namespace py3
 class Function : public script::Function
 {
 public:
+    Function(const AutoPy& pyObject,
+             const std::string& name);
+
     /*
      *  \func Constructor
      *  \brief Creates a function object

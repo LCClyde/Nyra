@@ -19,38 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/script/py3/Include.h>
-#include <nyra/script/py3/Function.h>
-#include <nyra/script/py3/Variable.h>
-#include <nyra/script/py3/Variable.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_SCRIPT_OBJECT_H__
+#define __NYRA_SCRIPT_OBJECT_H__
+
+#include <string>
+#include <nyra/script/Variable.h>
+#include <nyra/script/Function.h>
 
 namespace nyra
 {
 namespace script
 {
-namespace py3
+/*
+ *  \class Object
+ *  \brief Abstract instance of a script class.
+ */
+class Object
 {
-TEST(Py3Function, Print)
-{
-    Include include("test_python");
-    Function function(include, "multiply");
-    Variable a(5);
-    Variable b(3);
-    VariablePtr result1(function(a, b));
-    EXPECT_EQ(15, result1->get<int32_t>());
+public:
+    /*
+     *  \func Destructor
+     *  \brief Necessary for inheritance
+     */
+    virtual ~Object() = default;
 
-    // Run again just in case
-    VariablePtr result2(function(a, b));
-    EXPECT_EQ(15, result2->get<int32_t>());
+    /*
+     *  \func variable
+     *  \brief Gets a variable from the object
+     *
+     *  \param name The name of the variable
+     *  \return The variable
+     */
+    virtual VariablePtr variable(const std::string& name) = 0;
 
-    Variable c(10);
-    Variable d(20);
-    VariablePtr result(function(c, d));
-    EXPECT_EQ(200, result->get<int32_t>());
-}
-}
+    /*
+     *  \func function
+     *  \brief Gets a function from the object
+     *
+     *  \param name The name of the function
+     *  \return The function
+     */
+    virtual FunctionPtr function(const std::string& name) = 0;
+};
 }
 }
 
-NYRA_TEST()
+#endif

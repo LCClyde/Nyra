@@ -19,11 +19,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/script/py3/Include.h>
-#include <nyra/script/py3/Function.h>
-#include <nyra/script/py3/Variable.h>
-#include <nyra/script/py3/Variable.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_SCRIPT_PY3_OBJECT_H__
+#define __NYRA_SCRIPT_PY3_OBJECT_H__
+
+#include <nyra/script/Object.h>
+#include <nyra/script/Include.h>
+#include <nyra/script/py3/AutoPy.h>
 
 namespace nyra
 {
@@ -31,26 +32,46 @@ namespace script
 {
 namespace py3
 {
-TEST(Py3Function, Print)
+/*
+ *  \class Object
+ *  \brief Represents a python object
+ */
+class Object : public script::Object
 {
-    Include include("test_python");
-    Function function(include, "multiply");
-    Variable a(5);
-    Variable b(3);
-    VariablePtr result1(function(a, b));
-    EXPECT_EQ(15, result1->get<int32_t>());
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a python object
+     *
+     *  \param The module that includes the class
+     *  \param name The name of the class
+     */
+    Object(const script::Include& include,
+           const std::string& name);
 
-    // Run again just in case
-    VariablePtr result2(function(a, b));
-    EXPECT_EQ(15, result2->get<int32_t>());
+    /*
+     *  \func variable
+     *  \brief Gets a variable from the object
+     *
+     *  \param name The name of the variable
+     *  \return The variable
+     */
+    VariablePtr variable(const std::string& name) override;
 
-    Variable c(10);
-    Variable d(20);
-    VariablePtr result(function(c, d));
-    EXPECT_EQ(200, result->get<int32_t>());
-}
+    /*
+     *  \func function
+     *  \brief Gets a function from the object
+     *
+     *  \param name The name of the function
+     *  \return The function
+     */
+    FunctionPtr function(const std::string& name) override;
+
+private:
+    AutoPy mObject;
+};
 }
 }
 }
 
-NYRA_TEST()
+#endif

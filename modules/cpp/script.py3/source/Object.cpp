@@ -19,11 +19,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#include <nyra/script/py3/Object.h>
 #include <nyra/script/py3/Include.h>
 #include <nyra/script/py3/Function.h>
 #include <nyra/script/py3/Variable.h>
-#include <nyra/script/py3/Variable.h>
-#include <nyra/test/Test.h>
 
 namespace nyra
 {
@@ -31,26 +30,27 @@ namespace script
 {
 namespace py3
 {
-TEST(Py3Function, Print)
+//===========================================================================//
+Object::Object(const script::Include& include,
+               const std::string& name)
 {
-    Include include("test_python");
-    Function function(include, "multiply");
-    Variable a(5);
-    Variable b(3);
-    VariablePtr result1(function(a, b));
-    EXPECT_EQ(15, result1->get<int32_t>());
-
-    // Run again just in case
-    VariablePtr result2(function(a, b));
-    EXPECT_EQ(15, result2->get<int32_t>());
-
-    Variable c(10);
-    Variable d(20);
-    VariablePtr result(function(c, d));
-    EXPECT_EQ(200, result->get<int32_t>());
-}
-}
-}
+    Function constructor(include, name);
+    mObject = dynamic_cast<Variable*>(constructor().get())->getAutoPy();
 }
 
-NYRA_TEST()
+//===========================================================================//
+VariablePtr Object::variable(const std::string& name)
+{
+    VariablePtr var(new Variable(mObject, name));
+    return var;
+}
+
+//===========================================================================//
+FunctionPtr Object::function(const std::string& name)
+{
+    FunctionPtr func(new Function(mObject, name));
+    return func;
+}
+}
+}
+}

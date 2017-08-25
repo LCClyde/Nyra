@@ -31,12 +31,17 @@ namespace script
 namespace py3
 {
 //===========================================================================//
-Function::Function(const script::Include& include,
+Function::Function(const AutoPy& pyObject,
                    const std::string& name)
 {
-    const Include& pyInclude = dynamic_cast<const Include&>(include);
-    mFunction.reset(PyObject_GetAttrString(
-            pyInclude.getNative(), name.c_str()));
+    mFunction.reset(PyObject_GetAttrString(pyObject.get(), name.c_str()));
+}
+
+//===========================================================================//
+Function::Function(const script::Include& include,
+                   const std::string& name) :
+    Function(dynamic_cast<const Include&>(include).getNative(), name)
+{
 }
 
 //===========================================================================//
@@ -45,10 +50,12 @@ VariablePtr Function::operator()(const VariableList& variables)
     AutoPy args(PyTuple_New(variables.size()));
 
     size_t idx = 0;
-    for(script::Variable* var : variables )
+    for(const script::Variable* var : variables )
     {
         // This steal a reference
-        PyTuple_SetItem(args.get(), idx++, dynamic_cast<Variable*>(var)->getAutoPy().steal());
+        PyTuple_SetItem(
+                args.get(), idx++,
+                dynamic_cast<const Variable*>(var)->getAutoPy().steal());
     }
     VariablePtr ret(new Variable());
     dynamic_cast<Variable*>(ret.get())->setNative(

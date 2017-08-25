@@ -63,7 +63,7 @@ public:
      *  \func Functor
      *  \brief Same as above but with 1 params.
      */
-    VariablePtr operator()(Variable& a)
+    VariablePtr operator()(const Variable& a)
     {
         return (*this)({&a});
     }
@@ -72,8 +72,8 @@ public:
      *  \func Functor
      *  \brief Same as above but with 2 params.
      */
-    VariablePtr operator()(Variable& a,
-                           Variable& b)
+    VariablePtr operator()(const Variable& a,
+                           const Variable& b)
     {
         return (*this)({&a, &b});
     }
@@ -82,9 +82,9 @@ public:
      *  \func Functor
      *  \brief Same as above but with 3 params.
      */
-    VariablePtr operator()(Variable& a,
-                           Variable& b,
-                           Variable& c)
+    VariablePtr operator()(const Variable& a,
+                           const Variable& b,
+                           const Variable& c)
     {
         return (*this)({&a, &b, &c});
     }
@@ -93,10 +93,10 @@ public:
      *  \func Functor
      *  \brief Same as above but with 4 params.
      */
-    VariablePtr operator()(Variable& a,
-                           Variable& b,
-                           Variable& c,
-                           Variable& d)
+    VariablePtr operator()(const Variable& a,
+                           const Variable& b,
+                           const Variable& c,
+                           const Variable& d)
     {
         return (*this)({&a, &b, &c, &d});
     }
@@ -105,11 +105,11 @@ public:
      *  \func Functor
      *  \brief Same as above but with 5 params.
      */
-    VariablePtr operator()(Variable& a,
-                           Variable& b,
-                           Variable& c,
-                           Variable& d,
-                           Variable& e)
+    VariablePtr operator()(const Variable& a,
+                           const Variable& b,
+                           const Variable& c,
+                           const Variable& d,
+                           const Variable& e)
     {
         return (*this)({&a, &b, &c, &d, &e});
     }
@@ -118,16 +118,18 @@ public:
      *  \func Functor
      *  \brief Same as above but with 6 params.
      */
-    VariablePtr operator()(Variable& a,
-                           Variable& b,
-                           Variable& c,
-                           Variable& d,
-                           Variable& e,
-                           Variable& f)
+    VariablePtr operator()(const Variable& a,
+                           const Variable& b,
+                           const Variable& c,
+                           const Variable& d,
+                           const Variable& e,
+                           const Variable& f)
     {
         return (*this)({&a, &b, &c, &d, &e, &f});
     }
 };
+
+typedef std::unique_ptr<Function> FunctionPtr;
 }
 }
 

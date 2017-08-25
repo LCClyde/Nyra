@@ -48,7 +48,7 @@ public:
      *
      *  \param object The PyObject to be managed.
      */
-    AutoPy(PyObject* object = nullptr);
+    explicit AutoPy(PyObject* object = nullptr);
 
     /*
      *  \func Constructor
@@ -117,9 +117,9 @@ public:
      *  \func steal
      *  \brief Takes ownership of the PyObject from the AutoPy.
      *
-     *  \return The PyObject. You are now responsible for it.
+     *  \return The PyObject. You are now responsible for DEC'n it.
      */
-    PyObject* steal();
+    PyObject* steal() const;
 
     /*
      *  \func toString

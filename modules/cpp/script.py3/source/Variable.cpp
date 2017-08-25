@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/py3/Variable.h>
+#include <nyra/script/py3/Include.h>
 #include <iostream>
 
 namespace nyra
@@ -29,40 +30,89 @@ namespace script
 namespace py3
 {
 //===========================================================================//
+Variable::Variable(const script::Include& include,
+                   const std::string& name) :
+    Variable(dynamic_cast<const Include&>(include).getNative(), name)
+{
+    // TODO: Assign values
+    // PyObject *main = PyImport_AddModule("__main__"); // borrowed
+    // if (main == NULL)
+    //     error();
+    // PyObject *globals = PyModule_GetDict(main); // borrowed
+    // PyObject *value = PyInt_FromLong(x);
+    // if (value == NULL)
+    //    error();
+    // if (PyDict_SetItemString(globals, "n", value) < 0)
+    //    error();
+    // Py_DECREF(value);
+}
+
+//===========================================================================//
+Variable::Variable(const AutoPy& pyObject,
+                   const std::string& name) :
+    mName(name),
+    mParent(pyObject)
+{
+}
+
+//===========================================================================//
 void Variable::setInt(int64_t value)
 {
     mData.reset(PyLong_FromLong(value));
+    setVar();
 }
 
 //===========================================================================//
 void Variable::setFloat(double value)
 {
     mData.reset(PyFloat_FromDouble(value));
+    setVar();
 }
 
 //===========================================================================//
 void Variable::setString(const std::string& value)
 {
     mData.reset(PyBytes_FromStringAndSize(value.c_str(), value.size()));
+    setVar();
 }
 
 //===========================================================================//
 int64_t Variable::getInt() const
 {
-    return PyLong_AsLong(mData.get());
+    return PyLong_AsLong(getVar().get());
 }
 
 //===========================================================================//
 double Variable::getFloat() const
 {
-    return PyFloat_AsDouble(mData.get());
+    return PyFloat_AsDouble(getVar().get());
 }
 
 //===========================================================================//
 std::string Variable::getString() const
 {
-    return std::string(PyBytes_AsString(mData.get()),
-                       PyBytes_Size(mData.get()));
+    AutoPy data(getVar());
+    return std::string(PyBytes_AsString(data.get()),
+                       PyBytes_Size(data.get()));
+}
+
+//===========================================================================//
+void Variable::setVar()
+{
+    if (!mName.empty())
+    {
+        PyObject_SetAttrString(mParent.get(), mName.c_str(), mData.get());
+    }
+}
+
+//===========================================================================//
+AutoPy Variable::getVar() const
+{
+    if (!mName.empty())
+    {
+        return AutoPy(PyObject_GetAttrString(mParent.get(), mName.c_str()));
+    }
+    return mData;
 }
 
 //===========================================================================//

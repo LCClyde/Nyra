@@ -52,9 +52,9 @@ public:
      *
      *  \return The PyObject
      */
-    PyObject* getNative() const
+    const AutoPy& getNative() const
     {
-        return mInclude.get();
+        return mInclude;
     }
 
 private:

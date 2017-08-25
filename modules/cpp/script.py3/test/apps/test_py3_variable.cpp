@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/py3/Variable.h>
+#include <nyra/script/py3/Include.h>
 #include <nyra/test/Test.h>
 #include <nyra/test/Variable.h>
 
@@ -56,6 +57,34 @@ TEST_F(TestVariable, Stdout)
     // mock, it doesn't really matter. Just remove some precision.
     EXPECT_EQ(expectedFloatOut, stdoutFloat().substr(0, 6));
     EXPECT_EQ("b'" + expectedStringOut + "'", stdoutString());
+}
+
+TEST(Variable, Reuse)
+{
+    Variable var(10);
+    EXPECT_EQ(10, var.get<int32_t>());
+    EXPECT_EQ(10, var.get<int32_t>());
+    var.set(var.get<int32_t>() * 5);
+    EXPECT_EQ(50, var.get<int32_t>());
+    var.set(75.25);
+    EXPECT_EQ(75.25, var.get<double>());
+    var.set<std::string>("Hello world!");
+    EXPECT_EQ("Hello world!", var.get<std::string>());
+}
+
+TEST(Variable, ModuleVariable)
+{
+
+    Include include("test_python");
+    Variable var1(include, "variable");
+    EXPECT_EQ(9, var1.get<int32_t>());
+    var1.set(25);
+    EXPECT_EQ(25, var1.get<int32_t>());
+    Variable var2(include, "variable");
+    EXPECT_EQ(25, var2.get<int32_t>());
+    var1.set(30);
+    EXPECT_EQ(30, var1.get<int32_t>());
+    EXPECT_EQ(30, var2.get<int32_t>());
 }
 }
 }

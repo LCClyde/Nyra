@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/py3/Include.h>
+#include <nyra/script/py3/Function.h>
+#include <nyra/script/py3/Variable.h>
 #include <nyra/test/Test.h>
 
 namespace nyra
@@ -28,10 +30,21 @@ namespace script
 {
 namespace py3
 {
-TEST(Py3Function, Print)
+TEST(PyInclude, Create)
 {
     Include include("test_python");
-    EXPECT_NE(nullptr, include.getNative());
+    EXPECT_NE(nullptr, include.getNative().get());
+}
+
+TEST(PyInclude, Resuse)
+{
+    Include include("test_python");
+    Function m1(include, "multiply");
+    Variable a(3);
+    Variable b(2);
+    EXPECT_EQ(6, m1(a, b)->get<int32_t>());
+    Function m2(include, "multiply");
+    EXPECT_EQ(6, m2(a, b)->get<int32_t>());
 }
 }
 }

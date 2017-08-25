@@ -101,7 +101,7 @@ private:
 };
 
 typedef std::unique_ptr<Variable> VariablePtr;
-typedef std::initializer_list<Variable*> VariableList;
+typedef std::initializer_list<const Variable*> VariableList;
 }
 }
 
