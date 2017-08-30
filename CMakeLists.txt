@@ -20,7 +20,7 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.2.3)
 
 project(Nyra)
 
@@ -74,6 +74,10 @@ find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
+set(CMAKE_SWIG_FLAGS "")
+
 set(BOOST_ROOT ${CMAKE_INSTALL_PREFIX})
 find_package(Boost 1.63.0 REQUIRED COMPONENTS serialization filesystem program_options system)
 find_package(Qt5Widgets)
@@ -103,6 +107,7 @@ foreach (DIR ${MODULES_DIRS})
     set(MODULE_DIR ${CPP_MODULES_DIR}/${DIR})
     set(MODULE_TEST_DIR ${MODULE_DIR}/test/apps)
     set(MODULE_APP_DIR ${MODULE_DIR}/apps)
+    set(MODULE_SWIG_DIR ${MODULE_DIR}/swig)
     set(MODULE_NAME nyra-${DIR}-cpp)
     set(TEST_NAME nyra-${DIR}-test-cpp)
 
@@ -114,6 +119,7 @@ foreach (DIR ${MODULES_DIRS})
         BuildModule(test ${TEST_NAME} ${MODULE_NAME} ${MODULE_DIR}/test)
         BuildTests(${MODULE_NAME} ${TEST_NAME} ${MODULE_TEST_DIR} ${CMAKE_TEST_OUTPUT_DIRECTORY}/${DIR})
         BuildApps(${MODULE_NAME} ${MODULE_APP_DIR} ${CMAKE_INSTALL_PREFIX}/bin)
+        BuildSwig(${MODULE_NAME} ${MODULE_SWIG_DIR} ${CMAKE_INSTALL_PREFIX}/data/scripts/nyra)
 
     endif()
 endforeach()

@@ -43,6 +43,11 @@ TEST(Py3Function, Print)
     EXPECT_EQ(5, object.variable("value")->get<int32_t>());
     EXPECT_EQ(10, (*object.function("multiply_value"))(a)->get<int32_t>());
     EXPECT_EQ(10, object.variable("value")->get<int32_t>());
+
+    // Try making another object
+    Object obj2(include, "SampleClass");
+    EXPECT_EQ(20, (*obj2.function("multiply_value"))(a)->get<int32_t>());
+    EXPECT_EQ(10, object.variable("value")->get<int32_t>());
 }
 }
 }

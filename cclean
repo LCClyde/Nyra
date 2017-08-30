@@ -4,6 +4,7 @@ rm -rf install/lib/libnyra*
 rm -rf install/test/*
 #rm -rf install/bin/*
 rm -rf install/data
+rm -rf install/site-packages/nyra
 rm -rf *_automoc.cpp
 rm -rf moc_*.cpp
 

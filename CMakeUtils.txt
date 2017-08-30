@@ -112,21 +112,30 @@ macro(BuildTests libname testlibname pathname outdir)
     # Build the unittests
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${outdir})
     if (IS_DIRECTORY ${pathname})
-        file(GLOB TESTS ${pathname}/*.cpp)
+        file(GLOB TESTS ${pathname}/*)
             foreach (TEST ${TESTS})
                 get_filename_component(TEST_NAME ${TEST} NAME_WE)
-                add_executable(${TEST_NAME} ${TEST})
-                target_link_libraries(${TEST_NAME}
-                                      ${libname}
-                                      ${testlibname}
-                                      ${GoogleTest}
-                                      nyra-core-test-cpp
-                                      ${MOD_DEPS}
-                                      ${MOD_TEST_DEPS}
-                                      ${EXT_DEPS}
-                                      ${TEST_DEPS}
-                                      ${CMAKE_THREAD_LIBS_INIT})
-                add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})
+                get_filename_component(TEST_EXT ${TEST} EXT)
+                if(TEST_EXT STREQUAL ".cpp")
+                    add_executable(${TEST_NAME} ${TEST})
+                    target_link_libraries(${TEST_NAME}
+                                          ${libname}
+                                          ${testlibname}
+                                          ${GoogleTest}
+                                          nyra-core-test-cpp
+                                          ${MOD_DEPS}
+                                          ${MOD_TEST_DEPS}
+                                          ${EXT_DEPS}
+                                          ${TEST_DEPS}
+                                          ${CMAKE_THREAD_LIBS_INIT})
+                    add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME})
+                else()
+                    add_custom_target(${TEST_NAME}
+                               COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                                   ${TEST} ${outdir})
+                    add_dependencies(${libname} ${TEST_NAME})
+                    add_test(run_${TEST_NAME} ${outdir}/${TEST_NAME}${TEST_EXT})
+                endif()
             endforeach()
         endif()
 endmacro()
@@ -149,6 +158,34 @@ macro(BuildApps libname pathname outdir)
         endif()
 endmacro()
 
+macro(BuildSwig libname pathname outdir)
+    # Build the unittests
+    #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${outdir})
+    set(ORIG_LIB_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+    
+    if (IS_DIRECTORY ${pathname})
+        file(GLOB SWIG_SOURCES ${pathname}/*.i)
+        foreach (SWIG_SOURCE ${SWIG_SOURCES})
+            # Set output directories
+            set(CMAKE_SWIG_OUTDIR ${outdir})
+            set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${outdir})
+            set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${outdir})
+            
+            get_filename_component(SWIG_NAME ${SWIG_SOURCE} NAME_WE)
+            set(SWIG_TARGET ${SWIG_NAME})
+            set_source_files_properties(${SWIG_SOURCE} PROPERTIES CPLUSPLUS ON)
+            #set_source_files_properties(${SWIG_SOURCE} PROPERTIES SWIG_FLAGS "-E")
+            swig_add_module(${SWIG_TARGET} python ${SWIG_SOURCE} ${outdir}/${SWIG_NAME}PYTHON_wrap.cxx)
+            swig_link_libraries(${SWIG_TARGET} ${libname} ${PYTHON_LIBRARIES})
+        endforeach()
+    endif()    
+    
+    # Reset lib directory
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ORIG_LIB_DIR})
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ORIG_LIB_DIR})
+
+endmacro()
+
 
 macro(BuildTut TUT DIR)
     file(GLOB SUB_TUTS RELATIVE ${DIR} ${DIR}/*)
@@ -157,8 +194,8 @@ macro(BuildTut TUT DIR)
             
         # Build the exe
         if (IS_DIRECTORY ${SUB_PATH})
-            set (PREV_INSTALL ${CMAKE_INSTALL_PREFIX})
-            set (CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/tutorials/${TUT}/${SUB_TUT})
+            set(PREV_INSTALL ${CMAKE_INSTALL_PREFIX})
+            set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/tutorials/${TUT}/${SUB_TUT})
             set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX})
 
             file(GLOB SOURCES ${SUB_PATH}/source/*)
