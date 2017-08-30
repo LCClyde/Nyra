@@ -19,4 +19,4 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS graphics win input img math PARENT_SCOPE)
+set(MOD_DEPS graphics win input img math json PARENT_SCOPE)

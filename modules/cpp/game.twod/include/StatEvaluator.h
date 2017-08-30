@@ -19,44 +19,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/tstrat/Stats.h>
-#include <nyra/game/tstrat/StatEvaluator.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_GAME_twod_STAT_EVALUATOR_H__
+#define __NYRA_GAME_twod_STAT_EVALUATOR_H__
+
+#include <nyra/math/Polynomial.h>
+#include <nyra/game/twod/Stats.h>
 
 namespace nyra
 {
 namespace game
 {
-namespace tstrat
+namespace twod
 {
-TEST(StatEvaluator, Values)
+/*
+ *  \class StatEvaluator
+ *  \brief Creates polynomials for evaluating stats.
+ */
+class StatEvaluator
 {
-    Stats previous;
-    StatEvaluator eval;
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates the default polynomials.
+     */
+    StatEvaluator();
 
-    for (size_t ii = 1; ii < 101; ++ii)
-    {
-        EXPECT_GT(eval.agility(ii), eval.agility(ii - 1));
-        EXPECT_GT(eval.constitution(ii), eval.constitution(ii - 1));
-        EXPECT_GT(eval.dexterity(ii), eval.dexterity(ii - 1));
-        EXPECT_GT(eval.evasionMelee(ii), eval.evasionMelee(ii - 1));
-        EXPECT_GT(eval.evasionRanged(ii), eval.evasionRanged(ii - 1));
-        EXPECT_GT(eval.luck(ii), eval.luck(ii - 1));
-        EXPECT_GT(eval.movement(ii), eval.movement(ii - 1));
-        EXPECT_GT(eval.perception(ii), eval.perception(ii - 1));
-        EXPECT_GT(eval.speed(ii), eval.speed(ii - 1));
-
-        // Not set
-        EXPECT_EQ(0.0, eval.block(ii));
-        EXPECT_EQ(0.0, eval.charisma(ii));
-        EXPECT_EQ(0.0, eval.fortitude(ii));
-        EXPECT_EQ(0.0, eval.resolve(ii));
-        EXPECT_EQ(0.0, eval.strength(ii));
-        EXPECT_EQ(0.0, eval.stamina(ii));
-    }
-}
+    math::Polynomial movement;
+    math::Polynomial agility;
+    math::Polynomial evasionMelee;
+    math::Polynomial evasionRanged;
+    math::Polynomial dexterity;
+    math::Polynomial strength;
+    math::Polynomial constitution;
+    math::Polynomial fortitude;
+    math::Polynomial stamina;
+    math::Polynomial perception;
+    math::Polynomial speed;
+    math::Polynomial luck;
+    math::Polynomial charisma;
+    math::Polynomial block;
+    math::Polynomial resolve;
+};
 }
 }
 }
 
-NYRA_TEST()
+#endif

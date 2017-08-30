@@ -82,6 +82,25 @@ struct GraphicsOptions
 };
 
 /*
+ *  \class GameOptions
+ *  \brief Options related to gameplay
+ */
+struct GameOptions
+{
+    /*
+     *  \func Constructor
+     *  \brief Sets default game options.
+     */
+    GameOptions();
+
+    /*
+     *  \var startingMap
+     *  \brief The filename of the starting map to load.
+     */
+    std::string startingMap;
+};
+
+/*
  *  \class Options
  *  \brief The top level game options.
  */
@@ -98,6 +117,8 @@ struct Options
      *  \brief The graphics options (see above)
      */
     GraphicsOptions graphics;
+
+    GameOptions game;
 };
 }
 }

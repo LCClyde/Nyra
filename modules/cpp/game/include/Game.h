@@ -23,6 +23,7 @@
 #define __NYRA_GAME_GAME_H__
 
 #include <nyra/game/Options.h>
+#include <nyra/game/Map.h>
 
 namespace nyra
 {
@@ -55,6 +56,15 @@ public:
         mMouse(mWindow),
         mKeyboard(mWindow)
     {
+        loadMap(mOptions.game.startingMap);
+    }
+
+    void loadMap(const std::string filename)
+    {
+        mMap.reset(new Map<GameT>());
+        core::read(
+                core::path::join(core::DATA_PATH, "maps/" + filename),
+                *mMap);
     }
 
     /*
@@ -70,6 +80,7 @@ public:
             mMouse.update();
             mKeyboard.update();
             mTarget.clear(mOptions.graphics.clearColor);
+            mMap->render(mTarget);
             mTarget.flush();
         }
     }
@@ -80,6 +91,7 @@ private:
     typename GameT::Graphics::RenderTarget mTarget;
     typename GameT::Input::Mouse mMouse;
     typename GameT::Input::Keyboard mKeyboard;
+    std::unique_ptr<Map<GameT>> mMap;
 };
 }
 }

@@ -19,14 +19,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/tstrat/Stats.h>
+#include <nyra/game/twod/Stats.h>
 
 
 namespace nyra
 {
 namespace game
 {
-namespace tstrat
+namespace twod
 {
 //===========================================================================//
 core::RandomNormal<int16_t> Stats::mDefaultDistribution(50.0, 15.0, 0, 100);

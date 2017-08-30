@@ -23,7 +23,7 @@
 #include <exception>
 #include <vector>
 #include <string>
-#include <nyra/game/tstrat/Stats.h>
+#include <nyra/game/twod/Stats.h>
 #include <nyra/process/Subprocess.h>
 #include <nyra/core/String.h>
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     try
     {
         const auto distribution =
-                game::tstrat::Stats::getDefaultDistribution();
+                game::twod::Stats::getDefaultDistribution();
 
         const double sigma = distribution.getStandardDeviation();
         const std::string script =

@@ -22,6 +22,8 @@
 #ifndef __NYRA_GAME_TYPES_H__
 #define __NYRA_GAME_TYPES_H__
 
+#include <nyra/graphics/Renderable.h>
+
 namespace nyra
 {
 namespace game
@@ -44,10 +46,15 @@ struct WindowType
  *
  *  \tparam RenderTargetT The class for the render target.
  */
-template <typename RenderTargetT>
+template <typename RenderTargetT,
+          typename TransformT,
+          typename SpriteT>
 struct GraphicsType
 {
     typedef RenderTargetT RenderTarget;
+    typedef TransformT Transform;
+    typedef graphics::Renderable<TransformT> Renderable;
+    typedef SpriteT Sprite;
 };
 
 /*
@@ -66,21 +73,39 @@ struct InputType
 };
 
 /*
+ *  \class ScriptType
+ *  \brief Defines the Scripting classes
+ *
+ *  \tparam IncludeT The class used to include modules
+ *  \tparam ObjectT The class that represents OO object.
+ */
+template <typename IncludeT,
+          typename ObjectT>
+struct ScriptType
+{
+    typedef IncludeT Include;
+    typedef ObjectT Object;
+};
+
+/*
  *  \class GameType
  *  \brief Defines the Game level classes.
  *
  *  \tparam WindowTypeT The window type class.
  *  \tparam GraphicsT The graphics type class.
  *  \tparam InputTypeT The input type class.
+ *  \tparam ScriptTypeT The scripting type class.
  */
 template <typename WindowTypeT,
           typename GraphicsT,
-          typename InputTypeT>
+          typename InputTypeT,
+          typename ScriptTypeT>
 struct GameType
 {
     typedef WindowTypeT Window;
     typedef GraphicsT Graphics;
     typedef InputTypeT Input;
+    typedef ScriptTypeT Script;
 };
 }
 }

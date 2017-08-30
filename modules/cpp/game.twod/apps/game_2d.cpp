@@ -19,34 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/tstrat/StatEvaluator.h>
-#include <nyra/math/PolyFit.h>
+#include <iostream>
+#include <exception>
+#include <nyra/game/twod/Game.h>
+#include <nyra/game/Options.h>
 
-namespace nyra
+int main(int argc, char** argv)
 {
-namespace game
-{
-namespace tstrat
-{
-//===========================================================================//
-StatEvaluator::StatEvaluator() :
-    movement(math::polyFit({1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, 1)),
-    agility(math::polyFit({0, 50, 100}, {0, 75, 100}, 2)),
-    evasionMelee(math::polyFit({0, 50, 100}, {0, 7, 10}, 2)),
-    evasionRanged(math::polyFit({0, 50, 100}, {0, 3, 5}, 2)),
-    dexterity(math::polyFit({0, 50, 100}, {0, 10, 15}, 2)),
-    strength(0),
-    constitution(math::polyFit({10, 20}, {10, 20}, 1)),
-    fortitude(0),
-    stamina(0),
-    perception(math::polyFit({1, 2, 3, 4, 5}, {2, 4, 6, 8, 10}, 1)),
-    speed(math::polyFit({0, 100}, {0, 100}, 1)),
-    luck(math::polyFit({0, 50, 100}, {0, 3, 5}, 2)),
-    charisma(0),
-    block(0),
-    resolve(0)
-{
-}
-}
-}
+    try
+    {
+        nyra::game::Options options;
+        nyra::game::twod::Game game(options);
+        game.run();
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "STD Exception: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown Exception: System Error!" << std::endl;
+    }
+
+    return 0;
 }

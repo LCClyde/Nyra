@@ -19,12 +19,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/tstrat/Stats.h>
+#include <nyra/game/twod/Stats.h>
 #include <nyra/test/Test.h>
 
-nyra::game::tstrat::Stats createStats()
+nyra::game::twod::Stats createStats()
 {
-    nyra::game::tstrat::Stats stats;
+    nyra::game::twod::Stats stats;
     stats.movement = 1;
     stats.agility = 2;
     stats.evasion = 3;
@@ -46,7 +46,7 @@ namespace nyra
 {
 namespace game
 {
-namespace tstrat
+namespace twod
 {
 TEST(Stats, Construct)
 {

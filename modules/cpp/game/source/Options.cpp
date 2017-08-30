@@ -38,5 +38,11 @@ GraphicsOptions::GraphicsOptions() :
     clearColor(img::Color::BLACK)
 {
 }
+
+//===========================================================================//
+GameOptions::GameOptions() :
+    startingMap("starting_map.json")
+{
+}
 }
 }

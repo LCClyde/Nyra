@@ -19,42 +19,40 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GRAPHICS_RENDERABLE_H__
-#define __NYRA_GRAPHICS_RENDERABLE_H__
+#ifndef __NYRA_GAME_TWOD_GAME_H__
+#define __NYRA_GAME_TWOD_GAME_H__
 
-#include <nyra/graphics/RenderTarget.h>
-#include <nyra/math/Transform.h>
+#include <nyra/win/sfml/Window.h>
+#include <nyra/graphics/sfml/RenderTarget.h>
+#include <nyra/input/sfml/Mouse.h>
+#include <nyra/input/sfml/Keyboard.h>
+#include <nyra/game/Game.h>
+#include <nyra/game/Types.h>
+#include <nyra/graphics/sfml/Sprite.h>
+#include <nyra/script/py3/Object.h>
+#include <nyra/script/py3/Include.h>
 
 namespace nyra
 {
-namespace graphics
+namespace game
 {
-/*
- *  \class Renderable
- *  \brief Interface class for objects that can be rendered
- */
-template <class TransformT>
-class Renderable : public TransformT
+namespace twod
 {
-public:
-    /*
-     *  \func Destructor
-     *  \brief Here for inheritance
-     */
-    virtual ~Renderable() = default;
-
-    /*
-     *  \func render
-     *  \brief Renders to the screen
-     *
-     *  \param transform The transform that represents this object
-     *  \param target The target to render to
-     */
-    virtual void render(RenderTarget& target) = 0;
-};
-
-typedef Renderable<math::Transform2D> Renderable2D;
-typedef Renderable<math::Transform3D> Renderable3D;
+typedef game::WindowType<win::sfml::Window> WindowType;
+typedef game::GraphicsType<graphics::sfml::RenderTarget,
+                           math::Transform2D,
+                           graphics::sfml::Sprite>
+                           GraphicsType;
+typedef game::InputType<input::sfml::Mouse,
+                        input::sfml::Keyboard> InputType;
+typedef game::ScriptType<script::py3::Include,
+                         script::py3::Object> ScriptType;
+typedef game::GameType<WindowType,
+                       GraphicsType,
+                       InputType,
+                       ScriptType> GameType;
+typedef game::Game<GameType> Game;
+}
 }
 }
 

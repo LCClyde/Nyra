@@ -24,133 +24,133 @@
 #include <vector>
 #include <string>
 #include <functional>
-#include <nyra/game/tstrat/Stats.h>
+#include <nyra/game/twod/Stats.h>
 #include <nyra/process/Subprocess.h>
 #include <nyra/core/String.h>
-#include <nyra/game/tstrat/StatEvaluator.h>
+#include <nyra/game/twod/StatEvaluator.h>
 
 using namespace nyra;
 
 namespace
 {
 //===========================================================================//
-double getMovement(const game::tstrat::StatEvaluator& eval,
-                   game::tstrat::Stats& stats)
+double getMovement(const game::twod::StatEvaluator& eval,
+                   game::twod::Stats& stats)
 {
     return eval.movement(stats.movement++);
 }
 
 //===========================================================================//
-double getAgility(const game::tstrat::StatEvaluator& eval,
-                  game::tstrat::Stats& stats)
+double getAgility(const game::twod::StatEvaluator& eval,
+                  game::twod::Stats& stats)
 {
     return eval.agility(stats.agility++);
 }
 
 //===========================================================================//
-double getEvasionMelee(const game::tstrat::StatEvaluator& eval,
-                       game::tstrat::Stats& stats)
+double getEvasionMelee(const game::twod::StatEvaluator& eval,
+                       game::twod::Stats& stats)
 {
     return eval.evasionMelee(stats.evasion++);
 }
 
 //===========================================================================//
-double getEvasionRanged(const game::tstrat::StatEvaluator& eval,
-                        game::tstrat::Stats& stats)
+double getEvasionRanged(const game::twod::StatEvaluator& eval,
+                        game::twod::Stats& stats)
 {
     return eval.evasionRanged(stats.evasion++);
 }
 
 //===========================================================================//
-double getDexterity(const game::tstrat::StatEvaluator& eval,
-                    game::tstrat::Stats& stats)
+double getDexterity(const game::twod::StatEvaluator& eval,
+                    game::twod::Stats& stats)
 {
     return eval.dexterity(stats.dexterity++);
 }
 
 //===========================================================================//
-double getStrength(const game::tstrat::StatEvaluator& eval,
-                   game::tstrat::Stats& stats)
+double getStrength(const game::twod::StatEvaluator& eval,
+                   game::twod::Stats& stats)
 {
     return eval.strength(stats.strength++);
 }
 
 //===========================================================================//
-double getConstitution(const game::tstrat::StatEvaluator& eval,
-                       game::tstrat::Stats& stats)
+double getConstitution(const game::twod::StatEvaluator& eval,
+                       game::twod::Stats& stats)
 {
     return eval.constitution(stats.constitution++);
 }
 
 //===========================================================================//
-double getFortitude(const game::tstrat::StatEvaluator& eval,
-                    game::tstrat::Stats& stats)
+double getFortitude(const game::twod::StatEvaluator& eval,
+                    game::twod::Stats& stats)
 {
     return eval.fortitude(stats.fortitude++);
 }
 
 //===========================================================================//
-double getStamina(const game::tstrat::StatEvaluator& eval,
-                  game::tstrat::Stats& stats)
+double getStamina(const game::twod::StatEvaluator& eval,
+                  game::twod::Stats& stats)
 {
     return eval.stamina(stats.stamina++);
 }
 
 //===========================================================================//
-double getPerception(const game::tstrat::StatEvaluator& eval,
-                     game::tstrat::Stats& stats)
+double getPerception(const game::twod::StatEvaluator& eval,
+                     game::twod::Stats& stats)
 {
     return eval.perception(stats.perception++);
 }
 
 //===========================================================================//
-double getSpeed(const game::tstrat::StatEvaluator& eval,
-                game::tstrat::Stats& stats)
+double getSpeed(const game::twod::StatEvaluator& eval,
+                game::twod::Stats& stats)
 {
     return eval.speed(stats.speed++);
 }
 
 //===========================================================================//
-double getLuck(const game::tstrat::StatEvaluator& eval,
-               game::tstrat::Stats& stats)
+double getLuck(const game::twod::StatEvaluator& eval,
+               game::twod::Stats& stats)
 {
     return eval.luck(stats.luck++);
 }
 
 //===========================================================================//
-double getCharisma(const game::tstrat::StatEvaluator& eval,
-                   game::tstrat::Stats& stats)
+double getCharisma(const game::twod::StatEvaluator& eval,
+                   game::twod::Stats& stats)
 {
     return eval.charisma(stats.charisma++);
 }
 
 //===========================================================================//
-double getBlock(const game::tstrat::StatEvaluator& eval,
-                game::tstrat::Stats& stats)
+double getBlock(const game::twod::StatEvaluator& eval,
+                game::twod::Stats& stats)
 {
     return eval.block(stats.block++);
 }
 
 //===========================================================================//
-double getResolve(const game::tstrat::StatEvaluator& eval,
-                  game::tstrat::Stats& stats)
+double getResolve(const game::twod::StatEvaluator& eval,
+                  game::twod::Stats& stats)
 {
     return eval.resolve(stats.resolve++);
 }
 
 //===========================================================================//
-typedef std::function<double(const game::tstrat::StatEvaluator& eval,
-                             game::tstrat::Stats& stats)> GetStatT;
+typedef std::function<double(const game::twod::StatEvaluator& eval,
+                             game::twod::Stats& stats)> GetStatT;
 
 //===========================================================================//
-void graph(const game::tstrat::StatEvaluator& eval,
+void graph(const game::twod::StatEvaluator& eval,
            const std::string& name,
            GetStatT getStat,
            int16_t min = 0,
            int16_t max = 100)
 {
     ++max;
-    game::tstrat::Stats stats;
+    game::twod::Stats stats;
 
     std::vector<double> values;
     for (int16_t ii = min; ii < max; ++ii)
@@ -191,7 +191,7 @@ int main(int argc, char** argv)
 {
     try
     {
-        game::tstrat::StatEvaluator eval;
+        game::twod::StatEvaluator eval;
         graph(eval, "Movement", getMovement, 0, 5);
         graph(eval, "Agility", getAgility);
         graph(eval, "Melee Evasion", getEvasionMelee);

@@ -30,7 +30,7 @@ namespace nyra
 {
 namespace game
 {
-namespace tstrat
+namespace twod
 {
 /*
  *  \class Stats
