@@ -30,6 +30,7 @@
 #include <nyra/game/Types.h>
 #include <nyra/graphics/sfml/Sprite.h>
 #include <nyra/script/py3/Object.h>
+#include <nyra/script/py3/Variable.h>
 #include <nyra/script/py3/Include.h>
 
 namespace nyra
@@ -46,6 +47,7 @@ typedef game::GraphicsType<graphics::sfml::RenderTarget,
 typedef game::InputType<input::sfml::Mouse,
                         input::sfml::Keyboard> InputType;
 typedef game::ScriptType<script::py3::Include,
+                         script::py3::Variable,
                          script::py3::Object> ScriptType;
 typedef game::GameType<WindowType,
                        GraphicsType,

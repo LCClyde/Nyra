@@ -22,6 +22,7 @@
 #ifndef __NYRA_MATH_TRANSFORM_H__
 #define __NYRA_MATH_TRANSFORM_H__
 
+#include <iostream>
 #include <nyra/math/Matrix3x3.h>
 #include <nyra/math/Vector2.h>
 #include <nyra/math/Matrix4x4.h>

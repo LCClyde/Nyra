@@ -29,9 +29,14 @@
                           float,
                           nyra::math::Vector2F,
                           nyra::math::Vector2F,
-                          nyra::math::Matrix3x3>& getTransform()
+                          nyra::math::Matrix3x3>* getTransform()
     {
-        return *self;
+        return $self;
+    }
+    
+    size_t nyra_pointer()
+    {
+        return reinterpret_cast<size_t>($self);
     }
 }
 

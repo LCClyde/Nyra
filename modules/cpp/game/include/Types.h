@@ -77,13 +77,16 @@ struct InputType
  *  \brief Defines the Scripting classes
  *
  *  \tparam IncludeT The class used to include modules
+ *  \tparam VariableT The variable class used in scripting
  *  \tparam ObjectT The class that represents OO object.
  */
 template <typename IncludeT,
+          typename VariableT,
           typename ObjectT>
 struct ScriptType
 {
     typedef IncludeT Include;
+    typedef VariableT Variable;
     typedef ObjectT Object;
 };
 

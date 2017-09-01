@@ -2,7 +2,7 @@
     "actors" :
     [
          {
-            "filename" : "test_tstrat_tile_map.json"
+            "filename" : "test_actor.json"
          }
     ]
 }

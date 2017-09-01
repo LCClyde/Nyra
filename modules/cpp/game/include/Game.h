@@ -24,6 +24,7 @@
 
 #include <nyra/game/Options.h>
 #include <nyra/game/Map.h>
+#include <nyra/core/FPS.h>
 
 namespace nyra
 {
@@ -57,6 +58,9 @@ public:
         mKeyboard(mWindow)
     {
         loadMap(mOptions.game.startingMap);
+
+        // Prep the fps object
+        mFPS();
     }
 
     void loadMap(const std::string filename)
@@ -76,9 +80,11 @@ public:
     {
         while (mWindow.isOpen())
         {
+            const double delta = mFPS();
             mWindow.update();
             mMouse.update();
             mKeyboard.update();
+            mMap->update(delta);
             mTarget.clear(mOptions.graphics.clearColor);
             mMap->render(mTarget);
             mTarget.flush();
@@ -92,6 +98,7 @@ private:
     typename GameT::Input::Mouse mMouse;
     typename GameT::Input::Keyboard mKeyboard;
     std::unique_ptr<Map<GameT>> mMap;
+    core::FPS mFPS;
 };
 }
 }

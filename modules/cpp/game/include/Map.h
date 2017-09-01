@@ -22,8 +22,7 @@
 #ifndef __NYRA_GAME_MAP_H__
 #define __NYRA_GAME_MAP_H__
 
-#include <nyra/game/Actor.h>
-#include <nyra/core/Path.h>
+#include <nyra/game/ActorPtr.h>
 #include <nyra/core/Path.h>
 
 namespace nyra
@@ -42,6 +41,24 @@ class Map
 {
 public:
     /*
+     *  \func update
+     *  \brief Updates everything on the map
+     *
+     *  \param delta The time in seconds since the last update
+     */
+    void update(double delta)
+    {
+        for (size_t ii = 0; ii < mActors.size(); ++ii)
+        {
+            mActors[ii].get()->update(delta);
+        }
+
+        for (size_t ii = 0; ii < mActors.size(); ++ii)
+        {
+            mActors[ii].get()->updateTransform();
+        }
+    }
+    /*
      *  \func render
      *  \brief Renders the map to the screen.
      *
@@ -49,9 +66,10 @@ public:
      */
     void render(graphics::RenderTarget& target)
     {
+
         for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
-            mActors[ii]->render(target);
+            mActors[ii].get()->render(target);
         }
     }
 
@@ -61,14 +79,14 @@ public:
      *
      *  \param actor The actor to add
      */
-    void addActor(Actor<GameT>* actor)
+    void addActor(const ActorPtr<GameT>& actor)
     {
-        mActors.push_back(std::unique_ptr<Actor<GameT>>(actor));
+        mActors.push_back(actor);
     }
 
 
 private:
-    std::vector<std::unique_ptr<Actor<GameT>>> mActors;
+    std::vector<ActorPtr<GameT>> mActors;
 };
 }
 
@@ -94,10 +112,7 @@ void read(const std::string& pathname,
             const auto& actorMap = tree["actors"][ii];
             const std::string filename = actorMap["filename"].get();
 
-            game::Actor<GameT>* actor = new game::Actor<GameT>();
-            core::read(
-                    core::path::join(DATA_PATH, "actors/" + filename),
-                    *actor);
+            game::ActorPtr<GameT> actor(filename);
             map.addActor(actor);
         }
     }

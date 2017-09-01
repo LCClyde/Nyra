@@ -29,6 +29,7 @@
 #include <nyra/mem/Buffer2D.h>
 #include <nyra/graphics/TileMap.h>
 #include <nyra/core/Path.h>
+#include <nyra/script/Function.h>
 
 namespace nyra
 {
@@ -46,10 +47,20 @@ class Actor : public GameT::Graphics::Renderable
 private:
     typedef typename GameT::Graphics::RenderTarget RenderTargetT;
     typedef typename GameT::Graphics::Renderable RenderableT;
+    typedef typename GameT::Graphics::Transform TransformT;
     typedef std::vector<std::unique_ptr<RenderableT>> RenderList;
     typedef typename GameT::Script::Object ObjectT;
+    typedef typename GameT::Script::Variable VariableT;
 
 public:
+    void update(float delta)
+    {
+        if (mScript.get() && mUpdate.get())
+        {
+            (*mUpdate)(VariableT(delta));
+        }
+    }
+
     /*
      *  \func addRenderable
      *  \brief Adds a new renderable to the actor
@@ -60,6 +71,16 @@ public:
     {
         mRenderables.push_back(
                 std::unique_ptr<RenderableT>(renderable));
+    }
+
+    void updateTransform()
+    {
+        static TransformT transform;
+        TransformT::updateTransform(transform);
+        for (size_t ii = 0; ii < mRenderables.size(); ++ii)
+        {
+            mRenderables[ii]->updateTransform(*this);
+        }
     }
 
     /*
@@ -85,13 +106,17 @@ public:
     void setScript(ObjectT* script)
     {
         mScript.reset(script);
-        mScript->variable("_nyra_ptr")->set(reinterpret_cast<size_t>(this));
-        (*mScript->function("update"))();
+    }
+
+    void setUpdateFunction(const std::string& name)
+    {
+        mUpdate = mScript->function("update");
     }
 
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
+    script::FunctionPtr mUpdate;
 };
 }
 
@@ -108,6 +133,7 @@ template <typename GameT>
 void read(const std::string& pathname,
           game::Actor<GameT>& actor)
 {
+    const std::string data = core::DATA_PATH;
     const json::JSON tree = core::read<json::JSON>(pathname);
 
     if (tree.has("tile_map"))
@@ -133,12 +159,30 @@ void read(const std::string& pathname,
                 }
             }
 
+            const std::string pathname = core::path::join(
+                    data, "textures/" + filename);
             graphics::TileMap<typename GameT::Graphics::Sprite>* mapPtr =
                     new graphics::TileMap<typename GameT::Graphics::Sprite>(
-                            filename,
+                            pathname,
                             tiles,
                             tileSize);
             actor.addRenderable(mapPtr);
+        }
+    }
+
+    if (tree.has("sprite"))
+    {
+        for (size_t ii = 0; ii < tree["sprite"].loopSize(); ++ii)
+        {
+            const auto& spriteMap = tree["sprite"][ii];
+            const std::string filename = spriteMap["filename"].get();
+            const std::string pathname = core::path::join(
+                    data, "textures/" + filename);
+
+            typename GameT::Graphics::Sprite* sprite =
+                    new typename GameT::Graphics::Sprite(
+                            pathname);
+            actor.addRenderable(sprite);
         }
     }
 
@@ -151,6 +195,11 @@ void read(const std::string& pathname,
         typename GameT::Script::Object* script =
                 new typename GameT::Script::Object(include, className);
         actor.setScript(script);
+
+        if (scriptXML.has("update"))
+        {
+            actor.setUpdateFunction(scriptXML["update"].get());
+        }
     }
 }
 }
