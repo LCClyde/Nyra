@@ -81,6 +81,16 @@ T toType(const std::string& s);
 std::vector<std::string> split(const std::string& string,
                                const std::string& delim = " ");
 
+/*
+ *  \func startsWith
+ *  \brief Checks is a string starts with a value
+ *
+ *  \param input The string to check
+ *  \param start The value to check for
+ *  \return True if the string starts with "start"
+ */
+bool startsWith(const std::string& input,
+                const std::string& start);
 
 /*
  *  \func endsWith

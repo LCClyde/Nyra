@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to
+ *  of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,31 +19,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#ifndef __NYRA_SCRIPT_PY3_ERROR_H__
+#define __NYRA_SCRIPT_PY3_ERROR_H__
+
+#include <nyra/script/py3/AutoPy.h>
 
 namespace nyra
 {
-namespace game
+namespace script
 {
-//===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1280, 720),
-    position(0, 0)
+namespace py3
 {
+void validateCall();
+}
+}
 }
 
-//===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::BLACK)
-{
-}
-
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("starting_map.json"),
-    inputMap("input.json")
-{
-}
-}
-}
+#endif

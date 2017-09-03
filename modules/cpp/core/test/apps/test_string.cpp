@@ -100,6 +100,15 @@ TEST(String, Split)
 }
 
 //===========================================================================//
+TEST(String, StartsWith)
+{
+    EXPECT_FALSE(startsWith("Hello World", "World"));
+    EXPECT_TRUE(startsWith("Hello World", "Hello World"));
+    EXPECT_TRUE(startsWith("Hello World", "Hello"));
+    EXPECT_FALSE(startsWith("Hello World", "Hello World!"));
+}
+
+//===========================================================================//
 TEST(String, EndsWith)
 {
     EXPECT_TRUE(endsWith("Hello World", "World"));

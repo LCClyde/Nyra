@@ -35,13 +35,14 @@ Frame::Frame(size_t startFrame,
     mSize(sprite.getSize().x / numTiles.x,
           sprite.getSize().y / numTiles.y),
     mSprite(sprite),
+    mCurrentFrame(-1),
     mInterpolate(0,
                  endFrame - startFrame + 1,
                  duration,
                  playType,
                  mCurrentFrame)
 {
-    for (size_t ii = 0; ii < endFrame - startFrame + 1; ++ii)
+    for (size_t ii = startFrame; ii < endFrame + 1; ++ii)
     {
         const size_t row = ii / numTiles.x;
         const size_t col = ii % numTiles.x;
@@ -67,6 +68,13 @@ void Frame::update(double deltaTime)
     {
         mSprite.setFrame(mFrames[mCurrentFrame], mSize);
     }
+}
+
+//===========================================================================//
+void Frame::reset()
+{
+    mCurrentFrame = -1;
+    Animation::reset();
 }
 }
 }

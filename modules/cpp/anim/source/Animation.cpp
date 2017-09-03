@@ -21,6 +21,7 @@
  */
 #include <nyra/anim/Animation.h>
 #include <algorithm>
+#include <stdexcept>
 
 namespace nyra
 {
@@ -34,6 +35,13 @@ void Animation::initialize(double duration,
     mDuration = duration;
     mElapsed = 0.0;
     mPingPong = PING;
+
+    // If duration is ever 0, that is bad. You will end up in an
+    // infinite loop
+    if (mDuration <= 0.0)
+    {
+        throw std::runtime_error("Must have a positive animation duration");
+    }
 }
 
 //===========================================================================//

@@ -103,6 +103,18 @@ std::vector<std::string> split(const std::string& string,
 }
 
 //===========================================================================//
+bool startsWith(const std::string& input,
+                const std::string& start)
+{
+    if (start.size() > input.size())
+    {
+        return false;
+    }
+
+    return std::equal(start.begin(), start.end(), input.begin());
+}
+
+//===========================================================================//
 bool endsWith(const std::string& input,
               const std::string& end)
 {

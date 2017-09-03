@@ -7,7 +7,15 @@ class TestGame2D(unittest.TestCase):
         a = nyra.Actor2D();
         a.transform.position = (2, 4)
         self.assertEqual(a.transform.position, (2, 4))
-        
+        self.assertEqual(a.animation, '')
+
+        #TODO: Find a way to test setting animation. It won't work because
+        #      it needs the framework to load the animation.
+        #self.assert(a.animation = 'foo')
+
+        # TOOD: Find a way to test input.
+        #self.assert(a.input.is_down("A"))
+
     def test_pointer(self):
         a = nyra.Actor2D()
         self.assertEqual(a.nyra_pointer(), int(a.this))

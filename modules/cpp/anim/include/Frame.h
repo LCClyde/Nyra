@@ -63,6 +63,12 @@ public:
      */
     void update(double deltaTime) override;
 
+    /*
+     *  \func reset
+     *  \brief Returns back to the starting frame
+     */
+    void reset() override;
+
 private:
     const math::Vector2U mSize;
     std::vector<math::Vector2U> mFrames;

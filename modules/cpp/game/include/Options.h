@@ -98,6 +98,12 @@ struct GameOptions
      *  \brief The filename of the starting map to load.
      */
     std::string startingMap;
+
+    /*
+     *  \var inputMap
+     *  \brief The filename of the input map to load.
+     */
+    std::string inputMap;
 };
 
 /*

@@ -64,6 +64,17 @@ public:
      */
     virtual void update(double deltaTime) = 0;
 
+    /*
+     *  \func reset
+     *  \brief Resets an animation back to its starting position
+     */
+    virtual void reset()
+    {
+        mElapsed = 0.0;
+        mPingPong = PING;
+        update(0.0);
+    }
+
 protected:
     void initialize(double duration,
                     PlayType playType);

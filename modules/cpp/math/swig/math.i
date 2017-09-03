@@ -14,9 +14,11 @@
 %ignore y;
 
 %include "nyra/math/Transform.h"
+%include "nyra/math/Vector.h"
 %include "nyra/math/Vector2.h"
 
-%template(Vector2F) nyra::math::Vector2<float>;
+%template(Vector2Raw) nyra::math::Vector<float, 2>;
+%template(Vector2D) nyra::math::Vector2<float>;
 
 %extend nyra::math::Vector2<float>
 {
@@ -52,25 +54,25 @@
 %{
 import nyra.math
 
-Vector2F.x = property(Vector2F._get_x, Vector2F._set_x)
-Vector2F.y = property(Vector2F._get_y, Vector2F._set_y)
+Vector2D.x = property(Vector2D._get_x, Vector2D._set_x)
+Vector2D.y = property(Vector2D._get_y, Vector2D._set_y)
 
 def _set_position(self, values):
-    self.setPosition(Vector2F(values[0], values[1]))
+    self.setPosition(Vector2D(values[0], values[1]))
 
 def _get_position(self):
     v = self.getPosition()
     return (v.x, v.y)
 
 def _set_scale(self, values):
-    self.setScale(Vector2F(values[0], values[1]))
+    self.setScale(Vector2D(values[0], values[1]))
     
 def _get_scale(self):
     v = self.getScale()
     return (v.x, v.y)
 
 def _set_pivot(self, values):
-    self.setPivot(Vector2F(values[0], values[1]))
+    self.setPivot(Vector2D(values[0], values[1]))
     
 def _get_pivot(self):
     v = self.getPivot()
@@ -82,9 +84,13 @@ def _set_rotation(self, val):
 def _get_rotation(self):
     return self.getRotation()
     
+def _move(self, val):
+    self.moveBy(Vector2D(val[0], val[1]))
+    
 Transform2D.position = property(_get_position, _set_position)
 Transform2D.scale = property(_get_scale, _set_scale)
 Transform2D.pivot = property(_get_pivot, _set_pivot)
 Transform2D.rotation = property(_get_rotation, _set_rotation)
+Transform2D.move = _move
 
 %}

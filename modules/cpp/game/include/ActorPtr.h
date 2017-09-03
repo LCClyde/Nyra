@@ -95,8 +95,10 @@ public:
                 const std::string filename = tileMap["filename"].get();
 
                 math::Vector2U tileSize(
-                        core::str::toType<size_t>(tileMap["tile_size"]["width"].get()),
-                        core::str::toType<size_t>(tileMap["tile_size"]["height"].get()));
+                        core::str::toType<size_t>(
+                                tileMap["tile_size"]["width"].get()),
+                        core::str::toType<size_t>(
+                                tileMap["tile_size"]["height"].get()));
                 math::Vector2U mapSize(tileMap["tiles"][0].loopSize(),
                                        tileMap["tiles"].loopSize());
                 mem::Buffer2D<size_t> tiles(mapSize);
@@ -121,8 +123,16 @@ public:
             }
         }
 
+        typename GameT::Graphics::Sprite* sprite = nullptr;
         if (tree.has("sprite"))
         {
+            if (tree["sprite"].loopSize() > 1)
+            {
+                throw std::runtime_error(
+                        "TODO: Cannot support more than 1 "
+                        "sprite on an actor.");
+            }
+
             for (size_t ii = 0; ii < tree["sprite"].loopSize(); ++ii)
             {
                 const auto& spriteMap = tree["sprite"][ii];
@@ -130,10 +140,66 @@ public:
                 const std::string pathname = core::path::join(
                         DATA, "textures/" + filename);
 
-                typename GameT::Graphics::Sprite* sprite =
-                        new typename GameT::Graphics::Sprite(
-                                pathname);
+                sprite = new typename GameT::Graphics::Sprite(pathname);
                 mActor->addRenderable(sprite);
+            }
+        }
+
+        // For now we know we only have one sprite per actor
+        if (tree.has("animation"))
+        {
+            const auto& animMap = tree["animation"];
+
+            // TODO: Support different frames for each animation
+            const math::Vector2U frames(
+                    core::str::toType<size_t>(
+                            animMap["frames"]["cols"].get()),
+                    core::str::toType<size_t>(
+                            animMap["frames"]["rows"].get()));
+
+            for (size_t ii = 0; ii < animMap["anims"].loopSize(); ++ii)
+            {
+                const auto& currAnim = animMap["anims"][ii];
+                const std::string name = currAnim["name"].get();
+                const size_t start = core::str::toType<size_t>(
+                        currAnim["start"].get());
+                const size_t end = core::str::toType<size_t>(
+                        currAnim["end"].get());
+                const double duration = core::str::toType<double>(
+                        currAnim["duration"].get());
+                anim::Animation::PlayType playType = anim::Animation::LOOP;
+
+                if (animMap.has("type"))
+                {
+                    const std::string type = animMap["type"].get();
+                    if (type == "ping_pong")
+                    {
+                        playType = anim::Animation::PING_PONG;
+                    }
+                    else if (type == "once")
+                    {
+                        playType = anim::Animation::ONCE;
+                    }
+                    else if (type == "loop")
+                    {
+                        playType = anim::Animation::ONCE;
+                    }
+                    else
+                    {
+                        throw std::runtime_error(
+                                "Unknown animation type: " + type);
+                    }
+                }
+                anim::Frame* anim =
+                        new anim::Frame(start, end, duration,
+                                        playType, frames, *sprite);
+                mActor->addAnimation(name, anim);
+            }
+
+            if (animMap.has("initial"))
+            {
+                const std::string initial = animMap["initial"].get();
+                mActor->playAnimation(initial);
             }
         }
     }

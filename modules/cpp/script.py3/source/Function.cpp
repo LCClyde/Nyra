@@ -22,7 +22,7 @@
 #include <nyra/script/py3/Function.h>
 #include <nyra/script/py3/Include.h>
 #include <nyra/script/py3/Variable.h>
-#include <iostream>
+#include <nyra/script/py3/Error.h>
 
 namespace nyra
 {
@@ -60,6 +60,7 @@ VariablePtr Function::operator()(const VariableList& variables)
     VariablePtr ret(new Variable());
     dynamic_cast<Variable*>(ret.get())->setNative(
             PyObject_CallObject(mFunction.get(), args.get()));
+    validateCall();
     return ret;
 }
 }

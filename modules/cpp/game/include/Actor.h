@@ -30,6 +30,7 @@
 #include <nyra/graphics/TileMap.h>
 #include <nyra/core/Path.h>
 #include <nyra/script/Function.h>
+#include <nyra/anim/Frame.h>
 
 namespace nyra
 {
@@ -48,16 +49,37 @@ private:
     typedef typename GameT::Graphics::RenderTarget RenderTargetT;
     typedef typename GameT::Graphics::Renderable RenderableT;
     typedef typename GameT::Graphics::Transform TransformT;
+    typedef typename GameT::Graphics::Sprite SpriteT;
     typedef std::vector<std::unique_ptr<RenderableT>> RenderList;
     typedef typename GameT::Script::Object ObjectT;
     typedef typename GameT::Script::Variable VariableT;
 
 public:
+    /*
+     *  \func Actor
+     *  \brief Creates a black actor.
+     */
+    Actor() :
+        mCurrentAnimation(nullptr)
+    {
+    }
+
+    /*
+     *  \func update
+     *  \brief Updates the actor object
+     *
+     *  \param delta The time in seconds since the last update
+     */
     void update(float delta)
     {
         if (mScript.get() && mUpdate.get())
         {
             (*mUpdate)(VariableT(delta));
+        }
+
+        if (mCurrentAnimation)
+        {
+            mCurrentAnimation->update(delta);
         }
     }
 
@@ -67,12 +89,18 @@ public:
      *
      *  \param renderable The object to add
      */
-    void addRenderable(RenderableT* renderable)
+    void addRenderable(RenderableT* renderable,
+                       const std::string& name = "")
     {
         mRenderables.push_back(
                 std::unique_ptr<RenderableT>(renderable));
+        mRenderablesMap[name] = renderable;
     }
 
+    /*
+     *  \func updateTransform
+     *  \brief Updates the spatial transform of the actor
+     */
     void updateTransform()
     {
         static TransformT transform;
@@ -108,100 +136,72 @@ public:
         mScript.reset(script);
     }
 
+    /*
+     *  \func setUpdateFunction
+     *  \brief Sets the per frame update function
+     *
+     *  \param name The name of the function
+     */
     void setUpdateFunction(const std::string& name)
     {
         mUpdate = mScript->function("update");
+    }
+
+    /*
+     *  \func addAnimation
+     *  \brief Adds a new animation to the actor. The animation is not
+     *         played, it is simply stored in a map that can be looked
+     *         up later.
+     *
+     *  \param name The name of the animation
+     *  \param anim The animation object. The actor will take ownership.
+     */
+    void addAnimation(const std::string& name,
+                      anim::Animation* anim)
+    {
+        mAnimations[name] = std::unique_ptr<anim::Animation>(anim);
+    }
+
+    /*
+     *  \func playAnimation
+     *  \brief Plays an animation. The animation must have been added
+     *         with addAnimation first.
+     *
+     *  \name The name of the animation
+     */
+    void playAnimation(const std::string& name)
+    {
+        anim::Animation* newAnim =  mAnimations.at(name).get();
+
+        if (newAnim != mCurrentAnimation)
+        {
+            mCurrentAnimation = newAnim;
+            mCurrentAnimation->reset();
+            mCurrentAnimationName = name;
+        }
+    }
+
+    /*
+     *  \func getAnimation
+     *  \brief Gets the currently playing animation
+     *
+     *  \return The name of the playing animation or an empty string
+     *          if nothing is playing.
+     */
+    const std::string& getAnimation() const
+    {
+        return mCurrentAnimationName;
     }
 
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
     script::FunctionPtr mUpdate;
+    std::unordered_map<std::string, std::unique_ptr<anim::Animation>> mAnimations;
+    std::unordered_map<std::string, RenderableT*> mRenderablesMap;
+    anim::Animation* mCurrentAnimation;
+    std::string mCurrentAnimationName;
 };
-}
-
-namespace core
-{
-/*
- *  \func read
- *  \brief Reads an actor from file.
- *
- *  \param pathname The location to save to.
- *  \param actor The actor to load
- */
-template <typename GameT>
-void read(const std::string& pathname,
-          game::Actor<GameT>& actor)
-{
-    const std::string data = core::DATA_PATH;
-    const json::JSON tree = core::read<json::JSON>(pathname);
-
-    if (tree.has("tile_map"))
-    {
-        for (size_t ii = 0; ii < tree["tile_map"].loopSize(); ++ii)
-        {
-            const auto& tileMap = tree["tile_map"][ii];
-            const std::string filename = tileMap["filename"].get();
-
-            math::Vector2U tileSize(
-                    core::str::toType<size_t>(tileMap["tile_size"]["width"].get()),
-                    core::str::toType<size_t>(tileMap["tile_size"]["height"].get()));
-            math::Vector2U mapSize(tileMap["tiles"][0].loopSize(),
-                                   tileMap["tiles"].loopSize());
-            mem::Buffer2D<size_t> tiles(mapSize);
-
-            for (size_t row = 0; row < tiles.getNumRows(); ++row)
-            {
-                for (size_t col = 0; col < tiles.getNumCols(); ++col)
-                {
-                    tiles(col, row) = core::str::toType<size_t>(
-                            tileMap["tiles"][row][col].get());
-                }
-            }
-
-            const std::string pathname = core::path::join(
-                    data, "textures/" + filename);
-            graphics::TileMap<typename GameT::Graphics::Sprite>* mapPtr =
-                    new graphics::TileMap<typename GameT::Graphics::Sprite>(
-                            pathname,
-                            tiles,
-                            tileSize);
-            actor.addRenderable(mapPtr);
-        }
-    }
-
-    if (tree.has("sprite"))
-    {
-        for (size_t ii = 0; ii < tree["sprite"].loopSize(); ++ii)
-        {
-            const auto& spriteMap = tree["sprite"][ii];
-            const std::string filename = spriteMap["filename"].get();
-            const std::string pathname = core::path::join(
-                    data, "textures/" + filename);
-
-            typename GameT::Graphics::Sprite* sprite =
-                    new typename GameT::Graphics::Sprite(
-                            pathname);
-            actor.addRenderable(sprite);
-        }
-    }
-
-    if (tree.has("script"))
-    {
-        const auto& scriptXML = tree["script"];
-        const std::string filename = scriptXML["filename"].get();
-        const std::string className = scriptXML["class"].get();
-        typename GameT::Script::Include include(filename);
-        typename GameT::Script::Object* script =
-                new typename GameT::Script::Object(include, className);
-        actor.setScript(script);
-
-        if (scriptXML.has("update"))
-        {
-            actor.setUpdateFunction(scriptXML["update"].get());
-        }
-    }
-}
 }
 }
 

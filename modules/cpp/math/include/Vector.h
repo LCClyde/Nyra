@@ -331,8 +331,10 @@ public:
      */
     void normalize()
     {
-        gmtl::normalize(mVec);
-        (*this) /= length();
+        if (length() >  0.0)
+        {
+            gmtl::normalize(mVec);
+        }
     }
 
     /*

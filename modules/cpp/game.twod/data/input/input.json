@@ -1,0 +1,21 @@
+{
+    "input" :
+    [
+    {
+        "name" : "move_left",
+        "values" : ["key_A"]
+    },
+    {
+        "name" : "move_up",
+        "values" : ["key_W"]
+    },
+    {
+        "name" : "move_right",
+        "values" : ["key_D"]
+    },
+    {
+        "name" : "move_down",
+        "values" : ["key_S"]
+    }
+    ]
+}
