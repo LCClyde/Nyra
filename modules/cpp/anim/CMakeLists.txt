@@ -19,4 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS math PARENT_SCOPE)
+set(MOD_DEPS math graphics PARENT_SCOPE)
+set(TEST_DEPS graphics.sfml PARENT_SCOPE)

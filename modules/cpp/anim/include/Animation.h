@@ -50,6 +50,12 @@ public:
     };
 
     /*
+     *  \func Destructor
+     *  \brief Necessary for inheritance
+     */
+    virtual ~Animation() = default;
+
+    /*
      *  \func update
      *  \brief Updates an animation.
      *

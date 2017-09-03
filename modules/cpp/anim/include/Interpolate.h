@@ -40,6 +40,12 @@ class InterpolateBase : public Animation
 {
 public:
     /*
+     *  \func Destructor
+     *  \brief Necessary for inheritance
+     */
+    virtual ~InterpolateBase() = default;
+
+    /*
      *  \func initialize
      *  \brief Sets up the interpolation information.
      *
