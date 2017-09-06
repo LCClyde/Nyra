@@ -123,6 +123,16 @@ public:
         return *mTexture;
     }
 
+    /*
+     *  \func get
+     *  \brief Gets the underlying render target.
+     *
+     *  \return The SFML render texture.
+     */
+    const sf::RenderTarget& get() const
+    {
+        return *mTexture;
+    }
 
 private:
     std::unique_ptr<sf::RenderWindow> mWindow;
