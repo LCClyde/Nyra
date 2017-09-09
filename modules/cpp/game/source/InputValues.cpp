@@ -29,7 +29,8 @@ namespace game
 InputValue::InputValue(const std::vector<std::string>& keys) :
     mIsPressed(false),
     mIsDown(false),
-    mIsReleased(false)
+    mIsReleased(false),
+    mValue(0.0f)
 {
     for (std::string key : keys)
     {
@@ -41,7 +42,15 @@ InputValue::InputValue(const std::vector<std::string>& keys) :
         else if (core::str::startsWith(key, "mouse_"))
         {
             const std::string code = key.substr(6, std::string::npos);
-            mMouseCodes.push_back(core::str::toType<size_t>(code));
+
+            if (code == "delta_x" || code == "delta_y")
+            {
+                mValueID = key;
+            }
+            else
+            {
+                mMouseCodes.push_back(core::str::toType<size_t>(code));
+            }
         }
     }
 }
@@ -83,6 +92,22 @@ void InputValue::update(const input::Mouse& mouse,
         {
             mIsReleased = true;
         }
+    }
+
+    if (!mValueID.empty())
+    {
+        if (mValueID == "mouse_delta_x")
+        {
+            mValue = mouse.getDelta().x;
+        }
+        else if (mValueID == "mouse_delta_y")
+        {
+            mValue = mouse.getDelta().y;
+        }
+    }
+    else
+    {
+        mValue = mIsDown ? 1.0f : 0.0f;
     }
 }
 }

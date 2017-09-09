@@ -61,6 +61,18 @@ public:
      *  \param target The target to render to.
      */
     void render(graphics::RenderTarget& target) override;
+
+    /*
+     *  \func updatesTransform
+     *  \brief Updates the camera transform. This is only partially
+     *         finished.
+     *
+     *  \param parent The parent transform
+     */
+    void updateTransform(const math::Transform2D& parent) override;
+
+private:
+    math::Vector2F mGlobalPosition;
 };
 }
 }

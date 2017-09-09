@@ -90,12 +90,25 @@ public:
         return mIsReleased;
     }
 
+    /*
+     *  \func getValue
+     *  \brief Gets the value of the input
+     *
+     *  \return The value
+     */
+    float getValue() const
+    {
+        return mValue;
+    }
+
 private:
     bool mIsPressed;
     bool mIsDown;
     bool mIsReleased;
+    float mValue;
     std::vector<input::KeyCode> mKeyCodes;
     std::vector<size_t> mMouseCodes;
+    std::string mValueID;
 };
 }
 }

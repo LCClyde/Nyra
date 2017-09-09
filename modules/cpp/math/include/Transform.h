@@ -274,12 +274,12 @@ public:
      *         Transform2D for a world matrix
      *  \return The transform matrix
      */
-    void updateTransform(const Transform<PositionT,
-                                         ScaleT,
-                                         RotationT,
-                                         SizeT,
-                                         PivotT,
-                                         MatrixT>& parent)
+    virtual void updateTransform(const Transform<PositionT,
+                                                 ScaleT,
+                                                 RotationT,
+                                                 SizeT,
+                                                 PivotT,
+                                                 MatrixT>& parent)
     {
         if (mDirty)
         {

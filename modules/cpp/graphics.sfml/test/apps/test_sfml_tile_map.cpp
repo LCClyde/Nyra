@@ -44,7 +44,11 @@ TEST(SFMLTileMap, Rect)
                                  {2, 2, 2, 2, 2, 2, 2, 2}});
     const std::string pathname = core::path::join(
             core::DATA_PATH, "textures/test_frame_animation.png");
-    TileMap<Sprite> tileMap(pathname, tiles, math::Vector2U(64, 128));
+
+    const math::Vector2U tileSize(64, 128);
+    TileMap<Sprite> tileMap(pathname, tiles, tileSize);
+
+    EXPECT_EQ(tileSize, tileMap.getTileSize());
 
     target.clear(img::Color::GRAY);
     tileMap.render(target);

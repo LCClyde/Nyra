@@ -14,6 +14,42 @@
     #include "nyra/game/Input.h"
 %}
 
+%inline %{
+class Component
+{
+public:
+    Component(void* ptr) :
+        mPtr(ptr)
+    {
+    }
+
+    nyra::math::Transform<nyra::math::Vector2F,
+                          nyra::math::Vector2F,
+                          float,
+                          nyra::math::Vector2F,
+                          nyra::math::Vector2F,
+                          nyra::math::Matrix3x3>* _transform() const
+    {
+        return reinterpret_cast<nyra::math::Transform<
+                nyra::math::Vector2F,
+                nyra::math::Vector2F,
+                float,
+                nyra::math::Vector2F,
+                nyra::math::Vector2F,
+                nyra::math::Matrix3x3>*>(mPtr);
+    }
+    
+    nyra::graphics::TileMap<nyra::graphics::sfml::Sprite>* _tile_map() const
+    {
+        return reinterpret_cast<nyra::graphics::TileMap<
+                nyra::graphics::sfml::Sprite>*>(mPtr);
+    }
+    
+private:
+    void* mPtr;
+};
+%}
+
 %ignore addRenderable;
 %ignore render;
 %ignore setScript;
@@ -23,17 +59,24 @@
 %ignore addAnimation;
 %ignore Input(const nyra::win::Window& window,
               const std::string& filename);
+%ignore TileMap(const std::string& spritePathname,
+                const mem::Buffer2D<size_t>& tiles,
+                const math::Vector2U tileSize);
+%ignore getRenderable;
 
 %rename(is_down) isDown;
 %rename(is_pressed) isPressed;
 %rename(is_released) isReleased;
+%rename(value) getValue;
 
 %include "std_string.i"
 %include "nyra/game/Actor.h"
 %include "nyra/game/Input.h"
+%include "nyra/graphics/TileMap.h"
  
 %template(Actor2D) nyra::game::Actor<nyra::game::twod::GameType>;
 %template(input) nyra::game::Input<nyra::game::twod::GameType>;
+%template(TileMap2D) nyra::graphics::TileMap<nyra::graphics::sfml::Sprite>;
 
 %extend nyra::game::Actor<nyra::game::twod::GameType>
 {
@@ -48,7 +91,12 @@
     {
         return $self;
     }
-    
+
+    Component _getComponent(const std::string& name)
+    {
+        return Component(&($self->getRenderable(name)));
+    }
+
     size_t nyra_pointer()
     {
         return reinterpret_cast<size_t>($self);
@@ -60,11 +108,20 @@
 %pythoncode
 %{
 import nyra.game2d
+from collections import namedtuple
 
 def move(self, vec):
     self.moveBy(nyra.game2d.Vector2D(vec[0], vec[1]))
+    
+def _get_tile_size(self):
+    v = self.getTileSize()
+    return (v.x, v.y)
 
 Actor2D.transform = property(Actor2D.getTransform)
 Actor2D.move = move
+Actor2D.__getitem__ = Actor2D._getComponent
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
+TileMap2D.tile_size = property(_get_tile_size)
+Component.transform = property(Component._transform)
+Component.tile_map = property(Component._tile_map)
 %}

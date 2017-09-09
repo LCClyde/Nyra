@@ -22,6 +22,7 @@
 #include <SFML/Graphics.hpp>
 #include <nyra/graphics/sfml/Camera.h>
 #include <nyra/graphics/sfml/RenderTarget.h>
+#include <iostream>
 
 namespace
 {
@@ -59,12 +60,30 @@ void Camera::render(graphics::RenderTarget& target)
 {
     sf::RenderTarget& sfTarget(dynamic_cast
             <graphics::sfml::RenderTarget&>(target).get());
+
     sf::View view;
     const math::Vector2F size = getScaledSize();
     view.setSize(size.x ,size.y);
-    view.setCenter(getPosition().x, getPosition().y);
+    view.setCenter(mGlobalPosition.x, mGlobalPosition.y);
     view.setRotation(getRotation());
     sfTarget.setView(view);
+}
+
+//===========================================================================//
+void Camera::updateTransform(const math::Transform2D& parent)
+{
+    const math::Matrix3x3& m = parent.getMatrix();
+    sf::Transform transform(m(0, 0), m(0, 1), m(0, 2),
+                            m(1, 0), m(1, 1), m(1, 2),
+                            m(2, 0), m(2, 1), m(2, 2));
+
+    // TODO: This only tracks the position of the parent transform
+    //       I only have a need for position at the moment, so I am not
+    //       going to worry about anything else.
+    sf::Vector2f position =
+            transform.transformPoint(getPosition().x, getPosition().y);
+    mGlobalPosition.x = position.x;
+    mGlobalPosition.y = position.y;
 }
 }
 }

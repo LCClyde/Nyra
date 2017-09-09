@@ -53,6 +53,7 @@ private:
     typedef std::vector<std::unique_ptr<RenderableT>> RenderList;
     typedef typename GameT::Script::Object ObjectT;
     typedef typename GameT::Script::Variable VariableT;
+    typedef typename GameT::Graphics::Vector VectorT;
 
 public:
     /*
@@ -95,6 +96,19 @@ public:
         mRenderables.push_back(
                 std::unique_ptr<RenderableT>(renderable));
         mRenderablesMap[name] = renderable;
+    }
+
+    /*
+     *  \func getRenderable
+     *  \brief Gets a renderable by name. This only works if the renderable
+     *         has been setup by name.
+     *
+     *  \param name The name of the renderable
+     *  \return The renderable
+     */
+    RenderableT& getRenderable(const std::string& name)
+    {
+        return *mRenderablesMap.at(name);
     }
 
     /*

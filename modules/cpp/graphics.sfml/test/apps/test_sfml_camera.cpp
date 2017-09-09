@@ -45,6 +45,7 @@ TEST(Camera, Transpose)
     sprite.setPosition(math::Vector2F(256.0f, 256.0f));
     sprite.updateTransform(math::Transform2D());
     camera.setPosition(math::Vector2F(256.0f + 128.0f, 256.0f - 192.0f));
+    camera.updateTransform(math::Transform2D());
 
     target.clear(img::Color::GRAY);
     camera.render(target);
@@ -67,6 +68,7 @@ TEST(Camera, Rotate)
     sprite.setPosition(math::Vector2F(256.0f, 256.0f));
     sprite.updateTransform(math::Transform2D());
     camera.setRotation(45.0f);
+    camera.updateTransform(math::Transform2D());
 
     target.clear(img::Color::GRAY);
     camera.render(target);
@@ -89,6 +91,7 @@ TEST(Camera, Scale)
     sprite.setPosition(math::Vector2F(256.0f, 256.0f));
     sprite.updateTransform(math::Transform2D());
     camera.setScale(math::Vector2F(0.5f, 2.0f));
+    camera.updateTransform(math::Transform2D());
 
     target.clear(img::Color::GRAY);
     camera.render(target);

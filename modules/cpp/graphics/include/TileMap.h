@@ -95,6 +95,17 @@ public:
         }
     }
 
+    /*
+     *  \func getTileSize
+     *  \brief Gets the size of individual tiles
+     *
+     *  \return The tile size
+     */
+    const math::Vector2U getTileSize() const
+    {
+        return mTileSize;
+    }
+
 private:
     mem::Buffer2D<size_t> mTiles;
     mem::Buffer2D<SpriteT> mSprites;

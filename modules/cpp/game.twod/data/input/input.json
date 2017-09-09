@@ -16,6 +16,18 @@
     {
         "name" : "move_down",
         "values" : ["key_S"]
+    },
+    {
+        "name" : "move_cam",
+        "values" : ["key_M"]
+    },
+    {
+        "name" : "cam_x",
+        "values" : ["mouse_delta_x"]
+    },
+    {
+        "name" : "cam_y",
+        "values" : ["mouse_delta_y"]
     }
     ]
 }

@@ -65,8 +65,6 @@ TEST(Matrix3x3, Transform)
                       0.0f, 0.0f, 1.0f);
     EXPECT_EQ(exScale, scale);
 
-    //TODO: Verified the combined matrix is correct by testing on actual
-    //      sprites.
     // NOTE: Matrix equality checks if the values are close. Because this
     // uses trig the rotation values do not line up to 0.0.
     Matrix3x3 all;

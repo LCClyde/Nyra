@@ -34,6 +34,11 @@ namespace py3
 Function::Function(const AutoPy& pyObject,
                    const std::string& name)
 {
+    if (!pyObject.get())
+    {
+        throw std::runtime_error("Cannot create python function: " +
+                                 name + ". The base object is invalid.");
+    }
     mFunction.reset(PyObject_GetAttrString(pyObject.get(), name.c_str()));
 }
 

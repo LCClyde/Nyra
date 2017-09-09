@@ -95,6 +95,14 @@ TEST(Vector, Calculations)
     EXPECT_FLOAT_EQ(vec.length(), 1.0f);
 }
 
+TEST(Vector, Size)
+{
+    const Vector<float, 2> vec2;
+    EXPECT_EQ(static_cast<size_t>(2), vec2.size());
+    const Vector<float, 3> vec3;
+    EXPECT_EQ(static_cast<size_t>(3), vec3.size());
+}
+
 TEST(Vector, Archive)
 {
     Vector<float, 2> input = get2(1.234f, 5.678);

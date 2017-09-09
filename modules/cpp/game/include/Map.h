@@ -101,6 +101,7 @@ namespace core
  */
 template <typename GameT>
 void read(const std::string& pathname,
+          const graphics::RenderTarget& target,
           game::Map<GameT>& map)
 {
     const json::JSON tree = core::read<json::JSON>(pathname);
@@ -112,7 +113,7 @@ void read(const std::string& pathname,
             const auto& actorMap = tree["actors"][ii];
             const std::string filename = actorMap["filename"].get();
 
-            game::ActorPtr<GameT> actor(filename);
+            game::ActorPtr<GameT> actor(filename, target);
             map.addActor(actor);
         }
     }

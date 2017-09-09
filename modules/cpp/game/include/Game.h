@@ -26,6 +26,7 @@
 #include <nyra/game/Map.h>
 #include <nyra/core/FPS.h>
 #include <nyra/game/Input.h>
+#include <nyra/core/String.h>
 
 namespace nyra
 {
@@ -74,6 +75,7 @@ public:
         mMap.reset(new Map<GameT>());
         core::read(
                 core::path::join(core::DATA_PATH, "maps/" + filename),
+                mTarget,
                 *mMap);
     }
 
@@ -84,9 +86,19 @@ public:
      */
     void run()
     {
+        double elapsed = 0.0;
         while (mWindow.isOpen())
         {
             const double delta = mFPS();
+            elapsed += delta;
+
+            if (elapsed > 1.0)
+                {
+                mWindow.setName(mOptions.window.name + " " +
+                        core::str::toString(mFPS.getFPS()) +
+                        " FPS");
+                elapsed = 0.0;
+            }
             mWindow.update();
             mInput.update();
             mMap->update(delta);

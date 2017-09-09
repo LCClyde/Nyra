@@ -126,6 +126,19 @@ public:
         return values->isReleased();
     }
 
+    /*
+     *  \func getValue
+     *  \brief Gets the value of the input
+     *
+     *  \param name The name of the input map
+     *  \return The value
+     */
+    static float getValue(const std::string& name)
+    {
+        const auto& values = mInput->mInputMap.at(name);
+        return values->getValue();
+    }
+
 private:
     typename GameT::Input::Mouse mMouse;
     typename GameT::Input::Keyboard mKeyboard;

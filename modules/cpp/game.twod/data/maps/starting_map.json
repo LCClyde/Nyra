@@ -2,7 +2,13 @@
     "actors" :
     [
          {
-            "filename" : "test_actor.json"
+             "filename" : "tilemap.json"
+         },
+         {
+            "filename" : "character.json"
+         },
+         {
+             "filename" : "camera.json"
          }
     ]
 }

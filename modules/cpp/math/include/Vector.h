@@ -370,6 +370,17 @@ public:
         return mVec;
     }
 
+    /*
+     *  \func size
+     *  \brief Gets the number of elements in the vector
+     *
+     *  \return The size of the vector
+     */
+    size_t size() const
+    {
+        return SizeT;
+    }
+
 private:
     NYRA_SERIALIZE()
 

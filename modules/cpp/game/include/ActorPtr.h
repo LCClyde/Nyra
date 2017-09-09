@@ -55,7 +55,8 @@ public:
      *
      *  \param filename The filename without the path.
      */
-    ActorPtr(const std::string& filename) :
+    ActorPtr(const std::string& filename,
+             const graphics::RenderTarget& target) :
         mActor(nullptr)
     {
         static const std::string DATA = core::DATA_PATH;
@@ -93,6 +94,8 @@ public:
             {
                 const auto& tileMap = tree["tile_map"][ii];
                 const std::string filename = tileMap["filename"].get();
+                const std::string name =
+                        tileMap.has("name") ? tileMap["name"].get() : "";
 
                 math::Vector2U tileSize(
                         core::str::toType<size_t>(
@@ -119,7 +122,7 @@ public:
                                 pathname,
                                 tiles,
                                 tileSize);
-                mActor->addRenderable(mapPtr);
+                mActor->addRenderable(mapPtr, name);
             }
         }
 
@@ -143,6 +146,21 @@ public:
                 sprite = new typename GameT::Graphics::Sprite(pathname);
                 mActor->addRenderable(sprite);
             }
+        }
+
+        if (tree.has("camera"))
+        {
+            const auto& camMap = tree["camera"];
+            const std::string name =
+                    camMap.has("name") ? camMap["name"].get() : "";
+
+            typename GameT::Graphics::Camera* camera =
+                    new typename GameT::Graphics::Camera(target);
+
+            // Move the camera back to zero, just so things are lined up
+            camera->setPosition(math::Vector2F());
+
+            mActor->addRenderable(camera, name);
         }
 
         // For now we know we only have one sprite per actor

@@ -29,6 +29,7 @@
 #include <nyra/game/Game.h>
 #include <nyra/game/Types.h>
 #include <nyra/graphics/sfml/Sprite.h>
+#include <nyra/graphics/sfml/Camera.h>
 #include <nyra/script/py3/Object.h>
 #include <nyra/script/py3/Variable.h>
 #include <nyra/script/py3/Include.h>
@@ -42,6 +43,8 @@ namespace twod
 typedef game::WindowType<win::sfml::Window> WindowType;
 typedef game::GraphicsType<graphics::sfml::RenderTarget,
                            math::Transform2D,
+                           math::Vector2F,
+                           graphics::sfml::Camera,
                            graphics::sfml::Sprite>
                            GraphicsType;
 typedef game::InputType<input::sfml::Mouse,

@@ -45,15 +45,24 @@ struct WindowType
  *  \brief Defines the Graphic classes.
  *
  *  \tparam RenderTargetT The class for the render target.
+ *  \tparam TransformT The transform class (2D or 3D)
+ *  \tparam VectorT The vector class (2D or 3D)
+ *  \tparam CameraT The graphics camera class
+ *  \tparam SpriteT The desired sprite class
+ *
  */
 template <typename RenderTargetT,
           typename TransformT,
+          typename VectorT,
+          typename CameraT,
           typename SpriteT>
 struct GraphicsType
 {
     typedef RenderTargetT RenderTarget;
     typedef TransformT Transform;
     typedef graphics::Renderable<TransformT> Renderable;
+    typedef VectorT Vector;
+    typedef CameraT Camera;
     typedef SpriteT Sprite;
 };
 

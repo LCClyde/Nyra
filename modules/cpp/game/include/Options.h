@@ -124,6 +124,10 @@ struct Options
      */
     GraphicsOptions graphics;
 
+    /*
+     *  \var game
+     *  \brief The game options (see above)
+     */
     GameOptions game;
 };
 }
