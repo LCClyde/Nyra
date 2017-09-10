@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/Variable.h>
+#include <nyra/script/Object.h>
 #include <stdint.h>
 #include <stdexcept>
 #include <limits>
@@ -96,6 +97,14 @@ void Variable::set<uint64_t>(const uint64_t& value)
             "Value is too large to fit into a script variable");
     }
     setInt(static_cast<int64_t>(value));
+}
+
+//===========================================================================//
+template <>
+void Variable::set<std::unique_ptr<Object>>(
+        const std::unique_ptr<Object>& value)
+{
+    setObject(value);
 }
 
 //===========================================================================//
@@ -194,6 +203,13 @@ template <>
 std::string Variable::get<std::string>() const
 {
     return getString();
+}
+
+//===========================================================================//
+template <>
+std::unique_ptr<Object> Variable::get<std::unique_ptr<Object>>() const
+{
+    return getObject();
 }
 }
 }

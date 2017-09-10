@@ -21,6 +21,7 @@
  */
 #include <nyra/script/py3/Variable.h>
 #include <nyra/script/py3/Include.h>
+#include <nyra/script/py3/Object.h>
 #include <iostream>
 
 namespace nyra
@@ -34,17 +35,6 @@ Variable::Variable(const script::Include& include,
                    const std::string& name) :
     Variable(dynamic_cast<const Include&>(include).getNative(), name)
 {
-    // TODO: Assign values
-    // PyObject *main = PyImport_AddModule("__main__"); // borrowed
-    // if (main == NULL)
-    //     error();
-    // PyObject *globals = PyModule_GetDict(main); // borrowed
-    // PyObject *value = PyInt_FromLong(x);
-    // if (value == NULL)
-    //    error();
-    // if (PyDict_SetItemString(globals, "n", value) < 0)
-    //    error();
-    // Py_DECREF(value);
 }
 
 //===========================================================================//
@@ -77,6 +67,13 @@ void Variable::setString(const std::string& value)
 }
 
 //===========================================================================//
+void Variable::setObject(const std::unique_ptr<script::Object>& object)
+{
+    mData = dynamic_cast<Object*>(object.get())->getNative();
+    setVar();
+}
+
+//===========================================================================//
 int64_t Variable::getInt() const
 {
     return PyLong_AsLong(getVar().get());
@@ -94,6 +91,12 @@ std::string Variable::getString() const
     AutoPy data(getVar());
     return std::string(PyBytes_AsString(data.get()),
                        PyBytes_Size(data.get()));
+}
+
+//===========================================================================//
+std::unique_ptr<script::Object> Variable::getObject() const
+{
+    return std::unique_ptr<script::Object>(new Object(getVar()));
 }
 
 //===========================================================================//

@@ -30,6 +30,8 @@ namespace nyra
 {
 namespace script
 {
+class Object;
+
 /*
  *  \class Variable
  *  \brief A class to abstract away setting and getting variables from
@@ -91,6 +93,8 @@ private:
 
     virtual void setString(const std::string& value) = 0;
 
+    virtual void setObject(const std::unique_ptr<Object>& object) = 0;
+
     virtual int64_t getInt() const = 0;
 
     virtual double getFloat() const = 0;
@@ -98,6 +102,8 @@ private:
     virtual std::string getString() const = 0;
 
     virtual std::string toString() const = 0;
+
+    virtual std::unique_ptr<Object> getObject() const = 0;
 };
 
 typedef std::unique_ptr<Variable> VariablePtr;

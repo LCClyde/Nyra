@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/script/Variable.h>
+#include <nyra/script/Object.h>
 #include <nyra/test/Test.h>
 #include <nyra/test/Variable.h>
 
@@ -52,6 +53,11 @@ private:
         mString = value;
     }
 
+    void setObject(
+            const std::unique_ptr<nyra::script::Object>& obj) override
+    {
+    }
+
     int64_t getInt() const override
     {
         return mInt;
@@ -65,6 +71,11 @@ private:
     std::string getString() const override
     {
         return mString;
+    }
+
+    std::unique_ptr<nyra::script::Object> getObject() const
+    {
+        return std::unique_ptr<nyra::script::Object>();
     }
 
     std::string toString() const override

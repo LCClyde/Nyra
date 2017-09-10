@@ -50,6 +50,14 @@ public:
            const std::string& name);
 
     /*
+     *  \func Constructor
+     *  \brief Creates a python object from a PyObject
+     *
+     *  \param object The pyObject
+     */
+    Object(AutoPy object);
+
+    /*
      *  \func variable
      *  \brief Gets a variable from the object
      *
@@ -66,6 +74,16 @@ public:
      *  \return The function
      */
     FunctionPtr function(const std::string& name) override;
+    /*
+     *  \func getNative
+     *  \brief Gets the underlying PyObject
+     *
+     *  \return The PyObject
+     */
+    const AutoPy& getNative() const
+    {
+        return mObject;
+    }
 
 private:
     AutoPy mObject;

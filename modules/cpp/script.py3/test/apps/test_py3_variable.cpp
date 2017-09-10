@@ -21,6 +21,7 @@
  */
 #include <nyra/script/py3/Variable.h>
 #include <nyra/script/py3/Include.h>
+#include <nyra/script/py3/Object.h>
 #include <nyra/test/Test.h>
 #include <nyra/test/Variable.h>
 
@@ -30,10 +31,12 @@ namespace script
 {
 namespace py3
 {
+//===========================================================================//
 class TestVariable : public test::Variable<Variable>
 {
 };
 
+//===========================================================================//
 TEST_F(TestVariable, GetSet)
 {
     EXPECT_EQ(expectedInt8, int8());
@@ -49,6 +52,7 @@ TEST_F(TestVariable, GetSet)
     EXPECT_EQ(expectedString, string());
 }
 
+//===========================================================================//
 TEST_F(TestVariable, Stdout)
 {
     EXPECT_EQ(expectedIntOut, stdoutInt());
@@ -59,6 +63,7 @@ TEST_F(TestVariable, Stdout)
     EXPECT_EQ("b'" + expectedStringOut + "'", stdoutString());
 }
 
+//===========================================================================//
 TEST(Variable, Reuse)
 {
     Variable var(10);
@@ -72,6 +77,23 @@ TEST(Variable, Reuse)
     EXPECT_EQ("Hello world!", var.get<std::string>());
 }
 
+//===========================================================================//
+TEST(Variable, Object)
+{
+    Include include("test_python");
+    std::unique_ptr<script::Object> object(new Object(include, "SampleClass"));
+    FunctionPtr func1(object->function("multiply_value"));
+    EXPECT_EQ(20, func1->call(Variable(2))->get<int32_t>());
+
+    Variable var;
+    var.set(object);
+    FunctionPtr func2(var.get<std::unique_ptr<script::Object>>()->function(
+            "multiply_value"));
+    const int32_t results = func2->call(Variable(2))->get<int32_t>();
+    EXPECT_EQ(40, results);
+}
+
+//===========================================================================//
 TEST(Variable, ModuleVariable)
 {
 

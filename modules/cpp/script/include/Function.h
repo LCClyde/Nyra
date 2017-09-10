@@ -50,6 +50,11 @@ public:
      */
     virtual VariablePtr operator()(const VariableList& variables) = 0;
 
+    VariablePtr call(const VariableList& variables)
+    {
+        return (*this)(variables);
+    }
+
     /*
      *  \func Functor
      *  \brief Same as above but with 0 params.
@@ -124,6 +129,84 @@ public:
                            const Variable& d,
                            const Variable& e,
                            const Variable& f)
+    {
+        return (*this)({&a, &b, &c, &d, &e, &f});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 0 params.
+     */
+    VariablePtr cal()
+    {
+        return (*this)({});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 1 params.
+     */
+    VariablePtr call(const Variable& a)
+    {
+        return (*this)({&a});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 2 params.
+     */
+    VariablePtr call(const Variable& a,
+                     const Variable& b)
+    {
+        return (*this)({&a, &b});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 3 params.
+     */
+    VariablePtr call(const Variable& a,
+                     const Variable& b,
+                     const Variable& c)
+    {
+        return (*this)({&a, &b, &c});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 4 params.
+     */
+    VariablePtr call(const Variable& a,
+                     const Variable& b,
+                     const Variable& c,
+                     const Variable& d)
+    {
+        return (*this)({&a, &b, &c, &d});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 5 params.
+     */
+    VariablePtr call(const Variable& a,
+                     const Variable& b,
+                     const Variable& c,
+                     const Variable& d,
+                     const Variable& e)
+    {
+        return (*this)({&a, &b, &c, &d, &e});
+    }
+
+    /*
+     *  \func Functor
+     *  \brief Same as above but with 6 params.
+     */
+    VariablePtr call(const Variable& a,
+                     const Variable& b,
+                     const Variable& c,
+                     const Variable& d,
+                     const Variable& e,
+                     const Variable& f)
     {
         return (*this)({&a, &b, &c, &d, &e, &f});
     }

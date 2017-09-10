@@ -84,9 +84,22 @@ public:
         mActors.push_back(actor);
     }
 
+    /*
+     *  \func getActor
+     *  \brief Returns a named actor
+     *
+     *  \param name The provided name of the actor
+     *  \return The actor object
+     */
+    Actor<GameT>& getActor(const std::string& name)
+    {
+        return *mActorMap.at(name);
+    }
+
 
 private:
     std::vector<ActorPtr<GameT>> mActors;
+    std::unordered_map<std::string, Actor<GameT>*> mActorMap;
 };
 }
 

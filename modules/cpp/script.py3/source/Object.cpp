@@ -39,6 +39,12 @@ Object::Object(const script::Include& include,
 }
 
 //===========================================================================//
+Object::Object(AutoPy object) :
+    mObject(object)
+{
+}
+
+//===========================================================================//
 VariablePtr Object::variable(const std::string& name)
 {
     VariablePtr var(new Variable(mObject, name));

@@ -120,6 +120,8 @@ private:
 
     void setString(const std::string& value) override;
 
+    void setObject(const std::unique_ptr<script::Object>& object) override;
+
     int64_t getInt() const override;
 
     double getFloat() const override;
@@ -127,6 +129,8 @@ private:
     std::string getString() const override;
 
     std::string toString() const override;
+
+    std::unique_ptr<script::Object> getObject() const override;
 
     void setVar();
 
