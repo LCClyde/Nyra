@@ -79,6 +79,9 @@ public:
                 mSprites(col, row).updateTransform(*this);
             }
         }
+
+        setSize(tileSize * tiles.getSize());
+        std::cout << getSize() << "\n";
     }
 
     /*

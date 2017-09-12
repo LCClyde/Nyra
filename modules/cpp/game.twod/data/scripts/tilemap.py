@@ -7,10 +7,15 @@ class MyTileMap(nyra.Actor2D):
     def update(self, delta):
         foo = self.get_tile((nyra.input.value('x'),
                              nyra.input.value('y')))
-        
+
     def get_tile(self, position):
         cam_pos = self.camera.transform.position
         cam_size = self.camera['camera'].transform.size
         tile_size = self['tilemap'].tile_map.tile_size
         return (int((cam_pos[0] - cam_size[0] / 2 + position[0]) / tile_size[0]),
                 int((cam_pos[1] - cam_size[1] / 2 + position[1]) / tile_size[1]))
+        
+    def tile_to_position(self, tile):
+        tile_size = self['tilemap'].tile_map.tile_size
+        return (tile[0] * tile_size[0] + tile_size[0] / 2,
+                tile[1] * tile_size[1] + tile_size[1] / 2)

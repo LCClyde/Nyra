@@ -101,7 +101,7 @@ private:
     {
         return Component(&($self->getRenderable(name)));
     }
-
+    
     size_t nyra_pointer()
     {
         return reinterpret_cast<size_t>($self);

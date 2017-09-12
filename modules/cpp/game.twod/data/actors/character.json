@@ -5,8 +5,8 @@
     },
     "script" :
     {
-        "filename" : "test_actor",
-        "class" : "TestActor",
+        "filename" : "character",
+        "class" : "Character",
         "update" : "update"
     },
     "animation" :

@@ -1,6 +1,6 @@
 import nyra.game2d as nyra
 
-class TestActor(nyra.Actor2D):
+class Character(nyra.Actor2D):
     def update(self, delta):
         vec = nyra.Vector2D()
 
@@ -26,3 +26,8 @@ class TestActor(nyra.Actor2D):
             self.animation = "walk_down"
         else:
             self.animation = "idle_" + self.animation.split('_')[1]
+            
+        if nyra.input.is_pressed('select'):
+            tilemap = nyra.map.get_actor('tilemap')
+            mouse_pos = (nyra.input.value('x'), nyra.input.value('y'))
+            self.transform.position = tilemap.tile_to_position(tilemap.get_tile(mouse_pos))

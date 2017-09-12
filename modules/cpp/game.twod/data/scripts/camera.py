@@ -9,6 +9,11 @@ class Camera(nyra.Actor2D):
             self.transform.move((-nyra.input.value("cam_x"),
                                  -nyra.input.value("cam_y")))
         position = self.transform.position
+        tile_map_size = self.tilemap['tilemap'].transform.size
         cam_size = self['camera'].transform.size
-        self.transform.position = (max(position[0], cam_size[0] / 2),
-                                   max(position[1], cam_size[1] / 2))
+        half_cam = (cam_size[0] / 2, cam_size[1] / 2)
+        self.transform.position = (max(position[0], half_cam[0]),
+                                   max(position[1], half_cam[1]))
+        position = self.transform.position
+        self.transform.position = (min(position[0], tile_map_size[0] - half_cam[0]),
+                                   min(position[1], tile_map_size[1] - half_cam[1]))
