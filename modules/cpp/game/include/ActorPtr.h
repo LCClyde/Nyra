@@ -138,6 +138,11 @@ private:
         {
             mActor->setUpdateFunction(map["update"].get());
         }
+
+        if (map.has("initialize"))
+        {
+            mActor->setInitializeFunction(map["initialize"].get());
+        }
     }
 
     //=======================================================================//

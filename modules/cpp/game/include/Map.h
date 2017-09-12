@@ -41,6 +41,15 @@ class Map
 {
 public:
     /*
+     *  \func Constructor
+     *  \brief Sets an empty map and assigns it to the global object.
+     */
+    Map()
+    {
+        mMap = this;
+    }
+
+    /*
      *  \func update
      *  \brief Updates everything on the map
      *
@@ -79,9 +88,28 @@ public:
      *
      *  \param actor The actor to add
      */
-    void addActor(const ActorPtr<GameT>& actor)
+    void addActor(const ActorPtr<GameT>& actor,
+                  const std::string& name = "")
     {
         mActors.push_back(actor);
+
+        if (!name.empty())
+        {
+            mActorMap[name] = actor.get();
+        }
+    }
+
+    /*
+     *  \func initialize
+     *  \brief Called after the map has been loaded and all actors have
+     *         been created.
+     */
+    void initialize()
+    {
+        for (const auto& actor : mActors)
+        {
+            actor.get()->initialize();
+        }
     }
 
     /*
@@ -91,16 +119,19 @@ public:
      *  \param name The provided name of the actor
      *  \return The actor object
      */
-    Actor<GameT>& getActor(const std::string& name)
+    static Actor<GameT>& getActor(const std::string& name)
     {
-        return *mActorMap.at(name);
+        return *mMap->mActorMap.at(name);
     }
-
 
 private:
     std::vector<ActorPtr<GameT>> mActors;
     std::unordered_map<std::string, Actor<GameT>*> mActorMap;
+    static Map<GameT>* mMap;
 };
+
+template <typename GameT>
+Map<GameT>* Map<GameT>::mMap = nullptr;
 }
 
 namespace core
@@ -125,11 +156,14 @@ void read(const std::string& pathname,
         {
             const auto& actorMap = tree["actors"][ii];
             const std::string filename = actorMap["filename"].get();
+            const std::string name =
+                    actorMap.has("name") ? actorMap["name"].get() : "";
 
             game::ActorPtr<GameT> actor(filename, target);
-            map.addActor(actor);
+            map.addActor(actor, name);
         }
     }
+    map.initialize();
 }
 }
 }

@@ -12,6 +12,7 @@
     #include "nyra/input/Mouse.h"
     #include "nyra/input/Keyboard.h"
     #include "nyra/game/Input.h"
+    #include "nyra/script/py3/Object.h"
 %}
 
 %inline %{
@@ -63,6 +64,8 @@ private:
                 const mem::Buffer2D<size_t>& tiles,
                 const math::Vector2U tileSize);
 %ignore getRenderable;
+%ignore addActor;
+%ignore getActor;
 
 %rename(is_down) isDown;
 %rename(is_pressed) isPressed;
@@ -72,11 +75,13 @@ private:
 %include "std_string.i"
 %include "nyra/game/Actor.h"
 %include "nyra/game/Input.h"
+%include "nyra/game/Map.h"
 %include "nyra/graphics/TileMap.h"
  
 %template(Actor2D) nyra::game::Actor<nyra::game::twod::GameType>;
 %template(input) nyra::game::Input<nyra::game::twod::GameType>;
 %template(TileMap2D) nyra::graphics::TileMap<nyra::graphics::sfml::Sprite>;
+%template(map) nyra::game::Map<nyra::game::twod::GameType>;
 
 %extend nyra::game::Actor<nyra::game::twod::GameType>
 {
@@ -100,6 +105,18 @@ private:
     size_t nyra_pointer()
     {
         return reinterpret_cast<size_t>($self);
+    }
+}
+
+%extend nyra::game::Map<nyra::game::twod::GameType>
+{
+    static PyObject* get_actor(const std::string& name)
+    {
+        const nyra::script::Object& object =
+                nyra::game::Map<nyra::game::twod::GameType>::getActor(name).getScript();
+        const nyra::script::py3::Object& pyObject =
+                dynamic_cast<const nyra::script::py3::Object&>(object);
+        return pyObject.getNative().steal();
     }
 }
 

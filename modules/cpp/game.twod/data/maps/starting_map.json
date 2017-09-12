@@ -2,13 +2,16 @@
     "actors" :
     [
          {
-             "filename" : "tilemap.json"
+             "filename" : "tilemap.json",
+             "name" : "tile_map"
          },
          {
-            "filename" : "character.json"
+            "filename" : "character.json",
+            "name" : "character"
          },
          {
-             "filename" : "camera.json"
+             "filename" : "camera.json",
+             "name" : "camera"
          }
     ]
 }

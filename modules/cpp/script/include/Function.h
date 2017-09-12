@@ -137,7 +137,7 @@ public:
      *  \func Functor
      *  \brief Same as above but with 0 params.
      */
-    VariablePtr cal()
+    VariablePtr call()
     {
         return (*this)({});
     }

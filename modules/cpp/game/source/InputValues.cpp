@@ -43,7 +43,10 @@ InputValue::InputValue(const std::vector<std::string>& keys) :
         {
             const std::string code = key.substr(6, std::string::npos);
 
-            if (code == "delta_x" || code == "delta_y")
+            if (code == "delta_x" ||
+                code == "delta_y" ||
+                code == "x" ||
+                code == "y")
             {
                 mValueID = key;
             }
@@ -103,6 +106,14 @@ void InputValue::update(const input::Mouse& mouse,
         else if (mValueID == "mouse_delta_y")
         {
             mValue = mouse.getDelta().y;
+        }
+        else if (mValueID == "mouse_x")
+        {
+            mValue = mouse.getPosition().x;
+        }
+        else if (mValueID == "mouse_y")
+        {
+            mValue = mouse.getPosition().y;
         }
     }
     else

@@ -39,6 +39,7 @@
     {
         "filename" : "tilemap",
         "class" : "MyTileMap",
-        "update" : "update"
+        "update" : "update",
+        "initialize" : "initialize"
     }
 }

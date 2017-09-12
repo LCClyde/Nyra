@@ -75,12 +75,24 @@ public:
     {
         if (mScript.get() && mUpdate.get())
         {
-            (*mUpdate)(VariableT(delta));
+            mUpdate->call(VariableT(delta));
         }
 
         if (mCurrentAnimation)
         {
             mCurrentAnimation->update(delta);
+        }
+    }
+
+    /*
+     *  \func initialize
+     *  \brief Called after the actor has been initialized
+     */
+    void initialize()
+    {
+        if (mScript.get() && mInitialize.get())
+        {
+            mInitialize->call();
         }
     }
 
@@ -109,6 +121,11 @@ public:
     RenderableT& getRenderable(const std::string& name)
     {
         return *mRenderablesMap.at(name);
+    }
+
+    const  nyra::script::Object& getScript() const
+    {
+        return *mScript;
     }
 
     /*
@@ -162,6 +179,17 @@ public:
     }
 
     /*
+     *  \func setInitializeFunction
+     *  \brief Sets the function that occurs after initialization
+     *
+     *  \param name The name of the function
+     */
+    void setInitializeFunction(const std::string& name)
+    {
+        mInitialize = mScript->function("initialize");
+    }
+
+    /*
      *  \func addAnimation
      *  \brief Adds a new animation to the actor. The animation is not
      *         played, it is simply stored in a map that can be looked
@@ -210,7 +238,10 @@ public:
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
+
     script::FunctionPtr mUpdate;
+    script::FunctionPtr mInitialize;
+
     std::unordered_map<std::string, std::unique_ptr<anim::Animation>> mAnimations;
     std::unordered_map<std::string, RenderableT*> mRenderablesMap;
     anim::Animation* mCurrentAnimation;

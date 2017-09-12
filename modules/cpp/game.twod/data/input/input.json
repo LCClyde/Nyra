@@ -28,6 +28,18 @@
     {
         "name" : "cam_y",
         "values" : ["mouse_delta_y"]
+    },
+    {
+        "name" : "x",
+        "values" : ["mouse_x"]
+    },
+    {
+        "name" : "y",
+        "values" : ["mouse_y"]
+    },
+    {
+        "name" : "select",
+        "values" : ["mouse_0"]
     }
     ]
 }
