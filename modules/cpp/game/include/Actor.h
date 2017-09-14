@@ -123,6 +123,12 @@ public:
         return *mRenderablesMap.at(name);
     }
 
+    /*
+     *  \func getScript
+     *  \brief Gets the script object
+     *
+     *  \return The script objectt
+     */
     const  nyra::script::Object& getScript() const
     {
         return *mScript;
@@ -235,6 +241,28 @@ public:
         return mCurrentAnimationName;
     }
 
+    /*
+     *  \func getName
+     *  \brief Gets the actor unique name
+     *
+     *  \return The actor name
+     */
+    const std::string& getName() const
+    {
+        return mName;
+    }
+
+    /*
+     *  \func setName
+     *  \brief Sets the actor name. This should only be called internally
+     *
+     *  \param name The name. This must be unique.
+     */
+    void setName(const std::string& name)
+    {
+        mName = name;
+    }
+
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
@@ -246,6 +274,7 @@ private:
     std::unordered_map<std::string, RenderableT*> mRenderablesMap;
     anim::Animation* mCurrentAnimation;
     std::string mCurrentAnimationName;
+    std::string mName;
 };
 }
 }

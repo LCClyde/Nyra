@@ -6,6 +6,10 @@
              "name" : "tilemap"
          },
          {
+            "filename" : "cursor.json",
+            "name" : "cursor"
+         },
+         {
             "filename" : "character.json",
             "name" : "character"
          },

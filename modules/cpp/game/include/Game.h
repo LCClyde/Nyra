@@ -72,10 +72,9 @@ public:
      */
     void loadMap(const std::string filename)
     {
-        mMap.reset(new Map<GameT>());
+        mMap.reset(new Map<GameT>(mTarget));
         core::read(
                 core::path::join(core::DATA_PATH, "maps/" + filename),
-                mTarget,
                 *mMap);
     }
 

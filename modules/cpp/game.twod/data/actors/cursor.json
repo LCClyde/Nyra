@@ -1,0 +1,12 @@
+{
+    "sprite" :
+    {
+        "filename" : "tile_cursor.png"
+    },
+    "script" :
+    {
+        "filename" : "cursor",
+        "class" : "Cursor",
+        "update" : "update"
+    }
+}

@@ -81,7 +81,6 @@ public:
         }
 
         setSize(tileSize * tiles.getSize());
-        std::cout << getSize() << "\n";
     }
 
     /*

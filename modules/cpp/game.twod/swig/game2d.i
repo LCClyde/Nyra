@@ -106,6 +106,11 @@ private:
     {
         return reinterpret_cast<size_t>($self);
     }
+    
+    void destroy()
+    {
+        nyra::game::Map<nyra::game::twod::GameType>::getMap().destroyActor($self);
+    }
 }
 
 %extend nyra::game::Map<nyra::game::twod::GameType>
@@ -117,6 +122,20 @@ private:
         const nyra::script::py3::Object& pyObject =
                 dynamic_cast<const nyra::script::py3::Object&>(object);
         return pyObject.getNative().steal();
+    }
+    
+    static void _spawn(const std::string& filename,
+                       const std::string& name,
+                       const nyra::math::Vector2F& position,
+                       float rotation,
+                       const nyra::math::Vector2F& scale)
+    {
+        nyra::game::Actor<nyra::game::twod::GameType>& actor =
+                nyra::game::Map<nyra::game::twod::GameType>::getMap().spawnActor(
+                        filename, name, true);
+        actor.setPosition(position);
+        actor.setRotation(rotation);
+        actor.setScale(scale);
     }
 }
 
@@ -133,11 +152,24 @@ def move(self, vec):
 def _get_tile_size(self):
     v = self.getTileSize()
     return (v.x, v.y)
+    
+def spawn(filename,
+          name='',
+          position=(0, 0),
+          rotation=0,
+          scale=(1, 1),
+          pivot=(0.5, 0.5)):
+    nyra.game2d.map._spawn(filename,
+                           name,
+                           nyra.game2d.Vector2D(position[0], position[1]),
+                           rotation,
+                           nyra.game2d.Vector2D(scale[0], scale[1]))
 
 Actor2D.transform = property(Actor2D.getTransform)
 Actor2D.move = move
 Actor2D.__getitem__ = Actor2D._getComponent
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
+map.spawn = spawn
 TileMap2D.tile_size = property(_get_tile_size)
 Component.transform = property(Component._transform)
 Component.tile_map = property(Component._tile_map)

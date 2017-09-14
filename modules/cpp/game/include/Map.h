@@ -44,7 +44,8 @@ public:
      *  \func Constructor
      *  \brief Sets an empty map and assigns it to the global object.
      */
-    Map()
+    Map(const graphics::RenderTarget& target) :
+        mTarget(target)
     {
         mMap = this;
     }
@@ -66,7 +67,27 @@ public:
         {
             mActors[ii].get()->updateTransform();
         }
+
+        // Kill dead actors
+        for (auto actor : mDestroyedActors)
+        {
+            for (auto it = mActors.begin();  it!=mActors.end(); ++it)
+            {
+                if(it->get() == actor)
+                {
+                    const auto mapIter = mActorMap.find(actor->getName());
+                    if (mapIter != mActorMap.end())
+                    {
+                        mActorMap.erase(mapIter);
+                    }
+                    mActors.erase(it);
+                    break;
+                }
+            }
+        }
+        mDestroyedActors.clear();
     }
+
     /*
      *  \func render
      *  \brief Renders the map to the screen.
@@ -83,20 +104,45 @@ public:
     }
 
     /*
-     *  \func addActor
-     *  \brief Adds an actor to the map
+     *  \func spawnActor
+     *  \brief Adds a new actor to the map
      *
-     *  \param actor The actor to add
+     *  \param filename The filename of the Actor json
+     *  \param name The name of the actor
+     *  \param initialize Should the actor call initialize when loaded?
+     *  \return The actor
      */
-    void addActor(const ActorPtr<GameT>& actor,
-                  const std::string& name = "")
+    game::Actor<GameT>& spawnActor(const std::string& filename,
+                                   const std::string& name,
+                                   bool initialize)
     {
+        game::ActorPtr<GameT> actor(filename, mTarget);
+        actor.get()->setName(name);
+
         mActors.push_back(actor);
 
         if (!name.empty())
         {
             mActorMap[name] = actor.get();
         }
+
+        if (initialize)
+        {
+            actor.get()->initialize();
+        }
+        return *actor.get();
+    }
+
+    /*
+     *  \func destroyActor
+     *  \brief Destroys an existing actor. The actor will actually stick
+     *         around until the next frame
+     *
+     *  \param actor The actor to destroy
+     */
+    void destroyActor(const Actor<GameT>* actor)
+    {
+        mDestroyedActors.push_back(actor);
     }
 
     /*
@@ -124,9 +170,22 @@ public:
         return *mMap->mActorMap.at(name);
     }
 
+    /*
+     *  \func getMap
+     *  \brief Gets the global map object
+     *
+     *  \return The map singleton
+     */
+    static Map<GameT>& getMap()
+    {
+        return *mMap;
+    }
+
 private:
     std::vector<ActorPtr<GameT>> mActors;
     std::unordered_map<std::string, Actor<GameT>*> mActorMap;
+    std::vector<const Actor<GameT>*> mDestroyedActors;
+    const graphics::RenderTarget& mTarget;
     static Map<GameT>* mMap;
 };
 
@@ -145,7 +204,6 @@ namespace core
  */
 template <typename GameT>
 void read(const std::string& pathname,
-          const graphics::RenderTarget& target,
           game::Map<GameT>& map)
 {
     const json::JSON tree = core::read<json::JSON>(pathname);
@@ -158,9 +216,7 @@ void read(const std::string& pathname,
             const std::string filename = actorMap["filename"].get();
             const std::string name =
                     actorMap.has("name") ? actorMap["name"].get() : "";
-
-            game::ActorPtr<GameT> actor(filename, target);
-            map.addActor(actor, name);
+            map.spawnActor(filename, name, false);
         }
     }
     map.initialize();
