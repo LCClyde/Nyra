@@ -6,6 +6,7 @@ class Character(nyra.Actor2D):
         self.speed = 3
         self.grid = CharacterGrid(self.speed)
         self.tilemap = nyra.map.get_actor('tilemap')
+        self.camera = nyra.map.get_actor('camera')
         
         starting_tile = (5, 5)
         self.transform.position = self.tilemap.tile_to_position(starting_tile)
@@ -38,8 +39,10 @@ class Character(nyra.Actor2D):
             self.animation = "idle_" + self.animation.split('_')[1]
             
         if nyra.input.is_pressed('select'):
-            mouse_tile = self.tilemap.get_tile((nyra.input.value('x'),
-                                                nyra.input.value('y')))
+            cam_pos = self.camera.transform.position
+            cam_size = self.camera['camera'].transform.size
+            mouse_tile = self.tilemap.get_cam_tile((nyra.input.value('x'),
+                                                    nyra.input.value('y')))
             char_tile = self.tilemap.get_tile(self.transform.position)
             rel_tile = (mouse_tile[0] - char_tile[0],
                         mouse_tile[1] - char_tile[1])
