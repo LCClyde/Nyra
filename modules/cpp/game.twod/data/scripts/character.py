@@ -1,6 +1,16 @@
 import nyra.game2d as nyra
+from character_grid import CharacterGrid
 
 class Character(nyra.Actor2D):
+    def initialize(self):
+        self.speed = 3
+        self.grid = CharacterGrid(self.speed)
+        self.tilemap = nyra.map.get_actor('tilemap')
+        
+        starting_tile = (5, 5)
+        self.transform.position = self.tilemap.tile_to_position(starting_tile)
+        self.grid.reset(starting_tile)
+
     def update(self, delta):
         vec = nyra.Vector2D()
 
@@ -28,6 +38,14 @@ class Character(nyra.Actor2D):
             self.animation = "idle_" + self.animation.split('_')[1]
             
         if nyra.input.is_pressed('select'):
-            tilemap = nyra.map.get_actor('tilemap')
-            mouse_pos = (nyra.input.value('x'), nyra.input.value('y'))
-            self.transform.position = tilemap.tile_to_position(tilemap.get_tile(mouse_pos))
+            mouse_tile = self.tilemap.get_tile((nyra.input.value('x'),
+                                                nyra.input.value('y')))
+            char_tile = self.tilemap.get_tile(self.transform.position)
+            rel_tile = (mouse_tile[0] - char_tile[0],
+                        mouse_tile[1] - char_tile[1])
+            
+            if self.grid.get(rel_tile) > 0:
+                self.transform.position = self.tilemap.tile_to_position(mouse_tile)
+                self.grid.reset(mouse_tile)
+                
+        

@@ -124,7 +124,7 @@ private:
         return pyObject.getNative().steal();
     }
     
-    static void _spawn(const std::string& filename,
+    static nyra::game::Actor<nyra::game::twod::GameType>& _spawn(const std::string& filename,
                        const std::string& name,
                        const nyra::math::Vector2F& position,
                        float rotation,
@@ -136,6 +136,7 @@ private:
         actor.setPosition(position);
         actor.setRotation(rotation);
         actor.setScale(scale);
+        return actor;
     }
 }
 
@@ -159,7 +160,7 @@ def spawn(filename,
           rotation=0,
           scale=(1, 1),
           pivot=(0.5, 0.5)):
-    nyra.game2d.map._spawn(filename,
+    return nyra.game2d.map._spawn(filename,
                            name,
                            nyra.game2d.Vector2D(position[0], position[1]),
                            rotation,

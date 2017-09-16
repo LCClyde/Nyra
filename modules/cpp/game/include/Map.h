@@ -152,9 +152,9 @@ public:
      */
     void initialize()
     {
-        for (const auto& actor : mActors)
+        for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
-            actor.get()->initialize();
+            mActors[ii].get()->initialize();
         }
     }
 
