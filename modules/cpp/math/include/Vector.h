@@ -22,10 +22,10 @@
 #ifndef __NYRA_MATH_VECTOR_H__
 #define __NYRA_MATH_VECTOR_H__
 
-#include <nyra/core/Archive.h>
+#include <stddef.h>
 #include <gmtl/Vec.h>
 #include <gmtl/VecOps.h>
-#include <stddef.h>
+#include <nyra/core/Archive.h>
 
 namespace nyra
 {
@@ -230,6 +230,31 @@ public:
         Vector<TypeT, SizeT> ret(*this);
         ret /= value;
         return ret;
+    }
+
+    /*
+     *  \func Less Than Operator
+     *  \brief Do not use. The is primarily for situations that require a less
+     *         than operator such as using a Vector in an std::map. The results
+     *         here are not meaningful for most mathematical algorithms.
+     *
+     *  \param other The vector to compare against
+     *  \return True if the vector is less than the other (arbitrarily chosen).
+     */
+    const bool operator<(const Vector<TypeT, SizeT>& other) const
+    {
+        for (size_t ii = 0; ii < SizeT; ++ii)
+        {
+            if ((*this)[ii] < other[ii])
+            {
+                return true;
+            }
+            else if ((*this)[ii] > other[ii])
+            {
+                return false;
+            }
+        }
+        return false;
     }
 
     /*
