@@ -25,6 +25,8 @@
 #include <boost/config.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/labeled_graph.hpp>
+#include <boost/graph/astar_search.hpp>
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
@@ -52,6 +54,7 @@ private:
                                   Vertex,
                                   Weight> UndirectedGraph;
     typedef boost::labeled_graph<UndirectedGraph, VectorT> GraphT;
+    typedef typename UndirectedGraph::vertex_descriptor VertDesc;
 
 public:
     /*
@@ -108,6 +111,129 @@ public:
             ret.push_back(mGraph.graph()[*it].value);
         }
         return ret;
+    }
+
+    /*
+     *  \type HeuristicEvent
+     *  \brief Type used to evaluate a custom heuristic distance.
+     */
+    typedef core::Event<double(const VectorT& v1, const VectorT& v2)> HeuristicEvent;
+
+private:
+    class DistanceHeuristic : public boost::astar_heuristic<UndirectedGraph, double>
+    {
+    public:
+        DistanceHeuristic(const UndirectedGraph& graph,
+                          const VectorT& goal,
+                          const HeuristicEvent& event) :
+            mGraph(graph),
+            mGoal(goal),
+            mEvent(event)
+        {
+        }
+
+        double operator()(VertDesc v)
+        {
+            return mEvent(mGoal, mGraph[v].value);
+        }
+
+        double func(const VectorT& v1, const VectorT& v2)
+        {
+            return std::abs(v1.x - v2.x) + std::abs(v1.y - v2.y);
+        }
+
+    private:
+        const UndirectedGraph& mGraph;
+        const VectorT mGoal;
+        const HeuristicEvent& mEvent;
+    };
+
+    struct FoundGoal
+    {
+    };
+
+    class GoalVisitor : public boost::default_astar_visitor
+    {
+    public:
+        GoalVisitor(const VectorT& goal) :
+            mGoal(goal)
+        {
+        }
+
+        void examine_vertex(VertDesc vert, const UndirectedGraph& graph)
+        {
+            if(graph[vert].value == mGoal)
+            {
+                throw FoundGoal();
+            }
+        }
+    private:
+        const VectorT mGoal;
+    };
+
+
+public:
+    /*
+     *  \func getPath
+     *  \brief Finds the shortest path using A*. This version using "as the
+     *         crow flies" for its distance. This may not be optimal. Use
+     *         the function below to specify your own heuristic.
+     *
+     *  \param start The starting node
+     *  \param end The target node
+     *  \return The path
+     */
+    std::vector<VectorT> getPath(const VectorT& start,
+                                 const VectorT& end) const
+    {
+        HeuristicEvent event;
+        event = [](const VectorT& v1, const VectorT& v2)->double
+                {return (v1 - v2).length();};
+        return getPath(start, end, event);
+    }
+
+    /*
+     *  \func getPath
+     *  \brief Finds the shortest path using A*. This version can always get
+     *         the shortest path if you provide a good heuristic function.
+     *
+     *  \param start The starting node
+     *  \param end The target node
+     *  \param event The distance heuristic function
+     *  \return The path
+     */
+    std::vector<VectorT> getPath(const VectorT& start,
+                                 const VectorT& end,
+                                 const HeuristicEvent& event) const
+    {
+        std::vector<VertDesc> verts(boost::num_vertices(mGraph));
+        std::vector<double> costs(boost::num_vertices(mGraph));
+        std::vector<VectorT> path;
+
+        try
+        {
+            boost::astar_search(mGraph.graph(),
+                                mGraph.vertex(start),
+                                DistanceHeuristic(mGraph.graph(), end, event),
+                                boost::predecessor_map(&verts[0]).
+                                        distance_map(&costs[0]).
+                                        visitor(GoalVisitor(end)));
+        }
+        catch (const FoundGoal& ex)
+        {
+            for(VertDesc v = mGraph.vertex(end); ; v = verts[v])
+            {
+
+                path.push_back(mGraph.graph()[v].value);
+                if(verts[v] == v)
+                {
+                    break;
+                }
+            }
+        }
+
+        std::reverse(path.begin(), path.end());
+        return path;
     }
 
 private:
