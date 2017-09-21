@@ -10,7 +10,7 @@ class Character(nyra.Actor2D):
         self.camera = nyra.map.get_actor('camera')
         
         starting_tile = (5, 5)
-        self.transform.position = self.tilemap.tile_to_position(starting_tile)
+        self.position = self.tilemap.tile_to_position(starting_tile)
         self.grid.reset(starting_tile)
         self.state = 'wait'
 
@@ -22,18 +22,18 @@ class Character(nyra.Actor2D):
             self.mover.update(delta, self)
             if self.mover.is_complete():
                 self.state  = 'wait'
-                self.grid.reset(self.tilemap.get_tile(self.transform.position))
+                self.grid.reset(self.tilemap.get_tile(self.position))
 
     def select_tile(self):
-        cam_pos = self.camera.transform.position
-        cam_size = self.camera['camera'].transform.size
+        cam_pos = self.camera.position
+        cam_size = self.camera.size
         mouse_tile = self.tilemap.get_cam_tile((nyra.input.value('x'),
                                                 nyra.input.value('y')))
-        char_tile = self.tilemap.get_tile(self.transform.position)
+        char_tile = self.tilemap.get_tile(self.position)
         rel_tile = (mouse_tile[0] - char_tile[0],
                     mouse_tile[1] - char_tile[1])
         
         if self.grid.get(rel_tile) > 0:
-            self.mover = CharacterMover([self.transform.position,
-                                        self.tilemap.tile_to_position(mouse_tile)])
+            self.mover = CharacterMover([self.position,
+                                         self.tilemap.tile_to_position(mouse_tile)])
             self.state = 'moving'

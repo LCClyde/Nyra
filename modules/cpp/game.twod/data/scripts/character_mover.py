@@ -34,15 +34,15 @@ class CharacterMover:
 
         # Keep incrementing index until we catch up to the animiation length
         while self.index < len(self.animations) - 1 and self.animations[self.index].time < self.time:
-            actor.transform.position = self.animations[self.index].end
+            actor.position = self.animations[self.index].end
             self.index += 1
 
         anim = self.animations[self.index]
         actor.animation = anim.animation
-        pos_x, pos_y = actor.transform.position
+        pos_x, pos_y = actor.position
         pos_x += anim.direction.x * self.speed * delta
         pos_y += anim.direction.y * self.speed * delta
-        actor.transform.position = (pos_x, pos_y)
+        actor.position = (pos_x, pos_y)
         
     def is_complete(self):
         return self.index == len(self.animations) - 1

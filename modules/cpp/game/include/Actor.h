@@ -31,6 +31,7 @@
 #include <nyra/core/Path.h>
 #include <nyra/script/Function.h>
 #include <nyra/anim/Frame.h>
+#include <nyra/game/NavMesh.h>
 
 namespace nyra
 {
@@ -102,12 +103,9 @@ public:
      *
      *  \param renderable The object to add
      */
-    void addRenderable(RenderableT* renderable,
-                       const std::string& name = "")
+    void addRenderable(RenderableT* renderable)
     {
-        mRenderables.push_back(
-                std::unique_ptr<RenderableT>(renderable));
-        mRenderablesMap[name] = renderable;
+        mRenderable.reset(renderable);
     }
 
     /*
@@ -118,9 +116,14 @@ public:
      *  \param name The name of the renderable
      *  \return The renderable
      */
-    RenderableT& getRenderable(const std::string& name)
+    RenderableT& getRenderable()
     {
-        return *mRenderablesMap.at(name);
+        return *mRenderable;
+    }
+
+    const RenderableT& getRenderable() const
+    {
+        return *mRenderable;
     }
 
     /*
@@ -142,9 +145,9 @@ public:
     {
         static TransformT transform;
         TransformT::updateTransform(transform);
-        for (size_t ii = 0; ii < mRenderables.size(); ++ii)
+        if (mRenderable.get())
         {
-            mRenderables[ii]->updateTransform(*this);
+            mRenderable->updateTransform(*this);
         }
     }
 
@@ -156,9 +159,9 @@ public:
      */
     void render(graphics::RenderTarget& target) override
     {
-        for (size_t ii = 0; ii < mRenderables.size(); ++ii)
+        if (mRenderable.get())
         {
-            mRenderables[ii]->render(target);
+            mRenderable->render(target);
         }
     }
 
@@ -270,8 +273,8 @@ private:
     script::FunctionPtr mUpdate;
     script::FunctionPtr mInitialize;
 
+    std::unique_ptr<RenderableT> mRenderable;
     std::unordered_map<std::string, std::unique_ptr<anim::Animation>> mAnimations;
-    std::unordered_map<std::string, RenderableT*> mRenderablesMap;
     anim::Animation* mCurrentAnimation;
     std::string mCurrentAnimationName;
     std::string mName;

@@ -163,8 +163,6 @@ private:
     void parseTileMap(const mem::Tree<std::string>& map) const
     {
         const std::string filename = map["filename"].get();
-        const std::string name =
-                map.has("name") ? map["name"].get() : "";
 
         math::Vector2U tileSize(
                 core::str::toType<size_t>(
@@ -191,23 +189,26 @@ private:
                         pathname,
                         tiles,
                         tileSize);
-        mActor->addRenderable(mapPtr, name);
+        mActor->addRenderable(mapPtr);
+
+        // Check for a navmesh
+        if (map.has("collision"))
+        {
+            NavMesh<GameT> navMesh(*mapPtr, std::vector<size_t>());
+        }
     }
 
     //=======================================================================//
     void parseCamera(const mem::Tree<std::string>& map,
                      const graphics::RenderTarget& target) const
     {
-        const std::string name =
-                map.has("name") ? map["name"].get() : "";
-
         typename GameT::Graphics::Camera* camera =
                 new typename GameT::Graphics::Camera(target);
 
         // Move the camera back to zero, just so things are lined up
         camera->setPosition(math::Vector2F());
 
-        mActor->addRenderable(camera, name);
+        mActor->addRenderable(camera);
     }
 
     //=======================================================================//

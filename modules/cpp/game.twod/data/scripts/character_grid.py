@@ -5,8 +5,8 @@ class CharacterGrid:
         self.tiles = []
         self.actors = []
         self.tilemap = nyra.map.get_actor('tilemap')
-        size = self.tilemap['tilemap'].transform.size
-        tile_size = self.tilemap['tilemap'].tile_map.tile_size
+        size = self.tilemap.size
+        tile_size = self.tilemap.tile_size
         self.tilemap_size = (size[0] / tile_size[0], size[1] / tile_size[1])
         
         self.speed = speed

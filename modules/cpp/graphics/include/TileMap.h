@@ -103,9 +103,19 @@ public:
      *
      *  \return The tile size
      */
-    const math::Vector2U getTileSize() const
+    const math::Vector2U& getTileSize() const
     {
         return mTileSize;
+    }
+
+    size_t getTile(size_t x, size_t y) const
+    {
+        return mTiles(x, y);
+    }
+
+    const math::Vector2U& getNumTiles() const
+    {
+        return mTiles.getSize();
     }
 
 private:

@@ -15,42 +15,6 @@
     #include "nyra/script/py3/Object.h"
 %}
 
-%inline %{
-class Component
-{
-public:
-    Component(void* ptr) :
-        mPtr(ptr)
-    {
-    }
-
-    nyra::math::Transform<nyra::math::Vector2F,
-                          nyra::math::Vector2F,
-                          float,
-                          nyra::math::Vector2F,
-                          nyra::math::Vector2F,
-                          nyra::math::Matrix3x3>* _transform() const
-    {
-        return reinterpret_cast<nyra::math::Transform<
-                nyra::math::Vector2F,
-                nyra::math::Vector2F,
-                float,
-                nyra::math::Vector2F,
-                nyra::math::Vector2F,
-                nyra::math::Matrix3x3>*>(mPtr);
-    }
-    
-    nyra::graphics::TileMap<nyra::graphics::sfml::Sprite>* _tile_map() const
-    {
-        return reinterpret_cast<nyra::graphics::TileMap<
-                nyra::graphics::sfml::Sprite>*>(mPtr);
-    }
-    
-private:
-    void* mPtr;
-};
-%}
-
 %ignore addRenderable;
 %ignore render;
 %ignore setScript;
@@ -84,24 +48,7 @@ private:
 %template(map) nyra::game::Map<nyra::game::twod::GameType>;
 
 %extend nyra::game::Actor<nyra::game::twod::GameType>
-{
-    // I really hate that I need to redefine. 
-    // There has to be a better way.
-    nyra::math::Transform<nyra::math::Vector2F,
-                          nyra::math::Vector2F,
-                          float,
-                          nyra::math::Vector2F,
-                          nyra::math::Vector2F,
-                          nyra::math::Matrix3x3>* getTransform()
-    {
-        return $self;
-    }
-
-    Component _getComponent(const std::string& name)
-    {
-        return Component(&($self->getRenderable(name)));
-    }
-    
+{    
     size_t nyra_pointer()
     {
         return reinterpret_cast<size_t>($self);
@@ -110,6 +57,32 @@ private:
     void destroy()
     {
         nyra::game::Map<nyra::game::twod::GameType>::getMap().destroyActor($self);
+    }
+    
+    const nyra::math::Vector2F& _getPosition() const
+    {
+        return $self->getPosition();
+    }
+    
+    void _setPosition(const nyra::math::Vector2F& pos)
+    {
+        $self->setPosition(pos);
+    }
+    
+    const nyra::math::Vector2F& _getSize() const
+    {
+        return $self->getRenderable().getSize();
+    }
+    
+    const nyra::math::Vector2U& _getTileSize() const
+    {
+         return reinterpret_cast<const nyra::graphics::TileMap<
+                nyra::graphics::sfml::Sprite>&>($self->getRenderable()).getTileSize();
+    }
+    
+    void _moveBy(const nyra::math::Vector2F& amount)
+    {
+        $self->moveBy(amount);
     }
 }
 
@@ -148,12 +121,27 @@ import nyra.game2d
 from collections import namedtuple
 
 def move(self, vec):
-    self.moveBy(nyra.game2d.Vector2D(vec[0], vec[1]))
+    self._moveBy(nyra.game2d.Vector2D(vec[0], vec[1]))
     
 def _get_tile_size(self):
     v = self.getTileSize()
     return (v.x, v.y)
     
+def _get_position(self):
+    v = self._getPosition()
+    return (v.x, v.y)
+
+def _set_position(self, pos):
+    self._setPosition(nyra.game2d.Vector2D(pos[0], pos[1]))
+    
+def _get_size(self):
+    v = self._getSize()
+    return (v.x, v.y)
+    
+def _get_tile_size(self):
+    v = self._getTileSize()
+    return (v.x, v.y)
+
 def spawn(filename,
           name='',
           position=(0, 0),
@@ -166,12 +154,11 @@ def spawn(filename,
                            rotation,
                            nyra.game2d.Vector2D(scale[0], scale[1]))
 
-Actor2D.transform = property(Actor2D.getTransform)
 Actor2D.move = move
-Actor2D.__getitem__ = Actor2D._getComponent
+Actor2D.position = property(_get_position, _set_position)
+Actor2D.size = property(_get_size)
+Actor2D.tile_size = property(_get_tile_size)
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
 map.spawn = spawn
-TileMap2D.tile_size = property(_get_tile_size)
-Component.transform = property(Component._transform)
-Component.tile_map = property(Component._tile_map)
+Actor2D.tile_size = property(_get_tile_size)
 %}
