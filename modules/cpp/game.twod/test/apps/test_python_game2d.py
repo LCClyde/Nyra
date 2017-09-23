@@ -5,8 +5,8 @@ import nyra.game2d as nyra
 class TestGame2D(unittest.TestCase):
     def test_actor(self):
         a = nyra.Actor2D();
-        a.transform.position = (2, 4)
-        self.assertEqual(a.transform.position, (2, 4))
+        a.position = nyra.Vector2D(2, 4)
+        self.assertEqual(a.position, nyra.Vector2D(2, 4))
         self.assertEqual(a.animation, '')
 
         #TODO: Find a way to test setting animation. It won't work because

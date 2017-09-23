@@ -22,16 +22,19 @@
 #ifndef __NYRA_MATH_GRAPH_H__
 #define __NYRA_MATH_GRAPH_H__
 
+#include <iostream>
 #include <boost/config.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/labeled_graph.hpp>
 #include <boost/graph/astar_search.hpp>
 #include <nyra/core/Event.h>
+#include <nyra/math/PathResults.h>
 
 namespace nyra
 {
 namespace math
 {
+
 /*
  *  \class Graph
  *  \brief Creates a positional graph that is primarily used for pathfinding.
@@ -90,7 +93,7 @@ public:
         {
             addVertex(v2);
         }
-        boost::add_edge_by_label(v1, v2, (v2 - v2).length(), mGraph);
+        boost::add_edge_by_label(v1, v2, (v2 - v1).length(), mGraph);
     }
 
     /*
@@ -183,7 +186,7 @@ public:
      *  \param end The target node
      *  \return The path
      */
-    std::vector<VectorT> getPath(const VectorT& start,
+    PathResults<VectorT> getPath(const VectorT& start,
                                  const VectorT& end) const
     {
         HeuristicEvent event;
@@ -202,13 +205,13 @@ public:
      *  \param event The distance heuristic function
      *  \return The path
      */
-    std::vector<VectorT> getPath(const VectorT& start,
+    PathResults<VectorT> getPath(const VectorT& start,
                                  const VectorT& end,
                                  const HeuristicEvent& event) const
     {
         std::vector<VertDesc> verts(boost::num_vertices(mGraph));
         std::vector<double> costs(boost::num_vertices(mGraph));
-        std::vector<VectorT> path;
+        PathResults<VectorT> results;
 
         try
         {
@@ -223,17 +226,18 @@ public:
         {
             for(VertDesc v = mGraph.vertex(end); ; v = verts[v])
             {
-
-                path.push_back(mGraph.graph()[v].value);
+                results.path.push_back(mGraph.graph()[v].value);
                 if(verts[v] == v)
                 {
                     break;
                 }
             }
+            results.distance = costs[mGraph.vertex(end)];
+
+            std::reverse(results.path.begin(), results.path.end());
         }
 
-        std::reverse(path.begin(), path.end());
-        return path;
+        return results;
     }
 
 private:

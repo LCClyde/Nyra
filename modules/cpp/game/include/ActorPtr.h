@@ -194,7 +194,14 @@ private:
         // Check for a navmesh
         if (map.has("collision"))
         {
-            NavMesh<GameT> navMesh(*mapPtr, std::vector<size_t>());
+            std::unordered_set<size_t> collision;
+            for (size_t ii = 0; ii < map["collision"].loopSize(); ++ii)
+            {
+                collision.insert(core::str::toType<size_t>(
+                        map["collision"][ii].get()));
+            }
+            NavMesh<GameT>* navMesh = new NavMesh<GameT>(*mapPtr, collision);
+            mActor->addNavMesh(navMesh);
         }
     }
 

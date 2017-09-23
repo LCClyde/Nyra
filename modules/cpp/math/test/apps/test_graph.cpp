@@ -176,15 +176,15 @@ TEST(Graph, Pathfinding)
     Graph<Vector2I>::HeuristicEvent event;
     event = [](const Vector2I& v1, const Vector2I& v2)->double
             {return std::abs(v1.x - v2.x) + std::abs(v1.y - v2.y);};
-    const std::vector<Vector2I> path = graph.getPath(v00, v94, event);
+    const auto results = graph.getPath(v00, v94, event);
 
-    EXPECT_EQ(static_cast<size_t>(22), path.size());
-    EXPECT_EQ(v00, path[0]);
-    EXPECT_EQ(v94, path.back());
+    EXPECT_EQ(static_cast<size_t>(22), results.path.size());
+    EXPECT_EQ(v00, results.path[0]);
+    EXPECT_EQ(v94, results.path.back());
 
-    for (size_t ii = 1; ii < path.size(); ++ii)
+    for (size_t ii = 1; ii < results.path.size(); ++ii)
     {
-        const size_t delta = event(path[ii], path[ii - 1]);
+        const size_t delta = event(results.path[ii], results.path[ii - 1]);
         EXPECT_EQ(static_cast<size_t>(1), delta);
     }
 

@@ -49,6 +49,29 @@ class Event <RetT(ArgsT...)>
 {
 public:
     /*
+     *  \func Constructor
+     *  \brief Creates an empty event.
+     */
+    Event() = default;
+
+    /*
+     *  \func Constructor
+     *  \brief Creates an event with a function
+     *
+     *  \tparam T The function type. Known supported types are:
+     *          std::function
+     *          lambda
+     *          free functions
+     *          functor
+     *          member functions can be wrapped in a functor or use std::bind
+     *  \param func The function to add.
+     */
+    template <typename T>
+    Event(const T& func)
+    {
+        (*this)(func);
+    }
+    /*
      *  \func Assignment Operator
      *  \brief Adds a function as an event.
      *

@@ -98,6 +98,29 @@ public:
     }
 
     /*
+     *  \func addNavMesh
+     *  \brief Adds a nav mesh to the actor
+     *
+     *  \param mesh The initialized nav mesh
+     */
+    void addNavMesh(NavMesh<GameT>* mesh)
+    {
+        mNavMesh.reset(mesh);
+    }
+
+    /*
+     *  \func getNavMesh
+     *  \brief Returns a nav mesh. This will segfault if the actor does not
+     *         have a valid nav mesh.
+     *
+     *  \return The nav mesh
+     */
+    const NavMesh<GameT>& getNavMesh() const
+    {
+        return *mNavMesh;
+    }
+
+    /*
      *  \func addRenderable
      *  \brief Adds a new renderable to the actor
      *
@@ -110,10 +133,8 @@ public:
 
     /*
      *  \func getRenderable
-     *  \brief Gets a renderable by name. This only works if the renderable
-     *         has been setup by name.
+     *  \brief Gets a renderable
      *
-     *  \param name The name of the renderable
      *  \return The renderable
      */
     RenderableT& getRenderable()
@@ -269,6 +290,7 @@ public:
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
+    std::unique_ptr<NavMesh<GameT>> mNavMesh;
 
     script::FunctionPtr mUpdate;
     script::FunctionPtr mInitialize;

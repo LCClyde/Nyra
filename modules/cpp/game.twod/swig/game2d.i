@@ -1,6 +1,7 @@
 %module game2d
 
 %include "../../math/swig/math.i"
+%include "std_vector.i"
 
 %{
     #include "nyra/win/Window.h"
@@ -13,6 +14,7 @@
     #include "nyra/input/Keyboard.h"
     #include "nyra/game/Input.h"
     #include "nyra/script/py3/Object.h"
+    #include "nyra/math/PathResults.h"
 %}
 
 %ignore addRenderable;
@@ -22,6 +24,8 @@
 %ignore RenderTargetT;
 %ignore update;
 %ignore addAnimation;
+%ignore addNavMesh;
+%ignore getNavMesh;
 %ignore Input(const nyra::win::Window& window,
               const std::string& filename);
 %ignore TileMap(const std::string& spritePathname,
@@ -41,11 +45,14 @@
 %include "nyra/game/Input.h"
 %include "nyra/game/Map.h"
 %include "nyra/graphics/TileMap.h"
- 
+%include "nyra/math/PathResults.h"
+
 %template(Actor2D) nyra::game::Actor<nyra::game::twod::GameType>;
 %template(input) nyra::game::Input<nyra::game::twod::GameType>;
 %template(TileMap2D) nyra::graphics::TileMap<nyra::graphics::sfml::Sprite>;
 %template(map) nyra::game::Map<nyra::game::twod::GameType>;
+%template(VectorVector2D) std::vector<nyra::math::Vector2F>;
+%template(PathResultsTileMap) nyra::math::PathResults<nyra::math::Vector2F>;
 
 %extend nyra::game::Actor<nyra::game::twod::GameType>
 {    
@@ -80,9 +87,16 @@
                 nyra::graphics::sfml::Sprite>&>($self->getRenderable()).getTileSize();
     }
     
-    void _moveBy(const nyra::math::Vector2F& amount)
+    void move(const nyra::math::Vector2F& amount)
     {
         $self->moveBy(amount);
+    }
+    
+    nyra::math::PathResults<nyra::math::Vector2F> get_path(
+            const nyra::math::Vector2F& start,
+            const nyra::math::Vector2F& end) const
+    {
+        return $self->getNavMesh().getPath(start, end);
     }
 }
 
@@ -120,45 +134,24 @@
 import nyra.game2d
 from collections import namedtuple
 
-def move(self, vec):
-    self._moveBy(nyra.game2d.Vector2D(vec[0], vec[1]))
-    
-def _get_tile_size(self):
-    v = self.getTileSize()
-    return (v.x, v.y)
-    
-def _get_position(self):
-    v = self._getPosition()
-    return (v.x, v.y)
-
-def _set_position(self, pos):
-    self._setPosition(nyra.game2d.Vector2D(pos[0], pos[1]))
-    
-def _get_size(self):
-    v = self._getSize()
-    return (v.x, v.y)
-    
-def _get_tile_size(self):
-    v = self._getTileSize()
-    return (v.x, v.y)
-
 def spawn(filename,
           name='',
-          position=(0, 0),
+          position=None,
           rotation=0,
-          scale=(1, 1),
-          pivot=(0.5, 0.5)):
+          scale=None):
+    if position is None:
+        position = nyra.game2d.Vector2D(0, 0)
+    if scale is None:
+        scale = nyra.game2d.Vector2D(1, 1)
     return nyra.game2d.map._spawn(filename,
-                           name,
-                           nyra.game2d.Vector2D(position[0], position[1]),
-                           rotation,
-                           nyra.game2d.Vector2D(scale[0], scale[1]))
+                                  name,
+                                  position,
+                                  rotation,
+                                  scale)
 
-Actor2D.move = move
-Actor2D.position = property(_get_position, _set_position)
-Actor2D.size = property(_get_size)
-Actor2D.tile_size = property(_get_tile_size)
+Actor2D.position = property(Actor2D._getPosition, Actor2D._setPosition)
+Actor2D.size = property(Actor2D._getSize)
+Actor2D.tile_size = property(Actor2D._getTileSize)
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
 map.spawn = spawn
-Actor2D.tile_size = property(_get_tile_size)
 %}

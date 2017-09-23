@@ -5,21 +5,23 @@ class MyTileMap(nyra.Actor2D):
         self.camera = nyra.map.get_actor('camera')
 
     def update(self, delta):
-        foo = self.get_tile((nyra.input.value('x'),
-                             nyra.input.value('y')))
+        foo = self.get_tile(nyra.Vector2D(
+                nyra.input.value('x'),
+                nyra.input.value('y')))
         
     def get_cam_tile(self, position):
         cam_pos = self.camera.position
         cam_size = self.camera.size
-        return self.get_tile((int(cam_pos[0] - cam_size[0] / 2 + position[0]),
-                              int(cam_pos[1] - cam_size[1] / 2 + position[1])))
+        return self.get_tile(nyra.Vector2D(
+                int(cam_pos.x - cam_size.x / 2 + position.x),
+                int(cam_pos.y - cam_size.y / 2 + position.y)))
 
     def get_tile(self, position):
         tile_size = self.tile_size
-        return (int(position[0] / tile_size[0]),
-                int(position[1] / tile_size[1]))
+        return nyra.Vector2D(int(position.x / tile_size.x),
+                             int(position.y / tile_size.y))
         
     def tile_to_position(self, tile):
         tile_size = self.tile_size
-        return (tile[0] * tile_size[0] + tile_size[0] / 2,
-                tile[1] * tile_size[1] + tile_size[1] / 2)
+        return nyra.Vector2D(tile.x * tile_size.x + tile_size.x / 2,
+                             tile.y * tile_size.y + tile_size.y / 2)
