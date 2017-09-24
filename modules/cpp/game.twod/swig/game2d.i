@@ -137,17 +137,17 @@ from collections import namedtuple
 def spawn(filename,
           name='',
           position=None,
-          rotation=0,
+          rotation=None,
           scale=None):
-    if position is None:
-        position = nyra.game2d.Vector2D(0, 0)
-    if scale is None:
-        scale = nyra.game2d.Vector2D(1, 1)
-    return nyra.game2d.map._spawn(filename,
-                                  name,
-                                  position,
-                                  rotation,
-                                  scale)
+    actor = nyra.game2d.map._spawn(filename, name)
+    
+    if position is not None:
+        actor.position = position
+    if scale is not None:
+        actor.scale = scale
+    if rotation is not None:
+        actor.rotation = rotation
+    return actor
 
 Actor2D.position = property(Actor2D._getPosition, Actor2D._setPosition)
 Actor2D.size = property(Actor2D._getSize)
