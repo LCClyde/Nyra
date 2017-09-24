@@ -112,17 +112,11 @@
     }
     
     static nyra::game::Actor<nyra::game::twod::GameType>& _spawn(const std::string& filename,
-                       const std::string& name,
-                       const nyra::math::Vector2F& position,
-                       float rotation,
-                       const nyra::math::Vector2F& scale)
+                       const std::string& name)
     {
         nyra::game::Actor<nyra::game::twod::GameType>& actor =
                 nyra::game::Map<nyra::game::twod::GameType>::getMap().spawnActor(
                         filename, name, true);
-        actor.setPosition(position);
-        actor.setRotation(rotation);
-        actor.setScale(scale);
         return actor;
     }
 }
