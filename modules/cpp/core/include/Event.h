@@ -52,7 +52,7 @@ public:
      *  \func Constructor
      *  \brief Creates an empty event.
      */
-    Event() = default;
+    Event();
 
     /*
      *  \func Constructor
@@ -69,7 +69,7 @@ public:
     template <typename T>
     Event(const T& func)
     {
-        (*this)(func);
+        (*this) = func;
     }
     /*
      *  \func Assignment Operator
@@ -104,7 +104,7 @@ public:
     void reset();
 
 private:
-    boost::signals2::signal<RetT(ArgsT...)> mFunction;
+    std::shared_ptr<boost::signals2::signal<RetT(ArgsT...)>> mFunction;
 };
 }
 }

@@ -25,6 +25,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include <nyra/win/Window.h>
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
@@ -209,11 +210,17 @@ public:
         mWindow->setPosition(sf::Vector2i(position.x, position.y));
     }
 
+    void addSFMLEvent(core::Event<void(sf::Event&)> event)
+    {
+        mEvents.push_back(event);
+    }
+
 private:
     // Note: We use a unique_ptr here to allow this to be easily
     // movable. sf::RenderWindow destroys the window in the destructor.
     std::unique_ptr<sf::RenderWindow> mWindow;
     std::string mName;
+    std::vector<core::Event<void(sf::Event&)>> mEvents;
 };
 }
 }

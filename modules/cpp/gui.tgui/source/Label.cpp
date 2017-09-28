@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,63 +19,34 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/win/sfml/Window.h>
+#include <nyra/gui/tgui/Label.h>
 
 namespace nyra
 {
-namespace win
+namespace gui
 {
-namespace sfml
+namespace tgui
 {
 //===========================================================================//
-Window::Window() :
-    mWindow(new sf::RenderWindow())
+Label::Label(const std::string& text) :
+    mLabel(::tgui::Label::create())
 {
-}
-
-//===========================================================================//
-Window::Window(const std::string& name,
-               const math::Vector2U& size,
-               const math::Vector2I& position) :
-    mWindow(new sf::RenderWindow())
-{
-    load(name, size, position);
+    Widget::setNative(mLabel);
+    mLabel->setTextSize(18);
+    mLabel->setText(text);
 }
 
 //===========================================================================//
-void Window::update()
+void Label::setText(const std::string& text)
 {
-    sf::Event event;
-    while (mWindow->pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-        {
-            mWindow->close();
-        }
-
-        for (const auto& nyraEvent : mEvents)
-        {
-            nyraEvent(event);
-        }
-    }
+    mLabel->setText(text);
 }
 
 //===========================================================================//
-void Window::load(const std::string& name,
-                  const math::Vector2U& size,
-                  const math::Vector2I& position)
+std::string Label::getText() const
 {
-    mWindow->create(sf::VideoMode(size.x, size.y), name);
-    mWindow->setPosition(sf::Vector2i(position.x, position.y));
-    mName = name;
-}
-
-//===========================================================================//
-size_t Window::getID() const
-{
-    return reinterpret_cast<size_t>(mWindow->getSystemHandle());
+    return mLabel->getText();
 }
 }
 }
 }
-

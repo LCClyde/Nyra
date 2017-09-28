@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,79 +19,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_CORE_EVENT_HPP__
-#define __NYRA_CORE_EVENT_HPP__
+#include <nyra/gui/tgui/Widget.h>
 
 namespace nyra
 {
-namespace core
+namespace gui
+{
+namespace tgui
 {
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-class EventCall
+void Widget::setSize(const math::Vector2F& size)
 {
-public:
-    static RetT call(
-            const boost::signals2::signal<RetT(ArgsT...)>& func,
-            ArgsT... args)
-    {
-        auto optional = func(args...);
-        if (optional)
-        {
-            return (*optional);
-        }
-
-        return RetT();
-    }
-};
-
-//===========================================================================//
-template <typename ...ArgsT>
-class EventCall<void, ArgsT...>
-{
-public:
-    static void call(
-            const boost::signals2::signal<void(ArgsT...)>& func,
-            ArgsT... args)
-    {
-        func(args...);
-    }
-};
-
-//===========================================================================//
-template <typename RetT, typename ...ArgsT>
-Event<RetT(ArgsT...)>::Event() :
-    mFunction(new boost::signals2::signal<RetT(ArgsT...)>())
-{
+    mWidget->setSize({size.x, size.y});
 }
 
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-RetT Event<RetT(ArgsT...)>::operator()(ArgsT... args) const
+void Widget::setPosition(const math::Vector2F& position)
 {
-    return EventCall<RetT, ArgsT...>::call(*mFunction, args...);
+    mWidget->setPosition({position.x, position.y});
 }
 
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-void Event<RetT(ArgsT...)>::reset()
+math::Vector2F Widget::getPosition() const
 {
-    mFunction->disconnect_all_slots();
+    const auto position = mWidget->getPosition();
+    return math::Vector2F(position.x, position.y);
 }
 
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-template <typename T>
-void Event<RetT(ArgsT...)>::operator=(const T& func)
+math::Vector2F Widget::getSize() const
 {
-    if (!mFunction.get())
-    {
-        mFunction.reset(new boost::signals2::signal<RetT(ArgsT...)>());
-    }
-    mFunction->disconnect_all_slots();
-    mFunction->connect(func);
-}
-}
+    const auto size = mWidget->getSize();
+    return math::Vector2F(size.x, size.y);
 }
 
-#endif
+
+//===========================================================================//
+void Widget::addChild(gui::Widget& child)
+{
+}
+}
+}
+}

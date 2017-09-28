@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,79 +19,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_CORE_EVENT_HPP__
-#define __NYRA_CORE_EVENT_HPP__
+#include <nyra/gui/tgui/Gui.h>
+#include <nyra/win/sfml/Window.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
-namespace core
+namespace gui
+{
+namespace tgui
 {
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-class EventCall
+Gui::Gui(win::Window& window) :
+    mWindow(dynamic_cast<win::sfml::Window&>(window)),
+    mGui(*reinterpret_cast<sf::RenderWindow*>(mWindow.getNative()))
 {
-public:
-    static RetT call(
-            const boost::signals2::signal<RetT(ArgsT...)>& func,
-            ArgsT... args)
-    {
-        auto optional = func(args...);
-        if (optional)
-        {
-            return (*optional);
-        }
-
-        return RetT();
-    }
-};
+    mWindow.addSFMLEvent(core::Event<void(sf::Event&)>(
+            std::bind(&Gui::sfmlUpdate, this, std::placeholders::_1)));
+}
 
 //===========================================================================//
-template <typename ...ArgsT>
-class EventCall<void, ArgsT...>
-{
-public:
-    static void call(
-            const boost::signals2::signal<void(ArgsT...)>& func,
-            ArgsT... args)
-    {
-        func(args...);
-    }
-};
-
-//===========================================================================//
-template <typename RetT, typename ...ArgsT>
-Event<RetT(ArgsT...)>::Event() :
-    mFunction(new boost::signals2::signal<RetT(ArgsT...)>())
+void Gui::update(double deltaTime)
 {
 }
 
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-RetT Event<RetT(ArgsT...)>::operator()(ArgsT... args) const
+void Gui::render()
 {
-    return EventCall<RetT, ArgsT...>::call(*mFunction, args...);
+    mGui.draw();
 }
 
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-void Event<RetT(ArgsT...)>::reset()
+void Gui::sfmlUpdate(sf::Event& event)
 {
-    mFunction->disconnect_all_slots();
+    mGui.handleEvent(event);
 }
 
 //===========================================================================//
-template <typename RetT, typename ...ArgsT>
-template <typename T>
-void Event<RetT(ArgsT...)>::operator=(const T& func)
+void Gui::addChild(gui::Widget& child)
 {
-    if (!mFunction.get())
-    {
-        mFunction.reset(new boost::signals2::signal<RetT(ArgsT...)>());
-    }
-    mFunction->disconnect_all_slots();
-    mFunction->connect(func);
+    std::cout <<  "Added widget\n";
+    ::tgui::Widget::Ptr widget =
+            *reinterpret_cast<::tgui::Widget::Ptr*>(child.getNative());
+    mGui.add(widget);
 }
 }
 }
-
-#endif
+}
