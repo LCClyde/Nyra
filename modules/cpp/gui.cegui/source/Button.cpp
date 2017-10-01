@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,45 +19,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_LABEL_H__
-#define __NYRA_GUI_LABEL_H__
-
-#include <nyra/gui/Widget.h>
+#include <nyra/gui/cegui/Button.h>
+#include <CEGUI/widgets/PushButton.h>
 
 namespace nyra
 {
 namespace gui
 {
-/*
- *  \class Label
- *  \brief Widget that represents text on screen.
- */
-class Label : public virtual Widget
+namespace cegui
 {
-public:
-    /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance
-     */
-    virtual ~Label();
-
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    virtual void setText(const std::string& text) = 0;
-
-    /*
-     *  \func getText
-     *  \brief Gets the current text.
-     *
-     *  \return The value of the text.
-     */
-    virtual std::string getText() const = 0;
-};
+//===========================================================================//
+Button::Button(const std::string& text) :
+    Widget("Button")
+{
+    setText(text);
+    mWidget.subscribeEvent(CEGUI::PushButton::EventClicked,
+                           CEGUI::Event::Subscriber(
+                                   &Widget::activateEvent, (Widget*)this));
 }
 }
-
-#endif
+}
+}

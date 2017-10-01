@@ -33,14 +33,13 @@ namespace tgui
 {
 /*
  *  \class GlobalHandler
- *  \brief Handles the CEGUI global init and shutdown commands. All CEGUI
- *         classes should add a GlobalDependency to this class.
+ *  \brief Handles the TGUI global init and shutdown commands.
  */
 class GlobalHandler : public mem::GlobalHandler
 {
 public:
     /*
-     *  \func createWidget
+     *  \func getTheme
      *  \brief Creates a CEGUI Window object.
      *
      *  \param type The type that represents the widget in the XML.

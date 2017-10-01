@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,15 +19,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/gui/Label.h>
+#include <nyra/gui/cegui/Image.h>
+#include <nyra/core/Path.h>
+#include <CEGUI/ImageManager.h>
 
 namespace nyra
 {
 namespace gui
 {
-//===========================================================================//
-Label::~Label()
+namespace cegui
 {
+//===========================================================================//
+Image::Image(const std::string& pathname) :
+    Widget("StaticImage")
+{
+    const std::string filename = core::path::getFilename(pathname);
+
+    CEGUI::ImageManager& manager = CEGUI::ImageManager::getSingleton();
+
+    if (!manager.isDefined(filename))
+    {
+        // TOOD: CEGUI cannot handle absolute paths. This needs to be updated to
+        //       use the actual passed in path. As is this is very fragile.
+        const std::string updatedPathname =
+                core::path::join("../../../data/textures/",
+                                core::path::getFilename(pathname));
+        manager.addFromImageFile(filename, updatedPathname);
+    }
+
+    CEGUI::Image& image = manager.get(filename);
+    const CEGUI::Sizef size = image.getRenderedSize();
+    mWidget.setProperty("Image", filename);
+    mWidget.setSize(CEGUI::USize(CEGUI::UDim(0, size.d_width),
+                    CEGUI::UDim(0, size.d_height)));
+    removeBackground();
+}
 }
 }
 }

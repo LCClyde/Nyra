@@ -19,9 +19,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/gui/cegui/Label.h>
-#include <nyra/test/CreateCEGUI.h>
+#ifndef __NYRA_GUI_CEGUI_BUTTON_H__
+#define __NYRA_GUI_CEGUI_BUTTON_H__
+
+#include <nyra/gui/cegui/Widget.h>
 
 namespace nyra
 {
@@ -29,18 +30,23 @@ namespace gui
 {
 namespace cegui
 {
-TEST(CEGUI, Label)
+/*
+ *  \class Button
+ *  \brief A class used to render a clickable button.
+ */
+class Button : public Widget
 {
-    test::CreateCEGUI gui;
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default BUtton.
+     *
+     *  \param text The beginning text for the Button.
+     */
+    Button(const std::string& text);
+};
+}
+}
+}
 
-    Label* widget = gui.create<Label>("Hello World");
-    widget->setPosition(math::Vector2F(10.0f, 10.0f));
-    widget->setSize(math::Vector2F(256.0f, 256.0f));
-
-    EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_label.png"));
-}
-}
-}
-}
-
-NYRA_TEST()
+#endif

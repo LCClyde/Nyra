@@ -19,9 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/gui/cegui/Label.h>
-#include <nyra/test/CreateCEGUI.h>
+#include <nyra/gui/cegui/Panel.h>
 
 namespace nyra
 {
@@ -29,18 +27,16 @@ namespace gui
 {
 namespace cegui
 {
-TEST(CEGUI, Label)
+//===========================================================================//
+Panel::Panel(const std::string& text) :
+    Widget("FrameWindow")
 {
-    test::CreateCEGUI gui;
-
-    Label* widget = gui.create<Label>("Hello World");
-    widget->setPosition(math::Vector2F(10.0f, 10.0f));
-    widget->setSize(math::Vector2F(256.0f, 256.0f));
-
-    EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_label.png"));
+    setText(text);
+    mWidget.setProperty("CloseButtonEnabled", "False");
+    mWidget.setProperty("RollUpEnabled", "False");
+    mWidget.setProperty("SizingEnabled", "False");
+    mWidget.setProperty("DragMovingEnabled", "False");
 }
 }
 }
 }
-
-NYRA_TEST()

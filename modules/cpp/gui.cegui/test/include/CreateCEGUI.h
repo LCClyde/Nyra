@@ -19,41 +19,66 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/gui/tgui/Gui.h>
-#include <nyra/test/Test.h>
+#ifndef __NYRA_TEST_CREATE_CEGUI_H__
+#define __NYRA_TEST_CREATE_CEGUI_H__
+
+#include <nyra/gui/cegui/Gui.h>
 #include <nyra/graphics/sfml/RenderTarget.h>
 #include <nyra/win/sfml/Window.h>
-#include <nyra/gui/tgui/Label.h>
-#include <nyra/img/Image.h>
-#include <nyra/core/Path.h>
+#include <nyra/input/sfml/Mouse.h>
+#include <nyra/core/FPS.h>
+#include <nyra/test/Image.h>
 
 namespace nyra
 {
-namespace gui
+namespace test
 {
-namespace tgui
+class CreateCEGUI
 {
-TEST(TGUI, Label)
-{
-    win::sfml::Window window("test_tgui_gui",
-                             math::Vector2U(512, 256),
-                             math::Vector2I(0, 0));
-    graphics::sfml::RenderTarget target(window);
+public:
+    CreateCEGUI() :
+        mWindow("Test CEGUI",
+                math::Vector2U(256.0f, 128.0f),
+                math::Vector2I(0, 0)),
+        mTarget(mWindow),
+        mMouse(mWindow),
+        mGUI(mMouse)
+    {
+    }
 
-    Gui gui(window);
-    Label* label = new Label("Hello World");
-    gui["A"] = label;
+    template <typename T>
+    T* create(const std::string& text,
+              const std::string& name = "widget")
+    {
+        T* widget = new T(text);
+        mGUI[name] = widget;
+        return widget;
+    }
 
-    window.update();
-    target.clear(img::Color::GRAY);
-    gui.render();
-    target.flush();
+    img::Image update()
+    {
+        mWindow.update();
+        mMouse.update();
+        mTarget.clear(img::Color::WHITE);
+        mGUI.update(mFPS());
+        mGUI.render();
+        mTarget.flush();
+        return mTarget.getPixels();
+    }
 
-    // TOOD: This does not work
-    //core::write(target.getPixels(), "test_tgui_label.png");
+    void saveBuffer(const std::string& pathname)
+    {
+        core::write(update(), pathname);
+    }
+
+private:
+    win::sfml::Window mWindow;
+    graphics::sfml::RenderTarget mTarget;
+    input::sfml::Mouse mMouse;
+    core::FPS mFPS;
+    gui::cegui::Gui mGUI;
+};
 }
 }
-}
-}
 
-NYRA_TEST()
+#endif

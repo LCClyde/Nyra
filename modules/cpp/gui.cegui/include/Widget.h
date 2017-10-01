@@ -106,7 +106,39 @@ public:
         return &mWidget;
     }
 
+    /*
+     *  \func setText
+     *  \brief Sets the text of the widget.
+     *
+     *  \param text The desired text.
+     */
+    void setText(const std::string& text) override;
+
+    /*
+     *  \func getText
+     *  \brief Gets the current text.
+     *
+     *  \return The value of the text.
+     */
+    std::string getText() const override;
+
+    /*
+     *  \func activateEvent
+     *  \brief CEGUI version of the activate event.
+     *
+     *  \param event CEGUI event values
+     *  \return Always true
+     */
+    bool activateEvent(const CEGUI::EventArgs& event);
+
+    /*
+     *  \func removeBackground
+     *  \brief Removes the CEGUI frame and background.
+     */
+    void removeBackground();
+
 protected:
+
     CEGUI::Window& mWidget;
 };
 }

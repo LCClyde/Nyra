@@ -31,19 +31,8 @@ namespace cegui
 Label::Label(const std::string& text) :
     Widget("StaticText")
 {
-    mWidget.setText(text);
-}
-
-//===========================================================================//
-void Label::setText(const std::string& text)
-{
-    mWidget.setText(text);
-}
-
-//===========================================================================//
-std::string Label::getText() const
-{
-    return mWidget.getText().c_str();
+    setText(text);
+    removeBackground();
 }
 }
 }

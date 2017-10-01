@@ -23,6 +23,7 @@
 #define __NYRA_GUI_WIDGET_H__
 
 #include <nyra/math/Vector2.h>
+#include <nyra/core/Event.h>
 #include <string>
 
 namespace nyra
@@ -89,6 +90,33 @@ public:
      *  \return A pointer to the native object.
      */
     virtual void* getNative() =  0;
+
+    /*
+     *  \func setText
+     *  \brief Sets the text of the widget.
+     *
+     *  \param text The desired text.
+     */
+    virtual void setText(const std::string& text)
+    {
+    }
+
+    /*
+     *  \func getText
+     *  \brief Gets the current text.
+     *
+     *  \return The value of the text.
+     */
+    virtual std::string getText() const
+    {
+        return std::string();
+    }
+
+    /*
+     *  \var activated
+     *  \brief Occurs when the widget has some sort of activation.
+     */
+    core::Event<void()> activated;
 };
 }
 }

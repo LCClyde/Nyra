@@ -73,6 +73,31 @@ void Widget::addChild(gui::Widget& child)
 {
     mWidget.addChild(&dynamic_cast<Widget&>(child).mWidget);
 }
+
+//===========================================================================//
+void Widget::setText(const std::string& text)
+{
+    mWidget.setText(text);
+}
+
+//===========================================================================//
+std::string Widget::getText() const
+{
+    return mWidget.getText().c_str();
+}
+
+//===========================================================================//
+bool Widget::activateEvent(const CEGUI::EventArgs& event)
+{
+    activated();
+    return true;
+}
+
+void Widget::removeBackground()
+{
+    mWidget.setProperty("BackgroundEnabled", "False");
+    mWidget.setProperty("FrameEnabled", "False");
+}
 }
 }
 }

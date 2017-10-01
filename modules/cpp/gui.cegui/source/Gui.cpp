@@ -33,13 +33,50 @@ namespace gui
 namespace cegui
 {
 //===========================================================================//
-Gui::Gui()
+Gui::Gui() :
+    mMouse(nullptr)
+{
+}
+
+//===========================================================================//
+Gui::Gui(const input::Mouse& mouse) :
+    mMouse(&mouse)
 {
 }
 
 //===========================================================================//
 void Gui::update(double deltaTime)
 {
+    static mem::GlobalUpdate updater;
+    if (updater.tryUpdate(this))
+    {
+        auto& context =
+                getGlobalInstance().getSystem()->getDefaultGUIContext();
+
+        context.injectTimePulse(deltaTime);
+        getGlobalInstance().getSystem()->injectTimePulse(deltaTime);
+
+        if (mMouse)
+        {
+            context.injectMousePosition(
+                    mMouse->getPosition().x, mMouse->getPosition().y);
+
+            for (size_t ii = 0; ii < 3; ++ii)
+            {
+                if (mMouse->getButtonPressed(ii))
+                {
+                    context.injectMouseButtonDown(
+                            static_cast<CEGUI::MouseButton>(ii));
+                }
+
+                if (mMouse->getButtonReleased(ii))
+                {
+                    context.injectMouseButtonUp(
+                            static_cast<CEGUI::MouseButton>(ii));
+                }
+            }
+        }
+    }
 }
 
 //===========================================================================//

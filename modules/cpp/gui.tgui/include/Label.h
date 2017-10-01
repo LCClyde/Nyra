@@ -23,7 +23,6 @@
 #define __NYRA_GUI_TGUI_LABEL_H__
 
 #include <nyra/gui/tgui/Widget.h>
-#include <nyra/gui/Label.h>
 
 namespace nyra
 {
@@ -35,7 +34,7 @@ namespace tgui
  *  \class Label
  *  \brief A class used to render text to the screen.
  */
-class Label : public gui::Label, public Widget,
+class Label : public Widget,
         private mem::GlobalDependency<GlobalHandler>
 {
 public:

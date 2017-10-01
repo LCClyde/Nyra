@@ -19,13 +19,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_CEGUI_GUI_H__
-#define __NYRA_GUI_CEGUI_GUI_H__
+#ifndef __NYRA_GUI_CEGUI_PANEL_H__
+#define __NYRA_GUI_CEGUI_PANEL_H__
 
-#include <nyra/gui/Gui.h>
-#include <nyra/gui/cegui/GlobalHandler.h>
-#include <nyra/mem/GlobalDependency.h>
-#include <nyra/input/Mouse.h>
+#include <nyra/gui/cegui/Widget.h>
 
 namespace nyra
 {
@@ -34,47 +31,19 @@ namespace gui
 namespace cegui
 {
 /*
- *  \class Gui
- *  \brief A base class that holds a CEGUI Gui.
+ *  \class Panel
+ *  \brief A class used to render a blank panel.
  */
-class Gui : public gui::Gui,
-        private mem::GlobalDependency<GlobalHandler>
+class Panel : public Widget
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Creates a CEGUI that does not respond to input. This is only
-     *         used if you want a static GUI.
-     */
-    Gui();
-
-    /*
-     *  \func Constructor
-     *  \brief Creates a GUI that responds to input.
+     *  \brief Creates a default Panel.
      *
-     *  \param mouse The mouse object. The GUI does not take ownership
-     *         it must stay in scope for the lifetime of the GUI.
+     *  \param text The beginning text for the Panel.
      */
-    Gui(const input::Mouse& mouse);
-
-    /*
-     *  \func update
-     *  \brief Updates all the elements in the Gui.
-     *
-     *  \param deltaTime The time in seconds that has passed since the
-     *         last update.
-     */
-    void update(double deltaTime) override;
-
-    /*
-     *  \func render
-     *  \brief Renders all the widgets in the Gui.
-     */
-    void render() override;
-
-private:
-    void addChild(gui::Widget& child) override;
-    const input::Mouse* const mMouse;
+    Panel(const std::string& text);
 };
 }
 }

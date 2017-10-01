@@ -23,7 +23,6 @@
 #define __NYRA_GUI_CEGUI_LABEL_H__
 
 #include <nyra/gui/cegui/Widget.h>
-#include <nyra/gui/Label.h>
 
 namespace nyra
 {
@@ -35,7 +34,7 @@ namespace cegui
  *  \class Label
  *  \brief A class used to render text to the screen.
  */
-class Label : public gui::Label, public Widget
+class Label : public Widget
 {
 public:
     /*
@@ -45,22 +44,6 @@ public:
      *  \param text The beginning text for the Label.
      */
     Label(const std::string& text);
-
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-
-    /*
-     *  \func getText
-     *  \brief Gets the current text.
-     *
-     *  \return The value of the text.
-     */
-    std::string getText() const override;
 };
 }
 }

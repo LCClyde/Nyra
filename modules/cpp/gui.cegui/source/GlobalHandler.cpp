@@ -42,6 +42,7 @@ GlobalHandler::GlobalHandler() :
     mRenderer(nullptr),
     mWindowManager(nullptr),
     mRoot(nullptr),
+    mSystem(nullptr),
     mScheme("WindowsLook")
 {
 }
@@ -95,11 +96,11 @@ void GlobalHandler::initializeGlobal()
     // that the scheme might have already loaded a font, so there may already
     // be a default set - if we want the "DejaVuSans-10" font to definitely
     // be the default, we should set the default explicitly afterwards.
-    CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-10.font");
+    CEGUI::FontManager::getSingleton().createFromFile("DejaVuSans-14-NoScale.font");
 
     CEGUI::GUIContext& context = mSystem->getDefaultGUIContext();
-    context.setDefaultFont("DejaVuSans-10");
-    context.getMouseCursor().setDefaultImage(mScheme + "/MouseArrow");
+    context.setDefaultFont("DejaVuSans-14-NoScale");
+    //context.getMouseCursor().setDefaultImage(mScheme + "/MouseArrow");
     context.setDefaultTooltipType(mScheme + "/Tooltip");
 
     mWindowManager = CEGUI::WindowManager::getSingletonPtr();

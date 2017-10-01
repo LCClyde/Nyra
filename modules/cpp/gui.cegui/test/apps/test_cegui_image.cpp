@@ -20,8 +20,9 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/gui/cegui/Label.h>
+#include <nyra/gui/cegui/Image.h>
 #include <nyra/test/CreateCEGUI.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
@@ -29,15 +30,14 @@ namespace gui
 {
 namespace cegui
 {
-TEST(CEGUI, Label)
+TEST(CEGUI, Image)
 {
     test::CreateCEGUI gui;
 
-    Label* widget = gui.create<Label>("Hello World");
-    widget->setPosition(math::Vector2F(10.0f, 10.0f));
-    widget->setSize(math::Vector2F(256.0f, 256.0f));
-
-    EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_label.png"));
+    Image* panel = gui.create<Image>(core::path::join(
+            core::DATA_PATH, "textures/test_gui_image.png"));
+    panel->setPosition(math::Vector2F(10.0f, 10.0f));
+    EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_image.png"));
 }
 }
 }

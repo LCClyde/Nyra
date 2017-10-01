@@ -104,8 +104,8 @@ private:
         const int32_t targetX = x + dx;
         const int32_t targetY = y + dy;
         if (targetX >= 0 && targetY >= 0 &&
-            targetX < map.getNumTiles().x &&
-            targetY < map.getNumTiles().y)
+            static_cast<size_t>(targetX) < map.getNumTiles().x &&
+            static_cast<size_t>(targetY) < map.getNumTiles().y)
         {
             if (collision.find(map.getTile(targetX, targetY)) == collision.end())
             {

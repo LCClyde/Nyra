@@ -19,9 +19,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/gui/cegui/Label.h>
-#include <nyra/test/CreateCEGUI.h>
+#ifndef __NYRA_GUI_CEGUI_IMAGE_H__
+#define __NYRA_GUI_CEGUI_IMAGE_H__
+
+#include <nyra/gui/cegui/Widget.h>
 
 namespace nyra
 {
@@ -29,18 +30,25 @@ namespace gui
 {
 namespace cegui
 {
-TEST(CEGUI, Label)
+/*
+ *  \class Image
+ *  \brief A class used to render an image to the screen.
+ */
+class Image : public Widget
 {
-    test::CreateCEGUI gui;
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default Image.
+     *
+     *  \param pathname The location of the image on disk. There is currently
+     *         an issue with this where it cannot use anything other than
+     *         an image in install/data/textures.
+     */
+    Image(const std::string& pathname);
+};
+}
+}
+}
 
-    Label* widget = gui.create<Label>("Hello World");
-    widget->setPosition(math::Vector2F(10.0f, 10.0f));
-    widget->setSize(math::Vector2F(256.0f, 256.0f));
-
-    EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_label.png"));
-}
-}
-}
-}
-
-NYRA_TEST()
+#endif

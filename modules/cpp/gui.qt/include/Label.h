@@ -23,7 +23,6 @@
 #define __NYRA_GUI_QT_LABEL_H__
 
 #include <nyra/gui/qt/Widget.h>
-#include <nyra/gui/Label.h>
 #include <QLabel>
 
 namespace nyra
@@ -36,7 +35,7 @@ namespace qt
  *  \class Label
  *  \brief A class used to render text to the screen.
  */
-class Label : public gui::Label, public Widget
+class Label : public Widget
 {
 public:
     /*
