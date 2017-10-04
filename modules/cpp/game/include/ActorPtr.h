@@ -24,6 +24,7 @@
 
 #include <stddef.h>
 #include <nyra/game/Actor.h>
+#include <nyra/game/Input.h>
 
 namespace nyra
 {
@@ -56,6 +57,7 @@ public:
      *  \param filename The filename without the path.
      */
     ActorPtr(const std::string& filename,
+             const game::Input<GameT>& input,
              const graphics::RenderTarget& target) :
         mActor(nullptr)
     {
@@ -70,6 +72,11 @@ public:
         {
             mScopedActor.reset(new Actor<GameT>());
             mActor = mScopedActor.get();
+        }
+
+        if (map.has("gui"))
+        {
+            parseGui(map["gui"], input.getMouse());
         }
 
         if (map.has("tile_map"))
@@ -106,6 +113,13 @@ public:
         {
             parseAnimation(map["animation"], sprite);
         }
+
+        if (map.has("layer"))
+        {
+            const int32_t layer = core::str::toType<int32_t>(
+                    map["layer"].get());
+            mActor->setLayer(layer);
+        }
     }
 
     /*
@@ -119,7 +133,65 @@ public:
         return mActor;
     }
 
+    bool operator<(const ActorPtr& other) const
+    {
+        return get()->getLayer() < other.get()->getLayer();
+    }
+
 private:
+    void parseGui(const mem::Tree<std::string>& map,
+                  const input::Mouse& mouse)
+    {
+        Gui<GameT>* gui = new Gui<GameT>(mouse);
+        parseWidgets(map, gui->get());
+        gui->finalize();
+        mActor->addGUI(gui);
+    }
+
+    void parseWidgets(const mem::Tree<std::string>& map,
+                      mem::Tree<gui::Widget>& gui)
+    {
+        if (map.has("widget"))
+        {
+            for (size_t ii = 0; ii < map["widget"].loopSize(); ++ii)
+            {
+                const auto& wMap = map["widget"][ii];
+                const std::string type = wMap["type"].get();
+                const std::string name = wMap["name"].get();
+                std::string param;
+
+                if (wMap.has("text"))
+                {
+                    param = wMap["text"].get();
+                }
+                gui::Widget* widget = Gui<GameT>::addWidget(
+                        type, param, name, gui);
+
+                if (wMap.has("size"))
+                {
+                    const math::Vector2F size(
+                            core::str::toType<size_t>(
+                                    wMap["size"]["width"].get()),
+                            core::str::toType<size_t>(
+                                    wMap["size"]["height"].get()));
+                    widget->setSize(size);
+                }
+
+                if (wMap.has("position"))
+                {
+                    const math::Vector2F position(
+                            core::str::toType<size_t>(
+                                    wMap["position"]["x"].get()),
+                            core::str::toType<size_t>(
+                                    wMap["position"]["y"].get()));
+                    widget->setPosition(position);
+                }
+
+                parseWidgets(wMap, gui[name]);
+            }
+        }
+    }
+
     //=======================================================================//
     void parseScript(const mem::Tree<std::string>& map)
     {

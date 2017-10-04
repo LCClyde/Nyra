@@ -32,6 +32,7 @@
 #include <nyra/script/Function.h>
 #include <nyra/anim/Frame.h>
 #include <nyra/game/NavMesh.h>
+#include <nyra/game/Gui.h>
 
 namespace nyra
 {
@@ -62,7 +63,10 @@ public:
      *  \brief Creates a black actor.
      */
     Actor() :
-        mCurrentAnimation(nullptr)
+        mCurrentAnimation(nullptr),
+        mGUI(nullptr),
+        mLayer(0),
+        mHasInit(false)
     {
     }
 
@@ -83,6 +87,11 @@ public:
         {
             mCurrentAnimation->update(delta);
         }
+
+        if (mGUI)
+        {
+            mGUI->update(delta);
+        }
     }
 
     /*
@@ -91,10 +100,16 @@ public:
      */
     void initialize()
     {
+        if (mHasInit)
+        {
+            return;
+        }
+
         if (mScript.get() && mInitialize.get())
         {
             mInitialize->call();
         }
+        mHasInit = true;
     }
 
     /*
@@ -142,6 +157,12 @@ public:
         return *mRenderable;
     }
 
+    /*
+     *  \func getRenderable
+     *  \brief Gets a renderable
+     *
+     *  \return The renderable
+     */
     const RenderableT& getRenderable() const
     {
         return *mRenderable;
@@ -156,6 +177,29 @@ public:
     const  nyra::script::Object& getScript() const
     {
         return *mScript;
+    }
+
+    /*
+     *  \func hasScript
+     *  \brief Does the actor have a script?
+     *
+     *  \return True if this has a script
+     */
+    bool hasScript() const
+    {
+        return mScript.get() != nullptr;
+    }
+
+    /*
+     *  \func addGUI
+     *  \brief Function to add a gui object
+     *
+     *  \param gui The GUI to add. This takes ownership
+     */
+    void addGUI(Gui<GameT>* gui)
+    {
+        mGUI = gui;
+        addRenderable(gui);
     }
 
     /*
@@ -287,6 +331,28 @@ public:
         mName = name;
     }
 
+    /*
+     *  \func getLayer
+     *  \brief Gets the render layer
+     *
+     *  \return The layer
+     */
+    int32_t getLayer() const
+    {
+        return mLayer;
+    }
+
+    /*
+     *  \func setLayer
+     *  \brief Sets the render layer
+     *
+     *  \param layer The desired layer
+     */
+    void setLayer(int32_t layer)
+    {
+        mLayer = layer;
+    }
+
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
@@ -298,8 +364,11 @@ private:
     std::unique_ptr<RenderableT> mRenderable;
     std::unordered_map<std::string, std::unique_ptr<anim::Animation>> mAnimations;
     anim::Animation* mCurrentAnimation;
+    Gui<GameT>* mGUI;
     std::string mCurrentAnimationName;
     std::string mName;
+    int32_t mLayer;
+    bool mHasInit;
 };
 }
 }

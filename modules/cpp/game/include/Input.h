@@ -139,6 +139,18 @@ public:
         return values->getValue();
     }
 
+    /*
+     *  \func getMouse
+     *  \brief Gets the mouse object. Users should not use this, but instead
+     *         use the is* and getValue functions.
+     *
+     *  \return The mouse
+     */
+    const typename GameT::Input::Mouse& getMouse() const
+    {
+        return mMouse;
+    }
+
 private:
     typename GameT::Input::Mouse mMouse;
     typename GameT::Input::Keyboard mKeyboard;

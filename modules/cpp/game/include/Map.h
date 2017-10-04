@@ -44,7 +44,9 @@ public:
      *  \func Constructor
      *  \brief Sets an empty map and assigns it to the global object.
      */
-    Map(const graphics::RenderTarget& target) :
+    Map(const game::Input<GameT>& input,
+        const graphics::RenderTarget& target) :
+        mInput(input),
         mTarget(target)
     {
         mMap = this;
@@ -61,6 +63,18 @@ public:
         for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
             mActors[ii].get()->update(delta);
+        }
+
+        // Add new actors
+        if (!mSpawnedActors.empty())
+        {
+            for (size_t ii = 0; ii < mSpawnedActors.size(); ++ii)
+            {
+                mActors.push_back(mSpawnedActors[ii]);
+            }
+
+            mSpawnedActors.clear();
+            sort();
         }
 
         for (size_t ii = 0; ii < mActors.size(); ++ii)
@@ -114,21 +128,24 @@ public:
      */
     game::Actor<GameT>& spawnActor(const std::string& filename,
                                    const std::string& name,
-                                   bool initialize)
+                                   bool initalize)
     {
-        game::ActorPtr<GameT> actor(filename, mTarget);
+        game::ActorPtr<GameT> actor(filename, mInput, mTarget);
         actor.get()->setName(name);
 
-        mActors.push_back(actor);
+        if (!initalize)
+        {
+            mActors.push_back(actor);
+        }
+        else
+        {
+            mSpawnedActors.push_back(actor);
+            actor.get()->initialize();
+        }
 
         if (!name.empty())
         {
             mActorMap[name] = actor.get();
-        }
-
-        if (initialize)
-        {
-            actor.get()->initialize();
         }
         return *actor.get();
     }
@@ -152,6 +169,7 @@ public:
      */
     void initialize()
     {
+        sort();
         for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
             mActors[ii].get()->initialize();
@@ -182,9 +200,16 @@ public:
     }
 
 private:
+    void sort()
+    {
+        std::sort(mActors.begin(), mActors.end());
+    }
+
     std::vector<ActorPtr<GameT>> mActors;
     std::unordered_map<std::string, Actor<GameT>*> mActorMap;
     std::vector<const Actor<GameT>*> mDestroyedActors;
+    std::vector<ActorPtr<GameT>> mSpawnedActors;
+    const game::Input<GameT>& mInput;
     const graphics::RenderTarget& mTarget;
     static Map<GameT>* mMap;
 };

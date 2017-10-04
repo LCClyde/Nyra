@@ -34,6 +34,10 @@
 %ignore getRenderable;
 %ignore addActor;
 %ignore getActor;
+%ignore addGUI;
+%ignore Map(const game::Input<GameT>& input,
+            const graphics::RenderTarget& target);
+%ignore getMouse;
 
 %rename(is_down) isDown;
 %rename(is_pressed) isPressed;
@@ -98,17 +102,21 @@
     {
         return $self->getNavMesh().getPath(start, end);
     }
+    
+    PyObject* _getScript() const
+    {
+        const nyra::script::Object& object = $self->getScript();
+        const nyra::script::py3::Object& pyObject =
+                dynamic_cast<const nyra::script::py3::Object&>(object);
+        return pyObject.getNative().steal();
+    }
 }
 
 %extend nyra::game::Map<nyra::game::twod::GameType>
 {
-    static PyObject* get_actor(const std::string& name)
+    static nyra::game::Actor<nyra::game::twod::GameType>& _getActor(const std::string& name)
     {
-        const nyra::script::Object& object =
-                nyra::game::Map<nyra::game::twod::GameType>::getActor(name).getScript();
-        const nyra::script::py3::Object& pyObject =
-                dynamic_cast<const nyra::script::py3::Object&>(object);
-        return pyObject.getNative().steal();
+        return  nyra::game::Map<nyra::game::twod::GameType>::getActor(name);
     }
     
     static nyra::game::Actor<nyra::game::twod::GameType>& _spawn(const std::string& filename,
@@ -128,6 +136,15 @@
 import nyra.game2d
 from collections import namedtuple
 
+def _get_script(self):
+    if self.hasScript():
+        return self._getScript()
+    return self
+    
+def get_actor(name):
+    actor = nyra.game2d.map._getActor(name)
+    return actor._get_script()
+
 def spawn(filename,
           name='',
           position=None,
@@ -141,11 +158,13 @@ def spawn(filename,
         actor.scale = scale
     if rotation is not None:
         actor.rotation = rotation
-    return actor
+    return actor._get_script()
 
 Actor2D.position = property(Actor2D._getPosition, Actor2D._setPosition)
 Actor2D.size = property(Actor2D._getSize)
 Actor2D.tile_size = property(Actor2D._getTileSize)
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
+Actor2D._get_script = _get_script
 map.spawn = spawn
+map.get_actor = get_actor
 %}
