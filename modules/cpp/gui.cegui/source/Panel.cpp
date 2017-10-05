@@ -31,7 +31,15 @@ namespace cegui
 Panel::Panel(const std::string& text) :
     Widget("FrameWindow")
 {
-    setText(text);
+    if (text.empty())
+    {
+        mWidget.setProperty("TitlebarEnabled", "False");
+    }
+    else
+    {
+        setText(text);
+    }
+
     mWidget.setProperty("CloseButtonEnabled", "False");
     mWidget.setProperty("RollUpEnabled", "False");
     mWidget.setProperty("SizingEnabled", "False");
