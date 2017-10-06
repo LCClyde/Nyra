@@ -187,6 +187,12 @@ private:
                     widget->setPosition(position);
                 }
 
+                if (wMap.has("activated"))
+                {
+                    const std::string onPressed = wMap["activated"].get();
+                    mActor->setActivatedFunction(onPressed, widget->activated);
+                }
+
                 parseWidgets(wMap, gui[name]);
             }
         }

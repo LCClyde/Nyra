@@ -33,6 +33,7 @@
 #include <nyra/anim/Frame.h>
 #include <nyra/game/NavMesh.h>
 #include <nyra/game/Gui.h>
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
@@ -249,7 +250,7 @@ public:
      */
     void setUpdateFunction(const std::string& name)
     {
-        mUpdate = mScript->function("update");
+        mUpdate = mScript->function(name);
     }
 
     /*
@@ -260,7 +261,18 @@ public:
      */
     void setInitializeFunction(const std::string& name)
     {
-        mInitialize = mScript->function("initialize");
+        mInitialize = mScript->function(name);
+    }
+
+    void callActivateFunction(const std::string& name)
+    {
+        mScript->function(name)->call();
+    }
+
+    void setActivatedFunction(const std::string& name,
+                               core::Event<void()>& event)
+    {
+        event = std::bind(&Actor::callActivateFunction, this, name);
     }
 
     /*
