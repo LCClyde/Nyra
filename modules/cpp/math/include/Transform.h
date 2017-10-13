@@ -47,6 +47,12 @@ template <typename PositionT,
 class Transform
 {
 public:
+    typedef PositionT Position;
+    typedef ScaleT Scale;
+    typedef RotationT Rotation;
+    typedef SizeT Size;
+    typedef PivotT Pivot;
+
     /*
      *  \func Constructor
      *  \brief Sets up a default Transform
@@ -258,6 +264,11 @@ public:
     const MatrixT& getMatrix() const
     {
         return mGlobal;
+    }
+
+    bool isDirty() const
+    {
+        return mDirty;
     }
 
     /*
