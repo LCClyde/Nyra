@@ -100,6 +100,21 @@ void Body::update()
                 pos.y * mWorld.METERS_TO_PIXELS));
     }
 }
+
+
+math::Vector2F Body::getVelocity() const
+{
+    const auto& vel = mBody->GetLinearVelocity();
+    return math::Vector2F(vel.x * mWorld.METERS_TO_PIXELS,
+                          vel.y * mWorld.METERS_TO_PIXELS);
+}
+
+void Body::setVelocity(const math::Vector2F& velocity)
+{
+    mBody->SetLinearVelocity(b2Vec2(
+            velocity.x * mWorld.PIXELS_TO_METERS,
+            velocity.y * mWorld.PIXELS_TO_METERS));
+}
 }
 }
 }

@@ -72,6 +72,22 @@ public:
      */
     void update() override;
 
+    /*
+     *  \func getVelocity
+     *  \brief Gets the current linear velocity of the body
+     *
+     *  \return The velocity vector
+     */
+    math::Vector2F getVelocity() const;
+
+    /*
+     *  \func setVelocity
+     *  \brief Sets the linear velocity
+     *
+     *  \param velocity The desired velocity
+     */
+    void setVelocity(const math::Vector2F& velocity);
+
 private:
     void addShape(const b2Shape& shape);
 

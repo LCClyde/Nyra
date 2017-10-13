@@ -100,6 +100,23 @@ public:
      */
     virtual void update() = 0;
 
+    /*
+     *  \func getVelocity
+     *  \brief Gets the current linear velocity of the body
+     *
+     *  \return The velocity vector
+     */
+    virtual typename TransformT::Position getVelocity() const = 0;
+
+    /*
+     *  \func setVelocity
+     *  \brief Sets the linear velocity
+     *
+     *  \param velocity The desired velocity
+     */
+    virtual void setVelocity(
+            const typename TransformT::Position& velocity) = 0;
+
 protected:
     Type mType;
     TransformT& mTransform;
