@@ -50,7 +50,8 @@ public:
         mInput(input),
         mTarget(target),
         // TODO: This should be a part of config params
-        mWorld(64.0, 0.0, 60.0)
+        mWorld(64.0, 0.0, 60.0),
+        mRenderCollision(true)
     {
         mMap = this;
     }
@@ -121,10 +122,17 @@ public:
      */
     void render(graphics::RenderTarget& target)
     {
-
         for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
             mActors[ii].get()->render(target);
+        }
+
+        if (mRenderCollision)
+        {
+            for (size_t ii = 0; ii < mActors.size(); ++ii)
+            {
+                mActors[ii].get()->renderCollision(target);
+            }
         }
     }
 
@@ -223,6 +231,7 @@ private:
     const game::Input<GameT>& mInput;
     const graphics::RenderTarget& mTarget;
     typename GameT::Physics::World mWorld;
+    bool mRenderCollision;
     static Map<GameT>* mMap;
 };
 

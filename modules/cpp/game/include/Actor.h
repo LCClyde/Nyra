@@ -178,7 +178,7 @@ public:
      *
      *  \return The script objectt
      */
-    const  nyra::script::Object& getScript() const
+    const nyra::script::Object& getScript() const
     {
         return *mScript;
     }
@@ -209,6 +209,27 @@ public:
     void addBody(physics::Body<TransformT>* body)
     {
         mBody.reset(body);
+    }
+
+    void addCircleCollision(double radius,
+                            const VectorT& offset)
+    {
+        mBody->addCircle(radius, offset);
+        mCollision.push_back(std::unique_ptr<RenderableT>(new SpriteT(
+                core::path::join(core::DATA_PATH,
+                                 "textures/collision_circle.png"))));
+        mCollision.back()->setPosition(offset);
+        mCollision.back()->setScale(math::Vector2F(radius / 64.0,
+                                                   radius / 64.0));
+    }
+
+    void renderCollision(graphics::RenderTarget& target)
+    {
+        for (size_t ii = 0; ii < mCollision.size(); ++ii)
+        {
+            mCollision[ii]->updateTransform(*this);
+            mCollision[ii]->render(target);
+        }
     }
 
     void updatePhysics()
@@ -392,10 +413,10 @@ public:
     }
 
 private:
-    RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
     std::unique_ptr<NavMesh<GameT>> mNavMesh;
     std::unique_ptr<physics::Body<TransformT>> mBody;
+    RenderList mCollision;
 
     script::FunctionPtr mUpdate;
     script::FunctionPtr mInitialize;

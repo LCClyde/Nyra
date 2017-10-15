@@ -159,6 +159,22 @@ private:
 
         auto body = world.createBody(type, *mActor, 1.0, 0.3);
         mActor->addBody(body.release());
+
+        if (map.has("circle"))
+        {
+            const auto& circle = map["circle"];
+            const double radius = core::str::toType<double>(
+                    circle["radius"].get());
+            math::Vector2F offset;
+            if (circle.has("offset"))
+            {
+                offset.x = core::str::toType<double>(
+                        circle["offset"]["x"].get());
+                offset.y = core::str::toType<double>(
+                        circle["offset"]["x"].get());
+            }
+            mActor->addCircleCollision(radius, offset);
+        }
     }
 
     void parseGui(const mem::Tree<std::string>& map,
