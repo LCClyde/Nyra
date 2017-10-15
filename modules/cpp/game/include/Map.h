@@ -22,6 +22,7 @@
 #ifndef __NYRA_GAME_MAP_H__
 #define __NYRA_GAME_MAP_H__
 
+#include <iostream>
 #include <nyra/game/ActorPtr.h>
 #include <nyra/core/Path.h>
 
@@ -47,7 +48,9 @@ public:
     Map(const game::Input<GameT>& input,
         const graphics::RenderTarget& target) :
         mInput(input),
-        mTarget(target)
+        mTarget(target),
+        // TODO: This should be a part of config params
+        mWorld(64.0, 0.0, 60.0)
     {
         mMap = this;
     }
@@ -75,6 +78,14 @@ public:
 
             mSpawnedActors.clear();
             sort();
+        }
+
+        if (mWorld.update(delta))
+        {
+            for (size_t ii = 0; ii < mActors.size(); ++ii)
+            {
+                mActors[ii].get()->updatePhysics();
+            }
         }
 
         for (size_t ii = 0; ii < mActors.size(); ++ii)
@@ -130,7 +141,7 @@ public:
                                    const std::string& name,
                                    bool initalize)
     {
-        game::ActorPtr<GameT> actor(filename, mInput, mTarget);
+        game::ActorPtr<GameT> actor(filename, mInput, mTarget, mWorld);
         actor.get()->setName(name);
 
         if (!initalize)
@@ -211,6 +222,7 @@ private:
     std::vector<ActorPtr<GameT>> mSpawnedActors;
     const game::Input<GameT>& mInput;
     const graphics::RenderTarget& mTarget;
+    typename GameT::Physics::World mWorld;
     static Map<GameT>* mMap;
 };
 

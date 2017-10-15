@@ -100,6 +100,21 @@ struct ScriptType
 };
 
 /*
+ *  \class PhysicsType
+ *  \brief Defines the physics classes
+ *
+ *  \tparam WorldT The phsyics world
+ *  \tparam BodyT The physics body type
+ */
+template <typename WorldT,
+          typename BodyT>
+struct PhysicsType
+{
+    typedef WorldT World;
+    typedef BodyT Body;
+};
+
+/*
  *  \class GameType
  *  \brief Defines the Game level classes.
  *
@@ -107,17 +122,20 @@ struct ScriptType
  *  \tparam GraphicsT The graphics type class.
  *  \tparam InputTypeT The input type class.
  *  \tparam ScriptTypeT The scripting type class.
+ *  \tparam PhysicsTypeT The physics type class.
  */
 template <typename WindowTypeT,
           typename GraphicsT,
           typename InputTypeT,
-          typename ScriptTypeT>
+          typename ScriptTypeT,
+          typename PhysicsTypeT>
 struct GameType
 {
     typedef WindowTypeT Window;
     typedef GraphicsT Graphics;
     typedef InputTypeT Input;
     typedef ScriptTypeT Script;
+    typedef PhysicsTypeT Physics;
 };
 }
 }

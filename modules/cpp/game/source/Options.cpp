@@ -28,7 +28,7 @@ namespace game
 //===========================================================================//
 WindowOptions::WindowOptions() :
     name("Nyra"),
-    size(1280, 720),
+    size(1920, 1080),
     position(0, 0)
 {
 }

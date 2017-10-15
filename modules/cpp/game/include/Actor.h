@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <vector>
+#include <iostream>
 #include <nyra/json/JSON.h>
 #include <nyra/core/String.h>
 #include <nyra/mem/Buffer2D.h>
@@ -33,6 +34,7 @@
 #include <nyra/anim/Frame.h>
 #include <nyra/game/NavMesh.h>
 #include <nyra/game/Gui.h>
+#include <nyra/physics/Body.h>
 #include <nyra/core/Event.h>
 
 namespace nyra
@@ -57,6 +59,7 @@ private:
     typedef typename GameT::Script::Object ObjectT;
     typedef typename GameT::Script::Variable VariableT;
     typedef typename GameT::Graphics::Vector VectorT;
+    typedef typename GameT::Physics::Body BodyT;
 
 public:
     /*
@@ -201,6 +204,19 @@ public:
     {
         mGUI = gui;
         addRenderable(gui);
+    }
+
+    void addBody(physics::Body<TransformT>* body)
+    {
+        mBody.reset(body);
+    }
+
+    void updatePhysics()
+    {
+        if (mBody.get())
+        {
+            mBody->update();
+        }
     }
 
     /*
@@ -365,10 +381,21 @@ public:
         mLayer = layer;
     }
 
+    physics::Body<TransformT>& getPhysics()
+    {
+        return *mBody;
+    }
+
+    const physics::Body<TransformT>& getPhysics() const
+    {
+        return *mBody;
+    }
+
 private:
     RenderList mRenderables;
     std::unique_ptr<ObjectT> mScript;
     std::unique_ptr<NavMesh<GameT>> mNavMesh;
+    std::unique_ptr<physics::Body<TransformT>> mBody;
 
     script::FunctionPtr mUpdate;
     script::FunctionPtr mInitialize;

@@ -25,6 +25,7 @@
 #include <stddef.h>
 #include <nyra/game/Actor.h>
 #include <nyra/game/Input.h>
+#include <nyra/physics/World.h>
 
 namespace nyra
 {
@@ -58,7 +59,8 @@ public:
      */
     ActorPtr(const std::string& filename,
              const game::Input<GameT>& input,
-             const graphics::RenderTarget& target) :
+             const graphics::RenderTarget& target,
+             typename GameT::Physics::World& world) :
         mActor(nullptr)
     {
         const json::JSON map = core::read<json::JSON>(
@@ -72,6 +74,11 @@ public:
         {
             mScopedActor.reset(new Actor<GameT>());
             mActor = mScopedActor.get();
+        }
+
+        if (map.has("physics"))
+        {
+            parsePhysics(map["physics"], world);
         }
 
         if (map.has("gui"))
@@ -139,6 +146,21 @@ public:
     }
 
 private:
+    void parsePhysics(const mem::Tree<std::string>& map,
+                      typename GameT::Physics::World& world)
+    {
+        const std::string stype = map["type"].get();
+        physics::Type type = physics::STATIC;
+
+        if (stype == "dynamic")
+        {
+            type = physics::DYNAMIC;
+        }
+
+        auto body = world.createBody(type, *mActor, 1.0, 0.3);
+        mActor->addBody(body.release());
+    }
+
     void parseGui(const mem::Tree<std::string>& map,
                   const input::Mouse& mouse)
     {

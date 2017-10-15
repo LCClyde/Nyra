@@ -33,6 +33,8 @@
 #include <nyra/script/py3/Object.h>
 #include <nyra/script/py3/Variable.h>
 #include <nyra/script/py3/Include.h>
+#include <nyra/physics/box2d/World.h>
+#include <nyra/physics/box2d/Body.h>
 
 namespace nyra
 {
@@ -41,21 +43,30 @@ namespace game
 namespace twod
 {
 typedef game::WindowType<win::sfml::Window> WindowType;
+
 typedef game::GraphicsType<graphics::sfml::RenderTarget,
                            math::Transform2D,
                            math::Vector2F,
                            graphics::sfml::Camera,
                            graphics::sfml::Sprite>
                            GraphicsType;
+
 typedef game::InputType<input::sfml::Mouse,
                         input::sfml::Keyboard> InputType;
+
 typedef game::ScriptType<script::py3::Include,
                          script::py3::Variable,
                          script::py3::Object> ScriptType;
+
+typedef game::PhysicsType<physics::box2d::World,
+                          physics::box2d::Body> PhysicsType;
+
 typedef game::GameType<WindowType,
                        GraphicsType,
                        InputType,
-                       ScriptType> GameType;
+                       ScriptType,
+                       PhysicsType> GameType;
+
 typedef game::Game<GameType> Game;
 }
 }

@@ -28,6 +28,7 @@ namespace physics
 {
 namespace box2d
 {
+//===========================================================================//
 World::World(double pixelsToMeters,
              double gravity,
              double fps) :
@@ -38,6 +39,7 @@ World::World(double pixelsToMeters,
 {
 }
 
+//===========================================================================//
 void World::updateImpl(double delta)
 {
     mWorld.Step(delta,
@@ -45,6 +47,7 @@ void World::updateImpl(double delta)
                 mPositionIterations);
 }
 
+//===========================================================================//
 std::unique_ptr<Body2D>
 World::createBody(Type type,
                   math::Transform2D& transform,

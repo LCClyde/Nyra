@@ -23,6 +23,7 @@
 #define __NYRA_PHYSICS_WORLD_H__
 
 #include <memory>
+#include <iostream>
 #include <nyra/physics/Body.h>
 #include <nyra/math/Transform.h>
 

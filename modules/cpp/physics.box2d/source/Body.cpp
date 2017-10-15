@@ -28,6 +28,7 @@ namespace physics
 {
 namespace box2d
 {
+//===========================================================================//
 Body::Body(Type type,
            math::Transform2D& transform,
            World& world,
@@ -53,6 +54,7 @@ Body::Body(Type type,
     mBody = mWorld.getWorld().CreateBody(&bodyDef);
 }
 
+//===========================================================================//
 void Body::addCircle(double radius,
                      const math::Vector2F& offset)
 {
@@ -63,6 +65,7 @@ void Body::addCircle(double radius,
     addShape(shape);
 }
 
+//===========================================================================//
 void Body::addBox(const math::Vector2F& size,
                   const math::Vector2F& offset)
 {
@@ -74,6 +77,7 @@ void Body::addBox(const math::Vector2F& size,
     addShape(shape);
 }
 
+//===========================================================================//
 void Body::addShape(const b2Shape& shape)
 {
     b2FixtureDef fixture;
@@ -83,6 +87,7 @@ void Body::addShape(const b2Shape& shape)
     mBody->CreateFixture(&fixture);
 }
 
+//===========================================================================//
 void Body::update()
 {
     if (mTransform.isDirty())
@@ -101,7 +106,7 @@ void Body::update()
     }
 }
 
-
+//===========================================================================//
 math::Vector2F Body::getVelocity() const
 {
     const auto& vel = mBody->GetLinearVelocity();
@@ -109,6 +114,7 @@ math::Vector2F Body::getVelocity() const
                           vel.y * mWorld.METERS_TO_PIXELS);
 }
 
+//===========================================================================//
 void Body::setVelocity(const math::Vector2F& velocity)
 {
     mBody->SetLinearVelocity(b2Vec2(

@@ -9,6 +9,7 @@
     #include "nyra/game/Game.h"
     #include "nyra/game/Types.h"
     #include "nyra/game/twod/Game.h"
+    #include "nyra/physics/Body.h"
     #include "nyra/game/Actor.h"
     #include "nyra/input/Mouse.h"
     #include "nyra/input/Keyboard.h"
@@ -38,6 +39,8 @@
 %ignore Map(const game::Input<GameT>& input,
             const graphics::RenderTarget& target);
 %ignore getMouse;
+%ignore getPhysics;
+%ignore addBody;
 
 %rename(is_down) isDown;
 %rename(is_pressed) isPressed;
@@ -110,6 +113,16 @@
                 dynamic_cast<const nyra::script::py3::Object&>(object);
         return pyObject.getNative().steal();
     }
+    
+    nyra::math::Vector2F _getVelocity() const
+    {
+        return $self->getPhysics().getVelocity();
+    }
+    
+    void _setVelocity(const nyra::math::Vector2F& velocity)
+    {
+        return $self->getPhysics().setVelocity(velocity);
+    }
 }
 
 %extend nyra::game::Map<nyra::game::twod::GameType>
@@ -164,6 +177,7 @@ Actor2D.position = property(Actor2D._getPosition, Actor2D._setPosition)
 Actor2D.size = property(Actor2D._getSize)
 Actor2D.tile_size = property(Actor2D._getTileSize)
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
+Actor2D.velocity = property(Actor2D._getVelocity, Actor2D._setVelocity)
 Actor2D._get_script = _get_script
 map.spawn = spawn
 map.get_actor = get_actor
