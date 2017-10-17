@@ -34,6 +34,7 @@ TEST(Gravity, Fall)
     math::Transform2D transform;
     std::unique_ptr<Body2D> body = world.createBody(
             DYNAMIC, transform, 1.0, 0.3);
+    transform.resetDirty();
 
     for (size_t ii = 0; ii < 60; ++ii)
     {
@@ -43,7 +44,7 @@ TEST(Gravity, Fall)
 
         // We should always be falling
         EXPECT_LT(transform.getPosition().y, prevY);
-        transform.updateTransform(math::Transform2D());
+        transform.resetDirty();
     }
 }
 
@@ -61,6 +62,7 @@ TEST(Gravity, Ground)
             STATIC, staticTransform, 1.0, 0.3);
     staticBody->addBox(math::Vector2F(1000.0f, 10.0f),
                        math::Vector2F());
+    transform.resetDirty();
 
     // Fall until we hit the box
     float prevY = 0.0f;
@@ -69,7 +71,7 @@ TEST(Gravity, Ground)
         prevY = transform.getPosition().y;
         world.update(1.0 / 60.0);
         body->update();
-        transform.updateTransform(math::Transform2D());
+        transform.resetDirty();
     }
 
     for (size_t ii = 0; ii < 10; ++ii)
@@ -77,7 +79,7 @@ TEST(Gravity, Ground)
         world.update(1.0 / 60.0);
         prevY = transform.getPosition().y;
         body->update();
-        transform.updateTransform(math::Transform2D());
+        transform.resetDirty();
 
         // We should have hit collision. Make sure we are within
         // 1 pixel to the top of the box.

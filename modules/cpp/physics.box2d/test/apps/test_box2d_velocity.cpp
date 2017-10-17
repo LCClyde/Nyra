@@ -35,13 +35,14 @@ TEST(Velocity, SetGet)
     std::unique_ptr<Body2D> body = world.createBody(
             DYNAMIC, transform, 1.0, 0.3);
     body->setVelocity(math::Vector2F(5.0f, 3.0f));
+    transform.resetDirty();
 
     for (size_t ii = 0; ii < 60; ++ii)
     {
         world.update(1.0 / 60.0);
         const math::Vector2F prev = transform.getPosition();
         body->update();
-        transform.updateTransform(math::Transform2D());
+        transform.resetDirty();
         EXPECT_LT(prev.x, transform.getPosition().x);
         EXPECT_LT(prev.y, transform.getPosition().y);
     }

@@ -262,7 +262,17 @@ void read(const std::string& pathname,
             const std::string filename = actorMap["filename"].get();
             const std::string name =
                     actorMap.has("name") ? actorMap["name"].get() : "";
-            map.spawnActor(filename, name, false);
+            game::Actor<GameT>& actor = map.spawnActor(filename, name, false);
+
+            if (actorMap.has("position"))
+            {
+                math::Vector2F position(
+                        core::str::toType<double>(
+                                actorMap["position"]["x"].get()),
+                        core::str::toType<double>(
+                                actorMap["position"]["x"].get()));
+                actor.setPosition(position);
+            }
         }
     }
     map.initialize();

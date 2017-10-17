@@ -61,7 +61,8 @@ public:
         mScale(1.0f),
         mPivot(0.5f),
         mRotation(0.0f),
-        mDirty(false)
+        mDirty(true),
+        mRebuildMatrix(true)
     {
     }
 
@@ -80,7 +81,7 @@ public:
     void setPosition(const PositionT& position)
     {
         mPosition = position;
-        mDirty = true;
+        setDirty();
     }
 
     /*
@@ -114,7 +115,7 @@ public:
     void setScale(const ScaleT& scale)
     {
         mScale = scale;
-        mDirty = true;
+        setDirty();
     }
 
     /*
@@ -171,7 +172,7 @@ public:
     void setSize(const SizeT& size)
     {
         mSize = size;
-        mDirty = true;
+        setDirty();
     }
 
     /*
@@ -206,7 +207,7 @@ public:
     void setPivot(const PivotT& pivot)
     {
         mPivot = pivot;
-        mDirty = true;
+        setDirty();
     }
 
     /*
@@ -229,7 +230,7 @@ public:
     void setRotation(RotationT rotation)
     {
         mRotation = normalizeAngle(rotation);
-        mDirty = true;
+        setDirty();
     }
 
     /*
@@ -266,9 +267,25 @@ public:
         return mGlobal;
     }
 
+    /*
+     *  \func isDirty
+     *  \brief This is an external flag that can be used to determine if the
+     *         values have changed since last update.
+     *
+     *  \return True if the values have changed
+     */
     bool isDirty() const
     {
         return mDirty;
+    }
+
+    /*
+     *  \func resetDirty
+     *  \brief Resets the external dirty flag to flase
+     */
+    void resetDirty()
+    {
+        mDirty = false;
     }
 
     /*
@@ -292,7 +309,7 @@ public:
                                                  PivotT,
                                                  MatrixT>& parent)
     {
-        if (mDirty)
+        if (mRebuildMatrix)
         {
             mLocal.transform(mPosition,
                              mScale,
@@ -304,11 +321,17 @@ public:
         // strange situations where it you optimize it out by accident if you
         // change the parent to a stable matrix.
         mGlobal = mLocal * parent.mGlobal;
-        mDirty = false;
+        mRebuildMatrix = false;
     }
 
 
 private:
+    void setDirty()
+    {
+        mDirty = true;
+        mRebuildMatrix = true;
+    }
+
     NYRA_SERIALIZE()
 
     template<class ArchiveT>
@@ -350,6 +373,7 @@ private:
     MatrixT mLocal;
     MatrixT mGlobal;
     bool mDirty;
+    bool mRebuildMatrix;
 };
 
 /*

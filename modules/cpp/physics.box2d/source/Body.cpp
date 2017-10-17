@@ -41,13 +41,18 @@ Body::Body(Type type,
 {
     b2BodyDef bodyDef;
 
-    if (type == DYNAMIC)
+    switch (type)
     {
+    case DYNAMIC:
         bodyDef.type = b2_dynamicBody;
-    }
-    else
-    {
+        break;
+    case CHARACTER:
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.fixedRotation = true;
+        break;
+    case STATIC:
         bodyDef.type = b2_staticBody;
+        break;
     }
 
     bodyDef.position.Set(0.0f, 0.0f);
@@ -103,6 +108,8 @@ void Body::update()
         mTransform.setPosition(math::Vector2F(
                 pos.x * mWorld.METERS_TO_PIXELS,
                 pos.y * mWorld.METERS_TO_PIXELS));
+        const double rotation = mBody->GetAngle();
+        mTransform.setRotation(math::radiansToDegrees(rotation));
     }
 }
 

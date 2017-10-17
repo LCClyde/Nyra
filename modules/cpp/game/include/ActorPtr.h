@@ -156,6 +156,10 @@ private:
         {
             type = physics::DYNAMIC;
         }
+        else if (stype == "character")
+        {
+            type = physics::CHARACTER;
+        }
 
         auto body = world.createBody(type, *mActor, 1.0, 0.3);
         mActor->addBody(body.release());
@@ -171,7 +175,7 @@ private:
                 offset.x = core::str::toType<double>(
                         circle["offset"]["x"].get());
                 offset.y = core::str::toType<double>(
-                        circle["offset"]["x"].get());
+                        circle["offset"]["y"].get());
             }
             mActor->addCircleCollision(radius, offset);
         }

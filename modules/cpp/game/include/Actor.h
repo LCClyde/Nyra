@@ -237,6 +237,7 @@ public:
         if (mBody.get())
         {
             mBody->update();
+            TransformT::resetDirty();
         }
     }
 

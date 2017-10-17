@@ -184,6 +184,16 @@ TEST(Transform3D, ScaledSize)
     transform.setScale(Vector3F(2.0f, 3.0f, 0.5f));
     EXPECT_EQ(math::Vector3F(20.0f, 60.0f, 15.0f), transform.getScaledSize());
 }
+
+TEST(Transform, DirtyFlag)
+{
+    Transform2D transform;
+    EXPECT_TRUE(transform.isDirty());
+    transform.resetDirty();
+    EXPECT_FALSE(transform.isDirty());
+    transform.setPosition(Vector2F(2.0f, 3.0f));
+    EXPECT_TRUE(transform.isDirty());
+}
 }
 }
 

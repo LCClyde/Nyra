@@ -37,7 +37,8 @@ namespace physics
 enum Type
 {
     DYNAMIC,
-    STATIC
+    STATIC,
+    CHARACTER
 };
 
 /*
