@@ -413,6 +413,11 @@ public:
         return *mBody;
     }
 
+    gui::Widget& getWidget(const std::string& name)
+    {
+        return mGUI->getWidget(name);
+    }
+
 private:
     std::unique_ptr<ObjectT> mScript;
     std::unique_ptr<NavMesh<GameT>> mNavMesh;

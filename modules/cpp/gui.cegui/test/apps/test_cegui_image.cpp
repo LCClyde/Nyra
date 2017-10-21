@@ -38,6 +38,11 @@ TEST(CEGUI, Image)
             core::DATA_PATH, "textures/test_gui_image.png"));
     panel->setPosition(math::Vector2F(10.0f, 10.0f));
     EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_image.png"));
+
+    gui::Widget& guiWidget = *panel;
+    dynamic_cast<gui::Image&>(guiWidget).initialize(core::path::join(
+            core::DATA_PATH, "textures/test_gui_image_2.png"));
+    EXPECT_TRUE(test::compareImage(gui.update(), "test_cegui_image_2.png"));
 }
 }
 }

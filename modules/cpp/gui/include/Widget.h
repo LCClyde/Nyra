@@ -113,6 +113,22 @@ public:
     }
 
     /*
+     *  \func setVisible
+     *  \brief Sets if a widget is rendered
+     *
+     *  \param value True if the widget should be rendered
+     */
+    virtual void setVisible(bool value) = 0;
+
+    /*
+     *  \func getVisible
+     *  \brief Is the widget being rendered?
+     *
+     *  \return True if the widget is visible
+     */
+    virtual bool getVisible() const = 0;
+
+    /*
      *  \var activated
      *  \brief Occurs when the widget has some sort of activation.
      */

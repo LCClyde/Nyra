@@ -27,6 +27,7 @@
 #include <nyra/gui/cegui/Panel.h>
 #include <nyra/gui/cegui/Button.h>
 #include <nyra/gui/cegui/Label.h>
+#include <nyra/gui/cegui/Image.h>
 
 namespace nyra
 {
@@ -108,6 +109,11 @@ public:
         {
             widget = new gui::cegui::Button(param);
         }
+        else if (type == "image")
+        {
+            widget = new gui::cegui::Image(
+                    core::path::join(core::DATA_PATH, "textures/" + param));
+        }
         else
         {
             throw std::runtime_error("Unknown widget type: " + type);
@@ -157,6 +163,19 @@ public:
 
         TransformT::setSize(size);
         TransformT::setPosition(position);
+    }
+
+    gui::Widget& getWidget(const std::string& name)
+    {
+        const std::vector<std::string> parts = core::str::split(name, ":");
+
+        mem::Tree<gui::Widget>* current = &mGUI;
+        for (const std::string& p : parts)
+        {
+            current = &current->operator [](p);
+        }
+
+        return current->get();
     }
 
 private:

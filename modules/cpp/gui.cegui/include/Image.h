@@ -23,6 +23,7 @@
 #define __NYRA_GUI_CEGUI_IMAGE_H__
 
 #include <nyra/gui/cegui/Widget.h>
+#include <nyra/gui/Image.h>
 
 namespace nyra
 {
@@ -34,7 +35,7 @@ namespace cegui
  *  \class Image
  *  \brief A class used to render an image to the screen.
  */
-class Image : public Widget
+class Image : public gui::Image, public Widget
 {
 public:
     /*
@@ -46,6 +47,16 @@ public:
      *         an image in install/data/textures.
      */
     Image(const std::string& pathname);
+
+    /*
+     *  \func initialize
+     *  \brief Creates a default Image.
+     *
+     *  \param pathname The location of the image on disk. There is currently
+     *         an issue with this where it cannot use anything other than
+     *         an image in install/data/textures.
+     */
+    void initialize(const std::string& pathname);
 };
 }
 }

@@ -39,8 +39,9 @@ TEST(FrameAnimation, Render)
     graphics::sfml::Sprite sprite(pathname);
     sprite.setPosition(math::Vector2F(128, 128));
     img::Image expected;
-    anim::Frame animation(0, 7, 8.0, Animation::LOOP,
-                          math::Vector2U(4, 2), sprite);
+    anim::Frame<graphics::Sprite> animation(
+            0, 7, 8.0, Animation::LOOP,
+            math::Vector2U(4, 2), sprite);
     animation.update(0);
 
     for (size_t ii = 0; ii < 20; ++ii)

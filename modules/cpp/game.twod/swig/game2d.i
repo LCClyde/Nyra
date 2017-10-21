@@ -1,6 +1,7 @@
 %module game2d
 
 %include "../../math/swig/math.i"
+%include "../../gui/swig/gui.i"
 %include "std_vector.i"
 
 %{
@@ -40,6 +41,8 @@
             const graphics::RenderTarget& target);
 %ignore getMouse;
 %ignore getPhysics;
+%ignore updatePhysics;
+%ignore addCircleCollision;
 %ignore addBody;
 
 %rename(is_down) isDown;
@@ -179,6 +182,7 @@ Actor2D.tile_size = property(Actor2D._getTileSize)
 Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
 Actor2D.velocity = property(Actor2D._getVelocity, Actor2D._setVelocity)
 Actor2D._get_script = _get_script
+Actor2D.widgets = Actor2D.getWidget
 map.spawn = spawn
 map.get_actor = get_actor
 %}

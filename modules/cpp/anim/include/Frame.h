@@ -22,7 +22,6 @@
 #ifndef __NYRA_ANIM_FRAME_H__
 #define __NYRA_ANIM_FRAME_H__
 
-#include <nyra/graphics/Sprite.h>
 #include <nyra/anim/Interpolate.h>
 #include <nyra/math/Vector2.h>
 
@@ -33,7 +32,10 @@ namespace anim
 /*
  *  \class Frame
  *  \brief Applies frame to frame animations to a sprite.
+ *
+ *  \tparam SpriteT The sprite type
  */
+template <typename SpriteT>
 class Frame : public Animation
 {
 public:
@@ -48,12 +50,32 @@ public:
      *  \param numTiles The number of tiles in the image
      *  \param sprite The sprite that will be modified
      */
+
     Frame(size_t startFrame,
           size_t endFrame,
           double duration,
           Animation::PlayType playType,
           const math::Vector2U& numTiles,
-          graphics::Sprite& sprite);
+          SpriteT& sprite) :
+        mSize(sprite.getSize().x / numTiles.x,
+              sprite.getSize().y / numTiles.y),
+        mSprite(sprite),
+        mCurrentFrame(-1),
+        mInterpolate(0,
+                     endFrame - startFrame + 1,
+                     duration,
+                     playType,
+                     mCurrentFrame)
+    {
+        for (size_t ii = startFrame; ii < endFrame + 1; ++ii)
+        {
+            const size_t row = ii / numTiles.x;
+            const size_t col = ii % numTiles.x;
+            math::Vector2U frame(col * mSize.x,
+                                 row * mSize.y);
+            mFrames.push_back(frame);
+        }
+    }
 
     /*
      *  \func update
@@ -61,18 +83,37 @@ public:
      *
      *  \param deltaTime The time in seconds to increment by
      */
-    void update(double deltaTime) override;
+    void update(double deltaTime) override
+    {
+        size_t prev = mCurrentFrame;
+        mInterpolate.update(deltaTime);
+
+        // It is possible for the current frame to go one passed the valid
+        // frames. This would only occur if the time lines up perfectly
+        // which in practice will never occur, but let's account for it
+        // anyways.
+        mCurrentFrame = std::min(mCurrentFrame, mFrames.size() - 1);
+
+        if (mCurrentFrame != prev)
+        {
+            mSprite.setFrame(mFrames[mCurrentFrame], mSize);
+        }
+    }
 
     /*
      *  \func reset
      *  \brief Returns back to the starting frame
      */
-    void reset() override;
+    void reset() override
+    {
+        mCurrentFrame = -1;
+        Animation::reset();
+    }
 
 private:
     const math::Vector2U mSize;
     std::vector<math::Vector2U> mFrames;
-    graphics::Sprite& mSprite;
+    SpriteT& mSprite;
     size_t mCurrentFrame;
     Interpolate<size_t> mInterpolate;
 };

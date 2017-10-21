@@ -2,7 +2,7 @@
  * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to
+ * of this software and associated documentation files (the "Software"), to
  * deal in the Software without restriction, including without limitation the
  * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
  * sell copies of the Software, and to permit persons to whom the Software is
@@ -19,25 +19,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/script/py3/Error.h>
+#ifndef __NYRA_GUI_IMAGE_H__
+#define __NYRA_GUI_IMAGE_H__
+
+#include <nyra/gui/Widget.h>
 
 namespace nyra
 {
-namespace script
+namespace gui
 {
-namespace py3
+/*
+ *  \class Image
+ *  \brief Base class for all image widgets.
+ */
+class Image : public virtual Widget
 {
-void validateCall()
-{
-    // Check for error
-    PyObject* error = PyErr_Occurred();
-    if (error)
-    {
-        PyErr_Print();
-        PyErr_Clear();
-        throw std::runtime_error("Python exception");
-    }
+public:
+    /*
+     *  \func Destructor
+     *  \brief Necessary for proper inheritance.
+     */
+    virtual ~Image();
+
+    /*
+     *  \func initialize
+     *  \brief Creates a default Image.
+     *
+     *  \param pathname The location of the image on disk.
+     */
+    virtual void initialize(const std::string& pathname) = 0;
+};
 }
 }
-}
-}
+
+#endif

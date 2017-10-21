@@ -33,6 +33,12 @@ namespace cegui
 Image::Image(const std::string& pathname) :
     Widget("StaticImage")
 {
+    initialize(pathname);
+}
+
+//===========================================================================//
+void Image::initialize(const std::string& pathname)
+{
     const std::string filename = core::path::getFilename(pathname);
 
     CEGUI::ImageManager& manager = CEGUI::ImageManager::getSingleton();

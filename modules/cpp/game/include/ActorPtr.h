@@ -26,6 +26,7 @@
 #include <nyra/game/Actor.h>
 #include <nyra/game/Input.h>
 #include <nyra/physics/World.h>
+#include <nyra/graphics/Sprite.h>
 
 namespace nyra
 {
@@ -382,9 +383,10 @@ private:
                             "Unknown animation type: " + type);
                 }
             }
-            anim::Frame* anim =
-                    new anim::Frame(start, end, duration,
-                                    playType, frames, *sprite);
+            anim::Frame<graphics::Sprite>* anim =
+                    new anim::Frame<graphics::Sprite>(
+                            start, end, duration,
+                            playType, frames, *sprite);
             mActor->addAnimation(name, anim);
         }
 

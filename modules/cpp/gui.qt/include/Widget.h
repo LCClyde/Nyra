@@ -88,6 +88,29 @@ public:
     math::Vector2F getSize() const override;
 
     /*
+     *  \func setVisible
+     *  \brief Sets if a widget is rendered
+     *
+     *  \param value True if the widget should be rendered
+     */
+    void setVisible(bool value) override
+    {
+        // Not yet implemented
+    }
+
+    /*
+     *  \func getVisible
+     *  \brief Is the widget being rendered?
+     *
+     *  \return True if the widget is visible
+     */
+    bool getVisible() const override
+    {
+        // Not yet implemented
+        return true;
+    }
+
+    /*
      *  \func addChild
      *  \brief Adds a new child widget to this widget.
      *

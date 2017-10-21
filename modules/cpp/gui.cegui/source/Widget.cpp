@@ -87,6 +87,18 @@ std::string Widget::getText() const
 }
 
 //===========================================================================//
+void Widget::setVisible(bool value)
+{
+    mWidget.setVisible(value);
+}
+
+//===========================================================================//
+bool Widget::getVisible() const
+{
+    return mWidget.isVisible();
+}
+
+//===========================================================================//
 bool Widget::activateEvent(const CEGUI::EventArgs& event)
 {
     activated();

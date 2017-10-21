@@ -123,6 +123,22 @@ public:
     std::string getText() const override;
 
     /*
+     *  \func setVisible
+     *  \brief Sets if a widget is rendered
+     *
+     *  \param value True if the widget should be rendered
+     */
+    void setVisible(bool value) override;
+
+    /*
+     *  \func getVisible
+     *  \brief Is the widget being rendered?
+     *
+     *  \return True if the widget is visible
+     */
+    bool getVisible() const override;
+
+    /*
      *  \func activateEvent
      *  \brief CEGUI version of the activate event.
      *
