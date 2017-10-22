@@ -53,6 +53,11 @@ void Window::update()
             mWindow->close();
         }
 
+        if (event.type == sf::Event::MouseWheelScrolled)
+        {
+            events.onMouseScroll(event.mouseWheelScroll.delta);
+        }
+
         for (const auto& nyraEvent : mEvents)
         {
             nyraEvent(event);

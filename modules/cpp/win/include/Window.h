@@ -24,6 +24,7 @@
 
 #include <nyra/core/Archive.h>
 #include <nyra/math/Vector2.h>
+#include <nyra/win/Events.h>
 
 namespace nyra
 {
@@ -155,6 +156,13 @@ public:
      *  \param position The desired position.
      */
     virtual void setPosition(const math::Vector2I& position) = 0;
+
+    /*
+     *  \var events
+     *  \brief A struct of available events. Not every event is guaranteed
+     *         to be connected for every window type.
+     */
+    Events events;
 
 private:
     NYRA_SPLIT_SERIALIZE()

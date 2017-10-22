@@ -50,7 +50,7 @@ namespace game
 template <typename GameT>
 class Actor : public GameT::Graphics::Renderable
 {
-private:
+public:
     typedef typename GameT::Graphics::RenderTarget RenderTargetT;
     typedef typename GameT::Graphics::Renderable RenderableT;
     typedef typename GameT::Graphics::Transform TransformT;
@@ -66,13 +66,7 @@ public:
      *  \func Actor
      *  \brief Creates a black actor.
      */
-    Actor() :
-        mCurrentAnimation(nullptr),
-        mGUI(nullptr),
-        mLayer(0),
-        mHasInit(false)
-    {
-    }
+    Actor();
 
     /*
      *  \func update
@@ -80,41 +74,13 @@ public:
      *
      *  \param delta The time in seconds since the last update
      */
-    void update(float delta)
-    {
-        if (mScript.get() && mUpdate.get())
-        {
-            mUpdate->call(VariableT(delta));
-        }
-
-        if (mCurrentAnimation)
-        {
-            mCurrentAnimation->update(delta);
-        }
-
-        if (mGUI)
-        {
-            mGUI->update(delta);
-        }
-    }
+    void update(float delta);
 
     /*
      *  \func initialize
      *  \brief Called after the actor has been initialized
      */
-    void initialize()
-    {
-        if (mHasInit)
-        {
-            return;
-        }
-
-        if (mScript.get() && mInitialize.get())
-        {
-            mInitialize->call();
-        }
-        mHasInit = true;
-    }
+    void initialize();
 
     /*
      *  \func addNavMesh
@@ -122,11 +88,7 @@ public:
      *
      *  \param mesh The initialized nav mesh
      */
-    void addNavMesh(NavMesh<GameT>* mesh)
-    {
-        mNavMesh.reset(mesh);
-    }
-
+    void addNavMesh(NavMesh<GameT>* mesh);
     /*
      *  \func getNavMesh
      *  \brief Returns a nav mesh. This will segfault if the actor does not
@@ -134,10 +96,7 @@ public:
      *
      *  \return The nav mesh
      */
-    const NavMesh<GameT>& getNavMesh() const
-    {
-        return *mNavMesh;
-    }
+    const NavMesh<GameT>& getNavMesh() const;
 
     /*
      *  \func addRenderable
@@ -145,10 +104,7 @@ public:
      *
      *  \param renderable The object to add
      */
-    void addRenderable(RenderableT* renderable)
-    {
-        mRenderable.reset(renderable);
-    }
+    void addRenderable(RenderableT* renderable);
 
     /*
      *  \func getRenderable
@@ -156,10 +112,7 @@ public:
      *
      *  \return The renderable
      */
-    RenderableT& getRenderable()
-    {
-        return *mRenderable;
-    }
+    RenderableT& getRenderable();
 
     /*
      *  \func getRenderable
@@ -167,21 +120,15 @@ public:
      *
      *  \return The renderable
      */
-    const RenderableT& getRenderable() const
-    {
-        return *mRenderable;
-    }
+    const RenderableT& getRenderable() const;
 
     /*
      *  \func getScript
      *  \brief Gets the script object
      *
-     *  \return The script objectt
+     *  \return The script object
      */
-    const nyra::script::Object& getScript() const
-    {
-        return *mScript;
-    }
+    const nyra::script::Object& getScript() const;
 
     /*
      *  \func hasScript
@@ -189,10 +136,7 @@ public:
      *
      *  \return True if this has a script
      */
-    bool hasScript() const
-    {
-        return mScript.get() != nullptr;
-    }
+    bool hasScript() const;
 
     /*
      *  \func addGUI
@@ -200,60 +144,22 @@ public:
      *
      *  \param gui The GUI to add. This takes ownership
      */
-    void addGUI(Gui<GameT>* gui)
-    {
-        mGUI = gui;
-        addRenderable(gui);
-    }
+    void addGUI(Gui<GameT>* gui);
 
-    void addBody(physics::Body<TransformT>* body)
-    {
-        mBody.reset(body);
-    }
+    void addBody(physics::Body<TransformT>* body);
 
     void addCircleCollision(double radius,
-                            const VectorT& offset)
-    {
-        mBody->addCircle(radius, offset);
-        mCollision.push_back(std::unique_ptr<RenderableT>(new SpriteT(
-                core::path::join(core::DATA_PATH,
-                                 "textures/collision_circle.png"))));
-        mCollision.back()->setPosition(offset);
-        mCollision.back()->setScale(math::Vector2F(radius / 64.0,
-                                                   radius / 64.0));
-    }
+                            const VectorT& offset);
 
-    void renderCollision(graphics::RenderTarget& target)
-    {
-        for (size_t ii = 0; ii < mCollision.size(); ++ii)
-        {
-            mCollision[ii]->updateTransform(*this);
-            mCollision[ii]->render(target);
-        }
-    }
+    void renderCollision(graphics::RenderTarget& target);
 
-    void updatePhysics()
-    {
-        if (mBody.get())
-        {
-            mBody->update();
-            TransformT::resetDirty();
-        }
-    }
+    void updatePhysics();
 
     /*
      *  \func updateTransform
      *  \brief Updates the spatial transform of the actor
      */
-    void updateTransform()
-    {
-        static TransformT transform;
-        TransformT::updateTransform(transform);
-        if (mRenderable.get())
-        {
-            mRenderable->updateTransform(*this);
-        }
-    }
+    void updateTransform();
 
     /*
      *  \func render
@@ -261,24 +167,14 @@ public:
      *
      *  \param target The target to render to
      */
-    void render(graphics::RenderTarget& target) override
-    {
-        if (mRenderable.get())
-        {
-            mRenderable->render(target);
-        }
-    }
-
+    void render(graphics::RenderTarget& target) override;
     /*
      *  \func setScript
      *  \brief Sets the script that is used to control the actor
      *
      *  \param script The script object
      */
-    void setScript(ObjectT* script)
-    {
-        mScript.reset(script);
-    }
+    void setScript(ObjectT* script);
 
     /*
      *  \func setUpdateFunction
@@ -286,10 +182,7 @@ public:
      *
      *  \param name The name of the function
      */
-    void setUpdateFunction(const std::string& name)
-    {
-        mUpdate = mScript->function(name);
-    }
+    void setUpdateFunction(const std::string& name);
 
     /*
      *  \func setInitializeFunction
@@ -297,21 +190,12 @@ public:
      *
      *  \param name The name of the function
      */
-    void setInitializeFunction(const std::string& name)
-    {
-        mInitialize = mScript->function(name);
-    }
+    void setInitializeFunction(const std::string& name);
 
-    void callActivateFunction(const std::string& name)
-    {
-        mScript->function(name)->call();
-    }
+    void callActivateFunction(const std::string& name);
 
     void setActivatedFunction(const std::string& name,
-                               core::Event<void()>& event)
-    {
-        event = std::bind(&Actor::callActivateFunction, this, name);
-    }
+                               core::Event<void()>& event);
 
     /*
      *  \func addAnimation
@@ -323,10 +207,7 @@ public:
      *  \param anim The animation object. The actor will take ownership.
      */
     void addAnimation(const std::string& name,
-                      anim::Animation* anim)
-    {
-        mAnimations[name] = std::unique_ptr<anim::Animation>(anim);
-    }
+                      anim::Animation* anim);
 
     /*
      *  \func playAnimation
@@ -335,17 +216,7 @@ public:
      *
      *  \name The name of the animation
      */
-    void playAnimation(const std::string& name)
-    {
-        anim::Animation* newAnim =  mAnimations.at(name).get();
-
-        if (newAnim != mCurrentAnimation)
-        {
-            mCurrentAnimation = newAnim;
-            mCurrentAnimation->reset();
-            mCurrentAnimationName = name;
-        }
-    }
+    void playAnimation(const std::string& name);
 
     /*
      *  \func getAnimation
@@ -354,10 +225,7 @@ public:
      *  \return The name of the playing animation or an empty string
      *          if nothing is playing.
      */
-    const std::string& getAnimation() const
-    {
-        return mCurrentAnimationName;
-    }
+    const std::string& getAnimation() const;
 
     /*
      *  \func getName
@@ -365,10 +233,7 @@ public:
      *
      *  \return The actor name
      */
-    const std::string& getName() const
-    {
-        return mName;
-    }
+    const std::string& getName() const;
 
     /*
      *  \func setName
@@ -376,10 +241,7 @@ public:
      *
      *  \param name The name. This must be unique.
      */
-    void setName(const std::string& name)
-    {
-        mName = name;
-    }
+    void setName(const std::string& name);
 
     /*
      *  \func getLayer
@@ -387,10 +249,7 @@ public:
      *
      *  \return The layer
      */
-    int32_t getLayer() const
-    {
-        return mLayer;
-    }
+    int32_t getLayer() const;
 
     /*
      *  \func setLayer
@@ -398,25 +257,13 @@ public:
      *
      *  \param layer The desired layer
      */
-    void setLayer(int32_t layer)
-    {
-        mLayer = layer;
-    }
+    void setLayer(int32_t layer);
 
-    physics::Body<TransformT>& getPhysics()
-    {
-        return *mBody;
-    }
+    physics::Body<TransformT>& getPhysics();
 
-    const physics::Body<TransformT>& getPhysics() const
-    {
-        return *mBody;
-    }
+    const physics::Body<TransformT>& getPhysics() const;
 
-    gui::Widget& getWidget(const std::string& name)
-    {
-        return mGUI->getWidget(name);
-    }
+    gui::Widget& getWidget(const std::string& name);
 
 private:
     std::unique_ptr<ObjectT> mScript;
@@ -438,5 +285,7 @@ private:
 };
 }
 }
+
+#include <nyra/game/Actor.hpp>
 
 #endif

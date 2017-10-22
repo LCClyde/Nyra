@@ -213,9 +213,9 @@ private:
                 if (wMap.has("size"))
                 {
                     const math::Vector2F size(
-                            core::str::toType<size_t>(
+                            core::str::toType<float>(
                                     wMap["size"]["width"].get()),
-                            core::str::toType<size_t>(
+                            core::str::toType<float>(
                                     wMap["size"]["height"].get()));
                     widget->setSize(size);
                 }
@@ -223,9 +223,9 @@ private:
                 if (wMap.has("position"))
                 {
                     const math::Vector2F position(
-                            core::str::toType<size_t>(
+                            core::str::toType<float>(
                                     wMap["position"]["x"].get()),
-                            core::str::toType<size_t>(
+                            core::str::toType<float>(
                                     wMap["position"]["y"].get()));
                     widget->setPosition(position);
                 }

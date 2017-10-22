@@ -43,9 +43,9 @@ public:
      *  \brief Sets up the Mouse object.
      *
      *  \param window The window associated with this Mouse. This must
-     *         be and SFML window.
+     *         be an SFML window.
      */
-    Mouse(const win::Window& window);
+    Mouse(win::Window& window);
 
     /*
      *  \func update
@@ -74,10 +74,14 @@ public:
      */
     float getScroll() const override;
 
+    void setScroll(float delta);
+
 private:
     const win::sfml::Window& mWindow;
     math::Vector2F mPosition;
     math::Vector2F mDelta;
+    bool mScrollSet;
+    float mScroll;
 };
 }
 }

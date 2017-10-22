@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#ifndef __NYRA_WIN_EVENTS_H__
+#define __NYRA_WIN_EVENTS_H__
+
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
-namespace game
+namespace win
 {
-//===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
+struct Events
 {
+    /*
+     *  \var onMouseScroll
+     *  \brief Occurs when the scroll changes.
+     *
+     *  \param double The scroll amount
+     */
+    core::Event<void(float)> onMouseScroll;
+};
+}
 }
 
-//===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
-{
-}
-
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("starting_map.json"),
-    inputMap("input.json")
-{
-}
-}
-}
+#endif

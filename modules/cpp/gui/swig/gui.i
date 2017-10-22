@@ -24,4 +24,5 @@
 %pythoncode
 %{
 Widget.visible = property(Widget.getVisible, Widget.setVisible)
+Widget.text = property(Widget.getText, Widget.setText)
 %}

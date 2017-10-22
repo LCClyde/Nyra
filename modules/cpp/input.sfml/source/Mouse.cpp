@@ -29,9 +29,13 @@ namespace input
 namespace sfml
 {
 //===========================================================================//
-Mouse::Mouse(const win::Window& window) :
-    mWindow(dynamic_cast<const win::sfml::Window&>(window))
+Mouse::Mouse(win::Window& window) :
+    mWindow(dynamic_cast<const win::sfml::Window&>(window)),
+    mScrollSet(false),
+    mScroll(0.0)
 {
+    dynamic_cast<win::sfml::Window&>(window).events.onMouseScroll =
+            std::bind(&Mouse::setScroll, this, std::placeholders::_1);
     update();
 
     // Reset the delta to zero
@@ -54,7 +58,14 @@ math::Vector2F Mouse::getDelta() const
 //===========================================================================//
 float Mouse::getScroll() const
 {
-    return 0.0f;
+    return mScroll;
+}
+
+//===========================================================================//
+void Mouse::setScroll(float delta)
+{
+    mScrollSet = true;
+    mScroll = delta;
 }
 
 //===========================================================================//
@@ -73,6 +84,12 @@ void Mouse::update()
     buttons[input::MOUSE_RIGHT] = sf::Mouse::isButtonPressed(sf::Mouse::Right);
     buttons[input::MOUSE_MIDDLE] = sf::Mouse::isButtonPressed(sf::Mouse::Middle);
     updateButtons(buttons);
+
+    if (!mScrollSet)
+    {
+        mScroll = 0.0f;
+    }
+    mScrollSet = false;
 }
 }
 }

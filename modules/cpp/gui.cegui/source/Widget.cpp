@@ -31,6 +31,9 @@ namespace cegui
 Widget::Widget(const std::string& type) :
     mWidget(getGlobalInstance().createWidget(type))
 {
+    mWidget.setMinSize(CEGUI::USize(
+            CEGUI::UDim(0.0f, 1.0f),
+            CEGUI::UDim(0.0f, 1.0f)));
 }
 
 //===========================================================================//

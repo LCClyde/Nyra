@@ -48,7 +48,7 @@ public:
      *  \param window The primary window associated with the mouse / keyboard
      *  \param filename The name of the input.json file.
      */
-    Input(const nyra::win::Window& window,
+    Input(nyra::win::Window& window,
           const std::string& filename) :
         mMouse(window),
         mKeyboard(window)

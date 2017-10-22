@@ -46,7 +46,8 @@ InputValue::InputValue(const std::vector<std::string>& keys) :
             if (code == "delta_x" ||
                 code == "delta_y" ||
                 code == "x" ||
-                code == "y")
+                code == "y" ||
+                code == "scroll")
             {
                 mValueID = key;
             }
@@ -114,6 +115,10 @@ void InputValue::update(const input::Mouse& mouse,
         else if (mValueID == "mouse_y")
         {
             mValue = mouse.getPosition().y;
+        }
+        else if (mValueID == "mouse_scroll")
+        {
+            mValue = mouse.getScroll();
         }
     }
     else
