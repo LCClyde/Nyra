@@ -27,6 +27,9 @@
 #include <nyra/game/Input.h>
 #include <nyra/physics/World.h>
 #include <nyra/graphics/Sprite.h>
+#include <nyra/core/Path.h>
+#include <nyra/core/String.h>
+#include <nyra/game/Types.h>
 
 namespace nyra
 {
@@ -36,10 +39,7 @@ namespace game
  *  \class ActorPtr
  *  \brief Wrapper class around Actor that can accept either a python actor
  *         or a c++ actor.
- *
- *  \tparam GameT The game type
  */
-template <typename GameT>
 class ActorPtr
 {
 public:
@@ -59,9 +59,9 @@ public:
      *  \param filename The filename without the path.
      */
     ActorPtr(const std::string& filename,
-             const game::Input<GameT>& input,
+             const game::Input& input,
              const graphics::RenderTarget& target,
-             typename GameT::Physics::World& world) :
+             physics::World2D& world) :
         mActor(nullptr)
     {
         const json::JSON map = core::read<json::JSON>(
@@ -73,7 +73,7 @@ public:
         }
         else
         {
-            mScopedActor.reset(new Actor<GameT>());
+            mScopedActor.reset(new Actor());
             mActor = mScopedActor.get();
         }
 
@@ -95,7 +95,7 @@ public:
             }
         }
 
-        typename GameT::Graphics::Sprite* sprite = nullptr;
+        graphics::Sprite* sprite = nullptr;
         if (map.has("sprite"))
         {
             if (map["sprite"].loopSize() > 1)
@@ -136,7 +136,7 @@ public:
      *
      *  \return The actor pointer.
      */
-    Actor<GameT>* get() const
+    Actor* get() const
     {
         return mActor;
     }
@@ -147,8 +147,9 @@ public:
     }
 
 private:
+    //=======================================================================//
     void parsePhysics(const mem::Tree<std::string>& map,
-                      typename GameT::Physics::World& world)
+                      physics::World2D& world)
     {
         const std::string stype = map["type"].get();
         physics::Type type = physics::STATIC;
@@ -182,15 +183,17 @@ private:
         }
     }
 
+    //=======================================================================//
     void parseGui(const mem::Tree<std::string>& map,
                   const input::Mouse& mouse)
     {
-        Gui<GameT>* gui = new Gui<GameT>(mouse);
+        Gui* gui = new Gui(mouse);
         parseWidgets(map, gui->get());
         gui->finalize();
         mActor->addGUI(gui);
     }
 
+    //=======================================================================//
     void parseWidgets(const mem::Tree<std::string>& map,
                       mem::Tree<gui::Widget>& gui)
     {
@@ -207,7 +210,7 @@ private:
                 {
                     param = wMap["text"].get();
                 }
-                gui::Widget* widget = Gui<GameT>::addWidget(
+                gui::Widget* widget = Gui::addWidget(
                         type, param, name, gui);
 
                 if (wMap.has("size"))
@@ -246,13 +249,12 @@ private:
     {
         const std::string filename = map["filename"].get();
         const std::string className = map["class"].get();
-        typename GameT::Script::Include include(filename);
-        typename GameT::Script::Object* script =
-                new typename GameT::Script::Object(include, className);
+        IncludeT include(filename);
+        ObjectT* script = new ObjectT(include, className);
 
         script::FunctionPtr thisPtr = script->function("nyra_pointer");
         size_t ptr = (*thisPtr)()->get<size_t>();
-        mActor = reinterpret_cast<Actor<GameT>*>(ptr);
+        mActor = reinterpret_cast<Actor*>(ptr);
         mActor->setScript(script);
 
         if (map.has("update"))
@@ -267,15 +269,13 @@ private:
     }
 
     //=======================================================================//
-    typename GameT::Graphics::Sprite*
-            parseSprite(const mem::Tree<std::string>& map) const
+    graphics::Sprite* parseSprite(const mem::Tree<std::string>& map) const
     {
         const std::string filename = map["filename"].get();
         const std::string pathname = core::path::join(
                 core::DATA_PATH, "textures/" + filename);
 
-        typename GameT::Graphics::Sprite* sprite =
-                new typename GameT::Graphics::Sprite(pathname);
+        SpriteT* sprite = new SpriteT(pathname);
         mActor->addRenderable(sprite);
         return sprite;
     }
@@ -305,11 +305,8 @@ private:
 
         const std::string pathname = core::path::join(
                 core::DATA_PATH, "textures/" + filename);
-        graphics::TileMap<typename GameT::Graphics::Sprite>* mapPtr =
-                new graphics::TileMap<typename GameT::Graphics::Sprite>(
-                        pathname,
-                        tiles,
-                        tileSize);
+        TileMapT* mapPtr = new TileMapT(
+                pathname, tiles, tileSize);
         mActor->addRenderable(mapPtr);
 
         // Check for a navmesh
@@ -321,7 +318,7 @@ private:
                 collision.insert(core::str::toType<size_t>(
                         map["collision"][ii].get()));
             }
-            NavMesh<GameT>* navMesh = new NavMesh<GameT>(*mapPtr, collision);
+            NavMesh* navMesh = new NavMesh(*mapPtr, collision);
             mActor->addNavMesh(navMesh);
         }
     }
@@ -330,8 +327,7 @@ private:
     void parseCamera(const mem::Tree<std::string>& map,
                      const graphics::RenderTarget& target) const
     {
-        typename GameT::Graphics::Camera* camera =
-                new typename GameT::Graphics::Camera(target);
+        CameraT* camera = new CameraT(target);
 
         // Move the camera back to zero, just so things are lined up
         camera->setPosition(math::Vector2F());
@@ -341,7 +337,7 @@ private:
 
     //=======================================================================//
     void parseAnimation(const mem::Tree<std::string>& map,
-                        typename GameT::Graphics::Sprite* sprite) const
+                        graphics::Sprite* sprite) const
     {
         // TODO: Support different frames for each animation
         const math::Vector2U frames(
@@ -398,8 +394,8 @@ private:
     }
 
     //=======================================================================//
-    Actor<GameT>* mActor;
-    std::shared_ptr<Actor<GameT>> mScopedActor;
+    Actor* mActor;
+    std::shared_ptr<Actor> mScopedActor;
 };
 }
 }

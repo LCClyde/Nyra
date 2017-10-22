@@ -28,6 +28,8 @@
 #include <nyra/gui/cegui/Button.h>
 #include <nyra/gui/cegui/Label.h>
 #include <nyra/gui/cegui/Image.h>
+#include <nyra/core/String.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
@@ -36,16 +38,9 @@ namespace game
 /*
  *  \class Gui
  *  \brief Creates a game specific GUI.
- *         TODO: Make this templated. Right now it only works with CEGUI
- *
- *  \tparamm GameT The game type
  */
-template <typename GameT>
-class Gui : public GameT::Graphics::Renderable
+class Gui : public graphics::Renderable2D
 {
-private:
-    typedef typename GameT::Graphics::Transform TransformT;
-
 public:
     /*
      *  \func Constructor
@@ -161,8 +156,8 @@ public:
             size.y = std::max(wSize.y, position.y - (wPos.y + size.y));
         }
 
-        TransformT::setSize(size);
-        TransformT::setPosition(position);
+        setSize(size);
+        setPosition(position);
     }
 
     gui::Widget& getWidget(const std::string& name)

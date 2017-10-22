@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2017 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -22,121 +22,31 @@
 #ifndef __NYRA_GAME_TYPES_H__
 #define __NYRA_GAME_TYPES_H__
 
-#include <nyra/graphics/Renderable.h>
+#include <nyra/win/sfml/Window.h>
+#include <nyra/graphics/TileMap.h>
+#include <nyra/graphics/sfml/RenderTarget.h>
+#include <nyra/graphics/sfml/Sprite.h>
+#include <nyra/graphics/sfml/Camera.h>
+#include <nyra/physics/box2d/World.h>
+#include <nyra/script/py3/Include.h>
+#include <nyra/script/py3/Object.h>
 
 namespace nyra
 {
 namespace game
 {
-/*
- *  \class WindowType
- *  \brief Defines the Window classes.
- *
- *  \tparam WindowT The class for the primary Window
- */
-template <typename WindowT>
-struct WindowType
-{
-    typedef WindowT Window;
-};
+typedef win::sfml::Window WindowT;
 
-/*
- *  \class GraphicsType
- *  \brief Defines the Graphic classes.
- *
- *  \tparam RenderTargetT The class for the render target.
- *  \tparam TransformT The transform class (2D or 3D)
- *  \tparam VectorT The vector class (2D or 3D)
- *  \tparam CameraT The graphics camera class
- *  \tparam SpriteT The desired sprite class
- *
- */
-template <typename RenderTargetT,
-          typename TransformT,
-          typename VectorT,
-          typename CameraT,
-          typename SpriteT>
-struct GraphicsType
-{
-    typedef RenderTargetT RenderTarget;
-    typedef TransformT Transform;
-    typedef graphics::Renderable<TransformT> Renderable;
-    typedef VectorT Vector;
-    typedef CameraT Camera;
-    typedef SpriteT Sprite;
-};
+typedef graphics::sfml::RenderTarget RenderTargetT;
+typedef graphics::sfml::Sprite SpriteT;
+typedef graphics::TileMap<SpriteT> TileMapT;
+typedef graphics::sfml::Camera CameraT;
 
-/*
- *  \class InputType
- *  \brief Defines the Input classes.
- *
- *  \tparam MouseT The class for the mouse.
- *  \tparam KeyboardT The class for the keyboard.
- */
-template <typename MouseT,
-          typename KeyboardT>
-struct InputType
-{
-    typedef MouseT Mouse;
-    typedef KeyboardT Keyboard;
-};
+typedef physics::box2d::World WorldT;
 
-/*
- *  \class ScriptType
- *  \brief Defines the Scripting classes
- *
- *  \tparam IncludeT The class used to include modules
- *  \tparam VariableT The variable class used in scripting
- *  \tparam ObjectT The class that represents OO object.
- */
-template <typename IncludeT,
-          typename VariableT,
-          typename ObjectT>
-struct ScriptType
-{
-    typedef IncludeT Include;
-    typedef VariableT Variable;
-    typedef ObjectT Object;
-};
+typedef script::py3::Include IncludeT;
+typedef script::py3::Object ObjectT;
 
-/*
- *  \class PhysicsType
- *  \brief Defines the physics classes
- *
- *  \tparam WorldT The phsyics world
- *  \tparam BodyT The physics body type
- */
-template <typename WorldT,
-          typename BodyT>
-struct PhysicsType
-{
-    typedef WorldT World;
-    typedef BodyT Body;
-};
-
-/*
- *  \class GameType
- *  \brief Defines the Game level classes.
- *
- *  \tparam WindowTypeT The window type class.
- *  \tparam GraphicsT The graphics type class.
- *  \tparam InputTypeT The input type class.
- *  \tparam ScriptTypeT The scripting type class.
- *  \tparam PhysicsTypeT The physics type class.
- */
-template <typename WindowTypeT,
-          typename GraphicsT,
-          typename InputTypeT,
-          typename ScriptTypeT,
-          typename PhysicsTypeT>
-struct GameType
-{
-    typedef WindowTypeT Window;
-    typedef GraphicsT Graphics;
-    typedef InputTypeT Input;
-    typedef ScriptTypeT Script;
-    typedef PhysicsTypeT Physics;
-};
 }
 }
 

@@ -25,6 +25,7 @@
 #include <iostream>
 #include <nyra/game/ActorPtr.h>
 #include <nyra/core/Path.h>
+#include <nyra/game/Input.h>
 
 namespace nyra
 {
@@ -34,10 +35,7 @@ namespace game
  *  \class Map
  *  \brief Represents a grouping of objects that corresponds to a single
  *         map / level. There is only one map loaded at a time.
- *
- *  \tparam GameT The game type
  */
-template <typename GameT>
 class Map
 {
 public:
@@ -45,7 +43,7 @@ public:
      *  \func Constructor
      *  \brief Sets an empty map and assigns it to the global object.
      */
-    Map(const game::Input<GameT>& input,
+    Map(const game::Input& input,
         const graphics::RenderTarget& target) :
         mInput(input),
         mTarget(target),
@@ -145,11 +143,11 @@ public:
      *  \param initialize Should the actor call initialize when loaded?
      *  \return The actor
      */
-    game::Actor<GameT>& spawnActor(const std::string& filename,
+    game::Actor& spawnActor(const std::string& filename,
                                    const std::string& name,
                                    bool initalize)
     {
-        game::ActorPtr<GameT> actor(filename, mInput, mTarget, mWorld);
+        game::ActorPtr actor(filename, mInput, mTarget, mWorld);
         actor.get()->setName(name);
 
         if (!initalize)
@@ -166,6 +164,7 @@ public:
         {
             mActorMap[name] = actor.get();
         }
+
         return *actor.get();
     }
 
@@ -176,7 +175,7 @@ public:
      *
      *  \param actor The actor to destroy
      */
-    void destroyActor(const Actor<GameT>* actor)
+    void destroyActor(const Actor* actor)
     {
         mDestroyedActors.push_back(actor);
     }
@@ -202,7 +201,7 @@ public:
      *  \param name The provided name of the actor
      *  \return The actor object
      */
-    static Actor<GameT>& getActor(const std::string& name)
+    static Actor& getActor(const std::string& name)
     {
         return *mMap->mActorMap.at(name);
     }
@@ -213,7 +212,7 @@ public:
      *
      *  \return The map singleton
      */
-    static Map<GameT>& getMap()
+    static Map& getMap()
     {
         return *mMap;
     }
@@ -224,19 +223,21 @@ private:
         std::sort(mActors.begin(), mActors.end());
     }
 
-    std::vector<ActorPtr<GameT>> mActors;
-    std::unordered_map<std::string, Actor<GameT>*> mActorMap;
-    std::vector<const Actor<GameT>*> mDestroyedActors;
-    std::vector<ActorPtr<GameT>> mSpawnedActors;
-    const game::Input<GameT>& mInput;
+    std::vector<ActorPtr> mActors;
+    std::unordered_map<std::string, Actor*> mActorMap;
+    std::vector<const Actor*> mDestroyedActors;
+    std::vector<ActorPtr> mSpawnedActors;
+    const game::Input& mInput;
     const graphics::RenderTarget& mTarget;
-    typename GameT::Physics::World mWorld;
+    physics::box2d::World mWorld;
     bool mRenderCollision;
-    static Map<GameT>* mMap;
+    static const Actor* mCamera;
+    static Map* mMap;
 };
 
-template <typename GameT>
-Map<GameT>* Map<GameT>::mMap = nullptr;
+Map* Map::mMap = nullptr;
+
+const Actor* Map::mCamera = nullptr;
 }
 
 namespace core
@@ -248,9 +249,8 @@ namespace core
  *  \param pathname The location to save to.
  *  \param actor The map to load
  */
-template <typename GameT>
 void read(const std::string& pathname,
-          game::Map<GameT>& map)
+          game::Map& map)
 {
     const json::JSON tree = core::read<json::JSON>(pathname);
 
@@ -262,7 +262,7 @@ void read(const std::string& pathname,
             const std::string filename = actorMap["filename"].get();
             const std::string name =
                     actorMap.has("name") ? actorMap["name"].get() : "";
-            game::Actor<GameT>& actor = map.spawnActor(filename, name, false);
+            game::Actor& actor = map.spawnActor(filename, name, false);
 
             if (actorMap.has("position"))
             {

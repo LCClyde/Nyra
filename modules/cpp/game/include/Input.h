@@ -26,6 +26,8 @@
 #include <unordered_map>
 #include <nyra/json/JSON.h>
 #include <nyra/game/InputValues.h>
+#include <nyra/input/sfml/Mouse.h>
+#include <nyra/input/sfml/Keyboard.h>
 
 namespace nyra
 {
@@ -37,7 +39,6 @@ namespace game
  *
  *  \tparam GameT The game type
  */
-template <typename GameT>
 class Input
 {
 public:
@@ -146,20 +147,19 @@ public:
      *
      *  \return The mouse
      */
-    const typename GameT::Input::Mouse& getMouse() const
+    const input::Mouse& getMouse() const
     {
         return mMouse;
     }
 
 private:
-    typename GameT::Input::Mouse mMouse;
-    typename GameT::Input::Keyboard mKeyboard;
+    input::sfml::Mouse mMouse;
+    input::sfml::Keyboard mKeyboard;
     std::unordered_map<std::string, std::unique_ptr<InputValue>> mInputMap;
     static Input* mInput;
 };
 
-template <typename GameT>
-Input<GameT>* Input<GameT>::mInput = nullptr;
+Input* Input::mInput = nullptr;
 }
 }
 

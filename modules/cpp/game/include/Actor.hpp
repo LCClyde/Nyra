@@ -25,25 +25,18 @@
 #include <memory>
 #include <vector>
 #include <iostream>
-#include <nyra/json/JSON.h>
-#include <nyra/core/String.h>
-#include <nyra/mem/Buffer2D.h>
-#include <nyra/graphics/TileMap.h>
 #include <nyra/core/Path.h>
-#include <nyra/script/Function.h>
-#include <nyra/anim/Frame.h>
-#include <nyra/game/NavMesh.h>
-#include <nyra/game/Gui.h>
-#include <nyra/physics/Body.h>
-#include <nyra/core/Event.h>
+#include <nyra/script/py3/Variable.h>
+#include <nyra/math/Transform.h>
+#include <nyra/game/Types.h>
+#include <nyra/script/Object.h>
 
 namespace nyra
 {
 namespace game
 {
 //===========================================================================//
-template <typename GameT>
-Actor<GameT>::Actor() :
+Actor::Actor() :
     mCurrentAnimation(nullptr),
     mGUI(nullptr),
     mLayer(0),
@@ -52,12 +45,11 @@ Actor<GameT>::Actor() :
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::update(float delta)
+void Actor::update(float delta)
 {
     if (mScript.get() && mUpdate.get())
     {
-        mUpdate->call(VariableT(delta));
+        mUpdate->call(script::py3::Variable(delta));
     }
 
     if (mCurrentAnimation)
@@ -72,8 +64,7 @@ void Actor<GameT>::update(float delta)
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::initialize()
+void Actor::initialize()
 {
     if (mHasInit)
     {
@@ -88,76 +79,67 @@ void Actor<GameT>::initialize()
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::addNavMesh(NavMesh<GameT>* mesh)
+void Actor::addNavMesh(NavMesh* mesh)
 {
     mNavMesh.reset(mesh);
 }
 
 //===========================================================================//
-template <typename GameT>
-const NavMesh<GameT>& Actor<GameT>::getNavMesh() const
+const NavMesh& Actor::getNavMesh() const
 {
     return *mNavMesh;
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::addRenderable(RenderableT* renderable)
+void Actor::addRenderable(graphics::Renderable2D* renderable)
 {
     mRenderable.reset(renderable);
 }
 
 //===========================================================================//
-template <typename GameT>
-typename GameT::Graphics::Renderable& Actor<GameT>::getRenderable()
+graphics::Renderable2D& Actor::getRenderable()
 {
     return *mRenderable;
 }
 
 //===========================================================================//
-template <typename GameT>
-const typename GameT::Graphics::Renderable& Actor<GameT>::getRenderable() const
+const graphics::Renderable2D& Actor::getRenderable() const
 {
     return *mRenderable;
 }
 
 //===========================================================================//
-template <typename GameT>
-const nyra::script::Object& Actor<GameT>::getScript() const
+const nyra::script::Object& Actor::getScript() const
 {
     return *mScript;
 }
 
 //===========================================================================//
-template <typename GameT>
-bool Actor<GameT>::hasScript() const
+bool Actor::hasScript() const
 {
     return mScript.get() != nullptr;
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::addGUI(Gui<GameT>* gui)
+void Actor::addGUI(Gui* gui)
 {
     mGUI = gui;
     addRenderable(gui);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::addBody(physics::Body<TransformT>* body)
+void Actor::addBody(physics::Body<math::Transform2D>* body)
 {
     mBody.reset(body);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::addCircleCollision(double radius,
-                        const VectorT& offset)
+void Actor::addCircleCollision(double radius,
+                               const math::Vector2F& offset)
 {
     mBody->addCircle(radius, offset);
-    mCollision.push_back(std::unique_ptr<RenderableT>(new SpriteT(
+    mCollision.push_back(std::unique_ptr<graphics::Renderable2D>(
+            new SpriteT(
             core::path::join(core::DATA_PATH,
                              "textures/collision_circle.png"))));
     mCollision.back()->setPosition(offset);
@@ -166,8 +148,7 @@ void Actor<GameT>::addCircleCollision(double radius,
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::renderCollision(graphics::RenderTarget& target)
+void Actor::renderCollision(graphics::RenderTarget& target)
 {
     for (size_t ii = 0; ii < mCollision.size(); ++ii)
     {
@@ -177,22 +158,20 @@ void Actor<GameT>::renderCollision(graphics::RenderTarget& target)
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::updatePhysics()
+void Actor::updatePhysics()
 {
     if (mBody.get())
     {
         mBody->update();
-        TransformT::resetDirty();
+        resetDirty();
     }
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::updateTransform()
+void Actor::updateTransform()
 {
-    static TransformT transform;
-    TransformT::updateTransform(transform);
+    static math::Transform2D transform;
+    math::Transform2D::updateTransform(transform);
     if (mRenderable.get())
     {
         mRenderable->updateTransform(*this);
@@ -200,8 +179,7 @@ void Actor<GameT>::updateTransform()
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::render(graphics::RenderTarget& target)
+void Actor::render(graphics::RenderTarget& target)
 {
     if (mRenderable.get())
     {
@@ -210,52 +188,45 @@ void Actor<GameT>::render(graphics::RenderTarget& target)
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::setScript(ObjectT* script)
+void Actor::setScript(script::Object* script)
 {
     mScript.reset(script);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::setUpdateFunction(const std::string& name)
+void Actor::setUpdateFunction(const std::string& name)
 {
     mUpdate = mScript->function(name);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::setInitializeFunction(const std::string& name)
+void Actor::setInitializeFunction(const std::string& name)
 {
     mInitialize = mScript->function(name);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::callActivateFunction(const std::string& name)
+void Actor::callActivateFunction(const std::string& name)
 {
     mScript->function(name)->call();
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::setActivatedFunction(const std::string& name,
-                           core::Event<void()>& event)
+void Actor::setActivatedFunction(const std::string& name,
+                                 core::Event<void()>& event)
 {
     event = std::bind(&Actor::callActivateFunction, this, name);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::addAnimation(const std::string& name,
-                  anim::Animation* anim)
+void Actor::addAnimation(const std::string& name,
+                         anim::Animation* anim)
 {
     mAnimations[name] = std::unique_ptr<anim::Animation>(anim);
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::playAnimation(const std::string& name)
+void Actor::playAnimation(const std::string& name)
 {
     anim::Animation* newAnim =  mAnimations.at(name).get();
 
@@ -268,58 +239,49 @@ void Actor<GameT>::playAnimation(const std::string& name)
 }
 
 //===========================================================================//
-template <typename GameT>
-const std::string& Actor<GameT>::getAnimation() const
+const std::string& Actor::getAnimation() const
 {
     return mCurrentAnimationName;
 }
 
 //===========================================================================//
-template <typename GameT>
-const std::string& Actor<GameT>::getName() const
+const std::string& Actor::getName() const
 {
     return mName;
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::setName(const std::string& name)
+void Actor::setName(const std::string& name)
 {
     mName = name;
 }
 
 //===========================================================================//
-template <typename GameT>
-int32_t Actor<GameT>::getLayer() const
+int32_t Actor::getLayer() const
 {
     return mLayer;
 }
 
 //===========================================================================//
-template <typename GameT>
-void Actor<GameT>::setLayer(int32_t layer)
+void Actor::setLayer(int32_t layer)
 {
     mLayer = layer;
 }
 
 //===========================================================================//
-template <typename GameT>
-physics::Body<typename GameT::Graphics::Transform>& Actor<GameT>::getPhysics()
+physics::Body<math::Transform2D>& Actor::getPhysics()
 {
     return *mBody;
 }
 
 //===========================================================================//
-template <typename GameT>
-const physics::Body<typename GameT::Graphics::Transform>&
-Actor<GameT>::getPhysics() const
+const physics::Body<math::Transform2D>& Actor::getPhysics() const
 {
     return *mBody;
 }
 
 //===========================================================================//
-template <typename GameT>
-gui::Widget& Actor<GameT>::getWidget(const std::string& name)
+gui::Widget& Actor::getWidget(const std::string& name)
 {
     return mGUI->getWidget(name);
 }

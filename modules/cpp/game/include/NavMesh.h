@@ -25,6 +25,7 @@
 #include <unordered_set>
 #include <nyra/graphics/TileMap.h>
 #include <nyra/math/Graph.h>
+#include <nyra/graphics/sfml/Sprite.h>
 
 namespace nyra
 {
@@ -33,15 +34,12 @@ namespace game
 /*
  *  \class NavMesh
  *  \brief Creates a navigation mesh that can be used for pathfinding.
- *
- *  \tparam GameT The game type
  */
-template <typename GameT>
 class NavMesh
 {
 private:
-    typedef graphics::TileMap<typename GameT::Graphics::Sprite> TileMapT;
-    typedef typename GameT::Graphics::Vector VectorT;
+    typedef graphics::TileMap<graphics::sfml::Sprite> TileMapT;
+
 public:
     /*
      *  \func Constructor
@@ -67,9 +65,10 @@ public:
                 }
             }
         }
-        mEvent = [](const VectorT& v1, const VectorT& v2)->double
+        mEvent = [](const math::Vector2F& v1,
+                    const math::Vector2F& v2)->double
         {
-            static const double diag = VectorT(1, 1).length();
+            static const double diag = math::Vector2F(1, 1).length();
             const int32_t x = std::abs(static_cast<int32_t>(v1.x) -
                                        static_cast<int32_t>(v2.x));
             const int32_t y = std::abs(static_cast<int32_t>(v1.y) -
@@ -88,8 +87,9 @@ public:
      *  \param end The ending node
      *  \return The shortest available path
      */
-    math::PathResults<VectorT> getPath(const VectorT& start,
-                                       const VectorT& end) const
+    math::PathResults<math::Vector2F> getPath(
+            const math::Vector2F& start,
+            const math::Vector2F& end) const
     {
         return mGraph.getPath(start, end, mEvent);
     }
@@ -109,15 +109,15 @@ private:
         {
             if (collision.find(map.getTile(targetX, targetY)) == collision.end())
             {
-                const VectorT tile(x, y);
-                const VectorT target(targetX, targetY);
+                const math::Vector2F tile(x, y);
+                const math::Vector2F target(targetX, targetY);
                 mGraph.addEdge(tile, target);
             }
         }
     }
 
-    math::Graph<VectorT> mGraph;
-    typename math::Graph<VectorT>::HeuristicEvent mEvent;
+    math::Graph<math::Vector2F> mGraph;
+    typename math::Graph<math::Vector2F>::HeuristicEvent mEvent;
 };
 }
 }

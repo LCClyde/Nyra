@@ -1,4 +1,4 @@
-%module game2d
+%module game
 
 %include "../../math/swig/math.i"
 %include "../../gui/swig/gui.i"
@@ -9,7 +9,6 @@
     #include "nyra/graphics/sfml/RenderTarget.h"
     #include "nyra/game/Game.h"
     #include "nyra/game/Types.h"
-    #include "nyra/game/twod/Game.h"
     #include "nyra/physics/Body.h"
     #include "nyra/game/Actor.h"
     #include "nyra/input/Mouse.h"
@@ -37,13 +36,14 @@
 %ignore addActor;
 %ignore getActor;
 %ignore addGUI;
-%ignore Map(const game::Input<GameT>& input,
+%ignore Map(const game::Input& input,
             const graphics::RenderTarget& target);
 %ignore getMouse;
 %ignore getPhysics;
 %ignore updatePhysics;
 %ignore addCircleCollision;
 %ignore addBody;
+%ignore renderCollision;
 
 %rename(is_down) isDown;
 %rename(is_pressed) isPressed;
@@ -57,14 +57,11 @@
 %include "nyra/graphics/TileMap.h"
 %include "nyra/math/PathResults.h"
 
-%template(Actor2D) nyra::game::Actor<nyra::game::twod::GameType>;
-%template(input) nyra::game::Input<nyra::game::twod::GameType>;
 %template(TileMap2D) nyra::graphics::TileMap<nyra::graphics::sfml::Sprite>;
-%template(map) nyra::game::Map<nyra::game::twod::GameType>;
 %template(VectorVector2D) std::vector<nyra::math::Vector2F>;
 %template(PathResultsTileMap) nyra::math::PathResults<nyra::math::Vector2F>;
 
-%extend nyra::game::Actor<nyra::game::twod::GameType>
+%extend nyra::game::Actor
 {    
     size_t nyra_pointer()
     {
@@ -73,7 +70,7 @@
     
     void destroy()
     {
-        nyra::game::Map<nyra::game::twod::GameType>::getMap().destroyActor($self);
+        nyra::game::Map::getMap().destroyActor($self);
     }
     
     const nyra::math::Vector2F& _getPosition() const
@@ -128,28 +125,26 @@
     }
 }
 
-%extend nyra::game::Map<nyra::game::twod::GameType>
+%extend nyra::game::Map
 {
-    static nyra::game::Actor<nyra::game::twod::GameType>& _getActor(const std::string& name)
+    static nyra::game::Actor& _getActor(const std::string& name)
     {
-        return  nyra::game::Map<nyra::game::twod::GameType>::getActor(name);
+        return  nyra::game::Map::getActor(name);
     }
     
-    static nyra::game::Actor<nyra::game::twod::GameType>& _spawn(const std::string& filename,
+    static nyra::game::Actor& _spawn(const std::string& filename,
                        const std::string& name)
     {
-        nyra::game::Actor<nyra::game::twod::GameType>& actor =
-                nyra::game::Map<nyra::game::twod::GameType>::getMap().spawnActor(
+        nyra::game::Actor& actor =
+                nyra::game::Map::getMap().spawnActor(
                         filename, name, true);
         return actor;
     }
 }
 
-%rename(Actor) Actor2D;
-
 %pythoncode
 %{
-import nyra.game2d
+import nyra.game
 from collections import namedtuple
 
 def _get_script(self):
@@ -158,7 +153,7 @@ def _get_script(self):
     return self
     
 def get_actor(name):
-    actor = nyra.game2d.map._getActor(name)
+    actor = nyra.game.map._getActor(name)
     return actor._get_script()
 
 def spawn(filename,
@@ -166,7 +161,7 @@ def spawn(filename,
           position=None,
           rotation=None,
           scale=None):
-    actor = nyra.game2d.map._spawn(filename, name)
+    actor = nyra.game.map._spawn(filename, name)
     
     if position is not None:
         actor.position = position
@@ -176,13 +171,15 @@ def spawn(filename,
         actor.rotation = rotation
     return actor._get_script()
 
-Actor2D.position = property(Actor2D._getPosition, Actor2D._setPosition)
-Actor2D.size = property(Actor2D._getSize)
-Actor2D.tile_size = property(Actor2D._getTileSize)
-Actor2D.animation = property(Actor2D.getAnimation, Actor2D.playAnimation)
-Actor2D.velocity = property(Actor2D._getVelocity, Actor2D._setVelocity)
-Actor2D._get_script = _get_script
-Actor2D.widgets = Actor2D.getWidget
+Actor.position = property(Actor._getPosition, Actor._setPosition)
+Actor.size = property(Actor._getSize)
+Actor.tile_size = property(Actor._getTileSize)
+Actor.animation = property(Actor.getAnimation, Actor.playAnimation)
+Actor.velocity = property(Actor._getVelocity, Actor._setVelocity)
+Actor._get_script = _get_script
+Actor.widgets = Actor.getWidget
+map = Map
 map.spawn = spawn
 map.get_actor = get_actor
+input = Input
 %}

@@ -24,18 +24,14 @@
 
 #include <memory>
 #include <vector>
-#include <iostream>
-#include <nyra/json/JSON.h>
-#include <nyra/core/String.h>
-#include <nyra/mem/Buffer2D.h>
 #include <nyra/graphics/TileMap.h>
-#include <nyra/core/Path.h>
 #include <nyra/script/Function.h>
 #include <nyra/anim/Frame.h>
 #include <nyra/game/NavMesh.h>
 #include <nyra/game/Gui.h>
 #include <nyra/physics/Body.h>
 #include <nyra/core/Event.h>
+#include <nyra/game/Gui.h>
 
 namespace nyra
 {
@@ -44,23 +40,9 @@ namespace game
 /*
  *  \class Actor
  *  \brief Generic class for anything that interacts with the game
- *
- *  \tparam GameT The game type
  */
-template <typename GameT>
-class Actor : public GameT::Graphics::Renderable
+class Actor : public graphics::Renderable2D
 {
-public:
-    typedef typename GameT::Graphics::RenderTarget RenderTargetT;
-    typedef typename GameT::Graphics::Renderable RenderableT;
-    typedef typename GameT::Graphics::Transform TransformT;
-    typedef typename GameT::Graphics::Sprite SpriteT;
-    typedef std::vector<std::unique_ptr<RenderableT>> RenderList;
-    typedef typename GameT::Script::Object ObjectT;
-    typedef typename GameT::Script::Variable VariableT;
-    typedef typename GameT::Graphics::Vector VectorT;
-    typedef typename GameT::Physics::Body BodyT;
-
 public:
     /*
      *  \func Actor
@@ -88,7 +70,7 @@ public:
      *
      *  \param mesh The initialized nav mesh
      */
-    void addNavMesh(NavMesh<GameT>* mesh);
+    void addNavMesh(NavMesh* mesh);
     /*
      *  \func getNavMesh
      *  \brief Returns a nav mesh. This will segfault if the actor does not
@@ -96,7 +78,7 @@ public:
      *
      *  \return The nav mesh
      */
-    const NavMesh<GameT>& getNavMesh() const;
+    const NavMesh& getNavMesh() const;
 
     /*
      *  \func addRenderable
@@ -104,7 +86,7 @@ public:
      *
      *  \param renderable The object to add
      */
-    void addRenderable(RenderableT* renderable);
+    void addRenderable(graphics::Renderable2D* renderable);
 
     /*
      *  \func getRenderable
@@ -112,7 +94,7 @@ public:
      *
      *  \return The renderable
      */
-    RenderableT& getRenderable();
+    graphics::Renderable2D& getRenderable();
 
     /*
      *  \func getRenderable
@@ -120,7 +102,7 @@ public:
      *
      *  \return The renderable
      */
-    const RenderableT& getRenderable() const;
+    const graphics::Renderable2D& getRenderable() const;
 
     /*
      *  \func getScript
@@ -144,12 +126,12 @@ public:
      *
      *  \param gui The GUI to add. This takes ownership
      */
-    void addGUI(Gui<GameT>* gui);
+    void addGUI(Gui* gui);
 
-    void addBody(physics::Body<TransformT>* body);
+    void addBody(physics::Body<math::Transform2D>* body);
 
     void addCircleCollision(double radius,
-                            const VectorT& offset);
+                            const math::Vector2F& offset);
 
     void renderCollision(graphics::RenderTarget& target);
 
@@ -174,7 +156,7 @@ public:
      *
      *  \param script The script object
      */
-    void setScript(ObjectT* script);
+    void setScript(script::Object* script);
 
     /*
      *  \func setUpdateFunction
@@ -259,25 +241,26 @@ public:
      */
     void setLayer(int32_t layer);
 
-    physics::Body<TransformT>& getPhysics();
+    physics::Body<math::Transform2D>& getPhysics();
 
-    const physics::Body<TransformT>& getPhysics() const;
+    const physics::Body<math::Transform2D>& getPhysics() const;
 
     gui::Widget& getWidget(const std::string& name);
 
 private:
-    std::unique_ptr<ObjectT> mScript;
-    std::unique_ptr<NavMesh<GameT>> mNavMesh;
-    std::unique_ptr<physics::Body<TransformT>> mBody;
-    RenderList mCollision;
+    std::unique_ptr<script::Object> mScript;
+    std::unique_ptr<NavMesh> mNavMesh;
+    std::unique_ptr<physics::Body<math::Transform2D>> mBody;
+    std::vector<std::unique_ptr<graphics::Renderable2D>> mCollision;
 
     script::FunctionPtr mUpdate;
     script::FunctionPtr mInitialize;
 
-    std::unique_ptr<RenderableT> mRenderable;
-    std::unordered_map<std::string, std::unique_ptr<anim::Animation>> mAnimations;
+    std::unique_ptr<graphics::Renderable2D> mRenderable;
+    std::unordered_map<std::string,
+            std::unique_ptr<anim::Animation>> mAnimations;
     anim::Animation* mCurrentAnimation;
-    Gui<GameT>* mGUI;
+    Gui* mGUI;
     std::string mCurrentAnimationName;
     std::string mName;
     int32_t mLayer;

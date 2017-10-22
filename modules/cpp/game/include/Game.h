@@ -27,6 +27,7 @@
 #include <nyra/core/FPS.h>
 #include <nyra/game/Input.h>
 #include <nyra/core/String.h>
+#include <nyra/game/Types.h>
 
 namespace nyra
 {
@@ -36,11 +37,7 @@ namespace game
  *  \class Game
  *  \brief Top level class to encapsulate a video game away into a single
  *         object.
- *
- *  \tparam GameT The game type information. This should be something from
- *          GameTypes.h to be sure to include everything necessary.
  */
-template <typename GameT>
 class Game
 {
 public:
@@ -72,7 +69,7 @@ public:
      */
     void loadMap(const std::string filename)
     {
-        mMap.reset(new Map<GameT>(mInput, mTarget));
+        mMap.reset(new Map(mInput, mTarget));
         core::read(
                 core::path::join(core::DATA_PATH, "maps/" + filename),
                 *mMap);
@@ -109,10 +106,10 @@ public:
 
 private:
     const Options mOptions;
-    typename GameT::Window::Window mWindow;
-    Input<GameT> mInput;
-    typename GameT::Graphics::RenderTarget mTarget;
-    std::unique_ptr<Map<GameT>> mMap;
+    WindowT mWindow;
+    Input mInput;
+    RenderTargetT mTarget;
+    std::unique_ptr<Map> mMap;
     core::FPS mFPS;
 };
 }
