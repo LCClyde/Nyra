@@ -23,9 +23,8 @@
 #define __NYRA_GAME_NAV_MESH_H__
 
 #include <unordered_set>
-#include <nyra/graphics/TileMap.h>
 #include <nyra/math/Graph.h>
-#include <nyra/graphics/sfml/Sprite.h>
+#include <nyra/game/Types.h>
 
 namespace nyra
 {
@@ -37,9 +36,6 @@ namespace game
  */
 class NavMesh
 {
-private:
-    typedef graphics::TileMap<graphics::sfml::Sprite> TileMapT;
-
 public:
     /*
      *  \func Constructor
@@ -49,35 +45,7 @@ public:
      *  \param collision The list of tiles that should be considered collision
      */
     NavMesh(const TileMapT& map,
-            const std::unordered_set<size_t>& collision)
-    {
-        const math::Vector2U& size = map.getNumTiles();
-        for (size_t y = 0; y < size.y; ++y)
-        {
-            for (size_t x = 0; x < size.x; ++x)
-            {
-                if (collision.find(map.getTile(x, y)) == collision.end())
-                {
-                    addTile(map, collision, x, y, 1, -1);
-                    addTile(map, collision, x, y, 1, 0);
-                    addTile(map, collision, x, y, 1, 1);
-                    addTile(map, collision, x, y, 0, 1);
-                }
-            }
-        }
-        mEvent = [](const math::Vector2F& v1,
-                    const math::Vector2F& v2)->double
-        {
-            static const double diag = math::Vector2F(1, 1).length();
-            const int32_t x = std::abs(static_cast<int32_t>(v1.x) -
-                                       static_cast<int32_t>(v2.x));
-            const int32_t y = std::abs(static_cast<int32_t>(v1.y) -
-                                       static_cast<int32_t>(v2.y));
-            const int32_t max = std::max(x, y);
-            const int32_t min = std::min(x, y);
-            return diag * min + (max - min);
-        };
-    }
+            const std::unordered_set<size_t>& collision);
 
     /*
      *  \func getPath
@@ -99,22 +67,7 @@ private:
     void addTile(const TileMapT& map,
                  const std::unordered_set<size_t>& collision,
                  size_t x, size_t y,
-                 int32_t dx, int32_t dy)
-    {
-        const int32_t targetX = x + dx;
-        const int32_t targetY = y + dy;
-        if (targetX >= 0 && targetY >= 0 &&
-            static_cast<size_t>(targetX) < map.getNumTiles().x &&
-            static_cast<size_t>(targetY) < map.getNumTiles().y)
-        {
-            if (collision.find(map.getTile(targetX, targetY)) == collision.end())
-            {
-                const math::Vector2F tile(x, y);
-                const math::Vector2F target(targetX, targetY);
-                mGraph.addEdge(tile, target);
-            }
-        }
-    }
+                 int32_t dx, int32_t dy);
 
     math::Graph<math::Vector2F> mGraph;
     typename math::Graph<math::Vector2F>::HeuristicEvent mEvent;

@@ -24,7 +24,6 @@
 
 #include <iostream>
 #include <nyra/game/ActorPtr.h>
-#include <nyra/core/Path.h>
 #include <nyra/game/Input.h>
 
 namespace nyra
@@ -44,15 +43,7 @@ public:
      *  \brief Sets an empty map and assigns it to the global object.
      */
     Map(const game::Input& input,
-        const graphics::RenderTarget& target) :
-        mInput(input),
-        mTarget(target),
-        // TODO: This should be a part of config params
-        mWorld(64.0, 0.0, 60.0),
-        mRenderCollision(true)
-    {
-        mMap = this;
-    }
+        const graphics::RenderTarget& target);
 
     /*
      *  \func update
@@ -60,57 +51,7 @@ public:
      *
      *  \param delta The time in seconds since the last update
      */
-    void update(double delta)
-    {
-        for (size_t ii = 0; ii < mActors.size(); ++ii)
-        {
-            mActors[ii].get()->update(delta);
-        }
-
-        // Add new actors
-        if (!mSpawnedActors.empty())
-        {
-            for (size_t ii = 0; ii < mSpawnedActors.size(); ++ii)
-            {
-                mActors.push_back(mSpawnedActors[ii]);
-            }
-
-            mSpawnedActors.clear();
-            sort();
-        }
-
-        if (mWorld.update(delta))
-        {
-            for (size_t ii = 0; ii < mActors.size(); ++ii)
-            {
-                mActors[ii].get()->updatePhysics();
-            }
-        }
-
-        for (size_t ii = 0; ii < mActors.size(); ++ii)
-        {
-            mActors[ii].get()->updateTransform();
-        }
-
-        // Kill dead actors
-        for (auto actor : mDestroyedActors)
-        {
-            for (auto it = mActors.begin();  it!=mActors.end(); ++it)
-            {
-                if(it->get() == actor)
-                {
-                    const auto mapIter = mActorMap.find(actor->getName());
-                    if (mapIter != mActorMap.end())
-                    {
-                        mActorMap.erase(mapIter);
-                    }
-                    mActors.erase(it);
-                    break;
-                }
-            }
-        }
-        mDestroyedActors.clear();
-    }
+    void update(double delta);
 
     /*
      *  \func render
@@ -118,21 +59,7 @@ public:
      *
      *  \param target The target to render to
      */
-    void render(graphics::RenderTarget& target)
-    {
-        for (size_t ii = 0; ii < mActors.size(); ++ii)
-        {
-            mActors[ii].get()->render(target);
-        }
-
-        if (mRenderCollision)
-        {
-            for (size_t ii = 0; ii < mActors.size(); ++ii)
-            {
-                mActors[ii].get()->renderCollision(target);
-            }
-        }
-    }
+    void render(graphics::RenderTarget& target);
 
     /*
      *  \func spawnActor
@@ -144,30 +71,8 @@ public:
      *  \return The actor
      */
     game::Actor& spawnActor(const std::string& filename,
-                                   const std::string& name,
-                                   bool initalize)
-    {
-        game::ActorPtr actor(filename, mInput, mTarget, mWorld);
-        actor.get()->setName(name);
-
-        if (!initalize)
-        {
-            mActors.push_back(actor);
-        }
-        else
-        {
-            mSpawnedActors.push_back(actor);
-            actor.get()->initialize();
-        }
-
-        if (!name.empty())
-        {
-            mActorMap[name] = actor.get();
-        }
-
-        return *actor.get();
-    }
-
+                            const std::string& name,
+                            bool initalize);
     /*
      *  \func destroyActor
      *  \brief Destroys an existing actor. The actor will actually stick
@@ -175,24 +80,14 @@ public:
      *
      *  \param actor The actor to destroy
      */
-    void destroyActor(const Actor* actor)
-    {
-        mDestroyedActors.push_back(actor);
-    }
+    void destroyActor(const Actor* actor);
 
     /*
      *  \func initialize
      *  \brief Called after the map has been loaded and all actors have
      *         been created.
      */
-    void initialize()
-    {
-        sort();
-        for (size_t ii = 0; ii < mActors.size(); ++ii)
-        {
-            mActors[ii].get()->initialize();
-        }
-    }
+    void initialize();
 
     /*
      *  \func getActor
@@ -218,10 +113,7 @@ public:
     }
 
 private:
-    void sort()
-    {
-        std::sort(mActors.begin(), mActors.end());
-    }
+    void sort();
 
     std::vector<ActorPtr> mActors;
     std::unordered_map<std::string, Actor*> mActorMap;
@@ -234,10 +126,6 @@ private:
     static const Actor* mCamera;
     static Map* mMap;
 };
-
-Map* Map::mMap = nullptr;
-
-const Actor* Map::mCamera = nullptr;
 }
 
 namespace core
@@ -250,33 +138,7 @@ namespace core
  *  \param actor The map to load
  */
 void read(const std::string& pathname,
-          game::Map& map)
-{
-    const json::JSON tree = core::read<json::JSON>(pathname);
-
-    if (tree.has("actors"))
-    {
-        for (size_t ii = 0; ii < tree["actors"].loopSize(); ++ii)
-        {
-            const auto& actorMap = tree["actors"][ii];
-            const std::string filename = actorMap["filename"].get();
-            const std::string name =
-                    actorMap.has("name") ? actorMap["name"].get() : "";
-            game::Actor& actor = map.spawnActor(filename, name, false);
-
-            if (actorMap.has("position"))
-            {
-                math::Vector2F position(
-                        core::str::toType<double>(
-                                actorMap["position"]["x"].get()),
-                        core::str::toType<double>(
-                                actorMap["position"]["x"].get()));
-                actor.setPosition(position);
-            }
-        }
-    }
-    map.initialize();
-}
+          game::Map& map);
 }
 }
 

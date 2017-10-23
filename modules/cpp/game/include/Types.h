@@ -30,6 +30,7 @@
 #include <nyra/physics/box2d/World.h>
 #include <nyra/script/py3/Include.h>
 #include <nyra/script/py3/Object.h>
+#include <nyra/script/py3/Variable.h>
 
 namespace nyra
 {
@@ -46,6 +47,7 @@ typedef physics::box2d::World WorldT;
 
 typedef script::py3::Include IncludeT;
 typedef script::py3::Object ObjectT;
+typedef script::py3::Variable VariableT;
 
 }
 }

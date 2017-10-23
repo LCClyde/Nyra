@@ -1,0 +1,200 @@
+/*
+* Copyright (c) 2016 Clyde Stanfield
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to
+* deal in the Software without restriction, including without limitation the
+* rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+* sell copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+* IN THE SOFTWARE.
+*/
+#include <nyra/game/Map.h>
+#include <nyra/core/String.h>
+
+namespace nyra
+{
+namespace game
+{
+Map* Map::mMap = nullptr;
+
+const Actor* Map::mCamera = nullptr;
+
+Map::Map(const game::Input& input,
+         const graphics::RenderTarget& target) :
+    mInput(input),
+    mTarget(target),
+    // TODO: This should be a part of config params
+    mWorld(64.0, 0.0, 60.0),
+    mRenderCollision(true)
+{
+    mMap = this;
+}
+
+void Map::update(double delta)
+{
+    for (size_t ii = 0; ii < mActors.size(); ++ii)
+    {
+        mActors[ii].get()->update(delta);
+    }
+
+    // Add new actors
+    if (!mSpawnedActors.empty())
+    {
+        for (size_t ii = 0; ii < mSpawnedActors.size(); ++ii)
+        {
+            mActors.push_back(mSpawnedActors[ii]);
+        }
+
+        mSpawnedActors.clear();
+        sort();
+    }
+
+    if (mWorld.update(delta))
+    {
+        for (size_t ii = 0; ii < mActors.size(); ++ii)
+        {
+            mActors[ii].get()->updatePhysics();
+        }
+    }
+
+    for (size_t ii = 0; ii < mActors.size(); ++ii)
+    {
+        mActors[ii].get()->updateTransform();
+    }
+
+    // Kill dead actors
+    for (auto actor : mDestroyedActors)
+    {
+        for (auto it = mActors.begin();  it!=mActors.end(); ++it)
+        {
+            if(it->get() == actor)
+            {
+                const auto mapIter = mActorMap.find(actor->getName());
+                if (mapIter != mActorMap.end())
+                {
+                    mActorMap.erase(mapIter);
+                }
+                mActors.erase(it);
+                break;
+            }
+        }
+    }
+    mDestroyedActors.clear();
+}
+
+void Map::render(graphics::RenderTarget& target)
+{
+    for (size_t ii = 0; ii < mActors.size(); ++ii)
+    {
+        mActors[ii].get()->render(target);
+    }
+
+    if (mRenderCollision)
+    {
+        for (size_t ii = 0; ii < mActors.size(); ++ii)
+        {
+            mActors[ii].get()->renderCollision(target);
+        }
+    }
+}
+
+game::Actor& Map::spawnActor(const std::string& filename,
+                             const std::string& name,
+                             bool initalize)
+{
+    game::ActorPtr actor(filename, mInput, mTarget, mWorld);
+    actor.get()->setName(name);
+
+    if (!initalize)
+    {
+        mActors.push_back(actor);
+    }
+    else
+    {
+        mSpawnedActors.push_back(actor);
+        actor.get()->initialize();
+    }
+
+    if (!name.empty())
+    {
+        mActorMap[name] = actor.get();
+    }
+
+    return *actor.get();
+}
+
+/*
+ *  \func destroyActor
+ *  \brief Destroys an existing actor. The actor will actually stick
+ *         around until the next frame
+ *
+ *  \param actor The actor to destroy
+ */
+void Map::destroyActor(const Actor* actor)
+{
+    mDestroyedActors.push_back(actor);
+}
+
+/*
+ *  \func initialize
+ *  \brief Called after the map has been loaded and all actors have
+ *         been created.
+ */
+void Map::initialize()
+{
+    sort();
+    for (size_t ii = 0; ii < mActors.size(); ++ii)
+    {
+        mActors[ii].get()->initialize();
+    }
+}
+
+void Map::sort()
+{
+    std::sort(mActors.begin(), mActors.end());
+}
+}
+
+namespace core
+{
+void read(const std::string& pathname,
+          game::Map& map)
+{
+    const json::JSON tree = core::read<json::JSON>(pathname);
+
+    if (tree.has("actors"))
+    {
+        for (size_t ii = 0; ii < tree["actors"].loopSize(); ++ii)
+        {
+            const auto& actorMap = tree["actors"][ii];
+            const std::string filename = actorMap["filename"].get();
+            const std::string name =
+                    actorMap.has("name") ? actorMap["name"].get() : "";
+            game::Actor& actor = map.spawnActor(filename, name, false);
+
+            if (actorMap.has("position"))
+            {
+                math::Vector2F position(
+                        core::str::toType<double>(
+                                actorMap["position"]["x"].get()),
+                        core::str::toType<double>(
+                                actorMap["position"]["x"].get()));
+                actor.setPosition(position);
+            }
+        }
+    }
+    map.initialize();
+}
+}
+}

@@ -50,43 +50,13 @@ public:
      *  \param filename The name of the input.json file.
      */
     Input(nyra::win::Window& window,
-          const std::string& filename) :
-        mMouse(window),
-        mKeyboard(window)
-    {
-        mInput = this;
-        const json::JSON tree = core::read<json::JSON>(
-                core::path::join(core::DATA_PATH, "input/" + filename));
-
-        if (tree.has("input"))
-        {
-            for (size_t ii = 0; ii < tree["input"].loopSize(); ++ii)
-            {
-                const auto& inputJSON = tree["input"][ii];
-                const std::string name = inputJSON["name"].get();
-                std::vector<std::string> values;
-                for (size_t jj = 0; jj < inputJSON["values"].loopSize(); ++jj)
-                {
-                    values.push_back(inputJSON["values"][jj].get());
-                }
-                mInputMap[name].reset(new InputValue(values));
-            }
-        }
-    }
+          const std::string& filename);
 
     /*
      *  \func update
      *  \brief Updates the input object.
      */
-    void update()
-    {
-        mMouse.update();
-        mKeyboard.update();
-        for (auto& map : mInputMap)
-        {
-            map.second->update(mMouse, mKeyboard);
-        }
-    }
+    void update();
 
     /*
      *  \func isPressed
@@ -95,11 +65,7 @@ public:
      *  \param name The name of the input map
      *  \return True if the button is pressed
      */
-    static bool isPressed(const std::string& name)
-    {
-        const auto& values = mInput->mInputMap.at(name);
-        return values->isPressed();
-    }
+    static bool isPressed(const std::string& name);
 
     /*
      *  \func isDown
@@ -108,11 +74,7 @@ public:
      *  \param name The name of the input map
      *  \return True if the button is down
      */
-    static bool isDown(const std::string& name)
-    {
-        const auto& values = mInput->mInputMap.at(name);
-        return values->isDown();
-    }
+    static bool isDown(const std::string& name);
 
     /*
      *  \func isReleased
@@ -121,11 +83,7 @@ public:
      *  \param name The name of the input map
      *  \return True if the button was released
      */
-    static bool isReleased(const std::string& name)
-    {
-        const auto& values = mInput->mInputMap.at(name);
-        return values->isReleased();
-    }
+    static bool isReleased(const std::string& name);
 
     /*
      *  \func getValue
@@ -134,11 +92,7 @@ public:
      *  \param name The name of the input map
      *  \return The value
      */
-    static float getValue(const std::string& name)
-    {
-        const auto& values = mInput->mInputMap.at(name);
-        return values->getValue();
-    }
+    static float getValue(const std::string& name);
 
     /*
      *  \func getMouse
@@ -158,8 +112,6 @@ private:
     std::unordered_map<std::string, std::unique_ptr<InputValue>> mInputMap;
     static Input* mInput;
 };
-
-Input* Input::mInput = nullptr;
 }
 }
 

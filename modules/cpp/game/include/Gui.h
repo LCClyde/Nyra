@@ -24,12 +24,7 @@
 
 #include <nyra/gui/cegui/Gui.h>
 #include <nyra/gui/cegui/Widget.h>
-#include <nyra/gui/cegui/Panel.h>
-#include <nyra/gui/cegui/Button.h>
-#include <nyra/gui/cegui/Label.h>
-#include <nyra/gui/cegui/Image.h>
-#include <nyra/core/String.h>
-#include <nyra/core/Path.h>
+#include <nyra/graphics/Renderable.h>
 
 namespace nyra
 {
@@ -48,11 +43,7 @@ public:
      *
      *  \param mouse The mouse object
      */
-    Gui(const input::Mouse& mouse) :
-        mGUI(mouse),
-        mSizeSet(false)
-    {
-    }
+    Gui(const input::Mouse& mouse);
 
     /*
      *  \func update
@@ -60,10 +51,7 @@ public:
      *
      *  \param delta The time in seconds since the last update
      */
-    void update(float delta)
-    {
-        mGUI.update(delta);
-    }
+    void update(float delta);
 
     /*
      *  \func render
@@ -71,10 +59,7 @@ public:
      *
      *  \param target The target to render to
      */
-    void render(graphics::RenderTarget& target) override
-    {
-        mGUI.render();
-    }
+    void render(graphics::RenderTarget& target) override;
 
     /*
      *  \func addWidget
@@ -88,35 +73,7 @@ public:
     static gui::cegui::Widget* addWidget(const std::string& type,
                                          const std::string& param,
                                          const std::string& name,
-                                         mem::Tree<gui::Widget>& gui)
-    {
-        gui::cegui::Widget* widget = nullptr;
-
-        if (type == "panel")
-        {
-            widget = new gui::cegui::Panel(param);
-        }
-        else if (type == "label")
-        {
-            widget = new gui::cegui::Label(param);
-        }
-        else if (type == "button")
-        {
-            widget = new gui::cegui::Button(param);
-        }
-        else if (type == "image")
-        {
-            widget = new gui::cegui::Image(
-                    core::path::join(core::DATA_PATH, "textures/" + param));
-        }
-        else
-        {
-            throw std::runtime_error("Unknown widget type: " + type);
-        }
-
-        gui[name] = widget;
-        return widget;
-    }
+                                         mem::Tree<gui::Widget>& gui);
 
     /*
      *  \func get
@@ -133,45 +90,9 @@ public:
      *  \func finalize
      *  \brief Sets up the size and position. Call after initialization.
      */
-    void finalize()
-    {
-        math::Vector2F size;
-        math::Vector2F position(std::numeric_limits<float>::max(),
-                                std::numeric_limits<float>::max());
+    void finalize();
 
-        const auto keys = mGUI.keys();
-
-        for (size_t ii = 0; ii < keys.size(); ++ii)
-        {
-            const math::Vector2F wPos = mGUI[keys[ii]].get().getPosition();
-            position.x = std::min(position.x, wPos.x);
-            position.y = std::min(position.y, wPos.y);
-        }
-
-        for (size_t ii = 0; ii < keys.size(); ++ii)
-        {
-            const math::Vector2F wSize = mGUI[keys[ii]].get().getSize();
-            const math::Vector2F wPos = mGUI[keys[ii]].get().getPosition();
-            size.x = std::max(wSize.x, position.x - (wPos.x + size.x));
-            size.y = std::max(wSize.y, position.y - (wPos.y + size.y));
-        }
-
-        setSize(size);
-        setPosition(position);
-    }
-
-    gui::Widget& getWidget(const std::string& name)
-    {
-        const std::vector<std::string> parts = core::str::split(name, ":");
-
-        mem::Tree<gui::Widget>* current = &mGUI;
-        for (const std::string& p : parts)
-        {
-            current = &current->operator [](p);
-        }
-
-        return current->get();
-    }
+    gui::Widget& getWidget(const std::string& name);
 
 private:
     gui::cegui::Gui mGUI;

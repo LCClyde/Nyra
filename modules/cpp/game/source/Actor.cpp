@@ -19,17 +19,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GAME_ACTOR_HPP__
-#define __NYRA_GAME_ACTOR_HPP__
-
-#include <memory>
-#include <vector>
 #include <iostream>
 #include <nyra/core/Path.h>
-#include <nyra/script/py3/Variable.h>
-#include <nyra/math/Transform.h>
-#include <nyra/game/Types.h>
-#include <nyra/script/Object.h>
+#include <nyra/game/Actor.h>
 
 namespace nyra
 {
@@ -49,7 +41,7 @@ void Actor::update(float delta)
 {
     if (mScript.get() && mUpdate.get())
     {
-        mUpdate->call(script::py3::Variable(delta));
+        mUpdate->call(VariableT(delta));
     }
 
     if (mCurrentAnimation)
@@ -287,5 +279,3 @@ gui::Widget& Actor::getWidget(const std::string& name)
 }
 }
 }
-
-#endif

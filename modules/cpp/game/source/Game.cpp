@@ -19,59 +19,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GAME_GAME_H__
-#define __NYRA_GAME_GAME_H__
-
-#include <nyra/game/Options.h>
-#include <nyra/game/Map.h>
-#include <nyra/core/FPS.h>
-#include <nyra/game/Input.h>
-#include <nyra/game/Types.h>
+#include <nyra/game/Game.h>
+#include <nyra/core/Path.h>
+#include <nyra/core/String.h>
 
 namespace nyra
 {
 namespace game
 {
-/*
- *  \class Game
- *  \brief Top level class to encapsulate a video game away into a single
- *         object.
- */
-class Game
+Game::Game(const Options& options) :
+    mOptions(options),
+    mWindow(mOptions.window.name,
+            mOptions.window.size,
+            mOptions.window.position),
+    mInput(mWindow, mOptions.game.inputMap),
+    mTarget(mWindow)
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Sets the game object.
-     *
-     *  \param options A nested struct of game options.
-     */
-    Game(const Options& options);
+    loadMap(mOptions.game.startingMap);
 
-    /*
-     *  \func loadMap
-     *  \brief Loads a map object
-     *
-     *  \param The filename of the map.
-     */
-    void loadMap(const std::string filename);
-
-    /*
-     *  \func run
-     *  \brief Runs the game. This function blocks until the game
-     *         has ended.
-     */
-    void run();
-
-private:
-    const Options mOptions;
-    WindowT mWindow;
-    Input mInput;
-    RenderTargetT mTarget;
-    std::unique_ptr<Map> mMap;
-    core::FPS mFPS;
-};
-}
+    // Prep the fps object
+    mFPS();
 }
 
-#endif
+void Game::loadMap(const std::string filename)
+{
+    mMap.reset(new Map(mInput, mTarget));
+    core::read(
+            core::path::join(core::DATA_PATH, "maps/" + filename),
+            *mMap);
+}
+
+void Game::run()
+{
+    double elapsed = 0.0;
+    while (mWindow.isOpen())
+    {
+        const double delta = mFPS();
+        elapsed += delta;
+
+        if (elapsed > 1.0)
+            {
+            mWindow.setName(mOptions.window.name + " " +
+                    core::str::toString(mFPS.getFPS()) +
+                    " FPS");
+            elapsed = 0.0;
+        }
+        mWindow.update();
+        mInput.update();
+        mMap->update(delta);
+        mTarget.clear(mOptions.graphics.clearColor);
+        mMap->render(mTarget);
+        mTarget.flush();
+    }
+}
+}
+}

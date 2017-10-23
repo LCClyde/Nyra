@@ -24,9 +24,9 @@
 
 #include <memory>
 #include <vector>
-#include <nyra/graphics/TileMap.h>
 #include <nyra/script/Function.h>
 #include <nyra/anim/Frame.h>
+#include <nyra/game/Types.h>
 #include <nyra/game/NavMesh.h>
 #include <nyra/game/Gui.h>
 #include <nyra/physics/Body.h>
@@ -268,7 +268,5 @@ private:
 };
 }
 }
-
-#include <nyra/game/Actor.hpp>
 
 #endif
