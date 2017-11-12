@@ -84,6 +84,17 @@ public:
     }
 
     /*
+     *  \func getEDHColors
+     *  \brief Attempts to find the true color of a card by looking at it's
+     *         intent rather than just it's casting cost. If the card has
+     *         a symbol anywhere in it's text it is considered to be that
+     *         color.
+     *
+     *  \return The elder dragon highlander color.
+     */
+    const std::vector<Mana>& getEDHColors() const;
+
+    /*
      *  \var name
      *  \brief The name of card
      */
@@ -176,6 +187,9 @@ private:
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Card& card);
+
+    mutable bool mEDHColorsSet;
+    mutable std::vector<Mana> mEDHColors;
 };
 }
 }

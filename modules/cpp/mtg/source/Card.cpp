@@ -56,7 +56,8 @@ Card::Card() :
     toughness(0),
     loyalty(0),
     isFlipCard(false),
-    isBackside(false)
+    isBackside(false),
+    mEDHColorsSet(false)
 {
 }
 
@@ -66,7 +67,8 @@ Card::Card(const mem::Tree<std::string>& tree) :
     toughness(0),
     loyalty(0),
     isFlipCard(false),
-    isBackside(false)
+    isBackside(false),
+    mEDHColorsSet(false)
 {
     name = tree["name"].get();
     cost = stringToMana(tree.has("manaCost") ? tree["manaCost"].get() : "");
@@ -142,6 +144,94 @@ bool Card::isType(Type type) const
     }
 
     return false;
+}
+
+//===========================================================================//
+const std::vector<Mana>& Card::getEDHColors() const
+{
+    if (!mEDHColorsSet)
+    {
+        // Special case for basic lands
+        if (rarity == BASIC_LAND)
+        {
+            if (name == "Plains")
+            {
+                mEDHColors = {WHITE};
+            }
+            else if (name == "Island")
+            {
+                mEDHColors = {BLUE};
+            }
+            else if (name == "Swamp")
+            {
+                mEDHColors = {BLACK};
+            }
+            else if (name == "Mountain")
+            {
+                mEDHColors = {RED};
+            }
+            else if (name == "Forest")
+            {
+                mEDHColors = {GREEN};
+            }
+        }
+        else
+        {
+            std::vector<size_t> foundColors(MAX_MANA);
+
+            for (Mana mana : cost)
+            {
+                foundColors[mana] += 1;
+            }
+
+            // Search text for symbols
+            if (text.find("{W}") != std::string::npos)
+            {
+                foundColors[WHITE] += 1;
+            }
+            if (text.find("{U}") != std::string::npos)
+            {
+                foundColors[BLUE] += 1;
+            }
+            if (text.find("{B}") != std::string::npos)
+            {
+                foundColors[BLACK] += 1;
+            }
+            if (text.find("{R}") != std::string::npos)
+            {
+                foundColors[RED] += 1;
+            }
+            if (text.find("{G}") != std::string::npos)
+            {
+                foundColors[GREEN] += 1;
+            }
+
+            if (foundColors[WHITE] > 0)
+            {
+                mEDHColors.push_back(WHITE);
+            }
+            if (foundColors[BLUE] > 0)
+            {
+                mEDHColors.push_back(BLUE);
+            }
+            if (foundColors[BLACK] > 0)
+            {
+                mEDHColors.push_back(BLACK);
+            }
+            if (foundColors[RED] > 0)
+            {
+                mEDHColors.push_back(RED);
+            }
+            if (foundColors[GREEN] > 0)
+            {
+                mEDHColors.push_back(GREEN);
+            }
+        }
+
+        mEDHColorsSet = true;
+    }
+
+    return mEDHColors;
 }
 
 //===========================================================================//

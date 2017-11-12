@@ -31,7 +31,7 @@ namespace mtg
 {
 /*
  *  \class Set
- *  \brief Represents a MTG set.
+ *  \brief Represents a collection of cards.
  */
 class Set
 {
@@ -51,7 +51,7 @@ public:
     Set(const std::string& pathname);
 
     /*
-     *  \var getAllCards
+     *  \func getAllCards
      *  \brief Gets a list of all the cards in the set
      *
      *  \return The list of cards.
@@ -61,6 +61,59 @@ public:
         return mCards;
     }
 
+    /*
+     *  \func addSet
+     *  \brief Merges two sets together
+     *
+     *  \param other The set to add
+     */
+    void addSet(const Set& other);
+
+    /*
+     *  \func filterRarity
+     *  \brief Gets a set of only a certain rarity
+     *
+     *  \param rarity The target rarity
+     *  \return The filtered set
+     */
+    Set filterRarity(Rarity rarity) const
+    {
+        return filterRarity(std::vector<Rarity>({rarity}));
+    }
+
+    /*
+     *  \func filterRarity
+     *  \brief Gets a set of only a certain rarity
+     *
+     *  \param rarity The target rarity
+     *  \return The filtered set
+     */
+    Set filterRarity(const std::vector<Rarity>& rarity) const;
+
+    /*
+     *  \func filterEDHColor
+     *  \brief Gets a set of only a certain color
+     *
+     *  \param color The target color
+     *  \return The filtered set
+     */
+    Set filterEDHColor(Mana color) const
+    {
+        if (color == COLORLESS)
+        {
+            return filterEDHColor(std::vector<Mana>({}));
+        }
+        return filterEDHColor(std::vector<Mana>({color}));
+    }
+
+    /*
+     *  \func filterEDHColor
+     *  \brief Gets a set of only a certain color
+     *
+     *  \param color The target color
+     *  \return The filtered set
+     */
+    Set filterEDHColor(const std::vector<Mana>& colors) const;
 
 private:
     NYRA_SERIALIZE()
@@ -68,14 +121,12 @@ private:
     template<class Archive>
     void serialize(Archive& archive, const unsigned int version)
     {
-        archive & BOOST_SERIALIZATION_NVP(mName);
         archive & BOOST_SERIALIZATION_NVP(mCards);
         archive & BOOST_SERIALIZATION_NVP(mBacksides);
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Set& set);
 
-    std::string mName;
     std::vector<Card> mCards;
     std::vector<Card> mBacksides;
 };

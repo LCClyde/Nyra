@@ -24,6 +24,13 @@
 #include <nyra/core/Path.h>
 #include <nyra/core/String.h>
 
+//===========================================================================//
+nyra::mtg::Set getBeta()
+{
+    return nyra::mtg::Set(nyra::core::path::join(
+            nyra::core::DATA_PATH, "docs/beta.json"));
+}
+
 namespace nyra
 {
 namespace mtg
@@ -31,23 +38,48 @@ namespace mtg
 //===========================================================================//
 TEST(Set, FromJSON)
 {
-    Set set(core::path::join(core::DATA_PATH, "docs/beta.json"));
+    Set set(getBeta());
     EXPECT_EQ(static_cast<size_t>(302), set.getAllCards().size());
 }
 
 //===========================================================================//
 TEST(Card, Archive)
 {
-    Set set(core::path::join(core::DATA_PATH, "docs/beta.json"));
+    Set set(getBeta());
     Set archived = test::archive(set);
     EXPECT_EQ(set.getAllCards(), archived.getAllCards());
 }
 
+//===========================================================================//
+TEST(Set, Merge)
+{
+    Set a(getBeta());
+    Set b(getBeta());
+    a.addSet(b);
+    EXPECT_EQ(static_cast<size_t>(604), a.getAllCards().size());
+}
+
+//===========================================================================//
+TEST(Set, Filter)
+{
+    Set beta(getBeta());
+    Set redBlue(beta.filterEDHColor({RED, BLUE}));
+    EXPECT_EQ(static_cast<size_t>(142), redBlue.getAllCards().size());
+
+    Set colorless(beta.filterEDHColor(COLORLESS));
+    EXPECT_EQ(static_cast<size_t>(41), colorless.getAllCards().size());
+
+    Set rare(beta.filterRarity(RARE));
+    EXPECT_EQ(static_cast<size_t>(117), rare.getAllCards().size());
+
+    Set commonUncommon(beta.filterRarity({COMMON, UNCOMMON}));
+    EXPECT_EQ(static_cast<size_t>(170), commonUncommon.getAllCards().size());
+}
 
 //===========================================================================//
 TEST(Set, Stdout)
 {
-    Set set(core::path::join(core::DATA_PATH, "docs/beta.json"));
+    Set set(getBeta());
     const std::string results = test::stdout(set);
     EXPECT_EQ(static_cast<size_t>(302), core::str::split(results, "\n").size());
 }

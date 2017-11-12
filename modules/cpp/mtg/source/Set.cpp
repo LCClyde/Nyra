@@ -34,8 +34,6 @@ Set::Set(const std::string& jsonPathname)
     json::JSON tree;
     core::read(jsonPathname, tree);
 
-    mName = tree["name"].get();
-
     const auto& cards = tree["cards"];
     for (size_t ii = 0; ii < cards.loopSize(); ++ii)
     {
@@ -50,6 +48,80 @@ Set::Set(const std::string& jsonPathname)
             mCards.push_back(card);
         }
     }
+}
+
+//===========================================================================//
+void Set::addSet(const Set& other)
+{
+    for (const Card& card : other.mCards)
+    {
+        mCards.push_back(card);
+    }
+
+    for (const Card& card : other.mBacksides)
+    {
+        mBacksides.push_back(card);
+    }
+}
+
+//===========================================================================//
+Set Set::filterRarity(const std::vector<Rarity>& rarity) const
+{
+    Set set;
+
+    for (const Card& card : mCards)
+    {
+        if (std::find(rarity.begin(),
+                      rarity.end(),
+                      card.rarity) != rarity.end())
+        {
+            set.mCards.push_back(card);
+        }
+    }
+
+    return set;
+}
+
+//===========================================================================//
+Set Set::filterEDHColor(const std::vector<Mana>& colors) const
+{
+    Set set;
+
+    for (const Card& card : mCards)
+    {
+        const std::vector<Mana>& edh = card.getEDHColors();
+        bool match = true;
+
+        for (const Mana& color : edh)
+        {
+            // Special case for colorless. It goes in any color
+            if (edh.empty())
+            {
+                continue;
+            }
+
+            // If this card is more colors we don't need to search.
+            if (edh.size() > colors.size())
+            {
+                match = false;
+                continue;
+            }
+
+            if (std::find(colors.begin(),
+                          colors.end(),
+                          color) == colors.end())
+            {
+                match = false;
+            }
+        }
+
+        if (match)
+        {
+            set.mCards.push_back(card);
+        }
+    }
+
+    return set;
 }
 
 //===========================================================================//

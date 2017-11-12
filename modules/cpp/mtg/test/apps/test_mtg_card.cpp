@@ -129,6 +129,19 @@ TEST(Card, Equality)
 }
 
 //===========================================================================//
+TEST(Card, EDHColor)
+{
+    Card card;
+    card.cost = {WHITE, GREEN};
+    EXPECT_EQ(card.cost, card.getEDHColors());
+
+    card = Card();
+    card.cost = {BLACK};
+    card.text = "{R}: +1/+0";
+    EXPECT_EQ(std::vector<Mana>({BLACK, RED}), card.getEDHColors());
+}
+
+//===========================================================================//
 TEST(Card, Archive)
 {
     Card card;
