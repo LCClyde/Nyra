@@ -77,6 +77,43 @@ TEST(Set, Filter)
 }
 
 //===========================================================================//
+TEST(Set, Booster)
+{
+    Set beta(getBeta());
+    Set booster = beta.generateBooster(11, 3, 1, 0);
+
+    size_t other = 0;
+    size_t commons = 0;
+    size_t uncommons = 0;
+    size_t rares = 0;
+    const std::vector<Card>& cards(booster.getAllCards());
+
+    for (const Card& card : cards)
+    {
+        switch (card.rarity)
+        {
+        case COMMON:
+            commons++;
+            break;
+        case UNCOMMON:
+            uncommons++;
+            break;
+        case RARE:
+            rares++;
+            break;
+        default:
+            other++;
+            break;
+        }
+    }
+
+    EXPECT_EQ(static_cast<size_t>(0), other);
+    EXPECT_EQ(static_cast<size_t>(11), commons);
+    EXPECT_EQ(static_cast<size_t>(3), uncommons);
+    EXPECT_EQ(static_cast<size_t>(1), rares);
+}
+
+//===========================================================================//
 TEST(Set, Stdout)
 {
     Set set(getBeta());

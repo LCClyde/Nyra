@@ -272,6 +272,11 @@ public:
         return mDistribution(mGenerator);
     }
 
+    void changeBounds(TypeT min, TypeT max)
+    {
+        mDistribution = DistributionT(min, max);
+    }
+
 private:
     GeneratorT mGenerator;
     typedef typename std::conditional

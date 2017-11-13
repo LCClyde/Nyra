@@ -115,7 +115,25 @@ public:
      */
     Set filterEDHColor(const std::vector<Mana>& colors) const;
 
+    /*
+     *  \func generateBooster
+     *  \brief Creates a random booster pack
+     *
+     *  \param commons The number of commons
+     *  \param uncommons The number of uncommons
+     *  \param rares The number of rares
+     *  \param mythics The number of mythics
+     *  \return The booster
+     */
+    Set generateBooster(size_t commons,
+                        size_t uncommons,
+                        size_t rares,
+                        size_t mythics) const;
+
 private:
+    Set generateRarity(Rarity rarity,
+                       size_t num) const;
+
     NYRA_SERIALIZE()
 
     template<class Archive>

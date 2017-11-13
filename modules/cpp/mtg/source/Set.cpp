@@ -22,7 +22,7 @@
 #include <iostream>
 #include <nyra/mtg/Set.h>
 #include <nyra/json/JSON.h>
-
+#include <nyra/core/Random.h>
 
 namespace nyra
 {
@@ -122,6 +122,52 @@ Set Set::filterEDHColor(const std::vector<Mana>& colors) const
     }
 
     return set;
+}
+
+//===========================================================================//
+Set Set::generateBooster(size_t commons,
+                         size_t uncommons,
+                         size_t rares,
+                         size_t mythics) const
+{
+
+    Set results;
+
+    if (commons > 0)
+    {
+        results.addSet(generateRarity(COMMON, commons));
+    }
+    if (uncommons > 0)
+    {
+        results.addSet(generateRarity(UNCOMMON, uncommons));
+    }
+    if (rares > 0)
+    {
+        results.addSet(generateRarity(RARE, rares));
+    }
+    if (mythics > 0)
+    {
+        results.addSet(generateRarity(MYTHIC, mythics));
+    }
+
+    return results;
+}
+
+//===========================================================================//
+Set Set::generateRarity(Rarity rarity, size_t num) const
+{
+    static core::RandomUniform<size_t> rand;
+
+    Set set(filterRarity(rarity));
+    Set result;
+    rand.changeBounds(0, set.mCards.size() - 1);
+
+    for (size_t ii = 0; ii < num; ++ii)
+    {
+        result.mCards.push_back(set.mCards[rand()]);
+    }
+
+    return result;
 }
 
 //===========================================================================//
