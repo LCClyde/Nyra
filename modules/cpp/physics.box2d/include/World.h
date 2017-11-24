@@ -70,6 +70,19 @@ public:
                double friction) override;
 
     /*
+     *  \func createTrigger
+     *  \brief Creates a trigger
+     *
+     *  \param type The physics type
+     *  \param transform The transform to update
+     *  \return The trigger
+     */
+    std::unique_ptr<Trigger2D>
+    createTrigger(
+            Type type,
+            math::Transform2D& transform) override;
+
+    /*
      *  \func getWorld
      *  \brief Gets the Box2D world object
      *

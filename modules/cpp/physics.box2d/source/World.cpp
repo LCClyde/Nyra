@@ -21,6 +21,69 @@
  */
 #include <nyra/physics/box2d/World.h>
 #include <nyra/physics/box2d/Body.h>
+#include <nyra/physics/box2d/Trigger.h>
+
+namespace
+{
+class ContactListener : public b2ContactListener
+{
+public:
+    void BeginContact(b2Contact* contact)
+    {
+        b2Fixture* fixA = contact->GetFixtureA();
+        b2Fixture* fixB = contact->GetFixtureB();
+
+        if (fixA->IsSensor() && !fixB->IsSensor())
+        {
+            sendEnterMessage(fixA->GetUserData(), fixB->GetUserData());
+        }
+        else if (fixB->IsSensor() && !fixA->IsSensor())
+        {
+            sendEnterMessage(fixB->GetUserData(), fixA->GetUserData());
+        }
+    }
+
+    void EndContact(b2Contact* contact)
+    {
+        b2Fixture* fixA = contact->GetFixtureA();
+        b2Fixture* fixB = contact->GetFixtureB();
+
+        if (fixA->IsSensor() && !fixB->IsSensor())
+        {
+            sendExitMessage(fixA->GetUserData(), fixB->GetUserData());
+        }
+        else if (fixB->IsSensor() && !fixA->IsSensor())
+        {
+            sendExitMessage(fixB->GetUserData(), fixA->GetUserData());
+        }
+    }
+
+private:
+    void sendEnterMessage(void* trigger, void* body)
+    {
+        nyra::physics::box2d::Trigger* triggerPtr =
+                dynamic_cast<nyra::physics::box2d::Trigger*>(
+                reinterpret_cast<nyra::physics::box2d::Body*>(
+                        trigger));
+        nyra::physics::box2d::Body* bodyPtr =
+                reinterpret_cast<nyra::physics::box2d::Body*>(
+                        body);
+        triggerPtr->onEnterMessage(*bodyPtr);
+    }
+
+    void sendExitMessage(void* trigger, void* body)
+    {
+        nyra::physics::box2d::Trigger* triggerPtr =
+                dynamic_cast<nyra::physics::box2d::Trigger*>(
+                reinterpret_cast<nyra::physics::box2d::Body*>(
+                        trigger));
+        nyra::physics::box2d::Body* bodyPtr =
+                reinterpret_cast<nyra::physics::box2d::Body*>(
+                        body);
+        triggerPtr->onExitMessage(*bodyPtr);
+    }
+};
+}
 
 namespace nyra
 {
@@ -37,6 +100,8 @@ World::World(double pixelsToMeters,
     mVelocityIterations(8),
     mPositionIterations(3)
 {
+    static ContactListener contactListener;
+    mWorld.SetContactListener(&contactListener);
 }
 
 //===========================================================================//
@@ -61,6 +126,16 @@ World::createBody(Type type,
                      density,
                      friction));
     return body;
+}
+
+//===========================================================================//
+std::unique_ptr<Trigger2D>
+World::createTrigger(Type type,
+                     math::Transform2D& transform)
+{
+    std::unique_ptr<Trigger2D> trigger(
+            new box2d::Trigger(type, transform, *this));
+    return trigger;
 }
 }
 }

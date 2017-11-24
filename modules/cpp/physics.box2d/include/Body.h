@@ -37,7 +37,7 @@ namespace box2d
  *  \class Body
  *  \brief A Box2D physics body object
  */
-class Body : public Body2D
+class Body : public virtual Body2D
 {
 public:
     Body(Type type,
@@ -88,13 +88,17 @@ public:
      */
     void setVelocity(const math::Vector2F& velocity);
 
-private:
+protected:
     void addShape(const b2Shape& shape);
 
+private:
     World& mWorld;
     const double mDensity;
     const double mFriction;
     b2Body* mBody;
+
+protected:
+    bool mTrigger;
 };
 }
 }

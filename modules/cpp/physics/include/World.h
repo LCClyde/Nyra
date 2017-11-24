@@ -25,6 +25,7 @@
 #include <memory>
 #include <iostream>
 #include <nyra/physics/Body.h>
+#include <nyra/physics/Trigger.h>
 #include <nyra/math/Transform.h>
 
 namespace nyra
@@ -102,6 +103,18 @@ public:
             TransformT& transform,
             double density,
             double friction) = 0;
+
+    /*
+     *  \func createTrigger
+     *  \brief Creates a trigger
+     *
+     *  \param type The physics type
+     *  \param transform The transform to update
+     *  \return The trigger
+     */
+    virtual std::unique_ptr<Trigger<TransformT>> createTrigger(
+            Type type,
+            TransformT& transform) = 0;
 
     /*
      *  \var PIXELS_TO_METERS

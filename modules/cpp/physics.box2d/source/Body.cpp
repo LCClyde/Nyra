@@ -37,7 +37,8 @@ Body::Body(Type type,
     Body2D(type, transform),
     mWorld(world),
     mDensity(density),
-    mFriction(friction)
+    mFriction(friction),
+    mTrigger(false)
 {
     b2BodyDef bodyDef;
 
@@ -86,9 +87,12 @@ void Body::addBox(const math::Vector2F& size,
 void Body::addShape(const b2Shape& shape)
 {
     b2FixtureDef fixture;
+    fixture.userData = this;
     fixture.shape = &shape;
     fixture.density = mDensity;
     fixture.friction = mFriction;
+    fixture.isSensor = mTrigger;
+
     mBody->CreateFixture(&fixture);
 }
 
