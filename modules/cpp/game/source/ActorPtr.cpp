@@ -124,7 +124,7 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
     }
 
     auto body = world.createBody(type, *mActor, 1.0, 0.3);
-    mActor->addBody(body.release());
+    mActor->getPhysics().addBody(body.release());
 
     if (map.has("circle"))
     {
@@ -139,7 +139,7 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
             offset.y = core::str::toType<double>(
                     circle["offset"]["y"].get());
         }
-        mActor->addCircleCollision(radius, offset);
+        mActor->getPhysics().addCircleCollision(radius, offset);
     }
 }
 
@@ -151,6 +151,7 @@ void ActorPtr::parseGui(const mem::Tree<std::string>& map,
     parseWidgets(map, gui->get());
     gui->finalize();
     mActor->addGUI(gui);
+    mActor->setType(Actor::GUI);
 }
 
 //===========================================================================//
@@ -237,7 +238,7 @@ graphics::Sprite* ActorPtr::parseSprite(
             core::DATA_PATH, "textures/" + filename);
 
     SpriteT* sprite = new SpriteT(pathname);
-    mActor->addRenderable(sprite);
+    mActor->addSprite(sprite);
     return sprite;
 }
 
@@ -268,7 +269,7 @@ void ActorPtr::parseTileMap(const mem::Tree<std::string>& map) const
             core::DATA_PATH, "textures/" + filename);
     TileMapT* mapPtr = new TileMapT(
             pathname, tiles, tileSize);
-    mActor->addRenderable(mapPtr);
+    mActor->addTileMap(mapPtr);
 
     // Check for a navmesh
     if (map.has("collision"))
@@ -288,12 +289,12 @@ void ActorPtr::parseTileMap(const mem::Tree<std::string>& map) const
 void ActorPtr::parseCamera(const mem::Tree<std::string>& map,
                            const graphics::RenderTarget& target) const
 {
-    CameraT* camera = new CameraT(target);
+    graphics::Camera2D* camera = new CameraT(target);
 
     // Move the camera back to zero, just so things are lined up
     camera->setPosition(math::Vector2F());
 
-    mActor->addRenderable(camera);
+    mActor->addCamera(camera);
 }
 
 //===========================================================================//

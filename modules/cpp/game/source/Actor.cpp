@@ -31,6 +31,7 @@ namespace game
 Actor::Actor() :
     mCurrentAnimation(nullptr),
     mGUI(nullptr),
+    mPhysics(*this),
     mLayer(0),
     mHasInit(false)
 {
@@ -117,46 +118,6 @@ void Actor::addGUI(Gui* gui)
 {
     mGUI = gui;
     addRenderable(gui);
-}
-
-//===========================================================================//
-void Actor::addBody(physics::Body<math::Transform2D>* body)
-{
-    mBody.reset(body);
-}
-
-//===========================================================================//
-void Actor::addCircleCollision(double radius,
-                               const math::Vector2F& offset)
-{
-    mBody->addCircle(radius, offset);
-    mCollision.push_back(std::unique_ptr<graphics::Renderable2D>(
-            new SpriteT(
-            core::path::join(core::DATA_PATH,
-                             "textures/collision_circle.png"))));
-    mCollision.back()->setPosition(offset);
-    mCollision.back()->setScale(math::Vector2F(radius / 64.0,
-                                               radius / 64.0));
-}
-
-//===========================================================================//
-void Actor::renderCollision(graphics::RenderTarget& target)
-{
-    for (size_t ii = 0; ii < mCollision.size(); ++ii)
-    {
-        mCollision[ii]->updateTransform(*this);
-        mCollision[ii]->render(target);
-    }
-}
-
-//===========================================================================//
-void Actor::updatePhysics()
-{
-    if (mBody.get())
-    {
-        mBody->update();
-        resetDirty();
-    }
 }
 
 //===========================================================================//
@@ -258,18 +219,6 @@ int32_t Actor::getLayer() const
 void Actor::setLayer(int32_t layer)
 {
     mLayer = layer;
-}
-
-//===========================================================================//
-physics::Body<math::Transform2D>& Actor::getPhysics()
-{
-    return *mBody;
-}
-
-//===========================================================================//
-const physics::Body<math::Transform2D>& Actor::getPhysics() const
-{
-    return *mBody;
 }
 
 //===========================================================================//

@@ -35,6 +35,9 @@
 %ignore getRenderable;
 %ignore addActor;
 %ignore getActor;
+%ignore addSprite;
+%ignore addTileMap;
+%ignore addCamera;
 %ignore addGUI;
 %ignore Map(const game::Input& input,
             const graphics::RenderTarget& target);

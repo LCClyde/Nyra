@@ -28,15 +28,14 @@ namespace game
 {
 Map* Map::mMap = nullptr;
 
-const Actor* Map::mCamera = nullptr;
-
 Map::Map(const game::Input& input,
          const graphics::RenderTarget& target) :
     mInput(input),
     mTarget(target),
     // TODO: This should be a part of config params
     mWorld(64.0, 0.0, 60.0),
-    mRenderCollision(true)
+    mRenderCollision(true),
+    mCamera(nullptr)
 {
     mMap = this;
 }
@@ -64,7 +63,7 @@ void Map::update(double delta)
     {
         for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
-            mActors[ii].get()->updatePhysics();
+            mActors[ii].get()->getPhysics().update();
         }
     }
 
@@ -104,7 +103,7 @@ void Map::render(graphics::RenderTarget& target)
     {
         for (size_t ii = 0; ii < mActors.size(); ++ii)
         {
-            mActors[ii].get()->renderCollision(target);
+            mActors[ii].get()->getPhysics().render(target);
         }
     }
 }
@@ -129,6 +128,11 @@ game::Actor& Map::spawnActor(const std::string& filename,
     if (!name.empty())
     {
         mActorMap[name] = actor.get();
+    }
+
+    if (actor.get()->getType() == Actor::CAMERA)
+    {
+        mCamera = actor.get();
     }
 
     return *actor.get();

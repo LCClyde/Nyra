@@ -123,7 +123,7 @@ private:
     const graphics::RenderTarget& mTarget;
     physics::box2d::World mWorld;
     bool mRenderCollision;
-    static const Actor* mCamera;
+    const Actor* mCamera;
     static Map* mMap;
 };
 }

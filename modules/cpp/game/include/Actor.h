@@ -29,8 +29,8 @@
 #include <nyra/game/Types.h>
 #include <nyra/game/NavMesh.h>
 #include <nyra/game/Gui.h>
-#include <nyra/physics/Body.h>
 #include <nyra/core/Event.h>
+#include <nyra/game/Physics.h>
 #include <nyra/game/Gui.h>
 
 namespace nyra
@@ -44,6 +44,15 @@ namespace game
 class Actor : public graphics::Renderable2D
 {
 public:
+    enum Type
+    {
+        OTHER,
+        SPRITE,
+        TILEMAP,
+        CAMERA,
+        GUI
+    };
+
     /*
      *  \func Actor
      *  \brief Creates a black actor.
@@ -79,14 +88,6 @@ public:
      *  \return The nav mesh
      */
     const NavMesh& getNavMesh() const;
-
-    /*
-     *  \func addRenderable
-     *  \brief Adds a new renderable to the actor
-     *
-     *  \param renderable The object to add
-     */
-    void addRenderable(graphics::Renderable2D* renderable);
 
     /*
      *  \func getRenderable
@@ -128,14 +129,23 @@ public:
      */
     void addGUI(Gui* gui);
 
-    void addBody(physics::Body<math::Transform2D>* body);
+    void addSprite(graphics::Sprite* sprite)
+    {
+        addRenderable(sprite);
+        mType = SPRITE;
+    }
 
-    void addCircleCollision(double radius,
-                            const math::Vector2F& offset);
+    void addTileMap(TileMapT* tilemap)
+    {
+        addRenderable(tilemap);
+        mType = TILEMAP;
+    }
 
-    void renderCollision(graphics::RenderTarget& target);
-
-    void updatePhysics();
+    void addCamera(graphics::Camera2D* camera)
+    {
+        addRenderable(camera);
+        mType = CAMERA;
+    }
 
     /*
      *  \func updateTransform
@@ -241,17 +251,39 @@ public:
      */
     void setLayer(int32_t layer);
 
-    physics::Body<math::Transform2D>& getPhysics();
-
-    const physics::Body<math::Transform2D>& getPhysics() const;
-
     gui::Widget& getWidget(const std::string& name);
 
+    Type getType() const
+    {
+        return mType;
+    }
+
+    void setType(Type type)
+    {
+        mType = type;
+    }
+
+    Physics& getPhysics()
+    {
+        return mPhysics;
+    }
+
+    const Physics& getPhysics() const
+    {
+        return mPhysics;
+    }
+
 private:
+    /*
+     *  \func addRenderable
+     *  \brief Adds a new renderable to the actor
+     *
+     *  \param renderable The object to add
+     */
+    void addRenderable(graphics::Renderable2D* renderable);
+
     std::unique_ptr<script::Object> mScript;
     std::unique_ptr<NavMesh> mNavMesh;
-    std::unique_ptr<physics::Body<math::Transform2D>> mBody;
-    std::vector<std::unique_ptr<graphics::Renderable2D>> mCollision;
 
     script::FunctionPtr mUpdate;
     script::FunctionPtr mInitialize;
@@ -261,10 +293,13 @@ private:
             std::unique_ptr<anim::Animation>> mAnimations;
     anim::Animation* mCurrentAnimation;
     Gui* mGUI;
+    Physics mPhysics;
+
     std::string mCurrentAnimationName;
     std::string mName;
     int32_t mLayer;
     bool mHasInit;
+    Type mType;
 };
 }
 }
