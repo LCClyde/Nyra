@@ -56,7 +56,12 @@ ActorPtr::ActorPtr(const std::string& filename,
 
     if (map.has("physics"))
     {
-        parsePhysics(map["physics"], world);
+        parsePhysics(map["physics"], world, false);
+    }
+
+    if (map.has("trigger"))
+    {
+        parsePhysics(map["trigger"], world, true);
     }
 
     if (map.has("gui"))
@@ -109,7 +114,8 @@ ActorPtr::ActorPtr(const std::string& filename,
 
 //===========================================================================//
 void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
-                            physics::World2D& world)
+                            physics::World2D& world,
+                            bool isTrigger)
 {
     const std::string stype = map["type"].get();
     physics::Type type = physics::STATIC;
@@ -123,8 +129,26 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
         type = physics::CHARACTER;
     }
 
-    auto body = world.createBody(type, *mActor, 1.0, 0.3);
-    mActor->getPhysics().addBody(body.release());
+    if (isTrigger)
+    {
+        auto body = world.createTrigger(type, *mActor);
+        mActor->getPhysics().addTrigger(body.release());
+
+        if (map.has("onEnter"))
+        {
+            mActor->getPhysics().setOnEnter(map["onEnter"].get());
+        }
+
+        if (map.has("onExit"))
+        {
+            mActor->getPhysics().setOnExit(map["onExit"].get());
+        }
+    }
+    else
+    {
+        auto body = world.createBody(type, *mActor, 1.0, 0.3);
+        mActor->getPhysics().addBody(body.release());
+    }
 
     if (map.has("circle"))
     {
@@ -139,7 +163,28 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
             offset.y = core::str::toType<double>(
                     circle["offset"]["y"].get());
         }
+
         mActor->getPhysics().addCircleCollision(radius, offset);
+    }
+
+    if (map.has("box"))
+    {
+        const auto& box = map["box"];
+
+        math::Vector2F size(
+                core::str::toType<double>(box["size"]["x"].get()),
+                core::str::toType<double>(box["size"]["y"].get()));
+
+        math::Vector2F offset;
+        if (box.has("offset"))
+        {
+            offset.x = core::str::toType<double>(
+                    box["offset"]["x"].get());
+            offset.y = core::str::toType<double>(
+                    box["offset"]["y"].get());
+        }
+
+        mActor->getPhysics().addBoxCollision(size, offset);
     }
 }
 
@@ -320,9 +365,9 @@ void ActorPtr::parseAnimation(const mem::Tree<std::string>& map,
                 currAnim["duration"].get());
         anim::Animation::PlayType playType = anim::Animation::LOOP;
 
-        if (map.has("type"))
+        if (currAnim.has("type"))
         {
-            const std::string type = map["type"].get();
+            const std::string type = currAnim["type"].get();
             if (type == "ping_pong")
             {
                 playType = anim::Animation::PING_PONG;
@@ -333,7 +378,7 @@ void ActorPtr::parseAnimation(const mem::Tree<std::string>& map,
             }
             else if (type == "loop")
             {
-                playType = anim::Animation::ONCE;
+                playType = anim::Animation::LOOP;
             }
             else
             {

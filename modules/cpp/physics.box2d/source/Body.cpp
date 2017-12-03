@@ -76,10 +76,11 @@ void Body::addBox(const math::Vector2F& size,
                   const math::Vector2F& offset)
 {
     b2PolygonShape shape;
+    b2Vec2 center(offset.x * mWorld.PIXELS_TO_METERS,
+                  offset.y * mWorld.PIXELS_TO_METERS);
     shape.SetAsBox(size.x / 2.0 * mWorld.PIXELS_TO_METERS,
-                   size.y / 2.0 * mWorld.PIXELS_TO_METERS);
-    shape.m_centroid.x = offset.x * mWorld.PIXELS_TO_METERS;
-    shape.m_centroid.y = offset.y * mWorld.PIXELS_TO_METERS;
+                   size.y / 2.0 * mWorld.PIXELS_TO_METERS,
+                   center, 0.0f);
     addShape(shape);
 }
 

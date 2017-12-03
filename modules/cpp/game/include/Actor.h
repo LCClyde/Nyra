@@ -282,7 +282,7 @@ private:
      */
     void addRenderable(graphics::Renderable2D* renderable);
 
-    std::unique_ptr<script::Object> mScript;
+    std::shared_ptr<script::Object> mScript;
     std::unique_ptr<NavMesh> mNavMesh;
 
     script::FunctionPtr mUpdate;

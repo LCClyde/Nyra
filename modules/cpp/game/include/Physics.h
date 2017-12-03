@@ -24,8 +24,11 @@
 
 #include <memory>
 #include <nyra/physics/Body.h>
+#include <nyra/physics/Trigger.h>
 #include <nyra/graphics/RenderTarget.h>
 #include <nyra/graphics/Renderable.h>
+#include <nyra/script/Object.h>
+#include <nyra/script/Function.h>
 
 namespace nyra
 {
@@ -39,7 +42,12 @@ public:
     void addCircleCollision(double radius,
                             const math::Vector2F& offset);
 
-    void addBody(physics::Body<math::Transform2D>* body);
+    void addBoxCollision(const math::Vector2F& size,
+                         const math::Vector2F& offset);
+
+    void addBody(physics::Body2D* body);
+
+    void addTrigger(physics::Trigger2D* trigger);
 
     void render(graphics::RenderTarget& target);
 
@@ -55,10 +63,30 @@ public:
         mBody->setVelocity(velocity);
     }
 
+    void setOnEnter(const std::string& functionName);
+
+    void onEnter(physics::Body2D& body);
+
+    void setOnExit(const std::string& functionName);
+
+    void onExit(physics::Body2D& body);
+
+    void setScript(const std::shared_ptr<script::Object>& script)
+    {
+        mScript = script;
+    }
+
 private:
-    std::unique_ptr<physics::Body<math::Transform2D>> mBody;
+    std::string getTextureName() const;
+
+    std::unique_ptr<physics::Body2D> mBody;
+    std::unique_ptr<physics::Trigger2D> mTrigger;
+    physics::Body2D* mLastBody;
     std::vector<std::unique_ptr<graphics::Renderable2D>> mCollision;
     math::Transform2D& mTransform;
+    std::shared_ptr<script::Object> mScript;
+    script::FunctionPtr mOnEnter;
+    script::FunctionPtr mOnExit;
 };
 }
 }

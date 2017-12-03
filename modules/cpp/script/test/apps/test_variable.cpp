@@ -53,8 +53,7 @@ private:
         mString = value;
     }
 
-    void setObject(
-            const std::unique_ptr<nyra::script::Object>& obj) override
+    void setObject(const nyra::script::Object& obj) override
     {
     }
 

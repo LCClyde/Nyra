@@ -93,7 +93,12 @@ private:
 
     virtual void setString(const std::string& value) = 0;
 
-    virtual void setObject(const std::unique_ptr<Object>& object) = 0;
+    virtual void setObject(const std::unique_ptr<Object>& object)
+    {
+        setObject(*object);
+    }
+
+    virtual void setObject(const Object& object) = 0;
 
     virtual int64_t getInt() const = 0;
 

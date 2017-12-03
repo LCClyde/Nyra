@@ -193,8 +193,11 @@ void read(const std::string& pathname,
                         core::str::toType<double>(
                                 actorMap["position"]["x"].get()),
                         core::str::toType<double>(
-                                actorMap["position"]["x"].get()));
+                                actorMap["position"]["y"].get()));
                 actor.setPosition(position);
+
+                // Update the physics position
+                actor.getPhysics().update();
             }
         }
     }

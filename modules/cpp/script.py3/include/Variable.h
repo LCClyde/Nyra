@@ -120,7 +120,7 @@ private:
 
     void setString(const std::string& value) override;
 
-    void setObject(const std::unique_ptr<script::Object>& object) override;
+    void setObject(const script::Object& object) override;
 
     int64_t getInt() const override;
 

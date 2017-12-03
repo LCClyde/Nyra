@@ -29,28 +29,53 @@ namespace game
 {
 //===========================================================================//
 Physics::Physics(math::Transform2D& transform) :
+    mLastBody(nullptr),
     mTransform(transform)
 {
 }
 
 //===========================================================================//
-void Physics::addBody(physics::Body<math::Transform2D>* body)
+void Physics::addBody(physics::Body2D* body)
 {
     mBody.reset(body);
+    mLastBody = body;
+
+    mBody->setUserData(mScript.get());
+}
+
+//===========================================================================//
+void Physics::addTrigger(physics::Trigger2D* body)
+{
+    mTrigger.reset(body);
+    mLastBody = body;
 }
 
 //===========================================================================//
 void Physics::addCircleCollision(double radius,
                                  const math::Vector2F& offset)
 {
-    mBody->addCircle(radius, offset);
+    mLastBody->addCircle(radius, offset);
     mCollision.push_back(std::unique_ptr<graphics::Renderable2D>(
             new SpriteT(
-            core::path::join(core::DATA_PATH,
-                             "textures/collision_circle.png"))));
+            core::path::join(core::DATA_PATH, "textures/" +
+                             getTextureName() + "_circle.png"))));
     mCollision.back()->setPosition(offset);
     mCollision.back()->setScale(math::Vector2F(radius / 64.0,
                                                radius / 64.0));
+}
+
+//===========================================================================//
+void Physics::addBoxCollision(const math::Vector2F& size,
+                              const math::Vector2F& offset)
+{
+    mLastBody->addBox(size, offset);
+    mCollision.push_back(std::unique_ptr<graphics::Renderable2D>(
+            new SpriteT(
+            core::path::join(core::DATA_PATH, "textures/" +
+                             getTextureName() + "_box.png"))));
+    mCollision.back()->setPosition(offset);
+    mCollision.back()->setScale(math::Vector2F(size.x / 128.0,
+                                               size.y / 128.0));
 }
 
 //===========================================================================//
@@ -66,11 +91,53 @@ void Physics::render(graphics::RenderTarget& target)
 //===========================================================================//
 void Physics::update()
 {
+    if (mTrigger.get())
+    {
+        mTrigger->update();
+    }
+
     if (mBody.get())
     {
         mBody->update();
         mTransform.resetDirty();
     }
+}
+
+//===========================================================================//
+void Physics::setOnEnter(const std::string& functionName)
+{
+    mOnEnter = mScript->function(functionName);
+    mTrigger->onEnter = std::bind(&Physics::onEnter, this, std::placeholders::_1);
+}
+
+//===========================================================================//
+void Physics::onEnter(physics::Body2D& body)
+{
+    mOnEnter->call(VariableT(*static_cast<script::Object*>(
+            body.getUserData())));
+}
+
+//===========================================================================//
+void Physics::setOnExit(const std::string& functionName)
+{
+    mOnExit = mScript->function(functionName);
+    mTrigger->onExit = std::bind(&Physics::onExit, this, std::placeholders::_1);
+}
+
+//===========================================================================//
+void Physics::onExit(physics::Body2D& body)
+{
+    mOnExit->call();
+}
+
+//===========================================================================//
+std::string Physics::getTextureName() const
+{
+    if (mLastBody == mBody.get())
+    {
+        return "collision";
+    }
+    return "trigger";
 }
 }
 }

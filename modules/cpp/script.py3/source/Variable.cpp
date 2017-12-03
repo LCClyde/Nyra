@@ -67,9 +67,9 @@ void Variable::setString(const std::string& value)
 }
 
 //===========================================================================//
-void Variable::setObject(const std::unique_ptr<script::Object>& object)
+void Variable::setObject(const script::Object& object)
 {
-    mData = dynamic_cast<Object*>(object.get())->getNative();
+    mData = dynamic_cast<const Object&>(object).getNative();
     setVar();
 }
 

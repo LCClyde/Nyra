@@ -74,7 +74,8 @@ public:
 private:
     //=======================================================================//
     void parsePhysics(const mem::Tree<std::string>& map,
-                      physics::World2D& world);
+                      physics::World2D& world,
+                      bool isTrigger);
 
     //=======================================================================//
     void parseGui(const mem::Tree<std::string>& map,

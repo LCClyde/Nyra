@@ -109,6 +109,14 @@ void Variable::set<std::unique_ptr<Object>>(
 
 //===========================================================================//
 template <>
+void Variable::set<Object>(
+        const Object& value)
+{
+    setObject(value);
+}
+
+//===========================================================================//
+template <>
 void Variable::set<float>(const float& value)
 {
     setFloat(static_cast<double>(value));

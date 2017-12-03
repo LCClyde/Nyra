@@ -61,7 +61,8 @@ public:
     Body(Type type,
          TransformT& transform) :
         mType(type),
-        mTransform(transform)
+        mTransform(transform),
+        mUserData(nullptr)
     {
     }
 
@@ -118,9 +119,32 @@ public:
     virtual void setVelocity(
             const typename TransformT::Position& velocity) = 0;
 
+    /*
+     *  \func getUserData
+     *  \brief Returns some user defined pointer.
+     *
+     *  \return The data
+     */
+    void* getUserData() const
+    {
+        return mUserData;
+    }
+
+    /*
+     *  \func setUserData
+     *  \brief Sets some user defined pointer that can be obtained later.
+     *
+     *  \param data The data to store.
+     */
+    void setUserData(void* data)
+    {
+        mUserData = data;
+    }
+
 protected:
     Type mType;
     TransformT& mTransform;
+    void* mUserData;
 };
 
 typedef Body<math::Transform2D> Body2D;

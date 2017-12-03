@@ -42,7 +42,11 @@ Trigger::Trigger(Type type,
 //===========================================================================//
 void Trigger::onEnterMessage(box2d::Body& body)
 {
-    if (!mTriggered)
+    // TODO: There can be times when a body hits a trigger twice. If that ends
+    //       up being a real issue, we need to re-add this check. However,
+    //       it needs to be implemented in a way that multiple different bodies
+    //       can trigger at the same time.
+    //if (!mTriggered)
     {
         onEnter(body);
         mTriggered = true;
@@ -52,7 +56,7 @@ void Trigger::onEnterMessage(box2d::Body& body)
 //===========================================================================//
 void Trigger::onExitMessage(box2d::Body& body)
 {
-    if (mTriggered)
+    //if (mTriggered)
     {
         onExit(body);
         mTriggered = false;

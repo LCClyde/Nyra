@@ -144,6 +144,7 @@ void Actor::render(graphics::RenderTarget& target)
 void Actor::setScript(script::Object* script)
 {
     mScript.reset(script);
+    mPhysics.setScript(mScript);
 }
 
 //===========================================================================//

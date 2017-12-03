@@ -35,6 +35,10 @@ namespace physics
 /*
  *  \class World
  *  \brief Object that holds onto the global physics properties
+ *         TODO: Let's make this class hidden to the user. There should instead
+ *         be a global function that can set some defaults and the world would
+ *         be created from that. This would also allow Bodies to be created
+ *         straight from their constructors instead of through the world class.
  *
  *  \tparam TransformT The transform type (2D or 3D)
  */
