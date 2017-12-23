@@ -38,7 +38,7 @@ Actor::Actor() :
 }
 
 //===========================================================================//
-void Actor::update(float delta)
+void Actor::update(double delta)
 {
     if (mScript.get() && mUpdate.get())
     {

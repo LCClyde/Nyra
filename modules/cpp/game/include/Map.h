@@ -112,6 +112,11 @@ public:
         return *mMap;
     }
 
+    static void toggle_render_collision()
+    {
+        getMap().mRenderCollision = !getMap().mRenderCollision;
+    }
+
 private:
     void sort();
 

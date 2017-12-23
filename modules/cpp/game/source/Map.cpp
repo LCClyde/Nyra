@@ -34,7 +34,7 @@ Map::Map(const game::Input& input,
     mTarget(target),
     // TODO: This should be a part of config params
     mWorld(64.0, 0.0, 60.0),
-    mRenderCollision(true),
+    mRenderCollision(false),
     mCamera(nullptr)
 {
     mMap = this;

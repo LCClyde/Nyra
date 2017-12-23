@@ -65,7 +65,7 @@ public:
      *
      *  \param delta The time in seconds since the last update
      */
-    void update(float delta);
+    void update(double delta);
 
     /*
      *  \func initialize

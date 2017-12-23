@@ -58,7 +58,7 @@ void Game::run()
         elapsed += delta;
 
         if (elapsed > 1.0)
-            {
+        {
             mWindow.setName(mOptions.window.name + " " +
                     core::str::toString(mFPS.getFPS()) +
                     " FPS");

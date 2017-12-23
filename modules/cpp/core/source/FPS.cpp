@@ -21,6 +21,7 @@
  */
 #include <nyra/core/FPS.h>
 #include <nyra/core/Time.h>
+#include <iostream>
 
 namespace nyra
 {
