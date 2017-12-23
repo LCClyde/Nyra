@@ -60,7 +60,7 @@ TEST_F(TestVariable, Stdout)
     // This can fail because of precision, seeing how this is just a
     // mock, it doesn't really matter. Just remove some precision.
     EXPECT_EQ(expectedFloatOut, stdoutFloat().substr(0, 6));
-    EXPECT_EQ("b'" + expectedStringOut + "'", stdoutString());
+    EXPECT_EQ(expectedStringOut, stdoutString());
 }
 
 //===========================================================================//

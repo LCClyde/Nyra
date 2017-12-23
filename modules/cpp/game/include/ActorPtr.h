@@ -68,7 +68,11 @@ public:
 
     bool operator<(const ActorPtr& other) const
     {
-        return get()->getLayer() < other.get()->getLayer();
+        if (get()->getLayer() != other.get()->getLayer())
+        {
+            return get()->getLayer() < other.get()->getLayer();
+        }
+        return get()->getPosition().y < other.get()->getPosition().y;
     }
 
 private:

@@ -111,7 +111,15 @@ public:
      *
      *  \return The script object
      */
-    const nyra::script::Object& getScript() const;
+    const nyra::script::Object& getScript() const
+    {
+        return *mScript;
+    }
+
+    nyra::script::Object& getScript()
+    {
+        return *mScript;
+    }
 
     /*
      *  \func hasScript

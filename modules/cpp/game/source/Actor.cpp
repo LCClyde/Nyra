@@ -102,12 +102,6 @@ const graphics::Renderable2D& Actor::getRenderable() const
 }
 
 //===========================================================================//
-const nyra::script::Object& Actor::getScript() const
-{
-    return *mScript;
-}
-
-//===========================================================================//
 bool Actor::hasScript() const
 {
     return mScript.get() != nullptr;

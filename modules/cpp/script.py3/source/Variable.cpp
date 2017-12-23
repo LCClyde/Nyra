@@ -62,7 +62,7 @@ void Variable::setFloat(double value)
 //===========================================================================//
 void Variable::setString(const std::string& value)
 {
-    mData.reset(PyBytes_FromStringAndSize(value.c_str(), value.size()));
+    mData.reset(PyUnicode_FromStringAndSize(value.c_str(), value.size()));
     setVar();
 }
 
@@ -89,8 +89,9 @@ double Variable::getFloat() const
 std::string Variable::getString() const
 {
     AutoPy data(getVar());
-    return std::string(PyBytes_AsString(data.get()),
-                       PyBytes_Size(data.get()));
+    AutoPy string(PyUnicode_AsASCIIString(data.get()));
+    return std::string(PyBytes_AsString(string.get()),
+                       PyBytes_Size(string.get()));
 }
 
 //===========================================================================//

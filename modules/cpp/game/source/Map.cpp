@@ -26,8 +26,10 @@ namespace nyra
 {
 namespace game
 {
+//===========================================================================//
 Map* Map::mMap = nullptr;
 
+//===========================================================================//
 Map::Map(const game::Input& input,
          const graphics::RenderTarget& target) :
     mInput(input),
@@ -40,6 +42,7 @@ Map::Map(const game::Input& input,
     mMap = this;
 }
 
+//===========================================================================//
 void Map::update(double delta)
 {
     for (size_t ii = 0; ii < mActors.size(); ++ii)
@@ -56,7 +59,6 @@ void Map::update(double delta)
         }
 
         mSpawnedActors.clear();
-        sort();
     }
 
     if (mWorld.update(delta))
@@ -92,8 +94,14 @@ void Map::update(double delta)
     mDestroyedActors.clear();
 }
 
+//===========================================================================//
 void Map::render(graphics::RenderTarget& target)
 {
+    // Sort before rendering. This keeps everything drawing in the correct
+    // order. Without this an object in front in terms of y position will
+    // render differently above or below an object
+    sort();
+
     for (size_t ii = 0; ii < mActors.size(); ++ii)
     {
         mActors[ii].get()->render(target);
@@ -108,6 +116,7 @@ void Map::render(graphics::RenderTarget& target)
     }
 }
 
+//===========================================================================//
 game::Actor& Map::spawnActor(const std::string& filename,
                              const std::string& name,
                              bool initalize)
@@ -138,23 +147,13 @@ game::Actor& Map::spawnActor(const std::string& filename,
     return *actor.get();
 }
 
-/*
- *  \func destroyActor
- *  \brief Destroys an existing actor. The actor will actually stick
- *         around until the next frame
- *
- *  \param actor The actor to destroy
- */
+//===========================================================================//
 void Map::destroyActor(const Actor* actor)
 {
     mDestroyedActors.push_back(actor);
 }
 
-/*
- *  \func initialize
- *  \brief Called after the map has been loaded and all actors have
- *         been created.
- */
+//===========================================================================//
 void Map::initialize()
 {
     sort();
@@ -164,6 +163,7 @@ void Map::initialize()
     }
 }
 
+//===========================================================================//
 void Map::sort()
 {
     std::sort(mActors.begin(), mActors.end());
@@ -172,6 +172,7 @@ void Map::sort()
 
 namespace core
 {
+//===========================================================================//
 void read(const std::string& pathname,
           game::Map& map)
 {
@@ -198,6 +199,16 @@ void read(const std::string& pathname,
 
                 // Update the physics position
                 actor.getPhysics().update();
+            }
+
+            if (actorMap.has("var"))
+            {
+                const auto& vars = actorMap["var"];
+                for (size_t var = 0; var < vars.loopSize(); ++var)
+                {
+                    actor.getScript().variable(
+                            vars[var]["name"].get())->set(vars[var]["value"].get());
+                }
             }
         }
     }
