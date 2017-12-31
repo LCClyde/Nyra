@@ -166,7 +166,7 @@ void Map::initialize()
 //===========================================================================//
 void Map::sort()
 {
-    std::sort(mActors.begin(), mActors.end());
+    std::stable_sort(mActors.begin(), mActors.end());
 }
 }
 

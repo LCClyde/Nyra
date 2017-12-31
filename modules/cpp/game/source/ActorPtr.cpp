@@ -50,8 +50,8 @@ ActorPtr::ActorPtr(const std::string& filename,
     }
     else
     {
-        mScopedActor.reset(new Actor());
-        mActor = mScopedActor.get();
+        IncludeT include("nyra.game");
+        createActor("Actor", include);
     }
 
     if (map.has("physics"))
@@ -256,12 +256,8 @@ void ActorPtr::parseScript(const mem::Tree<std::string>& map)
     const std::string filename = map["filename"].get();
     const std::string className = map["class"].get();
     IncludeT include(filename);
-    ObjectT* script = new ObjectT(include, className);
 
-    script::FunctionPtr thisPtr = script->function("nyra_pointer");
-    size_t ptr = (*thisPtr)()->get<size_t>();
-    mActor = reinterpret_cast<Actor*>(ptr);
-    mActor->setScript(script);
+    createActor(className, include);
 
     if (map.has("update"))
     {
@@ -275,6 +271,17 @@ void ActorPtr::parseScript(const mem::Tree<std::string>& map)
 }
 
 //===========================================================================//
+void ActorPtr::createActor(const std::string& className,
+                           IncludeT& include)
+{
+    ObjectT* script = new ObjectT(include, className);
+    script::FunctionPtr thisPtr = script->function("nyra_pointer");
+    size_t ptr = (*thisPtr)()->get<size_t>();
+    mActor = reinterpret_cast<Actor*>(ptr);
+    mActor->setScript(script);
+}
+
+//===========================================================================//
 graphics::Sprite* ActorPtr::parseSprite(
         const mem::Tree<std::string>& map) const
 {
@@ -283,6 +290,15 @@ graphics::Sprite* ActorPtr::parseSprite(
             core::DATA_PATH, "textures/" + filename);
 
     SpriteT* sprite = new SpriteT(pathname);
+
+    if (map.has("pivot"))
+    {
+        const math::Vector2F pivot(
+                core::str::toType<double>(map["pivot"]["x"].get()),
+                core::str::toType<double>(map["pivot"]["y"].get()));
+        sprite->setPivot(pivot);
+    }
+
     mActor->addSprite(sprite);
     return sprite;
 }

@@ -102,6 +102,7 @@ World::World(double pixelsToMeters,
 {
     static ContactListener contactListener;
     mWorld.SetContactListener(&contactListener);
+    mWorld.SetAllowSleeping(false);
 }
 
 //===========================================================================//

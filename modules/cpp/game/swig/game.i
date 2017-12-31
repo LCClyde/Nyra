@@ -86,6 +86,16 @@
         $self->setPosition(pos);
     }
     
+    float _getRotation() const
+    {
+        return $self->getRotation();
+    }
+    
+    void _setRotation(float rotation)
+    {
+        $self->setRotation(rotation);
+    }
+    
     const nyra::math::Vector2F& _getSize() const
     {
         return $self->getRenderable().getSize();
@@ -175,6 +185,7 @@ def spawn(filename,
     return actor._get_script()
 
 Actor.position = property(Actor._getPosition, Actor._setPosition)
+Actor.rotation = property(Actor._getRotation, Actor._setRotation)
 Actor.size = property(Actor._getSize)
 Actor.tile_size = property(Actor._getTileSize)
 Actor.animation = property(Actor.getAnimation, Actor.playAnimation)

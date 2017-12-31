@@ -93,6 +93,9 @@ private:
     void parseScript(const mem::Tree<std::string>& map);
 
     //=======================================================================//
+    void createActor(const std::string& className, IncludeT& include);
+
+    //=======================================================================//
     graphics::Sprite* parseSprite(const mem::Tree<std::string>& map) const;
 
     //=======================================================================//
@@ -108,7 +111,6 @@ private:
 
     //=======================================================================//
     Actor* mActor;
-    std::shared_ptr<Actor> mScopedActor;
 };
 }
 }
