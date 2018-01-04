@@ -86,6 +86,11 @@ void Map::update(double delta)
                 {
                     mActorMap.erase(mapIter);
                 }
+
+                // TODO: This is a strange interaction. The actor pointer is
+                //       actually owned by the script. So to make it fall
+                //       out of scope, we need to remove the script.
+                it->get()->setScript(nullptr);
                 mActors.erase(it);
                 break;
             }

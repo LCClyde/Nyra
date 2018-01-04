@@ -46,6 +46,8 @@ public:
          double density,
          double friction);
 
+    ~Body();
+
     /*
      *  \func addCircle
      *  \brief Adds circle collision

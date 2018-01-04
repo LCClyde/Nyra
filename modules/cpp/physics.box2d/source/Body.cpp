@@ -61,6 +61,12 @@ Body::Body(Type type,
 }
 
 //===========================================================================//
+Body::~Body()
+{
+    mWorld.getWorld().DestroyBody(mBody);
+}
+
+//===========================================================================//
 void Body::addCircle(double radius,
                      const math::Vector2F& offset)
 {
