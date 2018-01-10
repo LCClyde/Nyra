@@ -129,9 +129,37 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
         type = physics::CHARACTER;
     }
 
+    // TODO: Expose mask names to a serial interface
+    // 0001 Player collision   0x01
+    // 0010 Enemy collision    0x02
+    // 0100 Player trigger     0x04
+    // 1000 Enemy trigger      0x08
+    uint64_t mask = isTrigger ? 0x04 | 0x08 : 0x01 | 0x02;
+    if (map.has("mask"))
+    {
+        const std::string maskName = map["mask"].get();
+
+        if (maskName == "player")
+        {
+            mask = 0x01 | 0x04;
+        }
+        else if (maskName == "enemy")
+        {
+            mask = 0x02 | 0x08;
+        }
+        else if (maskName == "player trigger")
+        {
+            mask = 0x04;
+        }
+        else if (maskName == "enemy trigger")
+        {
+            mask = 0x08;
+        }
+    }
+
     if (isTrigger)
     {
-        auto body = world.createTrigger(type, 1, *mActor);
+        auto body = world.createTrigger(type, mask, *mActor);
         mActor->getPhysics().addTrigger(body.release());
 
         if (map.has("onEnter"))
@@ -146,7 +174,7 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
     }
     else
     {
-        auto body = world.createBody(type, 1, *mActor, 1.0, 0.3);
+        auto body = world.createBody(type, mask, *mActor, 1.0, 0.3);
         mActor->getPhysics().addBody(body.release());
     }
 
