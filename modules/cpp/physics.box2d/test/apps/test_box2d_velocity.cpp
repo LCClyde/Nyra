@@ -33,7 +33,7 @@ TEST(Velocity, SetGet)
     World world(64.0, 0.0, 60.0);
     math::Transform2D transform;
     std::unique_ptr<Body2D> body = world.createBody(
-            DYNAMIC, transform, 1.0, 0.3);
+            DYNAMIC, 1, transform, 1.0, 0.3);
     body->setVelocity(math::Vector2F(5.0f, 3.0f));
     transform.resetDirty();
 

@@ -63,14 +63,14 @@ TEST(Trigger, Interact)
     math::Transform2D transform;
     transform.setPosition(math::Vector2F(-100.0f, 0.0f));
     std::unique_ptr<Body2D> body = world.createBody(
-            DYNAMIC, transform, 1.0, 0.3);
+            DYNAMIC, 1, transform, 1.0, 0.3);
     body->addCircle(radius, math::Vector2F());
     body->setVelocity(math::Vector2F(100.0f, 0.0f));
     body->update();
 
     math::Transform2D triggerTransform;
     std::unique_ptr<Trigger2D> trigger = world.createTrigger(
-            STATIC, triggerTransform);
+            STATIC, 1, triggerTransform);
     triggerTransform.setPosition(math::Vector2F());
     trigger->addBox(math::Vector2F(boxSize, boxSize), math::Vector2F());
     trigger->onEnter = testOnEnter;

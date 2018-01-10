@@ -131,7 +131,7 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
 
     if (isTrigger)
     {
-        auto body = world.createTrigger(type, *mActor);
+        auto body = world.createTrigger(type, 1, *mActor);
         mActor->getPhysics().addTrigger(body.release());
 
         if (map.has("onEnter"))
@@ -146,7 +146,7 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
     }
     else
     {
-        auto body = world.createBody(type, *mActor, 1.0, 0.3);
+        auto body = world.createBody(type, 1, *mActor, 1.0, 0.3);
         mActor->getPhysics().addBody(body.release());
     }
 

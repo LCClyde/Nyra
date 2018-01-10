@@ -116,12 +116,14 @@ void World::updateImpl(double delta)
 //===========================================================================//
 std::unique_ptr<Body2D>
 World::createBody(Type type,
+                  uint64_t mask,
                   math::Transform2D& transform,
                   double density,
                   double friction)
 {
     std::unique_ptr<Body2D> body(
             new Body(type,
+                     mask,
                      transform,
                      *this,
                      density,
@@ -132,10 +134,11 @@ World::createBody(Type type,
 //===========================================================================//
 std::unique_ptr<Trigger2D>
 World::createTrigger(Type type,
+                     uint64_t mask,
                      math::Transform2D& transform)
 {
     std::unique_ptr<Trigger2D> trigger(
-            new box2d::Trigger(type, transform, *this));
+            new box2d::Trigger(type, mask, transform, *this));
     return trigger;
 }
 }

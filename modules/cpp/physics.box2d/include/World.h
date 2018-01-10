@@ -58,6 +58,7 @@ public:
      *  \brief Creates a physics body
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform to update
      *  \param density The objects density
      *  \param friction Friction to apply to movement
@@ -65,6 +66,7 @@ public:
      */
     std::unique_ptr<Body2D>
     createBody(Type type,
+               uint64_t mask,
                math::Transform2D& transform,
                double density,
                double friction) override;
@@ -74,13 +76,14 @@ public:
      *  \brief Creates a trigger
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform to update
      *  \return The trigger
      */
     std::unique_ptr<Trigger2D>
-    createTrigger(
-            Type type,
-            math::Transform2D& transform) override;
+    createTrigger(Type type,
+                  uint64_t mask,
+                  math::Transform2D& transform) override;
 
     /*
      *  \func getWorld

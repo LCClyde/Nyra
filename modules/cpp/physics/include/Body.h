@@ -22,6 +22,7 @@
 #ifndef __NYRA_PHSYICS_BODY_H__
 #define __NYRA_PHSYICS_BODY_H__
 
+#include <bitset>
 #include <nyra/math/Transform.h>
 
 namespace nyra
@@ -56,11 +57,14 @@ public:
      *  \brief Creates a body object
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform the body is in charge of
      */
     Body(Type type,
+         uint64_t mask,
          TransformT& transform) :
         mType(type),
+        mMask(mask),
         mTransform(transform),
         mUserData(nullptr)
     {
@@ -143,6 +147,7 @@ public:
 
 protected:
     Type mType;
+    const uint16_t mMask;
     TransformT& mTransform;
     void* mUserData;
 };

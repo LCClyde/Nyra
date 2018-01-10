@@ -29,11 +29,12 @@ namespace box2d
 {
 //===========================================================================//
 Trigger::Trigger(Type type,
+                 uint64_t mask,
                  math::Transform2D& transform,
                  World& world) :
-    physics::Body2D(type, transform),
-    physics::Trigger2D(type, transform),
-    box2d::Body(type, transform, world, 1.0, 1.0),
+    physics::Body2D(type, mask, transform),
+    physics::Trigger2D(type, mask, transform),
+    box2d::Body(type, mask, transform, world, 1.0, 1.0),
     mTriggered(false)
 {
     mTrigger = true;

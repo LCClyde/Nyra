@@ -44,11 +44,13 @@ public:
      *  \brief Creates a trigger object
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform the body is in charge of
      */
     Trigger(Type type,
+            uint64_t mask,
             TransformT& transform) :
-        Body<TransformT>(type, transform)
+        Body<TransformT>(type, mask, transform)
     {
     }
 

@@ -30,11 +30,12 @@ namespace box2d
 {
 //===========================================================================//
 Body::Body(Type type,
+           uint64_t mask,
            math::Transform2D& transform,
            World& world,
            double density,
            double friction) :
-    Body2D(type, transform),
+    Body2D(type, mask, transform),
     mWorld(world),
     mDensity(density),
     mFriction(friction),
@@ -94,6 +95,7 @@ void Body::addBox(const math::Vector2F& size,
 void Body::addShape(const b2Shape& shape)
 {
     b2FixtureDef fixture;
+    fixture.filter.maskBits = mMask;
     fixture.userData = this;
     fixture.shape = &shape;
     fixture.density = mDensity;

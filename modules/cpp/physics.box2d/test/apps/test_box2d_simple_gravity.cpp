@@ -33,7 +33,7 @@ TEST(Gravity, Fall)
     World world(64.0, 10.0, 60.0);
     math::Transform2D transform;
     std::unique_ptr<Body2D> body = world.createBody(
-            DYNAMIC, transform, 1.0, 0.3);
+            DYNAMIC, 1, transform, 1.0, 0.3);
     transform.resetDirty();
 
     for (size_t ii = 0; ii < 60; ++ii)
@@ -54,12 +54,12 @@ TEST(Gravity, Ground)
     math::Transform2D transform;
     transform.setPosition(math::Vector2F(0.0f, 20.0f));
     std::unique_ptr<Body2D> body = world.createBody(
-            DYNAMIC, transform, 1.0, 0.3);
+            DYNAMIC, 1, transform, 1.0, 0.3);
     body->addCircle(5.0f, math::Vector2F());
 
     math::Transform2D staticTransform;
     std::unique_ptr<Body2D> staticBody = world.createBody(
-            STATIC, staticTransform, 1.0, 0.3);
+            STATIC, 1, staticTransform, 1.0, 0.3);
     staticBody->addBox(math::Vector2F(1000.0f, 10.0f),
                        math::Vector2F());
     transform.resetDirty();

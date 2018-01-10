@@ -97,6 +97,7 @@ public:
      *  \brief Creates a physics body
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform to update
      *  \param density The objects density
      *  \param friction Friction to apply to movement
@@ -104,6 +105,7 @@ public:
      */
     virtual std::unique_ptr<Body<TransformT>> createBody(
             Type type,
+            uint64_t mask,
             TransformT& transform,
             double density,
             double friction) = 0;
@@ -113,11 +115,13 @@ public:
      *  \brief Creates a trigger
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform to update
      *  \return The trigger
      */
     virtual std::unique_ptr<Trigger<TransformT>> createTrigger(
             Type type,
+            uint64_t mask,
             TransformT& transform) = 0;
 
     /*

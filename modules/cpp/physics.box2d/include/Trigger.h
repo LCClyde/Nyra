@@ -43,10 +43,12 @@ public:
      *  \brief Creates a trigger object
      *
      *  \param type The physics type
+     *  \param mask The collision mask
      *  \param transform The transform the body is in charge of
      *  \param world The box2d world
      */
     Trigger(Type type,
+            uint64_t mask,
             math::Transform2D& transform,
             World& world);
 
