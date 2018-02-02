@@ -130,31 +130,34 @@ void ActorPtr::parsePhysics(const mem::Tree<std::string>& map,
     }
 
     // TODO: Expose mask names to a serial interface
-    // 0001 Player collision   0x01
-    // 0010 Enemy collision    0x02
-    // 0100 Player trigger     0x04
-    // 1000 Enemy trigger      0x08
-    uint64_t mask = isTrigger ? 0x04 | 0x08 : 0x01 | 0x02;
+    // 00001 Player collision   0x01
+    // 00010 Enemy collision    0x02
+    // 10000 Rigid collision    0x04
+    uint64_t mask = 0;
     if (map.has("mask"))
     {
-        const std::string maskName = map["mask"].get();
+        const std::vector<std::string> maskNames =
+                core::str::split(map["mask"].get(), ",");
 
-        if (maskName == "player")
+        for (const std::string& name : maskNames)
         {
-            mask = 0x01 | 0x04;
+            if (name == "player")
+            {
+                mask |= 0x01;
+            }
+            else if (name == "enemy")
+            {
+                mask |= 0x02;
+            }
+            else if (name == "rigid")
+            {
+                mask |= 0x04;
+            }
         }
-        else if (maskName == "enemy")
-        {
-            mask = 0x02 | 0x08;
-        }
-        else if (maskName == "player trigger")
-        {
-            mask = 0x04;
-        }
-        else if (maskName == "enemy trigger")
-        {
-            mask = 0x08;
-        }
+    }
+    else
+    {
+        mask = 0x01 | 0x02 | 0x04;
     }
 
     if (isTrigger)

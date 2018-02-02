@@ -127,7 +127,8 @@ void Physics::setOnExit(const std::string& functionName)
 //===========================================================================//
 void Physics::onExit(physics::Body2D& body)
 {
-    mOnExit->call();
+    mOnExit->call(VariableT(*static_cast<script::Object*>(
+            body.getUserData())));
 }
 
 //===========================================================================//
