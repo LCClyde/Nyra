@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -20,41 +20,42 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/algs/SimplexNoise.h>
-#include <nyra/img/Image.h>
-#include <nyra/test/Image.h>
+#include <nyra/procgen/Utils.h>
+
+namespace
+{
+class Noise
+{
+public:
+    double operator()(double x, double y) const
+    {
+        const double idx = (static_cast<size_t>(
+                y * nyra::procgen::DEFAULT_SIZE.x + x) % 11);
+        return idx;
+    }
+};
+}
 
 namespace nyra
 {
-namespace algs
+namespace procgen
 {
-TEST(SimplexNoise, Smoothness)
+TEST(Utils, MinMax)
 {
-    const SimplexNoise noise(FRACTAL_BROWNIAN_MOTION, 0.01, 2.0, 0.5, 3, 1337);
-
-    const size_t SIZE = 32;
-    const double threshold = 0.2;
-    for (size_t x = 1; x < SIZE - 1; ++x)
-    {
-        for (size_t y = 1; y < SIZE - 1; ++y)
-        {
-            const double value = noise(x, y);
-            for (size_t xx = 0; xx < 2; ++xx)
-            {
-                for (size_t yy = 0; yy < 2; ++yy)
-                {
-                    EXPECT_LT(std::abs(noise(xx, yy) - value), threshold);
-                }
-            }
-        }
-    }
+    Noise noise;
+    const auto minMax = getMinMax(noise);
+    EXPECT_EQ(0, minMax.first);
+    EXPECT_EQ(10, minMax.second);
 }
 
-TEST(SimplexNoise, Image)
+TEST(Utils, Percent)
 {
-    const SimplexNoise noise(FRACTAL_BROWNIAN_MOTION, 0.02, 2.0, 0.5, 5, 1337);
-    img::Image image(noise, math::Vector2U(512, 512), -1.0, 1.0);
-    EXPECT_TRUE(test::compareImage(image, "test_simplex.png"));
+    Noise noise;
+
+    for (double ii = 0.0; ii <= 1.0; ii += 0.1)
+    {
+        EXPECT_NEAR(ii * 10, getValueAtPercent(noise, ii), 0.001);
+    }
 }
 }
 }

@@ -39,7 +39,7 @@ SimplexNoise::SimplexNoise(FractalType type,
     mNoise.SetFractalType(static_cast<FastNoise::FractalType>(type));
     mNoise.SetFractalOctaves(octaves);
     mNoise.SetFractalLacunarity(lacunarity);
-    mNoise.SetFractalOctaves(octaves);
+    mNoise.SetSeed(seed);
 }
 
 //===========================================================================//

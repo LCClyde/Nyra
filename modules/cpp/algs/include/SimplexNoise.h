@@ -23,6 +23,7 @@
 #define __NYRA_ALGS_SIMPLEX_NOISE_H__
 
 #include <stdint.h>
+#include <stddef.h>
 #include <FastNoise.h>
 #include <nyra/algs/NoiseConstants.h>
 
