@@ -109,6 +109,56 @@ public:
     }
 
     /*
+     *  \func Addition Assignment Operator
+     *  \brief Adds two colors together. This is not commutative if you have.
+     *         alpha values.
+     *         TODO: Verify this is correct for alpha
+     *
+     *  \param other The color to add.
+     *  \return The original color with the other color added to it.
+     */
+    Color& operator+=(const Color& other);
+
+    /*
+     *  \func Addition Operator
+     *  \brief Adds two colors together. This is not commutative if you have.
+     *         alpha values.
+     *         TODO: Verify this is correct for alpha
+     *
+     *  \param other The color to add
+     *  \return A new color that is the sum of each color
+     */
+    Color operator+(const Color& other) const
+    {
+        // The + operator is not commutative if you have alpha
+        Color newColor(*this);
+        newColor += other;
+        return newColor;
+    }
+
+    /*
+     *  \func Multiply Assignment Operator
+     *  \brief Multiply two colors together.
+     *
+     *  \param other The color to multiply by.
+     *  \return The original color with the other color multiplied by it
+     */
+    Color& operator*=(const Color& other);
+
+    /*
+     *  \func Multiply Operator
+     *  \brief Multiply two colors together.
+     *
+     *  \param other The color to multiply by
+     *  \return A new color multiplied by the passed in color
+     */
+    Color operator*(Color other) const
+    {
+        other *= (*this);
+        return other;
+    }
+
+    /*
      *  \var r
      *  \brief The red value in the range of 0-255
      */

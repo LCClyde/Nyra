@@ -21,6 +21,34 @@
  */
 #include <nyra/img/Color.h>
 
+namespace
+{
+//===========================================================================//
+double toDouble(uint8_t val)
+{
+    return val / 255.0;
+}
+
+//===========================================================================//
+uint8_t toInt(double val)
+{
+    int32_t newVal = val * 255.0;
+    return std::max(std::min(newVal, 255), 0);
+}
+
+//===========================================================================//
+uint8_t add(uint8_t v1, uint8_t v2, uint8_t a)
+{
+    return toInt(toDouble(v1) + (toDouble(v2) * toDouble(a)));
+}
+
+//===========================================================================//
+uint8_t multiply(uint8_t v1, uint8_t v2)
+{
+    return toInt(toDouble(v1) * toDouble(v2));
+}
+}
+
 namespace nyra
 {
 namespace img
@@ -56,6 +84,25 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) :
     b(b),
     a(a)
 {
+}
+
+//===========================================================================//
+Color& Color::operator+=(const Color& other)
+{
+    r = add(r, other.r, other.a);
+    g = add(g, other.g, other.a);
+    b = add(b, other.b, other.a);
+    return *this;
+}
+
+//===========================================================================//
+Color& Color::operator*=(const Color& other)
+{
+    r = multiply(r, other.r);
+    g = multiply(g, other.g);
+    b = multiply(b, other.b);
+    a = multiply(a, other.a);
+    return *this;
 }
 
 //===========================================================================//

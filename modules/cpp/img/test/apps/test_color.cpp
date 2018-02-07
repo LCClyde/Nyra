@@ -108,6 +108,52 @@ TEST(Color, Uint32)
     EXPECT_EQ(color.toARGB(), static_cast<uint32_t>(0xBC56789A));
 }
 
+TEST(Color, Add)
+{
+    Color c1;
+    Color c2;
+
+    c1 = Color(255, 0, 0, 255);
+    c2 = Color(0, 0, 255, 255);
+    EXPECT_EQ(Color(255, 0, 255, 255), c1 + c2);
+
+    c1 = Color(1, 2, 3, 255);
+    c2 = Color(4, 5, 6, 255);
+    EXPECT_EQ(Color(5, 7, 9, 255), c1 + c2);
+
+    c1 = Color(255, 80, 200, 255);
+    c2 = Color(80, 255, 200, 255);
+    EXPECT_EQ(Color(255, 255, 255, 255), c1 + c2);
+
+    // TODO: Verify alpha is what we want
+    c1 = Color(10, 50, 100, 90);
+    c2 = Color(30, 100, 200, 110);
+    EXPECT_EQ(Color(33, 117, 235, 110), c2 + c1);
+    EXPECT_EQ(Color(22, 93, 186, 90), c1 + c2);
+}
+
+TEST(Color, Multiply)
+{
+    Color c1;
+    Color c2;
+
+    c1 = Color(0, 0, 0, 255);
+    c2 = Color(100, 200, 255, 255);
+    EXPECT_EQ(Color(0, 0, 0, 255), c1 * c2);
+
+    c1 = Color(32, 64, 128, 255);
+    c2 = Color(80, 100, 200, 255);
+    EXPECT_EQ(Color(10, 25, 100, 255), c1 * c2);
+
+    c1 = Color(255, 255, 255, 255);
+    c2 = Color(255, 255, 255, 255);
+    EXPECT_EQ(Color(255, 255, 255, 255), c1 * c2);
+
+    c1 = Color(10, 50, 100, 90);
+    c2 = Color(30, 100, 200, 110);
+    EXPECT_EQ(Color(1, 19, 78, 38), c2 * c1);
+}
+
 TEST(Color, Archive)
 {
     Color color(0x56, 0x78, 0x9A, 0xBC);
