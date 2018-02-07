@@ -23,6 +23,7 @@
 #include <nyra/test/Test.h>
 #include <nyra/core/Archive.h>
 #include <nyra/core/Path.h>
+#include <nyra/test/Image.h>
 
 namespace
 {
@@ -111,7 +112,8 @@ TEST(Image, Constructor)
     Image imgFunc(incer, size, 0, 255);
     for (size_t ii = 0; ii < size.product(); ++ii)
     {
-        std::cout << imgFunc(ii) << "\n";
+        const uint8_t val = static_cast<uint8_t>(ii);
+        EXPECT_EQ(Color(val, val, val, 255), imgFunc(ii));
     }
 }
 
@@ -199,6 +201,61 @@ TEST(Image, Index)
 
     EXPECT_EQ(image(20), color);
     EXPECT_EQ(image(1, 3), color);
+}
+
+TEST(Image, Add)
+{
+    Image image1(math::Vector2U(256, 256));
+    Image image2(math::Vector2U(256, 256));
+
+    for (size_t ii = 0; ii < 256; ++ii)
+    {
+        for (size_t jj = 0; jj < 256; ++jj)
+        {
+            image1(ii, jj) = Color(ii, ii, ii);
+            image2(ii, jj) = Color(jj, jj, jj);
+        }
+    }
+    EXPECT_TRUE(test::compareImage(image1 + image2, "test_image_add.png"));
+}
+
+TEST(Image, Multiply)
+{
+    Image image1(math::Vector2U(256, 256));
+    Image image2(math::Vector2U(256, 256));
+
+    for (size_t ii = 0; ii < 256; ++ii)
+    {
+        for (size_t jj = 0; jj < 256; ++jj)
+        {
+            image1(ii, jj) = Color(ii, ii, ii);
+            image2(ii, jj) = Color(jj, jj, jj);
+        }
+    }
+    EXPECT_TRUE(test::compareImage(image1 * image2, "test_image_multiply.png"));
+}
+
+TEST(Image, Invert)
+{
+    srand(0);
+    const math::Vector2U size(64, 64);
+    Image image1(size);
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        image1(ii) = Color(rand() % 255,
+                           rand() % 255,
+                           rand() % 255,
+                           255);
+    }
+
+    Image image2(image1);
+    image2.invert();
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        EXPECT_EQ(Color::WHITE, image1(ii) + image2(ii));
+    }
 }
 
 TEST(Image, Stdout)

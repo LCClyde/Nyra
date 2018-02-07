@@ -159,6 +159,17 @@ public:
     }
 
     /*
+     *  \func invert
+     *  \brief Inverts each color channel
+     */
+    void invert()
+    {
+        r = 255 - r;
+        g = 255 - g;
+        b = 255 - b;
+    }
+
+    /*
      *  \var r
      *  \brief The red value in the range of 0-255
      */

@@ -221,7 +221,60 @@ public:
         return !((*this) == other);
     }
 
+    /*
+     *  \func Addition Assignment Operator
+     *  \brief Adds two images
+     *
+     *  \param other The image to add.
+     *  \return The sum of the two images
+     */
+    Image& operator+=(const Image& other);
+
+    /*
+     *  \func Addition Operator
+     *  \brief Adds two images
+     *
+     *  \param other The image to add.
+     *  \return The sum of the two images
+     */
+    Image operator+(const Image& other) const
+    {
+        Image result(*this);
+        result += other;
+        return result;
+    }
+
+    /*
+     *  \func Multiply Assignment Operator
+     *  \brief Multiplies two images
+     *
+     *  \param other The image to multiply by.
+     *  \return The product of the two images
+     */
+    Image& operator*=(const Image& other);
+
+    /*
+     *  \func Multiply Operator
+     *  \brief Multiplies two images
+     *
+     *  \param other The image to multiply by.
+     *  \return The product of the two images
+     */
+    Image operator*(Image other) const
+    {
+        other *= (*this);
+        return other;
+    }
+
+    /*
+     *  \func invert
+     *  \brief Inverts each color channel
+     */
+    void invert();
+
 private:
+    void testSized(const Image& other, const std::string& op) const;
+
     friend std::ostream& operator<<(std::ostream& os, const Image& image);
 
     math::Vector2U mSize;

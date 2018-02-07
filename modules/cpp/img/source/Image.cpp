@@ -262,6 +262,51 @@ bool Image::operator==(const Image& other) const
 }
 
 //===========================================================================//
+void Image::invert()
+{
+    for (size_t ii = 0; ii < mSize.product(); ++ii)
+    {
+        mPixels[ii].invert();
+    }
+}
+
+//===========================================================================//
+Image& Image::operator+=(const Image& other)
+{
+    testSized(other, "addition");
+
+    for (size_t ii = 0; ii < mSize.product(); ++ii)
+    {
+        mPixels[ii] += other.mPixels[ii];
+    }
+    return *this;
+}
+
+//===========================================================================//
+Image& Image::operator*=(const Image& other)
+{
+    testSized(other, "multiply");
+
+    for (size_t ii = 0; ii < mSize.product(); ++ii)
+    {
+        mPixels[ii] *= other.mPixels[ii];
+    }
+    return *this;
+}
+
+//===========================================================================//
+void Image::testSized(const Image& other,
+                      const std::string& op) const
+{
+    if (mSize != other.mSize)
+    {
+        throw std::runtime_error(
+                "Images do not have the same size during " +
+                op + " operation");
+    }
+}
+
+//===========================================================================//
 std::ostream& operator<<(std::ostream& os, const Image& image)
 {
     const math::Vector2U dims = image.getSize();

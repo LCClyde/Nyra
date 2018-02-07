@@ -154,6 +154,13 @@ TEST(Color, Multiply)
     EXPECT_EQ(Color(1, 19, 78, 38), c2 * c1);
 }
 
+TEST(Color, Invert)
+{
+    Color color(25, 50, 75);
+    color.invert();
+    EXPECT_EQ(Color(250, 205, 180), color);
+}
+
 TEST(Color, Archive)
 {
     Color color(0x56, 0x78, 0x9A, 0xBC);
