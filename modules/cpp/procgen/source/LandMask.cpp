@@ -20,7 +20,6 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/procgen/LandMask.h>
-#include <nyra/procgen/Utils.h>
 
 namespace nyra
 {
@@ -29,31 +28,17 @@ namespace procgen
 //===========================================================================//
 LandMask::LandMask(double waterPercent,
                    size_t seed) :
-    mNoise(algs::FRACTAL_BROWNIAN_MOTION,
-           0.001, 1.75, 0.5, 5, seed),
-    mWaterValue(getValueAtPercent(mNoise, waterPercent))
+    Module(new algs::SimplexNoise(algs::FRACTAL_BROWNIAN_MOTION,
+                                  0.001, 1.75, 0.5, 5, seed)),
+    mWaterValue(getValueAtPercent(waterPercent))
 {
 }
 
 //===========================================================================//
-img::Image LandMask::getImage(const math::Vector2U& size) const
+img::Color LandMask::calcPixel(double value)
 {
-    img::Image image(size);
-    const math::Vector2F resolution(
-            static_cast<double>(DEFAULT_SIZE.x) / size.x,
-            static_cast<double>(DEFAULT_SIZE.y) / size.y);
-
-    for (size_t y = 0; y < size.y; ++y)
-    {
-        for (size_t x = 0; x < size.x; ++x)
-        {
-            const double value =
-                    mNoise(x * resolution.x, y * resolution.y);
-            image(y, x) = value < mWaterValue ?
-                    img::Color::BLACK : img::Color::WHITE;
-        }
-    }
-    return image;
+    return value < mWaterValue ?
+                img::Color::BLACK : img::Color::WHITE;
 }
 }
 }

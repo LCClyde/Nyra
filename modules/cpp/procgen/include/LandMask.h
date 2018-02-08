@@ -22,9 +22,9 @@
 #ifndef __NYRA_PROCGEN_LAND_MASK_H__
 #define __NYRA_PROCGEN_LAND_MASK_H__
 
+#include <nyra/procgen/Module.h>
 #include <nyra/algs/SimplexNoise.h>
 #include <nyra/img/Image.h>
-
 namespace nyra
 {
 namespace procgen
@@ -33,7 +33,7 @@ namespace procgen
  *  \class LandMask
  *  \brief Creates a mask where white is land and black is water.
  */
-class LandMask
+class LandMask : public Module<algs::SimplexNoise>
 {
 public:
     /*
@@ -47,18 +47,9 @@ public:
     LandMask(double waterPercent,
              size_t seed);
 
-    /*
-     *  \func getImage
-     *  \brief Gets the land mask as an image
-     *
-     *  \param size The size of the image. This should match the aspect
-     *         ratio of the DEFAULT_SIZE for best results.
-     *  \return The image
-     */
-    img::Image getImage(const math::Vector2U& size) const;
-
 private:
-    const algs::SimplexNoise mNoise;
+    img::Color calcPixel(double value) override;
+
     const double mWaterValue;
 };
 }

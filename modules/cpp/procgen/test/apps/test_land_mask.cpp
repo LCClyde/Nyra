@@ -21,7 +21,6 @@
  */
 #include <nyra/test/Test.h>
 #include <nyra/procgen/LandMask.h>
-#include <nyra/procgen/Utils.h>
 #include <nyra/test/Image.h>
 
 namespace nyra
@@ -34,7 +33,7 @@ TEST(LandMask, Image)
     const math::Vector2U size(256, 256);
     for (double ii = 0.0; ii <= 1.0; ii += 0.25)
     {
-        const LandMask mask(ii, 0);
+        LandMask mask(ii, 0);
         const img::Image image = mask.getImage(size);
 
         size_t numBlack = 0;
