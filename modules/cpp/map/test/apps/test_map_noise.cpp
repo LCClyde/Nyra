@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/map/Module.h>
+#include <nyra/map/Noise.h>
 #include <nyra/test/Test.h>
 
 namespace
@@ -38,7 +38,7 @@ void resetMinMax()
 class XNoise
 {
 public:
-    double operator()(double x, double y) const
+    double operator()(double x, double y)
     {
         minVal = std::min(minVal, x);
         maxVal = std::max(minVal, x);
@@ -50,7 +50,7 @@ public:
 class YNoise
 {
 public:
-    double operator()(double x, double y) const
+    double operator()(double x, double y)
     {
         minVal = std::min(minVal, y);
         maxVal = std::max(minVal, y);
@@ -59,21 +59,10 @@ public:
 };
 
 //===========================================================================//
-template<typename T>
-class TestModule : public nyra::map::Module<T>
+nyra::img::Color calcPixel(double value)
 {
-public:
-    TestModule() :
-        nyra::map::Module<T>(new T())
-    {
-    }
-
-private:
-    nyra::img::Color calcPixel(double value)
-    {
-        return nyra::img::Color(value, value, value, 255);
-    }
-};
+    return nyra::img::Color(value, value, value);
+}
 }
 
 namespace nyra
@@ -81,21 +70,45 @@ namespace nyra
 namespace map
 {
 //===========================================================================//
-TEST(Module, ImageResizing)
+TEST(Noise, ImageResizing)
 {
     math::Vector2U size = DEFAULT_SIZE / 100;
 
-    TestModule<XNoise> xMod;
+    Noise<XNoise> xNoise(new XNoise());
     resetMinMax();
-    xMod.getImage(size);
+    xNoise.getImage(size, PixFunc(calcPixel));
     EXPECT_EQ(0, minVal);
     EXPECT_EQ(DEFAULT_SIZE.x - 1, maxVal);
 
-    TestModule<YNoise> yMod;
+    Noise<YNoise> yNoise(new YNoise());
     resetMinMax();
-    yMod.getImage(size);
+    yNoise.getImage(size, PixFunc(calcPixel));
     EXPECT_EQ(0, minVal);
     EXPECT_EQ(DEFAULT_SIZE.y - 1, maxVal);
+}
+
+//===========================================================================//
+TEST(Noise, MinMax)
+{
+    Noise<XNoise> xNoise(new XNoise());
+    const auto minMax = xNoise.getMinMax();
+
+    EXPECT_EQ(0.0, minMax.first);
+    EXPECT_EQ(DEFAULT_SIZE.x - 1, minMax.second);
+}
+
+//===========================================================================//
+TEST(Noise, PercentAt)
+{
+    Noise<XNoise> xNoise(new XNoise());
+    for (double ii = 0; ii <= 1.0; ii += 0.1)
+    {
+        const double val = xNoise.getValueAtPercent(ii);
+
+        // Just make sure it is close. It won't be perfect because
+        // the percent is measured on a downsampled map.
+        EXPECT_NEAR(DEFAULT_SIZE.x * ii, val, 5.0);
+    }
 }
 }
 }

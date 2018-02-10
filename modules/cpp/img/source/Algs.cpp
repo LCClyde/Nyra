@@ -19,28 +19,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/img/Filter.h>
+#include <nyra/img/Algs.h>
+#include <opencv2/opencv.hpp>
 
 namespace nyra
 {
 namespace img
 {
 //===========================================================================//
-Filter::Filter(const math::Vector2U& size) :
-    mSize(size),
-    mFilter(mSize.product())
+Image gaussianBlur(const Image& input, size_t strength)
 {
+    Image output(input.getSize());
+    const size_t kernalSize = strength * 2 + 1;
+    cv::GaussianBlur(input.getNative(),
+                     output.getNative(),
+                     cv::Size(kernalSize, kernalSize),
+                     0.0,
+                     0.0,
+                     cv::BORDER_DEFAULT);
+    return output;
 }
 
 //===========================================================================//
-Image Filter::apply(const img::Image& image)
+Image edgeDetect(const Image& input, double threshold)
 {
-    const math::Vector2U imageSize = image.getSize();
-    img::Image result(imageSize);
+    Image output(input.getSize());
+    cv::Canny(input.getNative(),
+              output.getNative(),
+              threshold,
+              threshold * 3,
+              3, false);
+    return output;
+}
 
-    //for (size_t row = image.)
-
-    return result;
+//===========================================================================//
+Image invert(const Image& input)
+{
+    Image output(input.getSize());
+    cv::bitwise_not(input.getNative(), output.getNative());
+    return output;
 }
 }
 }

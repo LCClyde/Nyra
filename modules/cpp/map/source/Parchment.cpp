@@ -28,15 +28,24 @@ namespace map
 {
 //===========================================================================//
 Parchment::Parchment(size_t seed) :
-    Module(new algs::PerlinNoise(algs::FRACTAL_BROWNIAN_MOTION,
+    mNoise(new algs::PerlinNoise(algs::FRACTAL_BROWNIAN_MOTION,
                                  0.01, 2.0, 0.5, 3, seed)),
-    mMinMax(getMinMax()),
+    mMinMax(mNoise.getMinMax()),
     mDelta(mMinMax.second - mMinMax.first)
 {
 }
 
 //===========================================================================//
-img::Color Parchment::calcPixel(double value)
+img::Image Parchment::getImage(const math::Vector2U& size) const
+{
+    PixFunc func(std::bind(&Parchment::calcPixel,
+                           this,
+                           std::placeholders::_1));
+    return mNoise.getImage(size, func);
+}
+
+//===========================================================================//
+img::Color Parchment::calcPixel(double value) const
 {
     const double percent = (value - mMinMax.first) * mDelta;
     return math::linearInterpolate(img::Color(245, 222, 179),

@@ -266,16 +266,23 @@ public:
     }
 
     /*
-     *  \func invert
-     *  \brief Inverts each color channel
+     *  \func getNative
+     *  \brief Returns the underlying OpenCV matrix.
+     *
+     *  \return The native image object
      */
-    void invert();
-
     cv::Mat& getNative()
     {
         return mMatrix;
     }
 
+
+    /*
+     *  \func getNative
+     *  \brief Returns the underlying OpenCV matrix.
+     *
+     *  \return The native image object
+     */
     const cv::Mat& getNative() const
     {
         return mMatrix;

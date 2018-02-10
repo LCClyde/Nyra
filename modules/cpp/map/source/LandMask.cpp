@@ -28,14 +28,23 @@ namespace map
 //===========================================================================//
 LandMask::LandMask(double waterPercent,
                    size_t seed) :
-    Module(new algs::SimplexNoise(algs::FRACTAL_BROWNIAN_MOTION,
+    mNoise(new algs::SimplexNoise(algs::FRACTAL_BROWNIAN_MOTION,
                                   0.001, 1.75, 0.5, 5, seed)),
-    mWaterValue(getValueAtPercent(waterPercent))
+    mWaterValue(mNoise.getValueAtPercent(waterPercent))
 {
 }
 
 //===========================================================================//
-img::Color LandMask::calcPixel(double value)
+img::Image LandMask::getImage(const math::Vector2U& size) const
+{
+    PixFunc func(std::bind(&LandMask::calcPixel,
+                           this,
+                           std::placeholders::_1));
+    return mNoise.getImage(size, func);
+}
+
+//===========================================================================//
+img::Color LandMask::calcPixel(double value) const
 {
     return value < mWaterValue ?
                 img::Color::BLACK : img::Color::WHITE;

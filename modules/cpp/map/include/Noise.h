@@ -19,48 +19,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MAP_MODULE_H__
-#define __NYRA_MAP_MODULE_H__
+#ifndef __NYRA_MAP_NOISE_H__
+#define __NYRA_MAP_NOISE_H__
 
 #include <nyra/img/Image.h>
-
+#include <nyra/map/Constants.h>
+#include <nyra/core/Event.h>
 
 namespace nyra
 {
 namespace map
 {
-/*
- *  \var DEFAULT_SIZE
- *  \brief The default size used to determine statistics of the noise.
- */
-static const math::Vector2U DEFAULT_SIZE(1600, 900);
+typedef core::Event<img::Color(double value)> PixFunc;
 
 /*
- *  \class Module
+ *  \class Noise
  *  \brief Base class for image based procedural generation for maps
  *
  *  \tparam NoiseT The noise type
  */
 template <typename NoiseT>
-class Module
+class Noise
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Creates the module
+     *  \brief Creates the noise object
      *
-     *  \param noise The noise object
+     *  \param noise The underlying noise object
      */
-    Module(NoiseT* noise) :
+    Noise(NoiseT* noise) :
         mNoise(noise)
     {
     }
-
-    /*
-     *  \func Destructor
-     *  \brief Necessary for inheritance
-     */
-    virtual ~Module() = default;
 
     /*
      *  \func getImage
@@ -70,12 +61,12 @@ public:
      *         ratio of the DEFAULT_SIZE for best results.
      *  \return The image
      */
-    virtual img::Image getImage(const math::Vector2U& size)
+    img::Image getImage(const math::Vector2U& size,
+                        const PixFunc& func) const
     {
         img::Image image(size);
-        math::Vector2F resolution(
-                static_cast<double>(DEFAULT_SIZE.x - 1) / (size.x - 1),
-                static_cast<double>(DEFAULT_SIZE.y - 1) / (size.y - 1));
+        const math::Vector2F resolution =
+                calculateResolution(size.x, size.y);
 
         for (size_t y = 0; y < size.y; ++y)
         {
@@ -83,14 +74,11 @@ public:
             {
                 const double value =
                         (*mNoise)(x * resolution.x, y * resolution.y);
-                image(x, y) = calcPixel(value);
+                image(x, y) = func(value);
             }
         }
         return image;
     }
-
-protected:
-    virtual img::Color calcPixel(double value) = 0;
 
     /*
      *  \func getMinMax
@@ -128,7 +116,9 @@ protected:
     double getValueAtPercent(double percent) const
     {
         const double scale = 4.0;
-        const math::Vector2U reducedSize(DEFAULT_SIZE / scale);
+        const math::Vector2U reducedSize = DEFAULT_SIZE / scale;
+        const math::Vector2F resolution =
+                calculateResolution(reducedSize.x, reducedSize.y);
         const size_t size = reducedSize.product();
         std::vector<double> values(size);
 
@@ -136,7 +126,8 @@ protected:
         {
             for (size_t x = 0; x < reducedSize.x; ++x)
             {
-                values[y * reducedSize.x + x] = (*mNoise)(x * scale, y * scale);
+                values[y * reducedSize.x + x] =
+                        (*mNoise)(x * resolution.x, y * resolution.y);
             }
         }
         std::sort(values.begin(), values.end());
@@ -144,6 +135,13 @@ protected:
     }
 
 private:
+    math::Vector2F calculateResolution(double x, double y) const
+    {
+        return math::Vector2F(
+                static_cast<double>(DEFAULT_SIZE.x - 1) / (x - 1),
+                static_cast<double>(DEFAULT_SIZE.y - 1) / (y - 1));
+    }
+
     std::unique_ptr<NoiseT> mNoise;
 };
 }

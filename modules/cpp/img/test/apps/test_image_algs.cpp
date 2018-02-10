@@ -19,27 +19,42 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_IMG_FILTER_H__
-#define __NYRA_IMG_FILTER_H__
-
-#include <nyra/img/Image.h>
+#include <nyra/test/Test.h>
+#include <nyra/test/Image.h>
+#include <nyra/img/Algs.h>
+#include <nyra/core/Path.h>
 
 namespace nyra
 {
 namespace img
 {
-class Filter
+Image getInput()
 {
-public:
-    Filter(const math::Vector2U& size);
-
-    Image apply(const img::Image& image);
-
-protected:
-    const math::Vector2U mSize;
-    std::vector<double> mFilter;
-};
-}
+    return core::read<Image>(core::path::join(
+            core::DATA_PATH, "textures/lenna.png"));
 }
 
-#endif
+TEST(Algs, Blur)
+{
+    const Image input = getInput();
+    const Image output = gaussianBlur(input, 20);
+    EXPECT_TRUE(test::compareImage(output, "test_gaussian_blur.png"));
+}
+
+TEST(Algs, EdgeDetect)
+{
+    const Image input = getInput();
+    const Image output = edgeDetect(input, 75.0);
+    EXPECT_TRUE(test::compareImage(output, "test_edge_detect.png"));
+}
+
+TEST(Algs, Invert)
+{
+    const Image input = getInput();
+    const Image output = invert(input);
+    EXPECT_TRUE(test::compareImage(output, "test_invert.png"));
+}
+}
+}
+
+NYRA_TEST()

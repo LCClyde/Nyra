@@ -22,14 +22,14 @@
 #ifndef __NYRA_MAP_PARCHMENT_H__
 #define __NYRA_MAP_PARCHMENT_H__
 
-#include <nyra/map/Module.h>
+#include <nyra/map/Noise.h>
 #include <nyra/algs/PerlinNoise.h>
 
 namespace nyra
 {
 namespace map
 {
-class Parchment : public Module<algs::PerlinNoise>
+class Parchment
 {
 public:
     /*
@@ -42,9 +42,19 @@ public:
      */
     Parchment(size_t seed);
 
-private:
-    img::Color calcPixel(double value) override;
+    /*
+     *  \func getImage
+     *  \brief Gets the land mask as an image
+     *
+     *  \param size The size of the image.
+     *  \return The image
+     */
+    img::Image getImage(const math::Vector2U& size) const;
 
+private:
+    img::Color calcPixel(double value) const;
+
+    const Noise<algs::PerlinNoise> mNoise;
     const std::pair<double, double> mMinMax;
     const double mDelta;
 };

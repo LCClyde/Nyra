@@ -121,15 +121,6 @@ bool Image::operator==(const Image& other) const
 }
 
 //===========================================================================//
-void Image::invert()
-{
-    /*for (size_t ii = 0; ii < mSize.product(); ++ii)
-    {
-        mPixels[ii].invert();
-    }*/
-}
-
-//===========================================================================//
 Image& Image::operator+=(const Image& other)
 {
     testSized(other, "addition");
@@ -165,12 +156,13 @@ Image& Image::operator*=(const Image& other)
 void Image::testSized(const Image& other,
                       const std::string& op) const
 {
-    /*if (mSize != other.mSize)
+    if (mMatrix.rows != other.mMatrix.rows ||
+        mMatrix.cols != other.mMatrix.cols)
     {
         throw std::runtime_error(
                 "Images do not have the same size during " +
                 op + " operation");
-    }*/
+    }
 }
 
 //===========================================================================//

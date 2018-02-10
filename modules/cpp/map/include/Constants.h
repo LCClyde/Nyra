@@ -19,49 +19,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MAP_LAND_MASK_H__
-#define __NYRA_MAP_LAND_MASK_H__
+#ifndef __NYRA_MAP_CONSTANTS_H__
+#define __NYRA_MAP_CONSTATNS_H__
 
-#include <nyra/map/Noise.h>
-#include <nyra/algs/SimplexNoise.h>
-#include <nyra/img/Image.h>
+#include <nyra/math/Vector2.h>
+
 namespace nyra
 {
 namespace map
 {
 /*
- *  \class LandMask
- *  \brief Creates a mask where white is land and black is water.
+ *  \var DEFAULT_SIZE
+ *  \brief The default size used to create images. The final image algorithms
+ *         are optimized for results using this size.
  */
-class LandMask
-{
-public:
-    /*
-     *  \func Constructor
-     *  \brief Loads the LandMask
-     *
-     *  \param waterPercent The amount of water from 0-1. Where a 0 means
-     *         no water, and a 1 is all water.
-     *  \param seed The seed for creating the random number generator
-     */
-    LandMask(double waterPercent,
-             size_t seed);
-
-    /*
-     *  \func getImage
-     *  \brief Gets the land mask as an image
-     *
-     *  \param size The size of the image.
-     *  \return The image
-     */
-    img::Image getImage(const math::Vector2U& size) const;
-
-private:
-    img::Color calcPixel(double value) const;
-
-    const Noise<algs::SimplexNoise> mNoise;
-    const double mWaterValue;
-};
+static const math::Vector2U DEFAULT_SIZE(1600, 900);
 }
 }
 
