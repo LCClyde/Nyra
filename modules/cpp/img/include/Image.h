@@ -24,6 +24,7 @@
 
 #include <nyra/img/Color.h>
 #include <nyra/math/Vector2.h>
+#include <opencv2/opencv.hpp>
 
 namespace nyra
 {
@@ -54,7 +55,7 @@ public:
      *  \func Constructor
      *  \brief Creates an empty image
      */
-    Image() = default;
+    Image();
 
     /*
      *  \func Constructor
@@ -95,13 +96,13 @@ public:
         resize(size);
         const double diff = max - min;
 
-        for (size_t y = 0; y < mSize.y; ++y)
+        for (size_t y = 0; y < size.y; ++y)
         {
-            const size_t idx = y * mSize.x;
-            for (size_t x = 0; x < mSize.x; ++x)
+            const size_t idx = y * size.x;
+            for (size_t x = 0; x < size.x; ++x)
             {
                 const uint8_t pixel = (functor(x, y) - min) / diff * 255;
-                mPixels[idx + x] = Color(pixel, pixel, pixel, 255);
+                (*this)(idx + x) = Color(pixel, pixel, pixel, 255);
             }
         }
     }
@@ -113,11 +114,7 @@ public:
      *
      *  \param size The desired size of the image
      */
-    inline void resize(const math::Vector2U& size)
-    {
-        mSize = size;
-        mPixels.resize(mSize.product());
-    }
+    void resize(const math::Vector2U& size);
 
     /*
      *  \func setSize
@@ -137,9 +134,9 @@ public:
      *
      *  \return The size where x is rows and y is columns
      */
-    inline const math::Vector2U& getSize() const
+    math::Vector2U getSize() const
     {
-        return mSize;
+        return math::Vector2U(mMatrix.cols, mMatrix.rows);
     }
 
     /*
@@ -151,9 +148,10 @@ public:
      *  \param index The 1D index into the image
      *  \return The pixel value
      */
-    inline const Color& operator()(size_t index) const
+    Color operator()(size_t index) const
     {
-        return mPixels[index];
+        const auto pix = mMatrix.at<cv::Vec4b>(index);
+        return Color(pix[2], pix[1], pix[0], pix[3]);
     }
 
     /*
@@ -165,9 +163,9 @@ public:
      *  \param index The 1D index into the image
      *  \return The pixel value
      */
-    inline Color& operator()(size_t index)
+    Color operator()(size_t index)
     {
-        return mPixels[index];
+        return Color(mMatrix.at<cv::Vec4b>(index));
     }
 
     /*
@@ -176,13 +174,14 @@ public:
      *         check the size for speed. It is the users responsibility to
      *         ensure the index is in range.
      *
-     *  \param row The row of the pixel
-     *  \param col The column the pixel
+     *  \param x The column the pixel
+     *  \param y The row of the pixel
      *  \return The pixel value
      */
-    inline const Color& operator()(size_t row, size_t col) const
+    Color operator()(size_t x, size_t y) const
     {
-        return mPixels[row * mSize.x + col];
+        const auto pix = mMatrix.at<cv::Vec4b>(y, x);
+        return Color(pix[2], pix[1], pix[0], pix[3]);
     }
 
     /*
@@ -191,13 +190,13 @@ public:
      *         check the size for speed. It is the users responsibility to
      *         ensure the index is in range.
      *
-     *  \param row The row of the pixel
-     *  \param col The column the pixel
+     *  \param x The column the pixel
+     *  \param y The row of the pixel
      *  \return The pixel value
      */
-    Color& operator()(size_t row, size_t col)
+    Color operator()(size_t x, size_t y)
     {
-        return mPixels[row * mSize.x + col];
+        return Color(mMatrix.at<cv::Vec4b>(y, x));
     }
 
     /*
@@ -272,13 +271,22 @@ public:
      */
     void invert();
 
+    cv::Mat& getNative()
+    {
+        return mMatrix;
+    }
+
+    const cv::Mat& getNative() const
+    {
+        return mMatrix;
+    }
+
 private:
     void testSized(const Image& other, const std::string& op) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Image& image);
 
-    math::Vector2U mSize;
-    std::vector<Color> mPixels;
+    cv::Mat mMatrix;
 };
 }
 

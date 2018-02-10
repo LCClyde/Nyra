@@ -23,6 +23,7 @@
 #define __NYRA_IMG_COLOR_H__
 
 #include <stdint.h>
+#include <opencv2/opencv.hpp>
 #include <nyra/core/Archive.h>
 
 namespace nyra
@@ -31,9 +32,7 @@ namespace img
 {
 /*
  *  \class Color
- *  \brief Represents an RGBA color. A color is guaranteed to be able to cast
- *         to a uint8_t* with r=p[0], g=p[1], b=p[2], a=p[3]. This allows it
- *         to go to and from pixel buffers.
+ *  \brief Represents an RGBA color.
  */
 class Color
 {
@@ -43,6 +42,8 @@ public:
      *  \brief Creates a default (all 0, with 255 alpha) color.
      */
     Color();
+
+    Color(cv::Vec4b& color);
 
     /*
      *  \func Constructor
@@ -64,6 +65,8 @@ public:
      *  \param a The alpha value
      */
     Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+
+    Color& operator=(const Color& other);
 
     /*
      *  \func toRGBA
@@ -108,90 +111,34 @@ public:
         return !((*this) == other);
     }
 
-    /*
-     *  \func Addition Assignment Operator
-     *  \brief Adds two colors together. This is not commutative if you have.
-     *         alpha values.
-     *         TODO: Verify this is correct for alpha
-     *
-     *  \param other The color to add.
-     *  \return The original color with the other color added to it.
-     */
-    Color& operator+=(const Color& other);
+private:
+    cv::Vec4b mInternalPixel;
+    cv::Vec4b& mPixel;
 
-    /*
-     *  \func Addition Operator
-     *  \brief Adds two colors together. This is not commutative if you have.
-     *         alpha values.
-     *         TODO: Verify this is correct for alpha
-     *
-     *  \param other The color to add
-     *  \return A new color that is the sum of each color
-     */
-    Color operator+(const Color& other) const
-    {
-        // The + operator is not commutative if you have alpha
-        Color newColor(*this);
-        newColor += other;
-        return newColor;
-    }
-
-    /*
-     *  \func Multiply Assignment Operator
-     *  \brief Multiply two colors together.
-     *
-     *  \param other The color to multiply by.
-     *  \return The original color with the other color multiplied by it
-     */
-    Color& operator*=(const Color& other);
-
-    /*
-     *  \func Multiply Operator
-     *  \brief Multiply two colors together.
-     *
-     *  \param other The color to multiply by
-     *  \return A new color multiplied by the passed in color
-     */
-    Color operator*(Color other) const
-    {
-        other *= (*this);
-        return other;
-    }
-
-    /*
-     *  \func invert
-     *  \brief Inverts each color channel
-     */
-    void invert()
-    {
-        r = 255 - r;
-        g = 255 - g;
-        b = 255 - b;
-    }
-
+public:
     /*
      *  \var r
      *  \brief The red value in the range of 0-255
      */
-    uint8_t r;
+    uint8_t& r;
 
     /*
      *  \var g
      *  \brief The green value in the range of 0-255
      */
-    uint8_t g;
+    uint8_t& g;
 
     /*
      *  \var b
      *  \brief The blue value in the range of 0-255
      */
-    uint8_t b;
+    uint8_t& b;
 
     /*
      *  \var a
      *  \brief The alpha value in the range of 0-255
      */
-    uint8_t a;
+    uint8_t& a;
 
     /*
      *  \var
@@ -216,6 +163,13 @@ private:
 
     friend std::ostream& operator<<(std::ostream& os, const Color& color);
 };
+}
+
+namespace math
+{
+img::Color linearInterpolate(const img::Color& start,
+                             const img::Color& end,
+                             double delta);
 }
 }
 

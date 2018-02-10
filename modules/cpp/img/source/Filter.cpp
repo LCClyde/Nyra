@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,48 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <time.h>
-#include <nyra/algs/PerlinNoise.h>
+#include <nyra/img/Filter.h>
 
 namespace nyra
 {
-namespace algs
+namespace img
 {
 //===========================================================================//
-PerlinNoise::PerlinNoise(FractalType type,
-                         double frequency,
-                         double lacunarity,
-                         double gain,
-                         size_t octaves,
-                         size_t seed)
-{
-    mNoise.SetNoiseType(FastNoise::PerlinFractal);
-    mNoise.SetFrequency(frequency);
-    mNoise.SetFractalType(static_cast<FastNoise::FractalType>(type));
-    mNoise.SetFractalOctaves(octaves);
-    mNoise.SetFractalLacunarity(lacunarity);
-    mNoise.SetSeed(seed);
-}
-
-//===========================================================================//
-PerlinNoise::PerlinNoise(FractalType type,
-                         double frequency,
-                         double lacunarity,
-                         double gain,
-                         size_t octaves) :
-    PerlinNoise(type,
-                frequency,
-                lacunarity,
-                gain,
-                octaves,
-                time(nullptr))
+Filter::Filter(const math::Vector2U& size) :
+    mSize(size),
+    mFilter(mSize.product())
 {
 }
 
 //===========================================================================//
-double PerlinNoise::operator()(double x, double y) const
+Image Filter::apply(const img::Image& image)
 {
-    return mNoise.GetNoise(x, y);
+    const math::Vector2U imageSize = image.getSize();
+    img::Image result(imageSize);
+
+    //for (size_t row = image.)
+
+    return result;
 }
 }
 }

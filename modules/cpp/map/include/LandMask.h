@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,44 +19,40 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/algs/PerlinNoise.h>
-#include <nyra/img/Image.h>
-#include <nyra/test/Image.h>
+#ifndef __NYRA_MAP_LAND_MASK_H__
+#define __NYRA_MAP_LAND_MASK_H__
 
+#include <nyra/map/Module.h>
+#include <nyra/algs/SimplexNoise.h>
+#include <nyra/img/Image.h>
 namespace nyra
 {
-namespace algs
+namespace map
 {
-TEST(PerlinNoise, Smoothness)
+/*
+ *  \class LandMask
+ *  \brief Creates a mask where white is land and black is water.
+ */
+class LandMask : public Module<algs::SimplexNoise>
 {
-    const PerlinNoise noise(FRACTAL_BROWNIAN_MOTION, 0.01, 2.0, 0.5, 3, 1337);
+public:
+    /*
+     *  \func Constructor
+     *  \brief Loads the LandMask
+     *
+     *  \param waterPercent The amount of water from 0-1. Where a 0 means
+     *         no water, and a 1 is all water.
+     *  \param seed The seed for creating the random number generator
+     */
+    LandMask(double waterPercent,
+             size_t seed);
 
-    const size_t SIZE = 32;
-    const double threshold = 0.1;
-    for (size_t x = 1; x < SIZE - 1; ++x)
-    {
-        for (size_t y = 1; y < SIZE - 1; ++y)
-        {
-            const double value = noise(x, y);
-            for (size_t xx = 0; xx < 2; ++xx)
-            {
-                for (size_t yy = 0; yy < 2; ++yy)
-                {
-                    EXPECT_LT(std::abs(noise(xx, yy) - value), threshold);
-                }
-            }
-        }
-    }
-}
+private:
+    img::Color calcPixel(double value) override;
 
-TEST(PerlinNoise, Image)
-{
-    const PerlinNoise noise(FRACTAL_BROWNIAN_MOTION, 0.02, 2.0, 0.5, 5, 1337);
-    img::Image image(noise, math::Vector2U(512, 512), -1.0, 1.0);
-    EXPECT_TRUE(test::compareImage(image, "test_perlin.png"));
-}
+    const double mWaterValue;
+};
 }
 }
 
-NYRA_TEST()
+#endif

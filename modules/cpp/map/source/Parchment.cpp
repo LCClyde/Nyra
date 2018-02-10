@@ -19,40 +19,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_PROCGEN_LAND_MASK_H__
-#define __NYRA_PROCGEN_LAND_MASK_H__
+#include <nyra/map/Parchment.h>
+#include <nyra/math/Interpolate.h>
 
-#include <nyra/procgen/Module.h>
-#include <nyra/algs/SimplexNoise.h>
-#include <nyra/img/Image.h>
 namespace nyra
 {
-namespace procgen
+namespace map
 {
-/*
- *  \class LandMask
- *  \brief Creates a mask where white is land and black is water.
- */
-class LandMask : public Module<algs::SimplexNoise>
+//===========================================================================//
+Parchment::Parchment(size_t seed) :
+    Module(new algs::PerlinNoise(algs::FRACTAL_BROWNIAN_MOTION,
+                                 0.01, 2.0, 0.5, 3, seed)),
+    mMinMax(getMinMax()),
+    mDelta(mMinMax.second - mMinMax.first)
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Loads the LandMask
-     *
-     *  \param waterPercent The amount of water from 0-1. Where a 0 means
-     *         no water, and a 1 is all water.
-     *  \param seed The seed for creating the random number generator
-     */
-    LandMask(double waterPercent,
-             size_t seed);
-
-private:
-    img::Color calcPixel(double value) override;
-
-    const double mWaterValue;
-};
-}
 }
 
-#endif
+//===========================================================================//
+img::Color Parchment::calcPixel(double value)
+{
+    const double percent = (value - mMinMax.first) * mDelta;
+    return math::linearInterpolate(img::Color(245, 222, 179),
+                                   img::Color(232, 181, 85),
+                                   percent);
+}
+}
+}

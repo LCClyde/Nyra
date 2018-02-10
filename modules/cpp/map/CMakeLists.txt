@@ -20,3 +20,4 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 set(MOD_DEPS algs PARENT_SCOPE)
+set(APP_DEPS cli PARENT_SCOPE)

@@ -19,15 +19,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_PROCGEN_MODULE_H__
-#define __NYRA_PROCGEN_MODULE_H__
+#ifndef __NYRA_MAP_MODULE_H__
+#define __NYRA_MAP_MODULE_H__
 
 #include <nyra/img/Image.h>
 
 
 namespace nyra
 {
-namespace procgen
+namespace map
 {
 /*
  *  \var DEFAULT_SIZE
@@ -70,7 +70,7 @@ public:
      *         ratio of the DEFAULT_SIZE for best results.
      *  \return The image
      */
-    img::Image getImage(const math::Vector2U& size)
+    virtual img::Image getImage(const math::Vector2U& size)
     {
         img::Image image(size);
         math::Vector2F resolution(
@@ -83,7 +83,7 @@ public:
             {
                 const double value =
                         (*mNoise)(x * resolution.x, y * resolution.y);
-                image(y, x) = calcPixel(value);
+                image(x, y) = calcPixel(value);
             }
         }
         return image;

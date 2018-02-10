@@ -20,34 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/img/Color.h>
-
-namespace
-{
-//===========================================================================//
-double toDouble(uint8_t val)
-{
-    return val / 255.0;
-}
-
-//===========================================================================//
-uint8_t toInt(double val)
-{
-    int32_t newVal = val * 255.0;
-    return std::max(std::min(newVal, 255), 0);
-}
-
-//===========================================================================//
-uint8_t add(uint8_t v1, uint8_t v2, uint8_t a)
-{
-    return toInt(toDouble(v1) + (toDouble(v2) * toDouble(a)));
-}
-
-//===========================================================================//
-uint8_t multiply(uint8_t v1, uint8_t v2)
-{
-    return toInt(toDouble(v1) * toDouble(v2));
-}
-}
+#include <nyra/math/Interpolate.h>
 
 namespace nyra
 {
@@ -61,47 +34,52 @@ const Color Color::ALPHA(0, 0, 0, 0);
 
 //===========================================================================//
 Color::Color() :
-    r(0),
-    g(0),
-    b(0),
-    a(255)
+    mPixel(mInternalPixel),
+    r(mPixel[2]),
+    g(mPixel[1]),
+    b(mPixel[0]),
+    a(mPixel[3])
+{
+    r = 0;
+    g = 0;
+    b = 0;
+    a = 255;
+}
+
+//===========================================================================//
+Color::Color(cv::Vec4b& color) :
+    mPixel(color),
+    r(mPixel[2]),
+    g(mPixel[1]),
+    b(mPixel[0]),
+    a(mPixel[3])
+
 {
 }
 
 //===========================================================================//
 Color::Color(uint8_t r, uint8_t g, uint8_t b) :
-    r(r),
-    g(g),
-    b(b),
-    a(255)
+    Color()
 {
+    this->r = r;
+    this->g = g;
+    this->b = b;
 }
 
 //===========================================================================//
 Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) :
-    r(r),
-    g(g),
-    b(b),
-    a(a)
+    Color(r, g, b)
 {
+    this->a = a;
 }
 
 //===========================================================================//
-Color& Color::operator+=(const Color& other)
+Color& Color::operator=(const Color& other)
 {
-    r = add(r, other.r, other.a);
-    g = add(g, other.g, other.a);
-    b = add(b, other.b, other.a);
-    return *this;
-}
-
-//===========================================================================//
-Color& Color::operator*=(const Color& other)
-{
-    r = multiply(r, other.r);
-    g = multiply(g, other.g);
-    b = multiply(b, other.b);
-    a = multiply(a, other.a);
+    r = other.r;
+    g = other.g;
+    b = other.b;
+    a = other.a;
     return *this;
 }
 
@@ -125,6 +103,28 @@ std::ostream& operator<<(std::ostream& os, const Color& color)
        << ", b=" << static_cast<uint32_t>(color.b)
        << ", a=" << static_cast<uint32_t>(color.a);
     return os;
+}
+}
+
+namespace math
+{
+img::Color linearInterpolate(const img::Color& start,
+                             const img::Color& end,
+                             double delta)
+{
+    const uint8_t r = math::linearInterpolate(static_cast<int16_t>(start.r),
+                                              static_cast<int16_t>(end.r),
+                                              delta);
+    const uint8_t g = math::linearInterpolate(static_cast<int16_t>(start.g),
+                                              static_cast<int16_t>(end.g),
+                                              delta);
+    const uint8_t b = math::linearInterpolate(static_cast<int16_t>(start.b),
+                                              static_cast<int16_t>(end.b),
+                                              delta);
+    const uint8_t a = math::linearInterpolate(static_cast<int16_t>(start.a),
+                                              static_cast<int16_t>(end.a),
+                                              delta);
+    return img::Color(r, g, b, a);
 }
 }
 }

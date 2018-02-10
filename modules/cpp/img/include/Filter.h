@@ -19,36 +19,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/procgen/LandMask.h>
-#include <nyra/test/Image.h>
+#ifndef __NYRA_IMG_FILTER_H__
+#define __NYRA_IMG_FILTER_H__
+
+#include <nyra/img/Image.h>
 
 namespace nyra
 {
-namespace procgen
+namespace img
 {
-TEST(LandMask, Image)
+class Filter
 {
-    // Using a reduced size to speed up testing
-    const math::Vector2U size(256, 256);
-    for (double ii = 0.0; ii <= 1.0; ii += 0.25)
-    {
-        LandMask mask(ii, 0);
-        const img::Image image = mask.getImage(size);
+public:
+    Filter(const math::Vector2U& size);
 
-        size_t numBlack = 0;
-        for (size_t pix = 0; pix < size.product(); ++pix)
-        {
-            if (image(pix) == img::Color::BLACK)
-            {
-                ++numBlack;
-            }
-        }
+    Image apply(const img::Image& image);
 
-        EXPECT_NEAR(ii, static_cast<double>(numBlack) / size.product(), 0.05);
-    }
-}
+protected:
+    const math::Vector2U mSize;
+    std::vector<double> mFilter;
+};
 }
 }
 
-NYRA_TEST()
+#endif

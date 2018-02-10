@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,48 +19,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <time.h>
-#include <nyra/algs/PerlinNoise.h>
+#include <nyra/map/LandMask.h>
 
 namespace nyra
 {
-namespace algs
+namespace map
 {
 //===========================================================================//
-PerlinNoise::PerlinNoise(FractalType type,
-                         double frequency,
-                         double lacunarity,
-                         double gain,
-                         size_t octaves,
-                         size_t seed)
-{
-    mNoise.SetNoiseType(FastNoise::PerlinFractal);
-    mNoise.SetFrequency(frequency);
-    mNoise.SetFractalType(static_cast<FastNoise::FractalType>(type));
-    mNoise.SetFractalOctaves(octaves);
-    mNoise.SetFractalLacunarity(lacunarity);
-    mNoise.SetSeed(seed);
-}
-
-//===========================================================================//
-PerlinNoise::PerlinNoise(FractalType type,
-                         double frequency,
-                         double lacunarity,
-                         double gain,
-                         size_t octaves) :
-    PerlinNoise(type,
-                frequency,
-                lacunarity,
-                gain,
-                octaves,
-                time(nullptr))
+LandMask::LandMask(double waterPercent,
+                   size_t seed) :
+    Module(new algs::SimplexNoise(algs::FRACTAL_BROWNIAN_MOTION,
+                                  0.001, 1.75, 0.5, 5, seed)),
+    mWaterValue(getValueAtPercent(waterPercent))
 {
 }
 
 //===========================================================================//
-double PerlinNoise::operator()(double x, double y) const
+img::Color LandMask::calcPixel(double value)
 {
-    return mNoise.GetNoise(x, y);
+    return value < mWaterValue ?
+                img::Color::BLACK : img::Color::WHITE;
 }
 }
 }

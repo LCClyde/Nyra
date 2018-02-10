@@ -20,4 +20,4 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 set(MOD_DEPS math core PARENT_SCOPE)
-set(EXT_DEPS ${LibPNG} ${Cairo} PARENT_SCOPE)
+set(EXT_DEPS ${OpenCVCore} ${OpenCVImgCodecs} ${Cairo} PARENT_SCOPE)

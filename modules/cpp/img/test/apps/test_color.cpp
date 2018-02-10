@@ -88,19 +88,6 @@ TEST(Color, Constructor)
     EXPECT_EQ(assignColor.a, static_cast<uint8_t>(0xBC));
 }
 
-TEST(Color, Cast)
-{
-    Color color(0x56, 0x78, 0x9A, 0xBC);
-    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[0],
-              static_cast<uint8_t>(0x56));
-    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[1],
-              static_cast<uint8_t>(0x78));
-    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[2],
-              static_cast<uint8_t>(0x9A));
-    EXPECT_EQ(reinterpret_cast<uint8_t*>(&color)[3],
-              static_cast<uint8_t>(0xBC));
-}
-
 TEST(Color, Uint32)
 {
     Color color(0x56, 0x78, 0x9A, 0xBC);
@@ -108,57 +95,13 @@ TEST(Color, Uint32)
     EXPECT_EQ(color.toARGB(), static_cast<uint32_t>(0xBC56789A));
 }
 
-TEST(Color, Add)
+TEST(Color, LERP)
 {
-    Color c1;
-    Color c2;
-
-    c1 = Color(255, 0, 0, 255);
-    c2 = Color(0, 0, 255, 255);
-    EXPECT_EQ(Color(255, 0, 255, 255), c1 + c2);
-
-    c1 = Color(1, 2, 3, 255);
-    c2 = Color(4, 5, 6, 255);
-    EXPECT_EQ(Color(5, 7, 9, 255), c1 + c2);
-
-    c1 = Color(255, 80, 200, 255);
-    c2 = Color(80, 255, 200, 255);
-    EXPECT_EQ(Color(255, 255, 255, 255), c1 + c2);
-
-    // TODO: Verify alpha is what we want
-    c1 = Color(10, 50, 100, 90);
-    c2 = Color(30, 100, 200, 110);
-    EXPECT_EQ(Color(33, 117, 235, 110), c2 + c1);
-    EXPECT_EQ(Color(22, 93, 186, 90), c1 + c2);
-}
-
-TEST(Color, Multiply)
-{
-    Color c1;
-    Color c2;
-
-    c1 = Color(0, 0, 0, 255);
-    c2 = Color(100, 200, 255, 255);
-    EXPECT_EQ(Color(0, 0, 0, 255), c1 * c2);
-
-    c1 = Color(32, 64, 128, 255);
-    c2 = Color(80, 100, 200, 255);
-    EXPECT_EQ(Color(10, 25, 100, 255), c1 * c2);
-
-    c1 = Color(255, 255, 255, 255);
-    c2 = Color(255, 255, 255, 255);
-    EXPECT_EQ(Color(255, 255, 255, 255), c1 * c2);
-
-    c1 = Color(10, 50, 100, 90);
-    c2 = Color(30, 100, 200, 110);
-    EXPECT_EQ(Color(1, 19, 78, 38), c2 * c1);
-}
-
-TEST(Color, Invert)
-{
-    Color color(25, 50, 75);
-    color.invert();
-    EXPECT_EQ(Color(250, 205, 180), color);
+    Color c1(32, 64, 128, 255);
+    Color c2(255, 128, 64, 32);
+    EXPECT_EQ(c1, math::linearInterpolate(c1, c2, 0.0));
+    EXPECT_EQ(c2, math::linearInterpolate(c1, c2, 1.0));
+    EXPECT_EQ(Color(143, 96, 96, 143), math::linearInterpolate(c2, c1, 0.5));
 }
 
 TEST(Color, Archive)

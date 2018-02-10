@@ -93,19 +93,19 @@ TEST(Image, Constructor)
     }
 
     srand(0);
-    std::vector<Color> colors(size.product());
-    for (Color& color : colors)
+    std::vector<uint8_t> colors(size.product() * 4);
+    for (size_t ii = 0; ii < colors.size(); ++ii)
     {
-        color.r = rand() % 256;
-        color.g = rand() % 256;
-        color.b = rand() % 256;
-        color.a = rand() % 256;
+        colors[ii] = rand() % 256;
     }
 
-    Image img3(reinterpret_cast<uint8_t*>(colors.data()), size);
-    for (size_t ii = 0; ii < size.product(); ++ii)
+    Image img3(colors.data(), size);
+    for (size_t ii = 0, color = 0; ii < size.product(); ++ii, color += 4)
     {
-        EXPECT_EQ(img3(ii), colors[ii]);
+        EXPECT_EQ(img3(ii), Color(colors[color],
+                                  colors[color + 1],
+                                  colors[color + 2],
+                                  colors[color + 3]));
     }
 
     IncPixel incer;
@@ -200,7 +200,7 @@ TEST(Image, Index)
     image(20) = color;
 
     EXPECT_EQ(image(20), color);
-    EXPECT_EQ(image(1, 3), color);
+    EXPECT_EQ(image(3, 1), color);
 }
 
 TEST(Image, Add)
@@ -235,7 +235,7 @@ TEST(Image, Multiply)
     EXPECT_TRUE(test::compareImage(image1 * image2, "test_image_multiply.png"));
 }
 
-TEST(Image, Invert)
+/*TEST(Image, Invert)
 {
     srand(0);
     const math::Vector2U size(64, 64);
@@ -256,7 +256,7 @@ TEST(Image, Invert)
     {
         EXPECT_EQ(Color::WHITE, image1(ii) + image2(ii));
     }
-}
+}*/
 
 TEST(Image, Stdout)
 {
@@ -298,12 +298,12 @@ TEST(Image, Archive)
         imageRand(ii).b = rand() % 256;
         imageRand(ii).a = rand() % 256;
     }
-    EXPECT_EQ(test::archive(imageRand), imageRand);
+    EXPECT_EQ(test::archive(imageRand, "temp.png"), imageRand);
 
     // Test round trip with an actual 3rd party created png.
     Image imageRoundTrip = core::read<Image>(core::path::join(
             core::DATA_PATH, "textures/test_png.png"));
-    EXPECT_EQ(test::archive(imageRoundTrip), imageRoundTrip);
+    EXPECT_EQ(test::archive(imageRoundTrip, "temp.png"), imageRoundTrip);
 
     EXPECT_ANY_THROW(core::read<img::Image>("something_that_does_not_exist.png"));
 }

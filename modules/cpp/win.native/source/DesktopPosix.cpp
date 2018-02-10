@@ -57,7 +57,7 @@ img::Image DesktopPosix::getPixels(const math::Vector2I& offset,
             const uint8_t blue = pixel & blueMask;
             const uint8_t green = (pixel & greenMask) >> 8;
             const uint8_t red = (pixel & redMask) >> 16;
-            ret(y, x) = img::Color(red, green, blue);
+            ret(x, y) = img::Color(red, green, blue);
         }
     }
     XFree (image);

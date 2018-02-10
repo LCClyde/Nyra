@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -20,41 +20,33 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/test/Test.h>
-#include <nyra/algs/PerlinNoise.h>
-#include <nyra/img/Image.h>
+#include <nyra/map/LandMask.h>
 #include <nyra/test/Image.h>
 
 namespace nyra
 {
-namespace algs
+namespace map
 {
-TEST(PerlinNoise, Smoothness)
+TEST(LandMask, Image)
 {
-    const PerlinNoise noise(FRACTAL_BROWNIAN_MOTION, 0.01, 2.0, 0.5, 3, 1337);
-
-    const size_t SIZE = 32;
-    const double threshold = 0.1;
-    for (size_t x = 1; x < SIZE - 1; ++x)
+    // Using a reduced size to speed up testing
+    const math::Vector2U size(256, 256);
+    for (double ii = 0.0; ii <= 1.0; ii += 0.25)
     {
-        for (size_t y = 1; y < SIZE - 1; ++y)
+        LandMask mask(ii, 0);
+        const img::Image image = mask.getImage(size);
+
+        size_t numBlack = 0;
+        for (size_t pix = 0; pix < size.product(); ++pix)
         {
-            const double value = noise(x, y);
-            for (size_t xx = 0; xx < 2; ++xx)
+            if (image(pix) == img::Color::BLACK)
             {
-                for (size_t yy = 0; yy < 2; ++yy)
-                {
-                    EXPECT_LT(std::abs(noise(xx, yy) - value), threshold);
-                }
+                ++numBlack;
             }
         }
-    }
-}
 
-TEST(PerlinNoise, Image)
-{
-    const PerlinNoise noise(FRACTAL_BROWNIAN_MOTION, 0.02, 2.0, 0.5, 5, 1337);
-    img::Image image(noise, math::Vector2U(512, 512), -1.0, 1.0);
-    EXPECT_TRUE(test::compareImage(image, "test_perlin.png"));
+        EXPECT_NEAR(ii, static_cast<double>(numBlack) / size.product(), 0.05);
+    }
 }
 }
 }

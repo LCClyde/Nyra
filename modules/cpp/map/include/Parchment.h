@@ -19,26 +19,36 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/procgen/LandMask.h>
+#ifndef __NYRA_MAP_PARCHMENT_H__
+#define __NYRA_MAP_PARCHMENT_H__
+
+#include <nyra/map/Module.h>
+#include <nyra/algs/PerlinNoise.h>
 
 namespace nyra
 {
-namespace procgen
+namespace map
 {
-//===========================================================================//
-LandMask::LandMask(double waterPercent,
-                   size_t seed) :
-    Module(new algs::SimplexNoise(algs::FRACTAL_BROWNIAN_MOTION,
-                                  0.001, 1.75, 0.5, 5, seed)),
-    mWaterValue(getValueAtPercent(waterPercent))
+class Parchment : public Module<algs::PerlinNoise>
 {
+public:
+    /*
+     *  \func Constructor
+     *  \brief Loads the Parchment
+     *
+     *  \param waterPercent The amount of water from 0-1. Where a 0 means
+     *         no water, and a 1 is all water.
+     *  \param seed The seed for creating the random number generator
+     */
+    Parchment(size_t seed);
+
+private:
+    img::Color calcPixel(double value) override;
+
+    const std::pair<double, double> mMinMax;
+    const double mDelta;
+};
+}
 }
 
-//===========================================================================//
-img::Color LandMask::calcPixel(double value)
-{
-    return value < mWaterValue ?
-                img::Color::BLACK : img::Color::WHITE;
-}
-}
-}
+#endif

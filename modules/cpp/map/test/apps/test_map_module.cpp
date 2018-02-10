@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/procgen/Module.h>
+#include <nyra/map/Module.h>
 #include <nyra/test/Test.h>
 
 namespace
@@ -60,11 +60,11 @@ public:
 
 //===========================================================================//
 template<typename T>
-class TestModule : public nyra::procgen::Module<T>
+class TestModule : public nyra::map::Module<T>
 {
 public:
     TestModule() :
-        nyra::procgen::Module<T>(new T())
+        nyra::map::Module<T>(new T())
     {
     }
 
@@ -78,7 +78,7 @@ private:
 
 namespace nyra
 {
-namespace procgen
+namespace map
 {
 //===========================================================================//
 TEST(Module, ImageResizing)

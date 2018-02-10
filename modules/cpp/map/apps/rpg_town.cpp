@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,44 +19,46 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/Test.h>
-#include <nyra/algs/PerlinNoise.h>
-#include <nyra/img/Image.h>
-#include <nyra/test/Image.h>
+#include <iostream>
+#include <exception>
+#include <nyra/core/Time.h>
+#include <nyra/map/Parchment.h>
+#include <nyra/map/LandMask.h>
+#include <nyra/cli/Parser.h>
 
-namespace nyra
-{
-namespace algs
-{
-TEST(PerlinNoise, Smoothness)
-{
-    const PerlinNoise noise(FRACTAL_BROWNIAN_MOTION, 0.01, 2.0, 0.5, 3, 1337);
+using namespace nyra;
 
-    const size_t SIZE = 32;
-    const double threshold = 0.1;
-    for (size_t x = 1; x < SIZE - 1; ++x)
+
+int main(int argc, char** argv)
+{
+    try
     {
-        for (size_t y = 1; y < SIZE - 1; ++y)
+        cli::Options opt("Creates random 2D rpg town map");
+        cli::Parser options(opt, argc, argv);
+
+
+        size_t seed = core::epoch();
+        const math::Vector2U size = map::DEFAULT_SIZE;
+        const img::Image parchment(map::Parchment(seed++).getImage(size));
+
+        core::write(parchment, "parchment.png");
+
+        const img::Image landMask(map::LandMask(0.33, seed++).getImage(size));
+        img::Image landColor(size);
+        for (size_t ii = 0; ii < size.product(); ++ii)
         {
-            const double value = noise(x, y);
-            for (size_t xx = 0; xx < 2; ++xx)
-            {
-                for (size_t yy = 0; yy < 2; ++yy)
-                {
-                    EXPECT_LT(std::abs(noise(xx, yy) - value), threshold);
-                }
-            }
+            landColor(ii) = img::Color(64, 164, 223);
         }
+        core::write(landMask * landColor, "water.png");
     }
-}
+    catch (const std::exception& ex)
+    {
+        std::cout << "STD Exception: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown Exception: System Error!" << std::endl;
+    }
 
-TEST(PerlinNoise, Image)
-{
-    const PerlinNoise noise(FRACTAL_BROWNIAN_MOTION, 0.02, 2.0, 0.5, 5, 1337);
-    img::Image image(noise, math::Vector2U(512, 512), -1.0, 1.0);
-    EXPECT_TRUE(test::compareImage(image, "test_perlin.png"));
+    return 0;
 }
-}
-}
-
-NYRA_TEST()
