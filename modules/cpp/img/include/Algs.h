@@ -56,10 +56,71 @@ Image edgeDetect(const Image& input, double threshold);
  *  \func invert
  *  \brief inverts The input image
  *
- *  \param input
+ *  \param input The image to invert
  *  \return The inverted image
  */
 Image invert(const Image& input);
+
+/*
+ *  \func threshold
+ *  \brief Converts the image into a binary image where high values are white
+ *         and low values are black.
+ *
+ *  \param input The image to threshold
+ *  \param value The threshold limit (below is black, above is white)
+ *  \return The binary image
+ */
+Image threshold(const Image& input, uint8_t value);
+
+/*
+ *  \func dilate
+ *  \brief Expands each channel pixel values
+ *
+ *  \param input The image to dilate
+ *  \param strength The amount to dilate
+ *  \return The dilated image
+ */
+Image dilate(const Image& input, size_t strength);
+
+/*
+ *  \func warp
+ *  \brief Warps the image pixels based on a x / y map
+ *
+ *  \tparam TX The x warper. It needs the following function:
+ *          double operator()(double x, double y)
+ *  \tparam TY The y warper. It needs the following function:
+ *          double operator()(double x, double y)
+ *  \param input The image to warp
+ *  \param x The x warping map
+ *  \param y The y warping map
+ *  \return The warped image
+ */
+template <typename TX, typename TY>
+Image warp(const Image& input,
+           const TX& x,
+           const TY& y)
+{
+    const math::Vector2U size = input.getSize();
+    Image output(size);
+    cv::Mat cvX(size.y, size.x, CV_32FC1);
+    cv::Mat cvY(size.y, size.x, CV_32FC1);
+    for (size_t row = 0; row < size.y; ++row)
+    {
+        for (size_t col = 0; col < size.x; ++col)
+        {
+            cvX.at<float>(row, col) = col - x(col, row);
+            cvY.at<float>(row, col) = row - y(col, row);
+        }
+    }
+
+    cv::remap(input.getNative(),
+              output.getNative(),
+              cvX, cvY,
+              CV_INTER_LINEAR,
+              cv::BORDER_CONSTANT,
+              cv::Scalar(0, 0, 0, 255));
+    return output;
+}
 }
 }
 

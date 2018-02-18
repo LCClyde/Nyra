@@ -19,46 +19,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_MAP_LAND_MASK_H__
-#define __NYRA_MAP_LAND_MASK_H__
+#ifndef __NYRA_MAP_WATER_H__
+#define __NYRA_MAP_WATER_H__
 
-#include <nyra/map/Noise.h>
-#include <nyra/algs/SimplexNoise.h>
 #include <nyra/img/Image.h>
+#include <nyra/algs/SimplexNoise.h>
+#include <nyra/map/Noise.h>
+
 namespace nyra
 {
 namespace map
 {
-/*
- *  \class LandMask
- *  \brief Creates a mask where white is land and black is water.
- */
-class LandMask
+class Water
 {
 public:
-    /*
-     *  \func Constructor
-     *  \brief Loads the LandMask
-     *
-     *  \param waterPercent The amount of water from 0-1. Where a 0 means
-     *         no water, and a 1 is all water.
-     *  \param seed The seed for creating the random number generator
-     */
-    LandMask(double waterPercent,
-             size_t seed);
+    Water(size_t seed);
 
-    /*
-     *  \func getImage
-     *  \brief Gets the land mask as an image
-     *
-     *  \param size The size of the image.
-     *  \return The image
-     */
-    img::Image getImage(const math::Vector2U& size) const;
+    img::Image getImage(const img::Image& landMask) const;
 
 private:
+    img::Image buildCoastEdgeMask(
+            const img::Image& landMask) const;
+
+    img::Image addColor(const img::Image& input) const;
+
     const Noise<algs::SimplexNoise> mNoise;
-    const uint8_t mWaterValue;
+    const uint8_t mHalfNoise;
 };
 }
 }

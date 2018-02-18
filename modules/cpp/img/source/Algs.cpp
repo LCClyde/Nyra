@@ -22,6 +22,19 @@
 #include <nyra/img/Algs.h>
 #include <opencv2/opencv.hpp>
 
+namespace
+{
+void replaceAlpha(const nyra::img::Image input,
+                  nyra::img::Image& output)
+{
+    // Restore the alpha channel
+    for (size_t ii = 0; ii < input.getSize().product(); ++ii)
+    {
+        output(ii).a = input(ii).a;
+    }
+}
+}
+
 namespace nyra
 {
 namespace img
@@ -43,20 +56,55 @@ Image gaussianBlur(const Image& input, size_t strength)
 //===========================================================================//
 Image edgeDetect(const Image& input, double threshold)
 {
-    Image output(input.getSize());
+    const math::Vector2U size = input.getSize();
+    Image output(size);
+    cv::Mat edges(size.y, size.x, CV_8U);
     cv::Canny(input.getNative(),
-              output.getNative(),
+              edges,
               threshold,
               threshold * 3,
               3, false);
+    cv::cvtColor(edges, output.getNative(), cv::COLOR_GRAY2BGRA);
     return output;
 }
 
 //===========================================================================//
 Image invert(const Image& input)
 {
-    Image output(input.getSize());
+    const math::Vector2U size = input.getSize();
+    Image output(size);
     cv::bitwise_not(input.getNative(), output.getNative());
+    replaceAlpha(input, output);
+    return output;
+}
+
+//===========================================================================//
+Image threshold(const Image& input, uint8_t value)
+{
+    const math::Vector2U size = input.getSize();
+    Image output(size);
+    cv::Mat outGray(size.y, size.x, CV_8U);
+    cv::cvtColor(input.getNative(), outGray, cv::COLOR_BGRA2GRAY);
+    cv::threshold(outGray, outGray,
+                  value, 255, cv::THRESH_BINARY);
+    cv::cvtColor(outGray, output.getNative(), cv::COLOR_GRAY2BGRA);
+    return output;
+}
+
+//===========================================================================//
+Image dilate(const Image& input, size_t strength)
+{
+    const math::Vector2U size = input.getSize();
+    const size_t kernalSize = strength * 2 + 1;
+    Image output(size);
+
+    cv::Mat element = cv::getStructuringElement(
+            cv::MORPH_ELLIPSE,
+            cv::Size(kernalSize, kernalSize),
+            cv::Point(strength, strength));
+    cv::dilate(input.getNative(),
+               output.getNative(),
+               element);
     return output;
 }
 }

@@ -43,6 +43,21 @@ public:
      */
     Color();
 
+    /*
+     *  \func Copy Constructor
+     *  \brief Copies one color to another. This will not hold onto any
+     *         underlying OpenCV values.
+     *
+     *  \param other The color to copy
+     */
+    Color(const Color& other);
+
+    /*
+     *  \func OpenCV Constructor
+     *  \brief Creates a color that is attached to an OpenCV color
+     *
+     *  \param color The OpenCV color.
+     */
     Color(cv::Vec4b& color);
 
     /*

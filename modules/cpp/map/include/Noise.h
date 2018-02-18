@@ -25,6 +25,7 @@
 #include <nyra/img/Image.h>
 #include <nyra/map/Constants.h>
 #include <nyra/core/Event.h>
+#include <nyra/math/Interpolate.h>
 
 namespace nyra
 {
@@ -49,7 +50,9 @@ public:
      *  \param noise The underlying noise object
      */
     Noise(NoiseT* noise) :
-        mNoise(noise)
+        mNoise(noise),
+        mMinMax(calculateMinMax()),
+        mRange(mMinMax.second - mMinMax.first)
     {
     }
 
@@ -59,6 +62,23 @@ public:
      *
      *  \param size The size of the image. This should match the aspect
      *         ratio of the DEFAULT_SIZE for best results.
+     *  \return The image
+     */
+    img::Image getImage(const math::Vector2U& size) const
+    {
+        PixFunc func(std::bind(&Noise<NoiseT>::defaultFunc,
+                               this,
+                               std::placeholders::_1));
+        return getImage(size, func);
+    }
+
+    /*
+     *  \func getImage
+     *  \brief Gets the land mask as an image
+     *
+     *  \param size The size of the image. This should match the aspect
+     *         ratio of the DEFAULT_SIZE for best results.
+     *  \func A function to apply to convert from noise to Color
      *  \return The image
      */
     img::Image getImage(const math::Vector2U& size,
@@ -86,34 +106,21 @@ public:
      *         to be the actual min/max as the values could go beyond these
      *         numbers at different resolutions..
      *
-     *  \param noise The noise to evaluate
      *  \return The min / max. First in min, second is max.
      */
     std::pair<double, double> getMinMax() const
     {
-        std::pair<double, double> minMax(std::numeric_limits<double>::max(),
-                                         -std::numeric_limits<double>::max());
-        for (size_t y = 0; y < DEFAULT_SIZE.y; ++y)
-        {
-            for (size_t x = 0; x < DEFAULT_SIZE.x; ++x)
-            {
-                double value = (*mNoise)(x, y);
-                minMax.first = std::min(value, minMax.first);
-                minMax.second = std::max(value, minMax.second);
-            }
-        }
-        return minMax;
+        return mMinMax;
     }
 
     /*
      *  \func getValueAtPercent
      *  \brief Gets the value that is x% between min / max
      *
-     *  \param noise The noise to evaluate
      *  \param percent The desired percent from 0-1, 0 gives min, 1 gives max
      *  \return The value that represents the percent.
      */
-    double getValueAtPercent(double percent) const
+    uint8_t getValueAtPercent(double percent) const
     {
         const double scale = 4.0;
         const math::Vector2U reducedSize = DEFAULT_SIZE / scale;
@@ -131,7 +138,8 @@ public:
             }
         }
         std::sort(values.begin(), values.end());
-        return values[static_cast<size_t>((size - 1) * percent)];
+        const double value = values[static_cast<size_t>((size - 1) * percent)];
+        return valueToByte(value);
     }
 
 private:
@@ -142,7 +150,37 @@ private:
                 static_cast<double>(DEFAULT_SIZE.y - 1) / (y - 1));
     }
 
+    std::pair<double, double> calculateMinMax() const
+    {
+        std::pair<double, double> minMax(std::numeric_limits<double>::max(),
+                                         -std::numeric_limits<double>::max());
+        for (size_t y = 0; y < DEFAULT_SIZE.y; ++y)
+        {
+            for (size_t x = 0; x < DEFAULT_SIZE.x; ++x)
+            {
+                double value = (*mNoise)(x, y);
+                minMax.first = std::min(value, minMax.first);
+                minMax.second = std::max(value, minMax.second);
+            }
+        }
+        return minMax;
+    }
+
+    uint8_t valueToByte(double value) const
+    {
+        const double percent = (value - mMinMax.first) / mRange;
+        return math::linearInterpolate<uint8_t>(0, 255, percent);
+    }
+
+    img::Color defaultFunc(double value) const
+    {
+        const uint8_t pix = valueToByte(value);
+        return img::Color(pix, pix, pix, 255);
+    }
+
     std::unique_ptr<NoiseT> mNoise;
+    const std::pair<double, double> mMinMax;
+    const double mRange;
 };
 }
 }

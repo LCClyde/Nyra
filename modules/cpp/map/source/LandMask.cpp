@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/map/LandMask.h>
+#include <nyra/img/Algs.h>
 
 namespace nyra
 {
@@ -37,17 +38,9 @@ LandMask::LandMask(double waterPercent,
 //===========================================================================//
 img::Image LandMask::getImage(const math::Vector2U& size) const
 {
-    PixFunc func(std::bind(&LandMask::calcPixel,
-                           this,
-                           std::placeholders::_1));
-    return mNoise.getImage(size, func);
-}
-
-//===========================================================================//
-img::Color LandMask::calcPixel(double value) const
-{
-    return value < mWaterValue ?
-                img::Color::BLACK : img::Color::WHITE;
+    img::Image result = mNoise.getImage(size);
+    core::write(result, "results.png");
+    return img::threshold(result, mWaterValue);
 }
 }
 }

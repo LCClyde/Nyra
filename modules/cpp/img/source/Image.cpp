@@ -31,7 +31,7 @@ Image::Image(const uint8_t* pixels,
              const math::Vector2U& size,
              Format format)
 {
-resize(size);
+    resize(size);
     switch (format)
     {
     case RGBA:
@@ -104,6 +104,17 @@ Image::Image(const math::Vector2U& size)
 void Image::resize(const math::Vector2U& size)
 {
     mMatrix = cv::Mat(size.y, size.x, CV_8UC4, cv::Scalar(0, 0, 0, 255));
+}
+
+//===========================================================================//
+Image& Image::operator=(const Color& color)
+{
+    const size_t size = getSize().product();
+    for (size_t ii = 0; ii < size; ++ii)
+    {
+        (*this)(ii) = color;
+    }
+    return (*this);
 }
 
 //===========================================================================//
@@ -238,6 +249,21 @@ void read<img::Image>(const std::string& pathname,
         throw std::runtime_error("Pathname: " + pathname + " does not exist");
     }
     image.getNative() = cv::imread(pathname, cv::IMREAD_UNCHANGED);
+
+    if (image.getNative().channels() == 3)
+    {
+        const math::Vector2U size = image.getSize();
+        img::Image newImage(size);
+
+        for (size_t ii = 0; ii < size.product(); ++ii)
+        {
+            const auto pix = image.getNative().at<cv::Vec3b>(ii);
+            newImage(ii) = img::Color(pix[2], pix[1], pix[0], 255);
+        }
+
+        image = newImage;
+
+    }
 }
 }
 }

@@ -140,6 +140,15 @@ public:
     }
 
     /*
+     *  \func Assignment
+     *  \brief Sets the image to a single color
+     *
+     *  \param color The desired color
+     *  \return The image object
+     */
+    Image& operator=(const Color& color);
+
+    /*
      *  \func Functor
      *  \brief Gets a single pixel from the image. This purposely does not
      *         check the size for speed. It is the users responsibility to

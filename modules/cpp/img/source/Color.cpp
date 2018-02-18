@@ -47,6 +47,20 @@ Color::Color() :
 }
 
 //===========================================================================//
+Color::Color(const Color& other) :
+    mPixel(mInternalPixel),
+    r(mPixel[2]),
+    g(mPixel[1]),
+    b(mPixel[0]),
+    a(mPixel[3])
+{
+    r = other.r;
+    g = other.g;
+    b = other.b;
+    a = other.a;
+}
+
+//===========================================================================//
 Color::Color(cv::Vec4b& color) :
     mPixel(color),
     r(mPixel[2]),

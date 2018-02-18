@@ -27,6 +27,7 @@
 
 namespace
 {
+//===========================================================================//
 class IncPixel
 {
 public:
@@ -49,6 +50,32 @@ namespace nyra
 {
 namespace img
 {
+//===========================================================================//
+TEST(Image, ColorValues)
+{
+    const math::Vector2U size(32, 32);
+    Image image(size);
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        image(ii) = Color(255, 0, 0, 255);
+    }
+    EXPECT_TRUE(test::compareImage(image, "test_red.png"));
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        image(ii) = Color(0, 255, 0, 255);
+    }
+    EXPECT_TRUE(test::compareImage(image, "test_green.png"));
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        image(ii) = Color(0, 0, 255, 255);
+    }
+    EXPECT_TRUE(test::compareImage(image, "test_blue.png"));
+}
+
+//===========================================================================//
 TEST(Image, Equality)
 {
     Image img1;
@@ -78,6 +105,7 @@ TEST(Image, Equality)
     EXPECT_FALSE(img1 != img2);
 }
 
+//===========================================================================//
 TEST(Image, Constructor)
 {
     Image img1;
@@ -117,6 +145,7 @@ TEST(Image, Constructor)
     }
 }
 
+//===========================================================================//
 TEST(Image, ARGB)
 {
     const math::Vector2U size(17, 13);
@@ -136,6 +165,7 @@ TEST(Image, ARGB)
     }
 }
 
+//===========================================================================//
 TEST(Image, BGRA)
 {
     const math::Vector2U size(17, 13);
@@ -155,6 +185,7 @@ TEST(Image, BGRA)
     }
 }
 
+//===========================================================================//
 TEST(Image, RGB)
 {
     const math::Vector2U size(17, 13);
@@ -173,6 +204,7 @@ TEST(Image, RGB)
     }
 }
 
+//===========================================================================//
 TEST(Image, BGR)
 {
     const math::Vector2U size(17, 13);
@@ -191,7 +223,7 @@ TEST(Image, BGR)
     }
 }
 
-
+//===========================================================================//
 TEST(Image, Index)
 {
     const math::Vector2U size(17, 13);
@@ -203,6 +235,7 @@ TEST(Image, Index)
     EXPECT_EQ(image(3, 1), color);
 }
 
+//===========================================================================//
 TEST(Image, Add)
 {
     Image image1(math::Vector2U(256, 256));
@@ -219,6 +252,7 @@ TEST(Image, Add)
     EXPECT_TRUE(test::compareImage(image1 + image2, "test_image_add.png"));
 }
 
+//===========================================================================//
 TEST(Image, Multiply)
 {
     Image image1(math::Vector2U(256, 256));
@@ -235,29 +269,31 @@ TEST(Image, Multiply)
     EXPECT_TRUE(test::compareImage(image1 * image2, "test_image_multiply.png"));
 }
 
-/*TEST(Image, Invert)
+//===========================================================================//
+TEST(Image, ColorAssignment)
 {
     srand(0);
     const math::Vector2U size(64, 64);
-    Image image1(size);
+    Image image(size);
 
     for (size_t ii = 0; ii < size.product(); ++ii)
     {
-        image1(ii) = Color(rand() % 255,
-                           rand() % 255,
-                           rand() % 255,
-                           255);
+        image(ii) = Color(rand() % 255,
+                          rand() % 255,
+                          rand() % 255,
+                          255);
     }
 
-    Image image2(image1);
-    image2.invert();
+    const Color color(100, 200, 50, 70);
+    image = color;
 
     for (size_t ii = 0; ii < size.product(); ++ii)
     {
-        EXPECT_EQ(Color::WHITE, image1(ii) + image2(ii));
+        EXPECT_EQ(color, image(ii));
     }
-}*/
+}
 
+//===========================================================================//
 TEST(Image, Stdout)
 {
     Image image;
@@ -286,6 +322,7 @@ TEST(Image, Stdout)
               "r=0, g=0, b=0, a=255]");
 }
 
+//===========================================================================//
 TEST(Image, Archive)
 {
     // Test writing a random image

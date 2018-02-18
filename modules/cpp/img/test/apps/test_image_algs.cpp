@@ -23,6 +23,7 @@
 #include <nyra/test/Image.h>
 #include <nyra/img/Algs.h>
 #include <nyra/core/Path.h>
+#include <nyra/math/Conversions.h>
 
 namespace nyra
 {
@@ -34,6 +35,7 @@ Image getInput()
             core::DATA_PATH, "textures/lenna.png"));
 }
 
+//===========================================================================//
 TEST(Algs, Blur)
 {
     const Image input = getInput();
@@ -41,6 +43,7 @@ TEST(Algs, Blur)
     EXPECT_TRUE(test::compareImage(output, "test_gaussian_blur.png"));
 }
 
+//===========================================================================//
 TEST(Algs, EdgeDetect)
 {
     const Image input = getInput();
@@ -48,11 +51,55 @@ TEST(Algs, EdgeDetect)
     EXPECT_TRUE(test::compareImage(output, "test_edge_detect.png"));
 }
 
+//===========================================================================//
 TEST(Algs, Invert)
 {
     const Image input = getInput();
     const Image output = invert(input);
     EXPECT_TRUE(test::compareImage(output, "test_invert.png"));
+}
+
+//===========================================================================//
+TEST(Algs, Threshold)
+{
+    const Image input = getInput();
+    const Image output = threshold(input, 128);
+    EXPECT_TRUE(test::compareImage(output, "test_threshold.png"));
+}
+
+//===========================================================================//
+TEST(Algs, Dilate)
+{
+    const Image input = getInput();
+    const Image output = dilate(input, 5);
+    EXPECT_TRUE(test::compareImage(output, "test_dilate.png"));
+}
+
+//===========================================================================//
+class WarpX
+{
+public:
+    double operator()(double x, double y) const
+    {
+        return std::sin(math::degreesToRadians(x)) * 10;
+    }
+};
+
+class WarpY
+{
+public:
+    double operator()(double x, double y) const
+    {
+        return std::sin(math::degreesToRadians(y)) * 10;
+    }
+};
+TEST(Algs, Warp)
+{
+    const Image input = getInput();
+    const WarpX warpX;
+    const WarpY warpY;
+    const Image output = warp(input, warpX, warpY);
+    EXPECT_TRUE(test::compareImage(output, "test_warp.png"));
 }
 }
 }
