@@ -29,6 +29,7 @@ namespace
 static const std::string XML_STRING =
         "<main>\n"
         "    main text\n"
+        "    <multi a='0' b='1' c='2'/>\n"
         "    <filename>/home/user/xml.xml</filename>\n"
         "    <modules>\n"
         "        <module type='graphics'>opengl"
@@ -66,6 +67,12 @@ TEST(XML, RoundTrip)
     std::remove("xml_round_trip.xml");
 
     EXPECT_EQ("main text", read["main"].get().text);
+
+    EXPECT_EQ("", read["main"]["multi"].get().text);
+    EXPECT_EQ("0", read["main"]["multi"].get().attributes["a"]);
+    EXPECT_EQ("1", read["main"]["multi"].get().attributes["b"]);
+    EXPECT_EQ("2", read["main"]["multi"].get().attributes["c"]);
+
     EXPECT_EQ("/home/user/xml.xml", read["main"]["filename"].get().text);
     EXPECT_EQ(static_cast<size_t>(3),
               read["main"]["modules"]["module"].size());

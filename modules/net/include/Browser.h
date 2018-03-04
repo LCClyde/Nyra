@@ -63,13 +63,15 @@ public:
      *  \func get
      *  \brief Does the equivalent of a HTTP GET call.
      *
-     *  \param url The target URL
-     *  \param params The URL parameters. These do not need to be
+     *  \param url The target URL. This must be percent encoded.
+     *  \param params The URL parameters. These should not be
      *         percent encoded.
      *  \return The results of the call
      */
     std::string get(const std::string& url,
                     const std::vector<Param>& params = std::vector<Param>());
+
+    std::string encode(const std::string& url);
 
 private:
     std::string getCached(const std::string& url) const;

@@ -100,6 +100,12 @@ Browser::Browser(size_t cacheTime,
 }
 
 //===========================================================================//
+std::string Browser::encode(const std::string& url)
+{
+    return curl_easy_escape(getGlobalInstance().get(), url.c_str(), url.size());
+}
+
+//===========================================================================//
 std::string Browser::get(const std::string& url,
                          const std::vector<Param>& params)
 {
