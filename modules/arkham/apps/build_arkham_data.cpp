@@ -29,6 +29,9 @@
 #include <nyra/arkham/Location.h>
 #include <nyra/arkham/Encounter.h>
 #include <nyra/core/Regex.h>
+#include <nyra/img/Algs.h>
+#include <nyra/process/Subprocess.h>
+#include <nyra/core/File.h>
 
 using namespace nyra;
 
@@ -138,6 +141,97 @@ std::vector<arkham::Encounter> getEncounters(const std::string& locationIn,
 }
 
 //===========================================================================//
+std::vector<arkham::Location> getOtherWorldLocations(net::Browser& browser)
+{
+    std::vector<arkham::Location> locations;
+    const xml::XML tree(browser.get(URL + "/Other_World"));
+    core::write(tree, "xml.xml");
+
+    const auto& table = tree["html"]["body"]["div"]["div"][0]
+                            ["div"]["div"]["div"][3]["table"]["tr"];
+
+    for (size_t ii = 1; ii < table.loopSize(); ++ii)
+    {
+        const std::string name = table[ii]["td"][0]["a"].get().text;
+        const std::string blue = table[ii]["td"][1].get().text;
+        const std::string green = table[ii]["td"][2].get().text;
+        const std::string red = table[ii]["td"][3].get().text;
+        const std::string yellow = table[ii]["td"][4].get().text;
+
+        std::string exp;
+        if (table[ii]["td"][5].has("a"))
+        {
+            // TODO: I don't think the XML was read correctly here. The
+            //       attributes do not seem to be in the right spot.
+            exp = table[ii]["td"][5]["a"].get().attributes.at("title");
+        }
+
+        locations.push_back(arkham::Location(name, exp,
+                                             !blue.empty(),
+                                             !green.empty(),
+                                             !red.empty(),
+                                             !yellow.empty()));
+    }
+    return locations;
+}
+
+//===========================================================================//
+std::vector<std::unordered_map<std::string, arkham::Encounter>>
+getOtherWorldEncounter(size_t start, size_t end,
+                       const std::vector<arkham::Location>& locations,
+                       net::Browser& browser)
+{
+    std::vector<std::unordered_map<std::string, arkham::Encounter>> encounters;
+    const std::string urlPrefix = URL + "/wiki/images/";
+    const std::string pathname = "gate.png";
+    for (size_t ii = start; ii < end + 1; ++ii)
+    {
+        const std::string fullUrl =
+                urlPrefix + "Gate" + core::str::toString(ii) + ".png";
+        browser.download(fullUrl, pathname);
+        img::Image image = core::read<img::Image>(pathname);
+        image = img::resize(image, image.getSize() * 6);
+        image = img::threshold(image, 180);
+        const math::Vector2U offset(240, 240);
+        const math::Vector2U extents = image.getSize() - (offset * 2);
+        image = img::crop(image, offset, extents);
+        core::write(image, pathname);
+        process::subprocess("/usr/bin/tesseract", {"gate.png", "results"});
+        std::vector<std::string> results = core::str::split(
+                core::readFile("results.txt"), "\n");
+
+        size_t line = 0;
+        for (size_t entry = 0; entry < 3; ++entry)
+        {
+            std::string text;
+
+            // Increment until we find content
+            while (results[line].empty())
+            {
+                ++line;
+            }
+
+            // First line is the location
+            std::string location  = results[line++];
+
+            // Increment until we find content
+            while (results[line].empty())
+            {
+                ++line;
+            }
+
+            while (line < results.size() && !results[line].empty())
+            {
+                text += results[line++] + " ";
+            }
+
+            std::cout << location << "\n" << text << "\n\n";
+        }
+    }
+    return encounters;
+}
+
+//===========================================================================//
 int main(int argc, char** argv)
 {
     try
@@ -147,7 +241,7 @@ int main(int argc, char** argv)
 
         net::Browser browser(100);
 
-        std::cout << "Obtaining locations list";
+        /*std::cout << "Obtaining locations list";
         const std::vector<arkham::Location> locations =
                 getLocations(browser);
         std::cout << " Found " << locations.size() << " locations.\n";
@@ -173,12 +267,15 @@ int main(int argc, char** argv)
         const std::string locPathname =
                 core::path::join(outDir, "arkham_locations.txt");
         const std::string encPathname =
-                core::path::join(outDir, "arkham_encounters.txt");
+                core::path::join(outDir, "arkham_encounters.txt");*/
 
-        core::write(locations, locPathname);
+        getOtherWorldLocations(browser);
+        getOtherWorldEncounter(1, 48, browser);
+
+        /*core::write(locations, locPathname);
         std::cout << "Wrote locations to " << locPathname << "\n";
         core::write(encounters, encPathname);
-        std::cout << "Wrote encounters to " << encPathname << "\n";
+        std::cout << "Wrote encounters to " << encPathname << "\n";*/
     }
     catch (const std::exception& ex)
     {

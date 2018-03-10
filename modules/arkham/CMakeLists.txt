@@ -20,4 +20,4 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 set(MOD_DEPS core PARENT_SCOPE)
-set(APP_DEPS net cli xml PARENT_SCOPE)
+set(APP_DEPS net cli xml img process PARENT_SCOPE)

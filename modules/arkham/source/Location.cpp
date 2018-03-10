@@ -26,10 +26,40 @@ namespace nyra
 namespace arkham
 {
 //===========================================================================//
+Location::Location() :
+    expansion(arkham::CORE),
+    blue(false),
+    green(false),
+    red(false),
+    yellow(false)
+{
+}
+
+//===========================================================================//
 Location::Location(const std::string& name,
                    const std::string& expansion) :
     name(name),
-    expansion(stringToExpansion(expansion))
+    expansion(stringToExpansion(expansion)),
+    blue(false),
+    green(false),
+    red(false),
+    yellow(false)
+{
+}
+
+//===========================================================================//
+Location::Location(const std::string& name,
+                   const std::string& expansion,
+                   bool blue,
+                   bool green,
+                   bool red,
+                   bool yellow) :
+    name(name),
+    expansion(stringToExpansion(expansion)),
+    blue(blue),
+    green(green),
+    red(red),
+    yellow(yellow)
 {
 }
 

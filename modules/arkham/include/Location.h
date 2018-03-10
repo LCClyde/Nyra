@@ -41,7 +41,7 @@ public:
      *  \func Constructor
      *  \brief Creates an empty location.
      */
-    Location() = default;
+    Location();
 
     /*
      *  \func Constructor
@@ -52,6 +52,13 @@ public:
      */
     Location(const std::string& name,
              const std::string& expansion);
+
+    Location(const std::string& name,
+             const std::string& expansion,
+             bool blue,
+             bool green,
+             bool red,
+             bool yellow);
 
     /*
      *  \var name
@@ -65,6 +72,11 @@ public:
      */
     Expansion expansion;
 
+    bool blue;
+    bool green;
+    bool red;
+    bool yellow;
+
 private:
     NYRA_SERIALIZE()
 
@@ -73,6 +85,10 @@ private:
     {
         archive & BOOST_SERIALIZATION_NVP(name);
         archive & BOOST_SERIALIZATION_NVP(expansion);
+        archive & BOOST_SERIALIZATION_NVP(blue);
+        archive & BOOST_SERIALIZATION_NVP(green);
+        archive & BOOST_SERIALIZATION_NVP(red);
+        archive & BOOST_SERIALIZATION_NVP(yellow);
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Location& location);
