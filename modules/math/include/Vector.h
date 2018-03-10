@@ -184,10 +184,11 @@ public:
      *         anyways.
      *  \return A new vector which is the difference between the vectors.
      */
-    Vector<TypeT, SizeT> operator-(Vector<TypeT, SizeT> other) const
+    Vector<TypeT, SizeT> operator-(const Vector<TypeT, SizeT>& other) const
     {
-        other -= (*this);
-        return other;
+        math::Vector<TypeT, SizeT> newOther(*this);
+        newOther -= other;
+        return newOther;
     }
 
     /*

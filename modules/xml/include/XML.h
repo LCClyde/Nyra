@@ -53,8 +53,9 @@ public:
     XML(const std::string& xmlString);
 
 private:
-    friend std::ostream& operator<<(std::ostream& os, const XML& tree);
 };
+
+std::ostream& operator<<(std::ostream& os, const mem::Tree<Element>& tree);
 }
 
 namespace core

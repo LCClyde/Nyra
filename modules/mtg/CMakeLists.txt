@@ -19,5 +19,5 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  IN THE SOFTWARE.
 ###############################################################################
-set(MOD_DEPS json PARENT_SCOPE)
+set(MOD_DEPS json img PARENT_SCOPE)
 set(APP_DEPS cli PARENT_SCOPE)

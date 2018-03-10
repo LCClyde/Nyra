@@ -82,6 +82,12 @@ Image threshold(const Image& input, uint8_t value);
  */
 Image dilate(const Image& input, size_t strength);
 
+Image resize(const Image& input, const math::Vector2U& size);
+
+Image crop(const Image& input,
+           const math::Vector2U& offset,
+           const math::Vector2U& extents);
+
 /*
  *  \func warp
  *  \brief Warps the image pixels based on a x / y map

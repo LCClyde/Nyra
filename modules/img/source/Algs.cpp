@@ -107,5 +107,31 @@ Image dilate(const Image& input, size_t strength)
                element);
     return output;
 }
+
+//===========================================================================//
+Image resize(const Image& input, const math::Vector2U& size)
+{
+    Image output(size);
+    cv::resize(input.getNative(),
+               output.getNative(),
+               cv::Size(size.x, size.y));
+    return output;
+}
+
+//===========================================================================//
+Image crop(const Image& input,
+           const math::Vector2U& offset,
+           const math::Vector2U& extents)
+{
+    Image output(extents);
+    for (size_t row = 0; row < extents.y; ++row)
+    {
+        for (size_t col = 0; col < extents.x; ++col)
+        {
+            output(col, row) = input(col + offset.x, row + offset.y);
+        }
+    }
+    return output;
+}
 }
 }

@@ -71,6 +71,9 @@ public:
     std::string get(const std::string& url,
                     const std::vector<Param>& params = std::vector<Param>());
 
+    void download(const std::string& url, const std::string& pathname,
+                  const std::vector<Param>& params = std::vector<Param>());
+
     std::string encode(const std::string& url);
 
 private:

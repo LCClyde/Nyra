@@ -76,6 +76,24 @@ TEST(Algs, Dilate)
 }
 
 //===========================================================================//
+TEST(Algs, Resize)
+{
+    const Image input = getInput();
+    const Image output = resize(input, math::Vector2U(100, 200));
+    EXPECT_TRUE(test::compareImage(output, "test_img_resize.png"));
+}
+
+//===========================================================================//
+TEST(Algs, Crop)
+{
+    const Image input = getInput();
+    const math::Vector2U offset(210, 170);
+    const math::Vector2U extents(190, 230);
+    const Image output = crop(input, offset, extents);
+    EXPECT_TRUE(test::compareImage(output, "test_img_crop.png"));
+}
+
+//===========================================================================//
 class WarpX
 {
 public:

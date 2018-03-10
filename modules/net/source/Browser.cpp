@@ -153,6 +153,16 @@ std::string Browser::get(const std::string& url,
 }
 
 //===========================================================================//
+void Browser::download(const std::string& url,
+                       const std::string& pathname,
+                       const std::vector<Param>& params)
+{
+    const std::string file = get(url, params);
+    std::ofstream stream(pathname, std::ios::out | std::ios::binary);
+    stream.write(file.c_str(), file.size());
+}
+
+//===========================================================================//
 std::string Browser::getCached(const std::string& url) const
 {
     // Zero cache time means never use the cache. Otherwise we respect

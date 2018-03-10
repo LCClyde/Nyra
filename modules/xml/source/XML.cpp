@@ -142,8 +142,9 @@ XML::XML(const std::string& xmlString)
     read_xml(ss, boostTree, xml_parser::trim_whitespace);
     readTree(boostTree, "", *this);
 }
+
 //===========================================================================//
-std::ostream& operator<<(std::ostream& os, const XML& tree)
+std::ostream& operator<<(std::ostream& os, const mem::Tree<Element>& tree)
 {
     ptree boostTree;
     writeTree(tree, boostTree);

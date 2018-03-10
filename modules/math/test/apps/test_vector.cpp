@@ -80,6 +80,7 @@ TEST(Vector, Operators)
     EXPECT_EQ(vec * 2.0, get2(20.0f, 40.0f));
     EXPECT_EQ(vec * vec, get2(100.0f, 400.0f));
     EXPECT_EQ(vec / 2.0, get2(5.0f, 10.0f));
+    EXPECT_EQ(get2(10.0, 15.0), get2(30.0, 30.0) - get2(20.0, 15.0));
 }
 
 TEST(Vector, Calculations)
