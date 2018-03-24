@@ -167,6 +167,8 @@ public:
     bool isBackside;
 
 private:
+    void removeReminderText();
+
     NYRA_SERIALIZE()
 
     template<class Archive>

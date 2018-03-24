@@ -124,6 +124,43 @@ Card::Card(const mem::Tree<std::string>& tree) :
             isBackside = true;
         }
     }
+
+    removeReminderText();
+}
+
+//===========================================================================//
+void Card::removeReminderText()
+{
+    const std::vector<std::string> parts =
+            core::str::split(text, "\n");
+    std::vector<std::vector<std::string>> textAndReminder;
+    text.clear();
+
+    for (size_t ii = 0; ii < parts.size(); ++ii)
+    {
+        textAndReminder.push_back(core::str::split(parts[ii], " ("));
+
+        if (ii == 0)
+        {
+            text = textAndReminder[ii][0];
+        }
+        else
+        {
+            if (textAndReminder[ii].size() > 1 &&
+                    textAndReminder[ii - 1].size() > 1)
+            {
+                const std::string firstLetter(
+                        textAndReminder[ii][0].substr(0, 1));
+                const std::string restLetters(
+                        textAndReminder[ii][0].substr(1, std::string::npos));
+                text += ", " + core::str::lower(firstLetter) + restLetters;
+            }
+            else
+            {
+                text += "\n" + textAndReminder[ii][0];
+            }
+        }
+    }
 }
 
 //===========================================================================//

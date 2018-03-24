@@ -32,12 +32,35 @@ namespace mtg
 class Proxy
 {
 public:
-    Proxy();
-
-    img::Image create(const Card& card) const;
+    img::Image create(const Card& card,
+                      const std::string& artPathname);
 
 private:
-    img::Image createBackground(const Card& card) const;
+    void getColor();
+
+    img::Image createBorder() const;
+
+    img::Image createBackground() const;
+
+    img::Image createDesign() const;
+
+    img::Image createText() const;
+
+    img::Image createTextBoxes() const;
+
+    img::Image createSingleTextBox(const std::string& name,
+                                   const img::Color& bgColor) const;
+
+    img::Image createArt() const;
+
+    img::Image createCasingCost() const;
+
+    img::Image drawTextBoxText(math::Vector2U& size) const;
+
+    Card mCard;
+    std::string mColor;
+    std::string mArtPathname;
+    bool mFullArt;
 
 };
 }

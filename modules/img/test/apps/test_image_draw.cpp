@@ -29,6 +29,7 @@ namespace nyra
 {
 namespace img
 {
+//===========================================================================//
 Image getInput()
 {
     return core::read<Image>(core::path::join(
@@ -38,32 +39,37 @@ Image getInput()
 //===========================================================================//
 TEST(Draw, Text)
 {
-    Image image = getInput();
-    draw::text("Hello World!",
-               math::Vector2U(256, 256),
-               "Comic Sans MS",
-               36, Color(0, 255, 255),
-               false, false, image);
-    EXPECT_TRUE(test::compareImage(image, "test_draw_text_simple.png"));
-}
+    {
+        Image image = getInput();
+        Font font;
+        font.name = "Comic Sans MS";
+        font.size = 36;
+        font.color = Color(0, 255, 255);
+        draw::text("Hello World!",
+                   math::Vector2U(256, 256),
+                   font, image);
+        EXPECT_TRUE(test::compareImage(image, "test_draw_text_simple.png"));
+    }
 
-//===========================================================================//
-TEST(Draw, TextWrapped)
-{
-    Image image = getInput();
-    const std::string text =
+    {
+        Image image = getInput();
+        const std::string text =
             "We the People of the United States, in Order to form a more "
             "perfect Union, establish Justice, insure domestic Tranquility, "
             "provide for the common defence, promote the general Welfare, "
             "and secure the Blessings of Liberty to ourselves and our "
             "Posterity, do ordain and establish this Constitution for the "
             "United States of America.";
-    draw::text(text,
-               math::Vector2U(10, 10),
-               "Arial",
-               30, Color(255, 255, 255),
-               false, false, 500, image);
-    EXPECT_TRUE(test::compareImage(image, "test_draw_text_wrapped.png"));
+        Font font;
+        font.size = 30;
+        font.color = Color(255, 255, 255);
+        font.maxWidth = 500;
+        draw::text(text,
+                   math::Vector2U(10, 10),
+                   font, image);
+        EXPECT_TRUE(test::compareImage(image, "test_draw_text_wrapped.png"));
+
+    }
 }
 }
 }

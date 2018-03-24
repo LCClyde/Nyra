@@ -274,6 +274,15 @@ public:
         return other;
     }
 
+    Image& operator*=(const Color& color);
+
+    Image operator*(const Color& color) const
+    {
+        Image image(*this);
+        image *= color;
+        return image;
+    }
+
     /*
      *  \func getNative
      *  \brief Returns the underlying OpenCV matrix.

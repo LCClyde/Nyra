@@ -164,6 +164,32 @@ Image& Image::operator*=(const Image& other)
 }
 
 //===========================================================================//
+Image& Image::operator*=(const Color& color)
+{
+    const math::Vector2U size = getSize();
+    std::vector<double> colorMult(3);
+    colorMult[0] = color.b / 255.0;
+    colorMult[1] = color.g / 255.0;
+    colorMult[2] = color.r / 255.0;
+    for(size_t ii = 0; ii < size.y; ++ii)
+    {
+        for(size_t jj = 0; jj < size.x; ++jj)
+        {
+            // Ignore alpha for now
+            for (size_t c = 0 ; c < 3; c++)
+            {
+                const double target =
+                        mMatrix.at<uchar>(ii, 4 * jj + c) / 255.0;
+                const double blend = colorMult[c];
+                mMatrix.at<uchar>(ii, 4 * jj + c) =
+                        cv::saturate_cast<uchar>(target * blend * 255);
+            }
+        }
+    }
+    return *this;
+}
+
+//===========================================================================//
 void Image::testSized(const Image& other,
                       const std::string& op) const
 {

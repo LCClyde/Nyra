@@ -29,30 +29,24 @@ namespace nyra
 {
 namespace img
 {
+struct Font
+{
+public:
+    Font();
+
+    std::string name;
+    size_t size;
+    Color color;
+    bool bold;
+    bool italic;
+    size_t maxWidth;
+    size_t spacing;
+    size_t xOffset;
+    size_t returnNextLine;
+};
+
 namespace draw
 {
-/*
- *  \func text
- *  \brief Draws text to an image
- *
- *  \param text The text to draw
- *  \param offset The top left corner to draw the text to.
- *  \param font The name of the desired font
- *  \param fontSize The size of the font
- *  \param color The color of the font
- *  \param bold Is the text bold?
- *  \param italic Is the text italics?
- *  \param The input/output image
- */
-void text(const std::string& text,
-          const math::Vector2U& offset,
-          const std::string& font,
-          size_t fontSize,
-          const Color& color,
-          bool bold,
-          bool italic,
-          Image& image);
-
 /*
  *  \func text
  *  \brief Same as above, but also does word wrap
@@ -66,16 +60,12 @@ void text(const std::string& text,
  *  \param italic Is the text italics?
  *  \param maxWidth The width to word wrap to.
  *  \param The input/output image
+ *  \return The spot where the text ends
  */
-void text(const std::string& text,
-          const math::Vector2U& offset,
-          const std::string& font,
-          size_t fontSize,
-          const Color& color,
-          bool bold,
-          bool italic,
-          size_t maxWidth,
-          Image& image);
+math::Vector2U text(const std::string& text,
+                    const math::Vector2U& offset,
+                    const Font& font,
+                    Image& image);
 }
 }
 }

@@ -66,8 +66,9 @@ public:
                 fontBold ? CAIRO_FONT_WEIGHT_BOLD : CAIRO_FONT_WEIGHT_NORMAL);
 
         cairo_set_font_size(mCairo, fontSize);
-        cairo_text_extents(mCairo, mText.c_str(), &mExtents);
-        return nyra::math::Vector2U(mExtents.width, mExtents.height);
+        cairo_text_extents(mCairo, mText.c_str(), &mTextExtents);
+        cairo_font_extents(mCairo, &mFontExtents);
+        return nyra::math::Vector2U(mTextExtents.width, mFontExtents.height);
     }
 
     void draw(const nyra::img::Color& color,
@@ -79,8 +80,8 @@ public:
                              color.b / 255.0);
 
         cairo_move_to(mCairo,
-                      offset.x - mExtents.x_bearing,
-                      offset.y - mExtents.y_bearing);
+                      offset.x - mTextExtents.x_bearing,
+                      offset.y + mFontExtents.ascent);
         cairo_show_text(mCairo, mText.c_str());
 
         // Copy the data to the output image
@@ -92,7 +93,8 @@ private:
     cv::Mat mCairoImage;
     cairo_surface_t* mSurface;
     cairo_t* mCairo;
-    cairo_text_extents_t mExtents;
+    cairo_text_extents_t mTextExtents;
+    cairo_font_extents_t mFontExtents;
     std::string mText;
     nyra::math::Vector2U mSize;
 };
@@ -102,39 +104,37 @@ namespace nyra
 {
 namespace img
 {
+//===========================================================================//
+Font::Font() :
+    name("Arial"),
+    size(24),
+    color(Color::BLACK),
+    bold(false),
+    italic(false),
+    maxWidth(-1),
+    spacing(0),
+    xOffset(0),
+    returnNextLine(true)
+{
+}
+
 namespace draw
 {
 //===========================================================================//
-void text(const std::string& text,
-          const math::Vector2U& offset,
-          const std::string& font,
-          size_t fontSize,
-          const Color& color,
-          bool bold,
-          bool italic,
-          Image& image)
-{
-    TextDrawer drawer(image.getNative());
-    drawer.getSize(text, font, fontSize, italic, bold);
-    drawer.draw(color, offset);
-}
-
-//===========================================================================//
-void text(const std::string& text,
-          const math::Vector2U& offset,
-          const std::string& font,
-          size_t fontSize,
-          const Color& color,
-          bool bold,
-          bool italic,
-          size_t maxWidth,
-          Image& image)
+math::Vector2U text(const std::string& text,
+                    const math::Vector2U& inOffset,
+                    const Font& font,
+                    Image& image)
 {
     TextDrawer drawer(image.getNative());
 
     std::string prevLine;
     std::string thisLine;
     const std::vector<std::string> parts = core::str::split(text, " ");
+    math::Vector2U offset = inOffset;
+    size_t endOffset = font.xOffset;
+    offset.x = endOffset;
+
     for (const std::string& word : parts)
     {
         if (!thisLine.empty())
@@ -143,20 +143,30 @@ void text(const std::string& text,
         }
         thisLine += word;
         const math::Vector2U size = drawer.getSize(
-                thisLine, font, fontSize, italic, bold);
+                thisLine, font.name, font.size, font.italic, font.bold);
 
-        if (size.x > maxWidth)
+        if (size.x > font.maxWidth - endOffset)
         {
-            drawer.getSize(prevLine, font, fontSize, italic, bold);
-            drawer.draw(color, offset);
-            offset.y += size.y + 2;
+            drawer.getSize(prevLine, font.name, font.size, font.italic, font.bold);
+            drawer.draw(font.color, offset);
+            offset.y += size.y + font.spacing;
+            offset.x = inOffset.x;
             thisLine = word;
+            endOffset = 0;
         }
         prevLine = thisLine;
     }
 
-    drawer.getSize(prevLine, font, fontSize, italic, bold);
-    drawer.draw(color, offset);
+    const math::Vector2U size = drawer.getSize(
+            prevLine, font.name, font.size, font.italic, font.bold);
+    drawer.draw(font.color, offset);
+    offset.x += size.x;
+
+    if (font.returnNextLine)
+    {
+        offset.y += size.y + font.spacing;
+    }
+    return offset;
 }
 }
 }
