@@ -29,19 +29,68 @@ namespace nyra
 {
 namespace img
 {
+/*
+ *  \class Font
+ *  \brief Controls how text is drawn to an image.
+ *         TODO: Should have a global usable font across all modules.
+ */
 struct Font
 {
 public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default usable font
+     */
     Font();
 
+    /*
+     *  \var name
+     *  \brief The name of the font
+     */
     std::string name;
+
+    /*
+     *  \var size
+     *  \brief Standard font size
+     */
     size_t size;
+
+    /*
+     *  \var color
+     *  \brief Draw color
+     */
     Color color;
+
+    /*
+     *  \var bold
+     *  \brief Is the font bold?
+     */
     bool bold;
+
+    /*
+     *  \var italic
+     *  \brief Is the font italic?
+     */
     bool italic;
+
+    /*
+     *  \var maxWidth
+     *  \brief The max width in pixels. After this width
+     *         line breaks start.
+     */
     size_t maxWidth;
-    size_t spacing;
+
+    /*
+     *  \var xOffset
+     *  \brief a tab offset on the first line.
+     */
     size_t xOffset;
+
+    /*
+     *  \var returnNextLine
+     *  \brief If true, the next line is returned from the
+     *         draw function
+     */
     size_t returnNextLine;
 };
 
@@ -54,12 +103,7 @@ namespace draw
  *  \param text The text to draw
  *  \param offset The top left corner to draw the text to.
  *  \param font The name of the desired font
- *  \param fontSize The size of the font
- *  \param color The color of the font
- *  \param bold Is the text bold?
- *  \param italic Is the text italics?
- *  \param maxWidth The width to word wrap to.
- *  \param The input/output image
+ *  \param image The input/output image
  *  \return The spot where the text ends
  */
 math::Vector2U text(const std::string& text,

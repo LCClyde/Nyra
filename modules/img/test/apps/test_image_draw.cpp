@@ -68,8 +68,10 @@ TEST(Draw, Text)
                    math::Vector2U(10, 10),
                    font, image);
         EXPECT_TRUE(test::compareImage(image, "test_draw_text_wrapped.png"));
-
     }
+
+    // TODO: There are lots of other font options to test
+    //       ie, bold, italic, offsets, etc.
 }
 }
 }

@@ -107,7 +107,7 @@ TEST(Noise, PercentAt)
 
         // Just make sure it is close. It won't be perfect because
         // the percent is measured on a downsampled map.
-        EXPECT_NEAR(DEFAULT_SIZE.x * ii, val, 5.0);
+        EXPECT_NEAR(255.0 * ii, val, 2.0);
     }
 }
 }

@@ -49,8 +49,7 @@ TEST(Card, FromJSON)
     const std::string subtype = "Dragon";
     tree["subtypes"] = subtype;
 
-    const std::string text = "Flying (This creature can't be blocked except"
-                             " by creatures with flying or reach.)\n{R}: "
+    const std::string text = "Flying\n{R}: "
                              "Shivan Dragon gets +1/+0 until end of turn.";
     tree["text"] = text;
 

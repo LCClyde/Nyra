@@ -38,8 +38,8 @@ static const size_t TYPE_TEXT_Y = TYPE_BOX_Y + 2;
 static const size_t TEXT_BOX_Y = TYPE_BOX_Y + 190;
 static const size_t TEXT_TEXT_Y = TEXT_BOX_Y;
 static const size_t MANA_Y = TITLE_TEXT_Y - 102;
-static const nyra::math::Vector2U PT_BOX (250, TEXT_BOX_Y + 140);
-static const nyra::math::Vector2U PT_TEXT(PT_BOX.x, PT_BOX.y + 5);
+static const nyra::math::Vector2U PT_BOX (0, TEXT_BOX_Y + 165);
+static const nyra::math::Vector2U PT_TEXT(PT_BOX.x, PT_BOX.y);
 static const std::unordered_map<std::string, nyra::img::Color> COLOR_MAP =
 {
     {"white", nyra::img::Color(255, 140, 0)},
@@ -175,7 +175,7 @@ nyra::math::Vector2U drawTextOrSymbol(const std::string& text,
     if (isSymbol(text))
     {
         const std::string pathname = nyra::core::path::join(
-                nyra::core::DATA_PATH, "textures/symbol_" + text + ".png");
+                nyra::core::DATA_PATH, "textures/symbol_" + text + "_small.png");
         nyra::img::Image symbol = nyra::core::read<nyra::img::Image>(pathname);
         symbol = nyra::img::resize(symbol, nyra::math::Vector2U(35, 35));
 
@@ -305,6 +305,30 @@ void Proxy::getColor()
             getColorID(BLACK, "black", c, color);
             getColorID(RED, "red", c, color);
             getColorID(GREEN, "green", c, color);
+        }
+    }
+
+    if (mCard.rarity == mtg::BASIC_LAND)
+    {
+        if (mCard.name == "Plains")
+        {
+            color = "white";
+        }
+        else if (mCard.name == "Island")
+        {
+            color = "blue";
+        }
+        else if (mCard.name == "Swamp")
+        {
+            color = "black";
+        }
+        else if (mCard.name == "Mountain")
+        {
+            color = "red";
+        }
+        else if (mCard.name == "Forest")
+        {
+            color = "green";
         }
     }
 
@@ -442,11 +466,15 @@ img::Image Proxy::createText() const
             font.size = 30;
 
             font.size = 36;
-            const std::string text = core::str::toString(mCard.power) +
-                    "/" + core::str::toString(mCard.toughness);
+            const std::string power =
+                    mCard.power == Card::SPECIAL_VALUE ?
+                            "*" : core::str::toString(mCard.power);
+            const std::string toughness =
+                    mCard.toughness == Card::SPECIAL_VALUE ?
+                            "*" : core::str::toString(mCard.toughness);
+            const std::string text = power + "/" + toughness;
             size = img::draw::text(text, math::Vector2U(), font, image);
             offset = center(size);
-            offset.x += PT_TEXT.x;
             offset.y = PT_TEXT.y - size.y / 2;
             overlay(result, image, offset);
         }
@@ -540,7 +568,6 @@ img::Image Proxy::createTextBoxes() const
         {
             box = createSingleTextBox("pt_box", boxColor);
             offset = center(box.getSize());
-            offset.x += PT_BOX.x;
             offset.y = PT_BOX.y - box.getSize().y / 2;
             overlay(result, box, offset);
         }

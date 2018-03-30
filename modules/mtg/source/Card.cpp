@@ -39,10 +39,6 @@ std::string combineTreeArray(const nyra::mem::Tree<std::string>& tree,
     }
     return ret;
 }
-
-//===========================================================================//
-const static size_t SPECIAL_VALUE = std::numeric_limits<size_t>::max();
-
 }
 
 namespace nyra
@@ -311,7 +307,7 @@ std::ostream& operator<<(std::ostream& os, const Card& card)
     if (card.isType(CREATURE))
     {
         os << "\nPower: ";
-        if (card.power == SPECIAL_VALUE)
+        if (card.power == Card::SPECIAL_VALUE)
         {
             os << "*\n";
         }
@@ -321,7 +317,7 @@ std::ostream& operator<<(std::ostream& os, const Card& card)
         }
 
         os << "Toughness: ";
-        if (card.toughness == SPECIAL_VALUE)
+        if (card.toughness == Card::SPECIAL_VALUE)
         {
             os << "*";
         }

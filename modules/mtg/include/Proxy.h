@@ -29,9 +29,21 @@ namespace nyra
 {
 namespace mtg
 {
+/*
+ *  \class Proxy
+ *  \brief Class for creating MTG proxies
+ *         TODO: Make unittests
+ */
 class Proxy
 {
 public:
+    /*
+     *  \func create
+     *  \brief Creates the image of the proxy
+     *
+     *  \param card The card to proxy
+     *  \param artPathname The pathname to the art
+     */
     img::Image create(const Card& card,
                       const std::string& artPathname);
 

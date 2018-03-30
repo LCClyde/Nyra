@@ -39,6 +39,8 @@ namespace mtg
 struct Card
 {
 public:
+    const static size_t SPECIAL_VALUE = std::numeric_limits<size_t>::max();
+
     /*
      *  \func Constructor
      *  \brief Sets a blank card.

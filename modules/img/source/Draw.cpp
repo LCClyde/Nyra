@@ -112,7 +112,6 @@ Font::Font() :
     bold(false),
     italic(false),
     maxWidth(-1),
-    spacing(0),
     xOffset(0),
     returnNextLine(true)
 {
@@ -133,7 +132,7 @@ math::Vector2U text(const std::string& text,
     const std::vector<std::string> parts = core::str::split(text, " ");
     math::Vector2U offset = inOffset;
     size_t endOffset = font.xOffset;
-    offset.x = endOffset;
+    offset.x = endOffset == 0 ? inOffset.x : endOffset;
 
     for (const std::string& word : parts)
     {
@@ -149,7 +148,7 @@ math::Vector2U text(const std::string& text,
         {
             drawer.getSize(prevLine, font.name, font.size, font.italic, font.bold);
             drawer.draw(font.color, offset);
-            offset.y += size.y + font.spacing;
+            offset.y += size.y;
             offset.x = inOffset.x;
             thisLine = word;
             endOffset = 0;
@@ -164,7 +163,7 @@ math::Vector2U text(const std::string& text,
 
     if (font.returnNextLine)
     {
-        offset.y += size.y + font.spacing;
+        offset.y += size.y;
     }
     return offset;
 }
