@@ -58,9 +58,9 @@ void Mesh::initialize(const std::vector<math::Vector3F>& vertices,
     std::vector<GLfloat> glVerts(vertices.size() * 3);
     for (size_t ii = 0, jj = 0; ii < vertices.size(); ++ii, jj += 3)
     {
-        glVerts[jj] = vertices[ii].x();
-        glVerts[jj + 1] = vertices[ii].y();
-        glVerts[jj + 2] = vertices[ii].z();
+        glVerts[jj] = vertices[ii].x;
+        glVerts[jj + 1] = vertices[ii].y;
+        glVerts[jj + 2] = vertices[ii].z;
     }
 
     std::vector<GLuint> glIndices(indices.size());

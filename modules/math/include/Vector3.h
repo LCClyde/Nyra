@@ -43,7 +43,12 @@ public:
      *  \func Constructor
      *  \brief Creates a default Vector3
      */
-    Vector3() = default;
+    Vector3() :
+        x(this->mVec[0]),
+        y(this->mVec[1]),
+        z(this->mVec[2])
+    {
+    }
 
     /*
      *  \func Constructor
@@ -51,11 +56,12 @@ public:
      *
      *  \param value The desired starting value.
      */
-    Vector3(const TypeT& value)
+    Vector3(const TypeT& value) :
+        Vector3()
     {
-        this->x() = value;
-        this->y() = value;
-        this->z() = value;
+        x = value;
+        y = value;
+        z = value;
     }
 
     /*
@@ -66,11 +72,12 @@ public:
      *  \param y The desired y value
      *  \param z The desired z value
      */
-    Vector3(const TypeT& x, const TypeT& y, const TypeT& z)
+    Vector3(const TypeT& x, const TypeT& y, const TypeT& z) :
+        Vector3()
     {
-        this->x() = x;
-        this->y() = y;
-        this->z() = z;
+        this->x = x;
+        this->y = y;
+        this->z = z;
     }
 
     /*
@@ -81,84 +88,67 @@ public:
      *  \param vector The vector to copy
      */
     template <typename OtherT>
-    Vector3(const Vector<OtherT, 3>& vector)
+    Vector3(const Vector<OtherT, 3>& vector) :
+    Vector3()
     {
-        x() = static_cast<TypeT>(vector[0]);
-        y() = static_cast<TypeT>(vector[1]);
-        z() = static_cast<TypeT>(vector[2]);
+        x = static_cast<TypeT>(vector[0]);
+        y = static_cast<TypeT>(vector[1]);
+        z = static_cast<TypeT>(vector[2]);
     }
 
     /*
-     *  \func x
-     *  \brief Represents the first element of the vector.
+     *  \func Constructor
+     *  \brief Creates a Vector3 from another Vector of the same type. This is
+     *         necessary because the templated version does not replace the default.
      *
-     *  \return The x value
+     *  \param vector The vector to copy
      */
-    TypeT& x()
+    Vector3(const Vector3<TypeT>& vector) :
+        Vector3()
     {
-        return (*this)[0];
+        x = vector.x;
+        y = vector.y;
+        z = vector.z;
     }
 
     /*
-     *  \func x
-     *  \brief Represents the first element of the vector.
+     *  \func Assignment Operator
+     *  \brief Assigns one vector to another
      *
-     *  \return The x value
+     *  \param other The vector to assign
+     *  \return The assigned vector
      */
-    const TypeT& x() const
+    Vector3<TypeT>& operator=(const Vector3<TypeT>& other)
     {
-        return (*this)[0];
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        return *this;
     }
 
     /*
-     *  \func y
-     *  \brief Represents the second element of the vector.
-     *
-     *  \return The y value
+     *  \var x
+     *  \brief The x axis.
      */
-    TypeT& y()
-    {
-        return (*this)[1];
-    }
+    TypeT& x;
 
     /*
-     *  \func y
-     *  \brief Represents the second element of the vector.
-     *
-     *  \return The y value
+     *  \var y
+     *  \brief The y axis.
      */
-    const TypeT& y() const
-    {
-        return (*this)[1];
-    }
+    TypeT& y;
 
     /*
-     *  \func z
-     *  \brief Represents the third element of the vector.
-     *
-     *  \return The z value
+     *  \var z
+     *  \brief The z axis.
      */
-    TypeT& z()
-    {
-        return (*this)[2];
-    }
-
-    /*
-     *  \func z
-     *  \brief Represents the third element of the vector.
-     *
-     *  \return The z value
-     */
-    const TypeT& z() const
-    {
-        return (*this)[2];
-    }
+    TypeT& z;
 
 private:
     friend std::ostream& operator<<(std::ostream& os,
                                     const Vector3<TypeT>& vector)
     {
-        os << "x=" << vector.x() << " y=" << vector.y() << " z=" << vector.z();
+        os << "x=" << vector.x << " y=" << vector.y << " z=" << vector.z;
         return os;
     }
 };

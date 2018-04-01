@@ -33,7 +33,7 @@ TEST(MarchingCubes, UnitSphere)
 
     cubes.xyzFunction = [](const math::Vector3F& p)->float
     {
-        return ((p.x() * p.x()) + (p.y() * p.y()) + (p.z() * p.z()));
+        return ((p.x * p.x) + (p.y * p.y) + (p.z * p.z));
     };
 
     const std::vector<math::Vector3F>& vertices = cubes(2.5f, 0.1f);
@@ -51,9 +51,9 @@ TEST(MarchingCubes, Ellipse)
 
     cubes.xyzFunction = [](const math::Vector3F& p)->float
     {
-        const float x = p.x() * p.x() / std::pow(5.0, 2);
-        const float y = p.y() * p.y() / std::pow(7.0, 2);
-        const float z = p.z() * p.z() / std::pow(11.0, 2);
+        const float x = p.x * p.x / std::pow(5.0, 2);
+        const float y = p.y * p.y / std::pow(7.0, 2);
+        const float z = p.z * p.z / std::pow(11.0, 2);
         return x + y + z;
     };
 
@@ -67,12 +67,12 @@ TEST(MarchingCubes, Ellipse)
     float zMax = -100.0f;
     for (const auto& vert : vertices)
     {
-        xMin = std::min(xMin, vert.x());
-        xMax = std::max(xMax, vert.x());
-        yMin = std::min(yMin, vert.y());
-        yMax = std::max(yMax, vert.y());
-        zMin = std::min(zMin, vert.z());
-        zMax = std::max(zMax, vert.z());
+        xMin = std::min(xMin, vert.x);
+        xMax = std::max(xMax, vert.x);
+        yMin = std::min(yMin, vert.y);
+        yMax = std::max(yMax, vert.y);
+        zMin = std::min(zMin, vert.z);
+        zMax = std::max(zMax, vert.z);
     }
 
     EXPECT_NEAR(-5.0f, xMin, 0.01f);

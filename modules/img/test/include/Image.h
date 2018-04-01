@@ -47,7 +47,7 @@ inline bool compareImage(const img::Image& image,
 {
     img::Image compare = core::read<img::Image>(
             core::path::join(core::DATA_PATH, "textures/" + textureName));
-    return image == compare;
+    return image.isNear(compare);
 }
 }
 }

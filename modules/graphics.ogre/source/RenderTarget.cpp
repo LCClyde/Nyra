@@ -67,11 +67,8 @@ void RenderTarget::initialize(win::Window& window)
 
     mScreenManager = getGlobalInstance().getRoot()->createSceneManager(
             Ogre::ST_GENERIC);
-    Ogre::Camera* camera = mCamera =
-            mScreenManager->createCamera(
-            "FullscreenCamera_" + std::to_string(mID));
 
-    mWindow->addViewport(camera);
+    mWindow->addViewport(mCamera);
     mWindow->setAutoUpdated(false);
     mWindow->getViewport(0)->setClearEveryFrame(true);
     mWindow->getViewport(0)->setBackgroundColour(
@@ -98,14 +95,6 @@ void RenderTarget::initialize(win::Window& window)
 void RenderTarget::initialize(const math::Vector2U& size)
 {
     Ogre::SceneManager& manager = *getGlobalInstance().getSceneManager();
-
-    // TODO: Do I need to destroy this? It causes crashes, but need
-    //       to verify.
-    //if (mCamera)
-    //{
-    //    manager.destroyCamera(mCamera);
-    //}
-
     mID = (TARGET_NUMBER++);
 
     // TODO: Do I need to destroy the previous texture?
@@ -122,8 +111,7 @@ void RenderTarget::initialize(const math::Vector2U& size)
 
     mCamera = manager.createCamera("RenderTargetCamera_" + std::to_string(mID));
     mCamera->setPosition(Ogre::Vector3(0, 0, 500));
-    mCamera->lookAt(Ogre::Vector3(0, 0, 0));
-    mCamera->setNearClipDistance(5);
+    mCamera->setNearClipDistance(0.1);
     mRenderTexture->addViewport(mCamera);
     mRenderTexture->setAutoUpdated(true);
     mCamera->setAspectRatio(
@@ -148,6 +136,14 @@ void RenderTarget::resize(const math::Vector2U& size)
 //===========================================================================//
 void RenderTarget::clear(const img::Color& color)
 {
+    if (mWindow)
+    {
+        mWindow->getViewport(0)->setBackgroundColour(
+                Ogre::ColourValue(color.r / 255.0f,
+                                  color.g / 255.0f,
+                                  color.b / 255.0f,
+                                  color.a / 255.0f));
+    }
     mRenderTexture->getViewport(0)->setBackgroundColour(
             Ogre::ColourValue(color.r / 255.0f,
                               color.g / 255.0f,

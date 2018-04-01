@@ -24,6 +24,8 @@
 
 #include <math.h>
 #include <nyra/math/Vector.h>
+#include <nyra/math/Vector3.h>
+#include <gmtl/Generate.h>
 
 namespace nyra
 {
@@ -86,6 +88,15 @@ Vector<TypeT, SizeT> normalizeAngle(Vector<TypeT, SizeT> value)
     }
     return value;
 }
+
+/*
+ *  \func eulerToQuaternion
+ *  \brief Converts Euler angles to quaternions
+ *
+ *  \param euler The input euler angles
+ *  \return The 4D quaternion
+ */
+Vector<float, 4> eulerToQuaternion(const Vector3F& euler);
 }
 }
 

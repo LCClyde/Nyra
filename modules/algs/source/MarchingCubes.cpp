@@ -54,9 +54,9 @@ nyra::math::Vector3F interp(float isoLevel,
     //       Need to investigate why.
     //return nyra::math::linearInterpolate(p1, p2, delta);
     return nyra::math::Vector3F(
-            p1.x() + delta * (p2.x() - p1.x()),
-            p1.y() + delta * (p2.y() - p1.y()),
-            p1.z() + delta * (p2.z() - p1.z()));
+            p1.x + delta * (p2.x - p1.x),
+            p1.y + delta * (p2.y - p1.y),
+            p1.z + delta * (p2.z - p1.z));
 }
 }
 
@@ -80,12 +80,12 @@ const std::vector<math::Vector3F>& MarchingCubes::operator()(
             {
                 // TODO: Verify these, changing the values here can change
                 //       where holes appear in the mesh.
-                cube[0] = math::Vector3F(x,            y,            z+ cubeSize);
-                cube[1] = math::Vector3F(x + cubeSize, y,            z+ cubeSize);
+                cube[0] = math::Vector3F(x,            y,            z + cubeSize);
+                cube[1] = math::Vector3F(x + cubeSize, y,            z + cubeSize);
                 cube[2] = math::Vector3F(x + cubeSize, y,            z );
                 cube[3] = math::Vector3F(x,            y,            z );
-                cube[4] = math::Vector3F(x,            y + cubeSize, z+ cubeSize);
-                cube[5] = math::Vector3F(x + cubeSize, y + cubeSize, z+ cubeSize);
+                cube[4] = math::Vector3F(x,            y + cubeSize, z + cubeSize);
+                cube[5] = math::Vector3F(x + cubeSize, y + cubeSize, z + cubeSize);
                 cube[6] = math::Vector3F(x + cubeSize, y + cubeSize, z );
                 cube[7] = math::Vector3F(x,            y + cubeSize, z );
 

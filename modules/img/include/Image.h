@@ -58,6 +58,14 @@ public:
     Image();
 
     /*
+     *  \func Copy Constructor
+     *  \brief This does a deep copy
+     *
+     *  \param other The image to copy
+     */
+    Image(const Image& other);
+
+    /*
      *  \func Constructor
      *  \brief Creates an image from pixels
      *
@@ -274,8 +282,22 @@ public:
         return other;
     }
 
+    /*
+     *  \func Multiply Assignment Operator
+     *  \brief Multiplies an image by a color
+     *
+     *  \param color A color to multiply by.
+     *  \return The product
+     */
     Image& operator*=(const Color& color);
 
+    /*
+     *  \func Multiply Operator
+     *  \brief Multiplies an image by a color
+     *
+     *  \param color A color to multiply by.
+     *  \return The product
+     */
     Image operator*(const Color& color) const
     {
         Image image(*this);
@@ -305,6 +327,17 @@ public:
     {
         return mMatrix;
     }
+
+    /*
+     *  \func isNear
+     *  \brief Checks if two images are close to the same value
+     *
+     *  \param other The image to check
+     *  \param tolerance The percent of differences allowed
+     *
+     *  \return True if the images are within the tolerances.
+     */
+    bool isNear(const Image& other, double tolerance = 0.01) const;
 
 private:
     void testSized(const Image& other, const std::string& op) const;

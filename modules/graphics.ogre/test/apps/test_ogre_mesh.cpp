@@ -43,8 +43,8 @@ TEST(RenderTarget, RenderSquare)
     indices.push_back(0);
     indices.push_back(3);
     indices.push_back(1);
-    indices.push_back(1);
     indices.push_back(2);
+    indices.push_back(1);
     indices.push_back(3);
     Mesh mesh(vertices, indices);
 
@@ -62,9 +62,9 @@ TEST(RenderTarget, MarchingCubes)
 
     cubes.xyzFunction = [](const math::Vector3F& p)->float
     {
-        const float x = p.x() * p.x() / std::pow(100.0, 2);
-        const float y = p.y() * p.y() / std::pow(100.0, 2);
-        const float z = p.z() * p.z() / std::pow(100.0, 2);
+        const float x = p.x * p.x / std::pow(100.0, 2);
+        const float y = p.y * p.y / std::pow(100.0, 2);
+        const float z = p.z * p.z / std::pow(100.0, 2);
         return x + y + z;
     };
 

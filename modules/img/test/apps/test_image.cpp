@@ -267,6 +267,8 @@ TEST(Image, Multiply)
         }
     }
     EXPECT_TRUE(test::compareImage(image1 * image2, "test_image_multiply.png"));
+    EXPECT_TRUE(test::compareImage(image1  * Color(255, 0, 0),
+                                   "test_image_multiply_color.png"));
 }
 
 //===========================================================================//
@@ -291,6 +293,35 @@ TEST(Image, ColorAssignment)
     {
         EXPECT_EQ(color, image(ii));
     }
+}
+
+//===========================================================================//
+TEST(Image, Near)
+{
+    srand(0);
+    const math::Vector2U size(64, 64);
+    Image image(size);
+
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        image(ii) = Color(rand() % 255,
+                          rand() % 255,
+                          rand() % 255,
+                          255);
+    }
+
+    Image compare(image);
+    compare(32, 32) = Color::BLACK;
+
+    EXPECT_NE(compare, image);
+    EXPECT_TRUE(image.isNear(compare));
+
+    for (size_t ii = 0; ii < 10; ++ii)
+    {
+        compare(ii) = Color::BLACK;
+    }
+
+    EXPECT_FALSE(image.isNear(compare));
 }
 
 //===========================================================================//

@@ -55,12 +55,12 @@ void Mesh::initialize(const std::vector<math::Vector3F>& vertices,
             createManualObject("manual");
 
     // specify the material (by name) and rendering type
-    mMesh->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_STRIP);
+    mMesh->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_LIST);
 
     // define start and end point
     for (const auto& vert : vertices)
     {
-        mMesh->position(vert.x(), vert.y(), vert.z());
+        mMesh->position(vert.x, vert.y, vert.z);
     }
 
     for (const auto& index : indices)

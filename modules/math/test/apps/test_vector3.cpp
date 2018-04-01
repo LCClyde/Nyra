@@ -31,25 +31,25 @@ TEST(Vector3, Construction)
     // x, y construction should assign values
     {
         const Vector3F vecF(5.67f, 1.23f, 4.56f);
-        EXPECT_EQ(vecF.x(), 5.67f);
-        EXPECT_EQ(vecF.y(), 1.23f);
-        EXPECT_EQ(vecF.z(), 4.56f);
+        EXPECT_EQ(vecF.x, 5.67f);
+        EXPECT_EQ(vecF.y, 1.23f);
+        EXPECT_EQ(vecF.z, 4.56f);
         const Vector3D vecD(5.67f, 1.23f, 4.56f);
-        EXPECT_EQ(vecD.x(), 5.67f);
-        EXPECT_EQ(vecD.y(), 1.23f);
-        EXPECT_EQ(vecD.z(), 4.56f);
+        EXPECT_EQ(vecD.x, 5.67f);
+        EXPECT_EQ(vecD.y, 1.23f);
+        EXPECT_EQ(vecD.z, 4.56f);
         const Vector3I vecI(-345, 987, 342);
-        EXPECT_EQ(vecI.x(), -345);
-        EXPECT_EQ(vecI.y(), 987);
-        EXPECT_EQ(vecI.z(), 342);
+        EXPECT_EQ(vecI.x, -345);
+        EXPECT_EQ(vecI.y, 987);
+        EXPECT_EQ(vecI.z, 342);
         const Vector3U VecU(246, 357, 342);
-        EXPECT_EQ(VecU.x(), static_cast<size_t>(246));
-        EXPECT_EQ(VecU.y(), static_cast<size_t>(357));
-        EXPECT_EQ(VecU.z(), static_cast<size_t>(342));
+        EXPECT_EQ(VecU.x, static_cast<size_t>(246));
+        EXPECT_EQ(VecU.y, static_cast<size_t>(357));
+        EXPECT_EQ(VecU.z, static_cast<size_t>(342));
         const Vector3F vec(1.5f);
-        EXPECT_EQ(1.5f, vec.x());
-        EXPECT_EQ(1.5f, vec.y());
-        EXPECT_EQ(1.5f, vec.z());
+        EXPECT_EQ(1.5f, vec.x);
+        EXPECT_EQ(1.5f, vec.y);
+        EXPECT_EQ(1.5f, vec.z);
     }
 }
 

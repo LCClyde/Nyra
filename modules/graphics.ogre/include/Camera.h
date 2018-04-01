@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,11 +19,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/test/RenderTarget.h>
+#ifndef __NYRA_GRAPHICS_OGRE_CAMERA_H__
+#define __NYRA_GRAPHICS_OGRE_CAMERA_H__
+
+#include <nyra/graphics/Camera.h>
+#include <nyra/math/Transform.h>
 #include <nyra/graphics/ogre/RenderTarget.h>
-#include <nyra/graphics/ogre/Mesh.h>
-#include <nyra/test/Image.h>
-#include <nyra/graphics/Collada.h>
 
 namespace nyra
 {
@@ -31,21 +32,34 @@ namespace graphics
 {
 namespace ogre
 {
-TEST(Collada, Render)
+/*
+ *  \class Camera
+ *  \brief Class that handles what is rendered to the target.
+ */
+class Camera : public Camera3D
 {
-    RenderTarget target(math::Vector2U(256, 256));
-    graphics::Collada collada(core::path::join(
-            core::DATA_PATH, "models/teapot.dae"));
-    Mesh mesh(collada.getVertices(), collada.getIndices());
+public:
+    /*
+     *  \func Camera
+     *  \brief Sets up the camera object
+     *
+     *  \param target The target to pull size information from
+     */
+    Camera(const graphics::ogre::RenderTarget& target);
 
-    target.clear(img::Color(128, 0, 128));
-    mesh.render(target);
-    target.flush();
+    /*
+     *  \func render
+     *  \brief Sets the camera for rendering
+     *
+     *  \param target The target to render to.
+     */
+    void render(graphics::RenderTarget& target) override;
 
-    EXPECT_TRUE(test::compareImage(target.getPixels(), "test_ogre_collada.png"));
-}
+private:
+    Ogre::Camera* mCamera;
+};
 }
 }
 }
 
-NYRA_TEST()
+#endif

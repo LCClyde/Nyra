@@ -325,7 +325,7 @@ public:
     }
 
 
-private:
+protected:
     void setDirty()
     {
         mDirty = true;
@@ -391,12 +391,83 @@ typedef Transform<Vector2F,
  *  \type Transform3D
  *  \brief Transform usable to 3D objects.
  */
-typedef Transform<Vector3F,
-                  Vector3F,
-                  Vector3F,
-                  Vector3F,
-                  Vector3F,
-                  Matrix4x4> Transform3D;
+class Transform3D : public Transform<Vector3F,
+                                    Vector3F,
+                                    Vector3F,
+                                    Vector3F,
+                                    Vector3F,
+                                    Matrix4x4>
+{
+public:
+    /*
+     *  \func getYaw
+     *  \brief Gets the yaw angle in degrees
+     *
+     *  \return The current yaw
+     */
+    float getYaw() const
+    {
+        return mRotation.y;
+    }
+
+    /*
+     *  \func getPitch
+     *  \brief Gets the pitch angle in degrees
+     *
+     *  \return The current pitch
+     */
+    float getPitch() const
+    {
+        return mRotation.x;
+    }
+
+    /*
+     *  \func getRoll
+     *  \brief Gets the roll angle in degrees
+     *
+     *  \return The current roll
+     */
+    float getRoll() const
+    {
+        return mRotation.z;
+    }
+
+    /*
+     *  \func setYaw
+     *  \brief Sets the yaw angle
+     *
+     *  \param yaw The desired yaw in degrees
+     */
+    void setYaw(float yaw)
+    {
+        mRotation.y = normalizeAngle(yaw);
+        setDirty();
+    }
+
+    /*
+     *  \func setPitch
+     *  \brief Sets the pitch angle
+     *
+     *  \param pitch The desired pitch in degrees
+     */
+    void setPitch(float pitch)
+    {
+        mRotation.x = normalizeAngle(pitch);
+        setDirty();
+    }
+
+    /*
+     *  \func setRoll
+     *  \brief Sets the roll angle
+     *
+     *  \param roll The desired roll in degrees
+     */
+    void setRoll(float roll)
+    {
+        mRotation.z = normalizeAngle(roll);
+        setDirty();
+    }
+};
 }
 }
 

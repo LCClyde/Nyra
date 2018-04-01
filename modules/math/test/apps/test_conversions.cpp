@@ -52,6 +52,16 @@ TEST(Conversions, Vector)
     Vector3D expected(10.0, 20.0, 45.0);
     EXPECT_EQ(expected, normalizeAngle(vec));
 }
+
+TEST(Conversions, Quaternions)
+{
+    Vector<float, 4> quat = eulerToQuaternion(Vector3F(-45.0f, 30.0f, 65.0f));
+    const float prec = 0.01;
+    EXPECT_NEAR(-0.183, quat[0], prec);
+    EXPECT_NEAR(0.400, quat[1], prec);
+    EXPECT_NEAR(0.396, quat[2], prec);
+    EXPECT_NEAR(0.806, quat[3], prec);
+}
 }
 }
 

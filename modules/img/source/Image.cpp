@@ -95,6 +95,12 @@ Image::Image() :
 }
 
 //===========================================================================//
+Image::Image(const Image& other) :
+    mMatrix(other.mMatrix.clone())
+{
+}
+
+//===========================================================================//
 Image::Image(const math::Vector2U& size)
 {
     resize(size);
@@ -250,6 +256,33 @@ std::ostream& operator<<(std::ostream& os, const Image& image)
         os << "]";
     }
     return os;
+}
+
+//===========================================================================//
+bool Image::isNear(const Image& other, double tolerance) const
+{
+    const math::Vector2U size = getSize();
+    if (size != other.getSize())
+    {
+        return false;
+    }
+
+    double diffs = 0;
+    for (size_t ii = 0; ii < size.product(); ++ii)
+    {
+        diffs += std::abs(static_cast<double>((*this)(ii).r) -
+                          static_cast<double>(other(ii).r));
+        diffs += std::abs(static_cast<double>((*this)(ii).g) -
+                          static_cast<double>(other(ii).g));
+        diffs += std::abs(static_cast<double>((*this)(ii).b) -
+                          static_cast<double>(other(ii).b));
+        diffs += std::abs(static_cast<double>((*this)(ii).a) -
+                          static_cast<double>(other(ii).a));
+    }
+
+    const double percentBad = diffs / (size.product() * 4 * sizeof(uint8_t));
+    std::cout << "\nDiffs: " << diffs << " percent: " << percentBad << "\n\n";
+    return percentBad < tolerance;
 }
 }
 

@@ -66,6 +66,9 @@ void RenderTarget::resize(const math::Vector2U& size)
     gluPerspective(fieldOfView, aspectRatio, 0.1, 1000.0);
     glViewport(0, 0, mSize.x, mSize.y);
 
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 }

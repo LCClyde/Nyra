@@ -77,9 +77,9 @@ void Matrix4x4::transform(const Vector3F& position,
 
     gmtl::Matrix<float, 4, 4> rotationMatrix;
     gmtl::EulerAngle<float, gmtl::XYZ> eulerRotation(
-            degreesToRadians(rotation.x()),
-            degreesToRadians(rotation.y()),
-            degreesToRadians(rotation.z()));
+            degreesToRadians(rotation.x),
+            degreesToRadians(rotation.y),
+            degreesToRadians(rotation.z));
     gmtl::setRot(rotationMatrix, eulerRotation);
 
     mMatrix = translationMatrix * rotationMatrix * scaleMatrix * pivotMatrix;
