@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#include <iostream>
+#include <exception>
+#include <nyra/editor/Editor.h>
 
-namespace nyra
+int main(int argc, char** argv)
 {
-namespace game
-{
-//===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
-{
-}
+    try
+    {
+        nyra::editor::Editor editor;
+        editor.run();
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "STD Exception: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown Exception: System Error!" << std::endl;
+    }
 
-//===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
-{
-}
-
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("empty.json"),
-    inputMap("empty.json")
-{
-}
-}
+    return 0;
 }

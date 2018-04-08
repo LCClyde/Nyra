@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,33 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#include <nyra/editor/Map.h>
 
 namespace nyra
 {
-namespace game
+namespace editor
 {
 //===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
+Map::Map() :
+    mWindow("Nyra Map Editor",
+            math::Vector2U(1920, 1080),
+            math::Vector2I(30, 30)),
+    mTarget(mWindow)
 {
 }
 
 //===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
+bool Map::update()
 {
-}
+    if (mWindow.isOpen())
+    {
+        mWindow.update();
 
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("empty.json"),
-    inputMap("empty.json")
-{
+        mTarget.clear(img::Color(192, 192, 192));
+        mTarget.flush();
+    }
+
+    return mWindow.isOpen();
 }
 }
 }

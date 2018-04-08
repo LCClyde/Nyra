@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#ifndef __NYRA_EDITOR_ACTOR_H__
+#define __NYRA_EDITOR_ACTOR_H__
+
+#include <nyra/win/qt/Window.h>
 
 namespace nyra
 {
-namespace game
+namespace editor
 {
-//===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
+class Actor
 {
+public:
+    Actor();
+
+    bool update();
+
+private:
+    win::qt::Window mWindow;
+};
+}
 }
 
-//===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
-{
-}
-
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("empty.json"),
-    inputMap("empty.json")
-{
-}
-}
-}
+#endif

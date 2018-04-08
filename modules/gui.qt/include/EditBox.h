@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#ifndef __NYRA_GUI_QT_EDIT_BOX_H__
+#define __NYRA_GUI_QT_EDIT_BOX_H__
+
+#include <nyra/gui/qt/Widget.h>
+#include <QLineEdit>
 
 namespace nyra
 {
-namespace game
+namespace gui
 {
-//===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
+namespace qt
 {
+/*
+ *  \class EditBox
+ *  \brief A class used to allow user text input.
+ */
+class EditBox : public Widget
+{
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates a default Edit Box.
+     *
+     *  \param size The size of the Edit box
+     *  \param position The position of the Edit box.
+     *  \param text The beginning text for the Edit Box.
+     */
+    EditBox(const math::Vector2F& size,
+            const math::Vector2F& position,
+            const std::string& text = "");
+
+    /*
+     *  \func setText
+     *  \brief Sets the text of the widget.
+     *
+     *  \param text The desired text.
+     */
+    void setText(const std::string& text) override;
+
+    /*
+     *  \func getText
+     *  \brief Gets the current text.
+     *
+     *  \return The value of the text.
+     */
+    std::string getText() const override;
+
+private:
+    QLineEdit mEditBox;
+};
+}
+}
 }
 
-//===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
-{
-}
-
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("empty.json"),
-    inputMap("empty.json")
-{
-}
-}
-}
+#endif

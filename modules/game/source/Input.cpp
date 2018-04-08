@@ -35,21 +35,28 @@ Input::Input(nyra::win::Window& window,
     mKeyboard(window)
 {
     mInput = this;
-    const json::JSON tree = core::read<json::JSON>(
-            core::path::join(core::DATA_PATH, "input/" + filename));
 
-    if (tree.has("input"))
+    const std::string pathname =
+            core::path::join(core::DATA_PATH, "input/" + filename);
+
+    if (core::path::exists(pathname))
     {
-        for (size_t ii = 0; ii < tree["input"].loopSize(); ++ii)
+        const json::JSON tree =
+                core::read<json::JSON>(pathname);
+
+        if (tree.has("input"))
         {
-            const auto& inputJSON = tree["input"][ii];
-            const std::string name = inputJSON["name"].get();
-            std::vector<std::string> values;
-            for (size_t jj = 0; jj < inputJSON["values"].loopSize(); ++jj)
+            for (size_t ii = 0; ii < tree["input"].loopSize(); ++ii)
             {
-                values.push_back(inputJSON["values"][jj].get());
+                const auto& inputJSON = tree["input"][ii];
+                const std::string name = inputJSON["name"].get();
+                std::vector<std::string> values;
+                for (size_t jj = 0; jj < inputJSON["values"].loopSize(); ++jj)
+                {
+                    values.push_back(inputJSON["values"][jj].get());
+                }
+                mInputMap[name].reset(new InputValue(values));
             }
-            mInputMap[name].reset(new InputValue(values));
         }
     }
 }

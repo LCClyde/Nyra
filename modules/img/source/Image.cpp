@@ -281,7 +281,6 @@ bool Image::isNear(const Image& other, double tolerance) const
     }
 
     const double percentBad = diffs / (size.product() * 4 * sizeof(uint8_t));
-    std::cout << "\nDiffs: " << diffs << " percent: " << percentBad << "\n\n";
     return percentBad < tolerance;
 }
 }

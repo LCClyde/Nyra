@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#include <nyra/editor/Actor.h>
 
 namespace nyra
 {
-namespace game
+namespace editor
 {
 //===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
+Actor::Actor() :
+    mWindow("Nyra Actor Editor",
+            math::Vector2U(400, 800),
+            math::Vector2I(30, 30))
 {
 }
 
 //===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
+bool Actor::update()
 {
-}
-
-//===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("empty.json"),
-    inputMap("empty.json")
-{
+    if (mWindow.isOpen())
+    {
+        mWindow.update();
+    }
+    return mWindow.isOpen();
 }
 }
 }

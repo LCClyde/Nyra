@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,31 +19,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/game/Options.h>
+#include <nyra/gui/qt/EditBox.h>
 
 namespace nyra
 {
-namespace game
+namespace gui
+{
+namespace qt
 {
 //===========================================================================//
-WindowOptions::WindowOptions() :
-    name("Nyra"),
-    size(1920, 1080),
-    position(0, 0)
+EditBox::EditBox(const math::Vector2F& size,
+                 const math::Vector2F& position,
+                 const std::string& text) :
+    Widget(mEditBox)
 {
+    setPosition(position);
+    setSize(size);
+    setText(text);
 }
 
 //===========================================================================//
-GraphicsOptions::GraphicsOptions() :
-    clearColor(img::Color::GRAY)
+void EditBox::setText(const std::string& text)
 {
+    const QString qText(text.c_str());
+    mEditBox.setText(qText);
 }
 
 //===========================================================================//
-GameOptions::GameOptions() :
-    startingMap("empty.json"),
-    inputMap("empty.json")
+std::string EditBox::getText() const
 {
+    return mEditBox.text().toUtf8().constData();
+}
 }
 }
 }
