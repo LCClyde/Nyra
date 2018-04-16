@@ -31,27 +31,15 @@ namespace qt
 Button::Button(const math::Vector2F& size,
                const math::Vector2F& position,
                const std::string& text) :
-    Widget(mButton)
+    TextWidget(new QPushButton())
 {
-    setPosition(position);
-    setSize(size);
+    Widget::setPosition(position);
+    Widget::setSize(size);
     setText(text);
 
     // Connect button signal to appropriate slot
-    connect(&mButton, SIGNAL(pressed()), this, SLOT(buttonPressed()));
-}
-
-//===========================================================================//
-void Button::setText(const std::string& text)
-{
-    const QString qText(text.c_str());
-    mButton.setText(qText);
-}
-
-//===========================================================================//
-std::string Button::getText() const
-{
-    return mButton.text().toUtf8().constData();
+    connect(Widget::getQWidget<QPushButton>(), SIGNAL(pressed()),
+            this, SLOT(buttonPressed()));
 }
 
 //===========================================================================//

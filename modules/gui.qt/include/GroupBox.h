@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,11 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
+#ifndef __NYRA_GUI_QT_GROUP_BOX_H__
+#define __NYRA_GUI_QT_GROUP_BOX_H__
 
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/gui/qt/Widget.h>
+#include <QGroupBox>
 
 namespace nyra
 {
@@ -32,29 +32,23 @@ namespace gui
 namespace qt
 {
 /*
- *  \class Label
- *  \brief A class used to render text to the screen.
+ *  \class Panel
+ *  \brief A class used to visually group other widgets
  */
-class Label : public TextWidget<QLabel>
+class GroupBox : public Widget
 {
 public:
     /*
      *  \func Constructor
-     *  \brief Creates a default Label.
+     *  \brief Creates a default GroupBox.
      *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
-
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
+     *  \param size The size of the widget
      *  \param position The position of the widget.
      *  \param text The beginning text for the widget.
      */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    GroupBox(const math::Vector2F& size,
+             const math::Vector2F& position,
+             const std::string& text = "");
 
     /*
      *  \func setText
@@ -62,7 +56,22 @@ public:
      *
      *  \param text The desired text.
      */
-    void setText(const std::string& text) override;
+    void setText(const std::string& text) override
+    {
+        const QString qText(text.c_str());
+        getQWidget<QGroupBox>()->setTitle(qText);
+    }
+
+    /*
+     *  \func getText
+     *  \brief Gets the current text.
+     *
+     *  \return The value of the text.
+     */
+    virtual std::string getText() const
+    {
+        return getQWidget<QGroupBox>()->title().toUtf8().constData();
+    }
 };
 }
 }

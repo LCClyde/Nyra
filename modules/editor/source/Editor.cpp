@@ -30,7 +30,7 @@ void Editor::run()
 {
     while (mMapEditor.update() && mContentBrowser.update())
     {
-        mActorEditor.update();
+        //mActorEditor.update();
     }
 }
 }

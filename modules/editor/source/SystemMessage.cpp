@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,53 +19,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
-
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/editor/SystemMessage.h>
+#include <nyra/gui/qt/Label.h>
+#include <nyra/gui/qt/Button.h>
 
 namespace nyra
 {
-namespace gui
+namespace editor
 {
-namespace qt
+//===========================================================================//
+SystemMessage::SystemMessage(const std::string& msg) :
+    DialogWindow("Message",
+                 math::Vector2U(512, 128),
+                 math::Vector2I(30, 30))
 {
-/*
- *  \class Label
- *  \brief A class used to render text to the screen.
- */
-class Label : public TextWidget<QLabel>
-{
-public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
+    gui::Widget* widget = new gui::qt::Label(math::Vector2U(16, 16),
+                                             msg);
+    mGui["message"] = widget;
 
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    widget = new gui::qt::Button(math::Vector2U(64, 40),
+                                 math::Vector2I(256 - 32, 60),
+                                 "OK");
+    widget->activated = std::bind(&SystemMessage::ok, this);
+    mGui["ok"] = widget;
+}
 
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-};
+//===========================================================================//
+void SystemMessage::run()
+{
+    while (update())
+    {
+    }
+}
+
+//===========================================================================//
+void SystemMessage::ok()
+{
+    mWindow.close();
 }
 }
 }
-
-#endif

@@ -36,6 +36,21 @@ namespace json
  */
 class JSON : public mem::Tree<std::string>
 {
+public:
+    /*
+     *  \func Constructor
+     *  \brief Creates an empty json.
+     */
+    JSON() = default;
+
+    /*
+     *  \func Constructor
+     *  \brief Creates a JSON from a pathname
+     *
+     *  \param pathname The json file on disk.
+     */
+    JSON(const std::string& pathname);
+
 private:
     friend std::ostream& operator<<(std::ostream& os, const JSON& tree);
 };

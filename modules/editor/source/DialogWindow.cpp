@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,53 +19,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
-
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/editor/DialogWindow.h>
 
 namespace nyra
 {
-namespace gui
+namespace editor
 {
-namespace qt
+//===========================================================================//
+DialogWindow::DialogWindow(const std::string& name,
+                           const math::Vector2U& size,
+                           const math::Vector2I& position) :
+    mWindow(name, size, position),
+    mGui(mWindow)
 {
-/*
- *  \class Label
- *  \brief A class used to render text to the screen.
- */
-class Label : public TextWidget<QLabel>
-{
-public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
+}
 
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+//===========================================================================//
+bool DialogWindow::update()
+{
+    if (mWindow.isOpen())
+    {
+        mWindow.update();
+    }
 
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-};
+    return mWindow.isOpen();
 }
 }
 }
-
-#endif

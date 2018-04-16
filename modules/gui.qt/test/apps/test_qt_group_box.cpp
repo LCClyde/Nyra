@@ -19,11 +19,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
-
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/gui/qt/Gui.h>
+#include <nyra/test/Test.h>
+#include <nyra/test/Image.h>
+#include <nyra/win/qt/Window.h>
+#include <nyra/gui/qt/GroupBox.h>
+#include <nyra/core/Path.h>
+#include <nyra/core/Time.h>
 
 namespace nyra
 {
@@ -31,41 +33,37 @@ namespace gui
 {
 namespace qt
 {
-/*
- *  \class Label
- *  \brief A class used to render text to the screen.
- */
-class Label : public TextWidget<QLabel>
+TEST(GroupBox, Render)
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
+    // The position is offset so the window doesn't go into the title bar.
+    win::qt::Window window("test_qt_panel",
+                           math::Vector2U(800, 600),
+                           math::Vector2I(256, 128));
 
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    Gui gui(window);
 
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-};
+    const math::Vector2F size(512, 256);
+    const math::Vector2F position(100, 100);
+    const std::string msg = "Test Panel!";
+    GroupBox* edit = new GroupBox(size, position, msg);
+    gui["widget"] = edit;
+
+    // We need to make sure the Window is fully updated and has time to
+    // animate if need be.
+    for (size_t ii = 0; ii < 10; ++ii)
+    {
+        window.update();
+        core::sleep(100);
+    }
+
+    EXPECT_TRUE(test::compareImage(window.getPixels(),
+                                   "test_qt_group_box.png"));
+    EXPECT_EQ(edit->getText(), msg);
+    EXPECT_EQ(edit->getPosition(), position);
+    EXPECT_EQ(edit->getSize(), size);
 }
 }
 }
+}
 
-#endif
+NYRA_TEST()

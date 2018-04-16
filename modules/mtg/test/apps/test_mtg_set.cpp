@@ -28,7 +28,7 @@
 nyra::mtg::Set getBeta()
 {
     return nyra::mtg::Set(nyra::core::path::join(
-            nyra::core::DATA_PATH, "docs/beta.json"));
+            nyra::core::DATA_PATH, "docs/mtg_beta.json"));
 }
 
 namespace nyra

@@ -61,6 +61,9 @@ void Window::close()
     if (mWindow.get())
     {
         mWindow->close();
+
+        // TODO: This causes lots of issues. I think I need to understand this
+        //       more.
         mWindow.reset(nullptr);
     }
 }

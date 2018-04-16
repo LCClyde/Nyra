@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,11 +19,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
+#ifndef __NYRA_GUI_QT_SPINNER_H__
+#define __NYRA_GUI_QT_SPINNER_H__
 
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/gui/qt/Widget.h>
 
 namespace nyra
 {
@@ -32,37 +31,59 @@ namespace gui
 namespace qt
 {
 /*
- *  \class Label
- *  \brief A class used to render text to the screen.
+ *  \class Spinner
+ *  \brief A class used to spinner used to set numbers.
  */
-class Label : public TextWidget<QLabel>
+class Spinner : public QObject, public Widget
 {
+    Q_OBJECT
+
 public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
+    enum Type
+    {
+        INTEGER,
+        DOUBLE
+    };
 
     /*
      *  \func Constructor
-     *  \brief Creates a default Label.
+     *  \brief Creates a default Button.
      *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
+     *  \param size The size of the Widget
+     *  \param position The position of the Widget
+     *  \param text The beginning text for the Widget.
      */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    Spinner(const math::Vector2F& size,
+            const math::Vector2F& position,
+            Type type,
+            double startingValue,
+            double min,
+            double max,
+            double increment);
+
+    Spinner(const math::Vector2F& size,
+            const math::Vector2F& position,
+            Type type,
+            double startingValue);
 
     /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
+     *  \func getValue
+     *  \brief Gets the current value.
      *
-     *  \param text The desired text.
+     *  \return The current value.
      */
-    void setText(const std::string& text) override;
+    double getValue() const override;
+
+    /*
+     *  \func setValue
+     *  \brief Sets the position.
+     *
+     *  \param value The desired value.
+     */
+    void setValue(double value);
+
+private:
+    const Type mType;
 };
 }
 }

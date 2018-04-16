@@ -118,6 +118,12 @@ namespace nyra
 namespace json
 {
 //===========================================================================//
+JSON::JSON(const std::string& pathname)
+{
+    core::read(pathname, *this);
+}
+
+//===========================================================================//
 std::ostream& operator<<(std::ostream& os, const JSON& tree)
 {
     ptree boostTree;

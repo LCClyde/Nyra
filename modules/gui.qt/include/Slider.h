@@ -24,7 +24,6 @@
 
 #include <QSlider>
 #include <nyra/gui/qt/Widget.h>
-#include <nyra/gui/Slider.h>
 
 namespace nyra
 {
@@ -36,7 +35,7 @@ namespace qt
  *  \class Slider
  *  \brief Represents a moveable slider widget that scales from 0-1
  */
-class Slider : public QObject, public gui::Slider, public Widget
+class Slider : public QObject, public Widget
 {
     Q_OBJECT
 
@@ -69,7 +68,7 @@ private slots:
 private:
     double normalizeValue(int value) const;
 
-    QSlider mSlider;
+    QSlider* const mSlider;
 };
 }
 }

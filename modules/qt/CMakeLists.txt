@@ -20,4 +20,4 @@
 #  IN THE SOFTWARE.
 ###############################################################################
 set(MOD_DEPS mem PARENT_SCOPE)
-set(EXT_DEPS Qt5::Widgets PARENT_SCOPE)
+set(EXT_DEPS Qt5::Widgets Qt5::Core PARENT_SCOPE)

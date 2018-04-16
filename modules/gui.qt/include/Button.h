@@ -22,7 +22,7 @@
 #ifndef __NYRA_GUI_QT_BUTTON_H__
 #define __NYRA_GUI_QT_BUTTON_H__
 
-#include <nyra/gui/qt/Widget.h>
+#include <nyra/gui/qt/TextWidget.h>
 #include <QPushButton>
 
 namespace nyra
@@ -35,7 +35,7 @@ namespace qt
  *  \class Button
  *  \brief A class used to render a clickable button.
  */
-class Button : public QObject, public Widget
+class Button : public QObject, public TextWidget<QPushButton>
 {
     Q_OBJECT
 
@@ -52,27 +52,8 @@ public:
            const math::Vector2F& position,
            const std::string& text = "");
 
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-
-    /*
-     *  \func getText
-     *  \brief Gets the current text.
-     *
-     *  \return The value of the text.
-     */
-    std::string getText() const override;
-
 private slots:
     void buttonPressed() const;
-
-private:
-    QPushButton mButton;
 };
 }
 }

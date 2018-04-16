@@ -22,7 +22,6 @@
 #include <limits>
 #include <nyra/gui/qt/Slider.h>
 #include <nyra/math/Interpolate.h>
-#include <iostream>
 
 namespace nyra
 {
@@ -32,12 +31,12 @@ namespace qt
 {
 //===========================================================================//
 Slider::Slider() :
-    Widget(mSlider),
-    mSlider(Qt::Horizontal)
+    Widget(new QSlider(Qt::Horizontal)),
+    mSlider(getQWidget<QSlider>())
 {
-    mSlider.setMinimum(0),
-    mSlider.setMaximum(std::numeric_limits<int>::max());
-    connect(&mSlider,
+    mSlider->setMinimum(0),
+    mSlider->setMaximum(std::numeric_limits<int>::max());
+    connect(mSlider,
             SIGNAL(valueChanged(int)),
             this,
             SLOT(valueChanged(int)));
@@ -46,22 +45,22 @@ Slider::Slider() :
 //===========================================================================//
 double Slider::getValue() const
 {
-    return normalizeValue(mSlider.value());
+    return normalizeValue(mSlider->value());
 }
 
 //===========================================================================//
 void Slider::setValue(double value)
 {
     value = std::min(std::max(value, 0.0), 1.0);
-    const int diff = mSlider.maximum() - mSlider.minimum();
-    mSlider.setValue(static_cast<int>(mSlider.minimum() + (diff * value)));
+    const int diff = mSlider->maximum() - mSlider->minimum();
+    mSlider->setValue(static_cast<int>(mSlider->minimum() + (diff * value)));
 }
 
 //===========================================================================//
 double Slider::normalizeValue(int value) const
 {
-    const int diff = mSlider.maximum() - mSlider.minimum();
-    return static_cast<double>(value - mSlider.minimum()) /
+    const int diff = mSlider->maximum() - mSlider->minimum();
+    return static_cast<double>(value - mSlider->minimum()) /
             static_cast<double>(diff);
 }
 

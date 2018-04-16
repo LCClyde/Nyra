@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,11 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
+#ifndef __NYRA_GUI_QT_COMBO_BOX_H__
+#define __NYRA_GUI_QT_COMBO_BOX_H__
 
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/gui/qt/Widget.h>
+#include <QComboBox>
 
 namespace nyra
 {
@@ -32,29 +32,25 @@ namespace gui
 namespace qt
 {
 /*
- *  \class Label
- *  \brief A class used to render text to the screen.
+ *  \class ComboBox
+ *  \brief A class used to render a clickable button.
  */
-class Label : public TextWidget<QLabel>
+class ComboBox : public QObject, public Widget
 {
+    Q_OBJECT
+
 public:
     /*
      *  \func Constructor
-     *  \brief Creates a default Label.
+     *  \brief Creates a default Button.
      *
-     *  \param text The beginning text for the widget.
+     *  \param size The size of the Widget
+     *  \param position The position of the Widget
+     *  \param text The beginning text for the Widget.
      */
-    Label(const std::string& text);
-
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    ComboBox(const math::Vector2F& size,
+             const math::Vector2F& position,
+             const std::vector<std::string>& text);
 
     /*
      *  \func setText
@@ -63,6 +59,14 @@ public:
      *  \param text The desired text.
      */
     void setText(const std::string& text) override;
+
+    /*
+     *  \func getText
+     *  \brief Gets the current text.
+     *
+     *  \return The value of the text.
+     */
+    std::string getText() const override;
 };
 }
 }

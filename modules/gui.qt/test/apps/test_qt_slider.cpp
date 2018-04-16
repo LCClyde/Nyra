@@ -53,7 +53,7 @@ namespace gui
 {
 namespace qt
 {
-TEST(Event, Call)
+TEST(Slider, Render)
 {
     // The position is offset so the window doesn't go into the title bar.
     win::qt::Window window("test_qt_slider",

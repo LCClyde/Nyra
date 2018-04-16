@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,50 +19,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_SLIDER_H__
-#define __NYRA_GUI_SLIDER_H__
+#ifndef __NYRA_EDITOR_NEW_CONTENT_H__
+#define __NYRA_EDITOR_NEW_CONTENT_H__
 
-#include <nyra/gui/Widget.h>
-#include <nyra/core/Event.h>
+#include <nyra/win/qt/Window.h>
+#include <nyra/gui/qt/Gui.h>
 
 namespace nyra
 {
-namespace gui
+namespace editor
 {
-/*
- *  \class Slider
- *  \brief Represents a moveable slider widget that scales from 0-1
- */
-class Slider : public virtual Widget
+class NewContent
 {
 public:
-    /*
-     *  \func Destructor
-     *  \brief Necessary for proper inheritance.
-     */
-    ~Slider();
+    NewContent(const std::string& subDirectory,
+               const std::string& extension = "json");
 
-    /*
-     *  \func getValue
-     *  \brief Gets the current value of the slider between 0-1.
-     *
-     *  \return The current value.
-     */
-    virtual double getValue() const = 0;
+    std::string run();
 
-    /*
-     *  \func setValue
-     *  \brief Sets the position of the slider.
-     *
-     *  \param value The desired value. Valid values are 0-1.
-     */
-    virtual void setValue(double value) = 0;
+    void ok();
 
-    /*
-     *  \var onValueChanged
-     *  \brief Called when the slider value changes.
-     */
-    core::Event<void(double)> onValueChanged;
+    void cancel();
+
+private:
+    const std::string mSubDirectory;
+    const std::string mExtension;
+    std::string mPathname;
+
+    win::qt::Window mWindow;
+    gui::qt::Gui mGui;
 };
 }
 }

@@ -1,0 +1,42 @@
+{
+    "filename":
+    {
+        "type": "string",
+        "default": "",
+        "description": "populate:textures"
+    },
+    "pivot":
+    {
+        "type": "object",
+        "properties":
+        {
+            "x":
+            {
+                "type": "number",
+                "default": "0.5"
+            },
+            "y":
+            {
+                "type": "number",
+                "default": "0.5"
+            }
+        }
+    },
+    "frames":
+    {
+        "type": "object",
+        "properties":
+        {
+            "x":
+            {
+                "type": "integer",
+                "default": "1"
+            },
+            "y":
+            {
+                "type": "integer",
+                "default": "1"
+            }
+        }
+    }
+}

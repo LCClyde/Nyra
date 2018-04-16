@@ -102,6 +102,27 @@ public:
     }
 
     /*
+     *  \func getValue
+     *  \brief Gets the current value.
+     *
+     *  \return The current value.
+     */
+    virtual double getValue() const
+    {
+        return 0.0;
+    }
+
+    /*
+     *  \func setValue
+     *  \brief Sets the current value.
+     *
+     *  \param value The desired value.
+     */
+    virtual void setValue(double value)
+    {
+    }
+
+    /*
      *  \func getText
      *  \brief Gets the current text.
      *
@@ -133,6 +154,12 @@ public:
      *  \brief Occurs when the widget has some sort of activation.
      */
     core::Event<void()> activated;
+
+    /*
+     *  \var onValueChanged
+     *  \brief Called when a value changes.
+     */
+    core::Event<void(double)> onValueChanged;
 };
 }
 }

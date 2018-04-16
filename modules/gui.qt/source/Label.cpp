@@ -29,25 +29,27 @@ namespace qt
 {
 //===========================================================================//
 Label::Label(const std::string& text) :
-    Widget(mLabel)
+    TextWidget(new QLabel())
 {
     setText(text);
+}
+
+//===========================================================================//
+Label::Label(const math::Vector2F& position,
+             const std::string& text) :
+    Label(text)
+{
+    Widget::setPosition(position);
 }
 
 //===========================================================================//
 void Label::setText(const std::string& text)
 {
     const QString qText(text.c_str());
-    mLabel.setText(qText);
+    Widget::getQWidget<QLabel>()->setText(qText);
 
-    const QFontMetrics metric(mLabel.font());
-    setSize(math::Vector2F(metric.width(qText), metric.height()));
-}
-
-//===========================================================================//
-std::string Label::getText() const
-{
-    return mLabel.text().toUtf8().constData();
+    const QFontMetrics metric(Widget::getQWidget<QLabel>()->font());
+    Widget::setSize(math::Vector2F(metric.width(qText), metric.height()));
 }
 }
 }

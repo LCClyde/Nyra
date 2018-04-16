@@ -19,28 +19,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/editor/Actor.h>
+#ifndef __NYRA_EDITOR_SYSTEM_MESSAGE_H__
+#define __NYRA_EDITOR_SYSTEM_MESSAGE_H__
+
+#include <nyra/editor/DialogWindow.h>
 
 namespace nyra
 {
 namespace editor
 {
-//===========================================================================//
-Actor::Actor() :
-    mWindow("Nyra Actor Editor",
-            math::Vector2U(400, 800),
-            math::Vector2I(30, 30))
+class SystemMessage : public DialogWindow
 {
+public:
+    SystemMessage(const std::string& msg);
+
+    void run();
+
+    void ok();
+};
+}
 }
 
-//===========================================================================//
-bool Actor::update()
-{
-    if (mWindow.isOpen())
-    {
-        mWindow.update();
-    }
-    return mWindow.isOpen();
-}
-}
-}
+#endif

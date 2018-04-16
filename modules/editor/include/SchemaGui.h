@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,52 +19,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
+#ifndef __NYRA_EDITOR_SCHEMA_GUI_H__
+#define __NYRA_EDITOR_SCHEMA_GUI_H__
 
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <string>
+#include <nyra/gui/Gui.h>
 
 namespace nyra
 {
-namespace gui
+namespace editor
 {
-namespace qt
-{
-/*
- *  \class Label
- *  \brief A class used to render text to the screen.
- */
-class Label : public TextWidget<QLabel>
-{
-public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
-
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
-
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-};
-}
+void buildSchema(const std::string& name, gui::Gui& gui);
 }
 }
 

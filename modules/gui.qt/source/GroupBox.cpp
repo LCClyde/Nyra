@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,11 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
-
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/gui/qt/GroupBox.h>
 
 namespace nyra
 {
@@ -31,41 +27,33 @@ namespace gui
 {
 namespace qt
 {
-/*
- *  \class Label
- *  \brief A class used to render text to the screen.
- */
-class Label : public TextWidget<QLabel>
+//===========================================================================//
+GroupBox::GroupBox(const math::Vector2F& size,
+                   const math::Vector2F& position,
+                   const std::string& text) :
+    Widget(new QGroupBox())
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
+    Widget::setPosition(position);
+    Widget::setSize(size);
+    setText(text);
 
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    const QString style =
+            "QGroupBox"
+            "{"
+                "border: 1px solid gray;"
+                "border-radius: 9px;"
+                "margin-top: 0.5em;"
+            "}"
 
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-};
+            "QGroupBox::title"
+            "{"
+                "subcontrol-origin: margin;"
+                "left: 10px;"
+                "padding: 0 3px 0 3px;"
+            "}";
+
+    Widget::getQWidget<QGroupBox>()->setStyleSheet(style);
 }
 }
 }
-
-#endif
+}

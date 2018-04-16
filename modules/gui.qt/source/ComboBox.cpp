@@ -19,21 +19,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/editor/ContentBrowser.h>
-#include <nyra/editor/SchemaGui.h>
+#include <nyra/gui/qt/ComboBox.h>
+#include <QAbstractItemView>
+#include <Qt>
 
 namespace nyra
 {
-namespace editor
+namespace gui
+{
+namespace qt
 {
 //===========================================================================//
-ContentBrowser::ContentBrowser() :
-    DialogWindow("Nyra Content Browser",
-                 math::Vector2U(1280, 720),
-                 math::Vector2I(30, 30))
+ComboBox::ComboBox(const math::Vector2F& size,
+                   const math::Vector2F& position,
+                   const std::vector<std::string>& text) :
+    Widget(new QComboBox())
 {
-    buildSchema("sprite", mGui);
-}
-}
+    Widget::setPosition(position);
+    Widget::setSize(size);
+
+    for (const std::string& s : text)
+    {
+        getQWidget<QComboBox>()->addItem(s.c_str());
+    }
+
+    getQWidget<QComboBox>()->view()->setVerticalScrollBarPolicy(
+            Qt::ScrollBarAsNeeded);
 }
 
+//===========================================================================//
+void ComboBox::setText(const std::string& text)
+{
+    const QString qText(text.c_str());
+    const int index = getQWidget<QComboBox>()->findText(qText);
+
+    if (index < 0)
+    {
+        throw std::runtime_error(text + " is not in combo box");
+    }
+
+    getQWidget<QComboBox>()->setCurrentIndex(index);
+}
+
+//===========================================================================//
+std::string ComboBox::getText() const
+{
+    return getQWidget<QComboBox>()->currentText().toUtf8().constData();
+}
+}
+}
+}

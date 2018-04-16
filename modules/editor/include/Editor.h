@@ -24,7 +24,6 @@
 
 #include <nyra/editor/Map.h>
 #include <nyra/editor/ContentBrowser.h>
-#include <nyra/editor/Actor.h>
 
 namespace nyra
 {
@@ -38,7 +37,6 @@ public:
 private:
     Map mMapEditor;
     ContentBrowser mContentBrowser;
-    Actor mActorEditor;
 };
 }
 }

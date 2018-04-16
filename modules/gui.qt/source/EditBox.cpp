@@ -31,24 +31,11 @@ namespace qt
 EditBox::EditBox(const math::Vector2F& size,
                  const math::Vector2F& position,
                  const std::string& text) :
-    Widget(mEditBox)
+    TextWidget(new QLineEdit())
 {
-    setPosition(position);
-    setSize(size);
+    Widget::setPosition(position);
+    Widget::setSize(size);
     setText(text);
-}
-
-//===========================================================================//
-void EditBox::setText(const std::string& text)
-{
-    const QString qText(text.c_str());
-    mEditBox.setText(qText);
-}
-
-//===========================================================================//
-std::string EditBox::getText() const
-{
-    return mEditBox.text().toUtf8().constData();
 }
 }
 }

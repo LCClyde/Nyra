@@ -22,7 +22,7 @@
 #ifndef __NYRA_GUI_QT_EDIT_BOX_H__
 #define __NYRA_GUI_QT_EDIT_BOX_H__
 
-#include <nyra/gui/qt/Widget.h>
+#include <nyra/gui/qt/TextWidget.h>
 #include <QLineEdit>
 
 namespace nyra
@@ -35,7 +35,7 @@ namespace qt
  *  \class EditBox
  *  \brief A class used to allow user text input.
  */
-class EditBox : public Widget
+class EditBox : public TextWidget<QLineEdit>
 {
 public:
     /*
@@ -49,25 +49,6 @@ public:
     EditBox(const math::Vector2F& size,
             const math::Vector2F& position,
             const std::string& text = "");
-
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-
-    /*
-     *  \func getText
-     *  \brief Gets the current text.
-     *
-     *  \return The value of the text.
-     */
-    std::string getText() const override;
-
-private:
-    QLineEdit mEditBox;
 };
 }
 }

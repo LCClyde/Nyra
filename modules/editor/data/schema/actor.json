@@ -1,0 +1,42 @@
+{
+    "sprite":
+    {
+        "type": "object",
+        "properties":
+        {
+            "filename":
+            {
+                "type": "string",
+                "default": "",
+                "description": "populate from : textures"
+            }
+        }
+    },
+    "script":
+    {
+        "type": "object",
+        "properties":
+        {
+            "filename":
+            {
+                "type": "string",
+                "default": ""
+            },
+            "class":
+            {
+                "type": "string",
+                "default": ""
+            },
+            "update":
+            {
+                "type": "string",
+                "default": ""
+            },
+            "initialize":
+            {
+                "type": "string",
+                "default": ""
+            }
+        }
+    }
+}

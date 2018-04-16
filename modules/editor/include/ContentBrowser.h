@@ -22,21 +22,16 @@
 #ifndef __NYRA_EDITOR_CONTENT_BROWSER_H__
 #define __NYRA_EDITOR_CONTENT_BROWSER_H__
 
-#include <nyra/win/qt/Window.h>
+#include <nyra/editor/DialogWindow.h>
 
 namespace nyra
 {
 namespace editor
 {
-class ContentBrowser
+class ContentBrowser : public DialogWindow
 {
 public:
     ContentBrowser();
-
-    bool update();
-
-private:
-    win::qt::Window mWindow;
 };
 }
 }

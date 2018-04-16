@@ -28,7 +28,7 @@ namespace gui
 namespace qt
 {
 //===========================================================================//
-Widget::Widget(QWidget& widget) :
+Widget::Widget(QWidget* widget) :
     mWidget(widget)
 {
 }
@@ -41,34 +41,34 @@ Widget::~Widget()
 //===========================================================================//
 void Widget::setSize(const math::Vector2F& size)
 {
-    mWidget.resize(size.x, size.y);
+    mWidget->resize(size.x, size.y);
 }
 
 //===========================================================================//
 void Widget::setPosition(const math::Vector2F& position)
 {
-    mWidget.move(position.x, position.y);
+    mWidget->move(position.x, position.y);
 }
 
 //===========================================================================//
 math::Vector2F Widget::getPosition() const
 {
-    return math::Vector2I(mWidget.x(),
-                          mWidget.y());
+    return math::Vector2I(mWidget->x(),
+                          mWidget->y());
 }
 
 //===========================================================================//
 math::Vector2F Widget::getSize() const
 {
 
-    return math::Vector2U(mWidget.geometry().width(),
-                          mWidget.geometry().height());
+    return math::Vector2U(mWidget->geometry().width(),
+                          mWidget->geometry().height());
 }
 
 //===========================================================================//
 void Widget::addChild(gui::Widget& child)
 {
-    reinterpret_cast<QWidget*>(child.getNative())->setParent(&mWidget);
+    reinterpret_cast<QWidget*>(child.getNative())->setParent(mWidget);
     reinterpret_cast<QWidget*>(child.getNative())->show();
 }
 }

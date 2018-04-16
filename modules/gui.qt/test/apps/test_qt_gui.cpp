@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,11 +19,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#ifndef __NYRA_GUI_QT_LABEL_H__
-#define __NYRA_GUI_QT_LABEL_H__
-
-#include <nyra/gui/qt/TextWidget.h>
-#include <QLabel>
+#include <nyra/gui/qt/Gui.h>
+#include <nyra/test/Test.h>
+#include <nyra/test/Image.h>
+#include <nyra/win/qt/Window.h>
+#include <nyra/gui/qt/Button.h>
+#include <nyra/core/Path.h>
+#include <nyra/core/Time.h>
 
 namespace nyra
 {
@@ -31,41 +33,31 @@ namespace gui
 {
 namespace qt
 {
-/*
- *  \class Label
- *  \brief A class used to render text to the screen.
- */
-class Label : public TextWidget<QLabel>
+//! The QT Window will delete all of its children. This test ensures that
+//  when the window goes out of scope, the GUI object is not double
+//  deleted.
+TEST(Gui, Close)
 {
-public:
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param text The beginning text for the widget.
-     */
-    Label(const std::string& text);
+    win::qt::Window window("test_qt_gui",
+                           math::Vector2U(256, 64),
+                           math::Vector2I(256, 128));
+    Gui myGui(window);
 
-    /*
-     *  \func Constructor
-     *  \brief Creates a default Label.
-     *
-     *  \param position The position of the widget.
-     *  \param text The beginning text for the widget.
-     */
-    Label(const math::Vector2F& position,
-          const std::string& text);
+    const math::Vector2F size(200, 50);
+    const math::Vector2F position(32, 7);
+    const std::string msg = "BUTTON";
+    Button* button = new Button(size, position, msg);
+    myGui["widget"] = button;
 
-    /*
-     *  \func setText
-     *  \brief Sets the text of the widget.
-     *
-     *  \param text The desired text.
-     */
-    void setText(const std::string& text) override;
-};
+    for (size_t ii = 0; ii < 10; ++ii)
+    {
+        window.update();
+    }
+
+    window.close();
+}
 }
 }
 }
 
-#endif
+NYRA_TEST()

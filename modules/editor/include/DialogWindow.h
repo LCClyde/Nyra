@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Clyde Stanfield
+ * Copyright (c) 2018 Clyde Stanfield
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,15 +19,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-#include <nyra/gui/Slider.h>
+#ifndef __NYRA_EDITOR_DIALOG_WINDOW_H__
+#define __NYRA_EDITOR_DIALOG_WINDOW_H__
+
+#include <nyra/win/qt/Window.h>
+#include <nyra/gui/qt/Gui.h>
 
 namespace nyra
 {
-namespace gui
+namespace editor
 {
-//===========================================================================//
-Slider::~Slider()
+class DialogWindow
 {
+public:
+    DialogWindow(const std::string& name,
+                 const math::Vector2U& size,
+                 const math::Vector2I& position);
+
+    bool update();
+
+protected:
+    win::qt::Window mWindow;
+    gui::qt::Gui mGui;
+};
 }
 }
-}
+
+#endif

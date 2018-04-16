@@ -47,7 +47,7 @@ public:
      *
      *  \param widget Dependency injected base QWidget.
      */
-    Widget(QWidget& widget);
+    Widget(QWidget* widget);
 
     /*
      *  \func Destructor
@@ -126,11 +126,18 @@ public:
      */
     void* getNative() override
     {
-        return &mWidget;
+        return mWidget;
+    }
+
+    template<typename T>
+    T* getQWidget() const
+    {
+        return reinterpret_cast<T*>(mWidget);
     }
 
 protected:
-    QWidget& mWidget;
+    // This is purposely not deleted. QT handles deleting the underlying pointer.
+    QWidget* mWidget;
 };
 }
 }
