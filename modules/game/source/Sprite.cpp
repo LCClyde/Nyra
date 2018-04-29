@@ -42,10 +42,22 @@ void Sprite::initialize(const std::string& filename,
                         const math::Vector2U& frames)
 {
     mFilename = filename;
-    mPivot = pivot;
     mFrames = frames;
     mSprite = SpriteT(core::path::join(
             core::DATA_PATH, "textures/" + mFilename));
+    mSprite.setPivot(pivot);
+}
+
+//===========================================================================//
+void Sprite::render(graphics::RenderTarget& target)
+{
+    mSprite.render(target);
+}
+
+//===========================================================================//
+void Sprite::updateTransform(const math::Transform2D& parent)
+{
+    mSprite.updateTransform(parent);
 }
 }
 

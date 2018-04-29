@@ -24,12 +24,129 @@
 
 #include <string>
 #include <nyra/gui/Gui.h>
+#include <nyra/json/JSON.h>
+#include <nyra/core/String.h>
 
 namespace nyra
 {
 namespace editor
 {
-void buildSchema(const std::string& name, gui::Gui& gui);
+class SchemaGui
+{
+public:
+    SchemaGui(const std::string& name,
+              double yPos,
+              double width,
+              core::Event<void()> onValueChanged,
+              gui::Gui& gui);
+
+    //=======================================================================//
+    void onValueChangedImpl(mem::Tree<std::string>* schema,
+                            gui::Widget* object);
+
+private:
+    class BuildOptions
+    {
+    public:
+        //===================================================================//
+        BuildOptions(const std::string& name,
+                     const mem::Tree<std::string>& schema,
+                     mem::Tree<gui::Widget>& object,
+                     mem::Tree<std::string>& serial);
+
+        //===================================================================//
+        BuildOptions(const std::string& name,
+                     const std::string& title,
+                     size_t index,
+                     size_t indices,
+                     const mem::Tree<std::string>& schema,
+                     mem::Tree<gui::Widget>& object,
+                     mem::Tree<std::string>& serial);
+
+        //===================================================================//
+        std::string getType() const;
+
+        //===================================================================//
+        void addWidget(const std::string& suffix,
+                       gui::Widget* widget,
+                       bool addToSchema);
+
+        //===================================================================//
+        void addWidget(gui::Widget* widget,
+                       bool addToSchema);
+
+        //===================================================================//
+        template <typename T>
+        T getDefault(const T& fallback) const
+        {
+            return getSchemaValue<T>("default", fallback);
+        }
+
+        //===================================================================//
+        template <typename T>
+        T getSchemaValue(const std::string& schemaName,
+                         const T& fallback) const
+        {
+            if (!schema.has(schemaName))
+            {
+                return fallback;
+            }
+            return core::str::toType<T>(schema[schemaName].get());
+        }
+
+        //===================================================================//
+        gui::Widget& getWidget() const
+        {
+            return *mWidget;
+        }
+
+        //===================================================================//
+        const std::string name;
+        const std::string title;
+        const size_t index;
+        const size_t indices;
+        const mem::Tree<std::string>& schema;
+        mem::Tree<gui::Widget>& object;
+        mem::Tree<std::string>& serial;
+
+    private:
+        gui::Widget* mWidget;
+    };
+    //=======================================================================//
+    void parseSingleObject(BuildOptions& input);
+
+    //=======================================================================//
+    void addLabel(BuildOptions& input);
+
+    //=======================================================================//
+    void addString(BuildOptions& input);
+
+    //=======================================================================//
+    void addNumber(BuildOptions& input);
+
+    //=======================================================================//
+    void addInteger(BuildOptions& input);
+
+    //=======================================================================//
+    void addObject(BuildOptions& input);
+
+    //=======================================================================//
+    void addVector2(BuildOptions& input);
+
+    //=======================================================================//
+    nyra::math::Vector2F getPosition(const BuildOptions& options) const;
+
+    //=======================================================================//
+    double getWidth(const BuildOptions& options) const;
+
+    void addChangeEvent(BuildOptions& input);
+
+    float mOffset;
+    double mWindowWidth;
+    size_t mTab;
+    const nyra::core::Event<void()>& mOnValueChanged;
+    json::JSON mSerial;
+};
 }
 }
 

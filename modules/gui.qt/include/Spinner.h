@@ -23,6 +23,7 @@
 #define __NYRA_GUI_QT_SPINNER_H__
 
 #include <nyra/gui/qt/Widget.h>
+#include <nyra/core/String.h>
 
 namespace nyra
 {
@@ -61,11 +62,6 @@ public:
             double max,
             double increment);
 
-    Spinner(const math::Vector2F& size,
-            const math::Vector2F& position,
-            Type type,
-            double startingValue);
-
     /*
      *  \func getValue
      *  \brief Gets the current value.
@@ -81,6 +77,15 @@ public:
      *  \param value The desired value.
      */
     void setValue(double value);
+
+    std::string getText() const
+    {
+        return core::str::toString(getValue());
+    }
+
+private slots:
+    void valueChanged(double value) const;
+    void valueChanged(int value) const;
 
 private:
     const Type mType;

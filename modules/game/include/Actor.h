@@ -32,6 +32,7 @@
 #include <nyra/core/Event.h>
 #include <nyra/game/Physics.h>
 #include <nyra/game/Gui.h>
+#include <nyra/game/Sprite.h>
 
 namespace nyra
 {
@@ -116,6 +117,12 @@ public:
         return *mScript;
     }
 
+    /*
+     *  \func getScript
+     *  \brief Gets script object
+     *
+     *  \return The script object
+     */
     nyra::script::Object& getScript()
     {
         return *mScript;
@@ -137,7 +144,7 @@ public:
      */
     void addGUI(Gui* gui);
 
-    void addSprite(graphics::Sprite* sprite)
+    void addSprite(Sprite* sprite)
     {
         addRenderable(sprite);
         mType = SPRITE;

@@ -24,6 +24,7 @@
 
 #include <QSlider>
 #include <nyra/gui/qt/Widget.h>
+#include <nyra/core/String.h>
 
 namespace nyra
 {
@@ -61,6 +62,11 @@ public:
      *  \param value The desired value. Valid values are 0-1.
      */
     void setValue(double value) override;
+
+    std::string getText() const
+    {
+        return core::str::toString(getValue());
+    }
 
 private slots:
     void valueChanged(int value) const;

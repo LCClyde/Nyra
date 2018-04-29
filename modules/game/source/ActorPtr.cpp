@@ -317,21 +317,12 @@ graphics::Sprite* ActorPtr::parseSprite(
         const mem::Tree<std::string>& map) const
 {
     const std::string filename = map["filename"].get();
-    const std::string pathname = core::path::join(
-            core::DATA_PATH, "textures/" + filename);
+    std::unique_ptr<Sprite> sprite(new Sprite());
+    core::read(core::path::join(core::DATA_PATH, "sprites/" + filename), *sprite);
+    mActor->addSprite(sprite.release());
 
-    SpriteT* sprite = new SpriteT(pathname);
-
-    if (map.has("pivot"))
-    {
-        const math::Vector2F pivot(
-                core::str::toType<double>(map["pivot"]["x"].get()),
-                core::str::toType<double>(map["pivot"]["y"].get()));
-        sprite->setPivot(pivot);
-    }
-
-    mActor->addSprite(sprite);
-    return sprite;
+    // TODO: We don't need to return a sprite here
+    return nullptr;
 }
 
 //===========================================================================//

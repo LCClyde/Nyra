@@ -46,27 +46,20 @@ Spinner::Spinner(const math::Vector2F& size,
     {
         getQWidget<QSpinBox>()->setRange(min, max);
         getQWidget<QSpinBox>()->setSingleStep(increment);
+        connect(Widget::getQWidget<QSpinBox>(),
+                SIGNAL(valueChanged(int)),
+                this, SLOT(valueChanged(int)));
     }
     else
     {
         getQWidget<QDoubleSpinBox>()->setRange(min, max);
         getQWidget<QDoubleSpinBox>()->setSingleStep(increment);
+        getQWidget<QDoubleSpinBox>()->setDecimals(3);
+        connect(Widget::getQWidget<QDoubleSpinBox>(),
+                SIGNAL(valueChanged(double)),
+                this, SLOT(valueChanged(double)));
     }
 
-    setPosition(position);
-    setSize(size);
-    setValue(startingValue);
-}
-
-//===========================================================================//
-Spinner::Spinner(const math::Vector2F& size,
-                 const math::Vector2F& position,
-                 Type type,
-                 double startingValue) :
-    Widget(type == INTEGER ? static_cast<QWidget*>(new QSpinBox()) :
-                             static_cast<QWidget*>(new QDoubleSpinBox())),
-    mType(type)
-{
     setPosition(position);
     setSize(size);
     setValue(startingValue);
@@ -96,6 +89,19 @@ void Spinner::setValue(double value)
     {
         getQWidget<QDoubleSpinBox>()->setValue(value);
     }
+}
+
+//===========================================================================//
+void Spinner::valueChanged(int value) const
+{
+    onValueChanged();
+}
+
+//===========================================================================//
+void Spinner::valueChanged(double value) const
+{
+    std::cout << "On value changed was called\n";
+    onValueChanged();
 }
 }
 }

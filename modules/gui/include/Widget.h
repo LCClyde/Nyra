@@ -159,7 +159,7 @@ public:
      *  \var onValueChanged
      *  \brief Called when a value changes.
      */
-    core::Event<void(double)> onValueChanged;
+    core::Event<void()> onValueChanged;
 };
 }
 }

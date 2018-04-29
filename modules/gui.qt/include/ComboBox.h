@@ -67,6 +67,9 @@ public:
      *  \return The value of the text.
      */
     std::string getText() const override;
+
+    private slots:
+        void valueChanged(int index) const;
 };
 }
 }

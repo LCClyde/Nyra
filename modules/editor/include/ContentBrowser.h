@@ -23,6 +23,7 @@
 #define __NYRA_EDITOR_CONTENT_BROWSER_H__
 
 #include <nyra/editor/DialogWindow.h>
+#include <nyra/editor/SchemaGui.h>
 
 namespace nyra
 {
@@ -32,6 +33,9 @@ class ContentBrowser : public DialogWindow
 {
 public:
     ContentBrowser();
+
+private:
+    std::unique_ptr<SchemaGui> mSchemaGui;
 };
 }
 }

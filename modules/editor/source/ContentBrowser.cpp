@@ -20,7 +20,6 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/editor/ContentBrowser.h>
-#include <nyra/editor/SchemaGui.h>
 
 namespace nyra
 {
@@ -32,7 +31,7 @@ ContentBrowser::ContentBrowser() :
                  math::Vector2U(1280, 720),
                  math::Vector2I(30, 30))
 {
-    buildSchema("sprite", mGui);
+    mSchemaGui.reset(new SchemaGui("sprite", 0.0, mWindow.getSize().x, core::Event<void()>(), mGui));
 }
 }
 }

@@ -33,9 +33,11 @@ namespace game
  *  \brief Holds onto a sprite object that knows how to serialize to JSON
  *         and includes all necessary metadata for game development.
  */
-class Sprite
+class Sprite : public graphics::Renderable2D
 {
 public:
+    Sprite() = default;
+
     /*
      *  \func Constructor
      *  \brief Creates a Sprite object.
@@ -79,7 +81,7 @@ public:
      */
     const math::Vector2F getPivot() const
     {
-        return mPivot;
+        return mSprite.getPivot();
     }
 
     /*
@@ -93,9 +95,24 @@ public:
         return mFrames;
     }
 
+    /*
+     *  \func render
+     *  \brief Renders the actor to the screen
+     *
+     *  \param target The target to render to
+     */
+    void render(graphics::RenderTarget& target) override;
+
+    /*
+     *  \func updateTransform
+     *  \brief Updates the underlying matrix
+     *
+     *  \param parent The parent transform
+     */
+    void updateTransform(const math::Transform2D& parent) override;
+
 private:
     std::string mFilename;
-    math::Vector2F mPivot;
     math::Vector2U mFrames;
     SpriteT mSprite;
 };

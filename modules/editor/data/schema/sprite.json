@@ -2,8 +2,7 @@
     "filename":
     {
         "type": "string",
-        "default": "",
-        "description": "populate:textures"
+        "directory": "textures"
     },
     "pivot":
     {
@@ -13,12 +12,14 @@
             "x":
             {
                 "type": "number",
-                "default": "0.5"
+                "default": 0.5,
+                "increment": 0.01
             },
             "y":
             {
                 "type": "number",
-                "default": "0.5"
+                "default": 0.5,
+                "increment": 0.01
             }
         }
     },
@@ -30,12 +31,14 @@
             "x":
             {
                 "type": "integer",
-                "default": "1"
+                "default": 1,
+                "minimum" : 1
             },
             "y":
             {
                 "type": "integer",
-                "default": "1"
+                "default": 1,
+                "minimum" : 1
             }
         }
     }

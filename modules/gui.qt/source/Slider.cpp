@@ -67,7 +67,7 @@ double Slider::normalizeValue(int value) const
 //===========================================================================//
 void Slider::valueChanged(int value) const
 {
-    onValueChanged(normalizeValue(value));
+    onValueChanged();
 }
 }
 }

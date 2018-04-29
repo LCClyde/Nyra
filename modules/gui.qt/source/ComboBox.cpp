@@ -45,6 +45,10 @@ ComboBox::ComboBox(const math::Vector2F& size,
 
     getQWidget<QComboBox>()->view()->setVerticalScrollBarPolicy(
             Qt::ScrollBarAsNeeded);
+
+    // Connect button signal to appropriate slot
+    connect(Widget::getQWidget<QComboBox>(), SIGNAL(currentIndexChanged(int)),
+            this, SLOT(valueChanged(int)));
 }
 
 //===========================================================================//
@@ -65,6 +69,12 @@ void ComboBox::setText(const std::string& text)
 std::string ComboBox::getText() const
 {
     return getQWidget<QComboBox>()->currentText().toUtf8().constData();
+}
+
+//===========================================================================//
+void ComboBox::valueChanged(int index) const
+{
+    onValueChanged();
 }
 }
 }
