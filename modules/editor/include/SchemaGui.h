@@ -37,7 +37,7 @@ public:
     SchemaGui(const std::string& name,
               double yPos,
               double width,
-              core::Event<void()> onValueChanged,
+              core::Event<void(const json::JSON&)> onValueChanged,
               gui::Gui& gui);
 
     //=======================================================================//
@@ -144,7 +144,7 @@ private:
     float mOffset;
     double mWindowWidth;
     size_t mTab;
-    const nyra::core::Event<void()>& mOnValueChanged;
+    const nyra::core::Event<void(const json::JSON&)> mOnValueChanged;
     json::JSON mSerial;
 };
 }

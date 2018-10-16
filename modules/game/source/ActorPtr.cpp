@@ -318,7 +318,11 @@ graphics::Sprite* ActorPtr::parseSprite(
 {
     const std::string filename = map["filename"].get();
     std::unique_ptr<Sprite> sprite(new Sprite());
-    core::read(core::path::join(core::DATA_PATH, "sprites/" + filename), *sprite);
+
+    if (!filename.empty())
+    {
+        core::read(core::path::join(core::DATA_PATH, "sprites/" + filename), *sprite);
+    }
     mActor->addSprite(sprite.release());
 
     // TODO: We don't need to return a sprite here

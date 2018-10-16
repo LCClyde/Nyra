@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/editor/Map.h>
+#include <nyra/core/Path.h>
+#include <nyra/game/Sprite.h>
 
 namespace nyra
 {
@@ -30,8 +32,11 @@ Map::Map() :
     mWindow("Nyra Map Editor",
             math::Vector2U(1920, 1080),
             math::Vector2I(30, 30)),
-    mTarget(mWindow)
+    mTarget(mWindow),
+    mInput(mWindow, "empty.json"),
+    mMap(mInput, mTarget)
 {
+    core::read(core::path::join(core::DATA_PATH, "maps/sprite_editor.json"), mMap);
 }
 
 //===========================================================================//
@@ -40,8 +45,11 @@ bool Map::update()
     if (mWindow.isOpen())
     {
         mWindow.update();
+        mInput.update();
+        mMap.update(0.0);
 
         mTarget.clear(img::Color(192, 192, 192));
+        mMap.render(mTarget);
         mTarget.flush();
     }
 

@@ -40,10 +40,11 @@ void update(nyra::win::Window& window)
 }
 
 static double broadcastValue = 0.0;
+static nyra::gui::qt::Slider* slider = nullptr;
 
-void valueChanged(double value)
+void valueChanged()
 {
-    broadcastValue = value;
+    broadcastValue = slider->getValue();
 }
 }
 
@@ -61,7 +62,7 @@ TEST(Slider, Render)
                            math::Vector2I(256, 128));
 
     Gui gui(window);
-    Slider* slider = new Slider();
+    slider = new Slider();
     slider->setSize(math::Vector2F(200.0f, 32.0f));
     slider->onValueChanged = valueChanged;
     gui["slider"] = slider;

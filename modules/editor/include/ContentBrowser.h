@@ -34,6 +34,8 @@ class ContentBrowser : public DialogWindow
 public:
     ContentBrowser();
 
+    void updateSprite(const json::JSON& tree);
+
 private:
     std::unique_ptr<SchemaGui> mSchemaGui;
 };

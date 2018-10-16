@@ -100,7 +100,6 @@ void Spinner::valueChanged(int value) const
 //===========================================================================//
 void Spinner::valueChanged(double value) const
 {
-    std::cout << "On value changed was called\n";
     onValueChanged();
 }
 }

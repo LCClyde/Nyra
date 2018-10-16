@@ -122,7 +122,7 @@ void SchemaGui::BuildOptions::addWidget(gui::Widget* widget,
 SchemaGui::SchemaGui(const std::string& name,
                      double yPos,
                      double width,
-                     core::Event<void()> onValueChanged,
+                     core::Event<void(const json::JSON&)> onValueChanged,
                      gui::Gui& gui) :
     mOffset(yPos + OFFSET),
     mWindowWidth(width),
@@ -136,7 +136,6 @@ SchemaGui::SchemaGui(const std::string& name,
     BuildOptions input(name, schema, gui, mSerial);
     input.serial = "";
     addObject(input);
-    std::cout << this << " " << mSerial << "\n";
 }
 
 //=======================================================================//
@@ -351,9 +350,7 @@ void SchemaGui::onValueChangedImpl(mem::Tree<std::string>* activeJson,
                                    gui::Widget* object)
 {
     (*activeJson) = object->getText();
-    std::cout << this << " " << mSerial << "\n";
-    //(*activeJson) = object->getText();
-    //core::write(mSerial, "test.json");
+    mOnValueChanged(mSerial);
 }
 }
 }

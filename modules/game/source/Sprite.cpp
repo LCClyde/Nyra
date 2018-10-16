@@ -21,7 +21,6 @@
  */
 #include <nyra/game/Sprite.h>
 #include <nyra/core/Path.h>
-#include <nyra/json/JSON.h>
 #include <nyra/core/String.h>
 
 namespace nyra
@@ -41,17 +40,52 @@ void Sprite::initialize(const std::string& filename,
                         const math::Vector2F& pivot,
                         const math::Vector2U& frames)
 {
-    mFilename = filename;
     mFrames = frames;
-    mSprite = SpriteT(core::path::join(
-            core::DATA_PATH, "textures/" + mFilename));
+
+    if (filename.empty())
+    {
+        return;
+    }
+
+    if (filename != mFilename)
+    {
+        mFilename = filename;
+        mSprite = SpriteT(core::path::join(
+                core::DATA_PATH, "textures/" + mFilename));
+    }
+
     mSprite.setPivot(pivot);
+}
+
+//===========================================================================//
+void Sprite::initialize(const json::JSON& tree)
+{
+    const std::string filename = tree["filename"].get();
+
+    math::Vector2F pivot(0.5, 0.5);
+    if (tree.has("pivot"))
+    {
+        pivot.x = core::str::toType<float>(tree["pivot"]["x"].get());
+        pivot.y = core::str::toType<float>(tree["pivot"]["y"].get());
+    }
+
+    math::Vector2U frames(1, 1);
+    if (tree.has("frames"))
+    {
+        frames.x = core::str::toType<float>(tree["frames"]["x"].get());
+        frames.y = core::str::toType<float>(tree["frames"]["y"].get());
+    }
+
+    initialize(filename, pivot, frames);
 }
 
 //===========================================================================//
 void Sprite::render(graphics::RenderTarget& target)
 {
-    mSprite.render(target);
+    if (!mFilename.empty())
+    {
+        mSprite.render(target);
+    }
 }
 
 //===========================================================================//
@@ -85,24 +119,7 @@ void read<game::Sprite>(const std::string& pathname,
                         core::ArchiveType type)
 {
     const json::JSON tree(pathname);
-
-    const std::string filename = tree["filename"].get();
-
-    math::Vector2F pivot(0.5, 0.5);
-    if (tree.has("pivot"))
-    {
-        pivot.x = core::str::toType<float>(tree["pivot"]["x"].get());
-        pivot.y = core::str::toType<float>(tree["pivot"]["y"].get());
-    }
-
-    math::Vector2U frames(1, 1);
-    if (tree.has("frames"))
-    {
-        frames.x = core::str::toType<float>(tree["frames"]["x"].get());
-        frames.y = core::str::toType<float>(tree["frames"]["y"].get());
-    }
-
-    data.initialize(filename, pivot, frames);
+    data.initialize(tree);
 }
 }
 }

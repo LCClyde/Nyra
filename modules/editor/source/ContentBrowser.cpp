@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  */
 #include <nyra/editor/ContentBrowser.h>
+#include <nyra/game/Map.h>
 
 namespace nyra
 {
@@ -31,7 +32,17 @@ ContentBrowser::ContentBrowser() :
                  math::Vector2U(1280, 720),
                  math::Vector2I(30, 30))
 {
-    mSchemaGui.reset(new SchemaGui("sprite", 0.0, mWindow.getSize().x, core::Event<void()>(), mGui));
+    mSchemaGui.reset(new SchemaGui("sprite", 0.0, mWindow.getSize().x,
+            std::bind(&ContentBrowser::updateSprite, this, std::placeholders::_1), mGui));
+
+}
+
+//===========================================================================//
+void ContentBrowser::updateSprite(const json::JSON& tree)
+{
+    game::Sprite& sprite = dynamic_cast<game::Sprite&>(
+            game::Map::getActor("sprite").getRenderable());
+    sprite.initialize(tree);
 }
 }
 }

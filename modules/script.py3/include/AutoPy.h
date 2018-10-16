@@ -24,7 +24,12 @@
 
 #include <nyra/mem/GlobalDependency.h>
 #include <nyra/script/py3/GlobalHandler.h>
+
+// Slots is a keyword in QT.
+#pragma push_macro("slots")
+#undef slots
 #include <Python.h>
+#pragma pop_macro("slots")
 
 namespace nyra
 {

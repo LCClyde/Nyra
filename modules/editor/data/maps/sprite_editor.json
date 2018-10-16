@@ -1,0 +1,17 @@
+{
+    "actors" :
+    [
+     {
+        "filename" : "empty_camera.json",
+        "position" :
+        {
+            "x" : 0,
+            "y" : 0
+        }
+     },
+     {
+         "filename" : "empty_sprite.json",
+         "name" : "sprite"
+     }
+    ]
+}

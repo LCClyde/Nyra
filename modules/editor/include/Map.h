@@ -23,6 +23,7 @@
 #define __NYRA_EDITOR_MAP_H__
 
 #include <nyra/game/Types.h>
+#include <nyra/game/Map.h>
 
 namespace nyra
 {
@@ -38,6 +39,8 @@ public:
 private:
     game::WindowT mWindow;
     game::RenderTargetT mTarget;
+    game::Input mInput;
+    game::Map mMap;
 };
 }
 }

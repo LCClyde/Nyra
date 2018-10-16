@@ -23,6 +23,7 @@
 #define __NYRA_GAME_SPRITE_H__
 
 #include <nyra/game/Types.h>
+#include <nyra/json/JSON.h>
 
 namespace nyra
 {
@@ -36,6 +37,10 @@ namespace game
 class Sprite : public graphics::Renderable2D
 {
 public:
+    /*
+     *  \func Constructor
+     *  \breif Creates an empty sprite.
+     */
     Sprite() = default;
 
     /*
@@ -61,6 +66,14 @@ public:
     void initialize(const std::string& filename,
                     const math::Vector2F& pivot,
                     const math::Vector2U& frames);
+
+    /*
+     *  \func initialize
+     *  \brief Resets a sprite.
+     *
+     *  \param tree The json tree.
+     */
+    void initialize(const json::JSON& tree);
 
     /*
      *  \func getFilename

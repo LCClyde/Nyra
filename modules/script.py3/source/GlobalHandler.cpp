@@ -19,7 +19,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+#pragma push_macro("slots")
+#undef slots
 #include <Python.h>
+#pragma pop_macro("slots")
+
 #include <nyra/script/py3/GlobalHandler.h>
 #include <nyra/core/Path.h>
 #include <iostream>
